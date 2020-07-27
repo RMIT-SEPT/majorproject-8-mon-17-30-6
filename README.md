@@ -5,7 +5,7 @@
 ## Members
 * De Barros Martins, Leonardo Roberto (s3668709)
 * Ng, James (s3378804)
-* SURNAME, GivenName (sXXXX)
+* Seymour, Justin (s3655931)
 * SURNAME, GivenName (sXXXX)
 * SURNAME, GivenName (sXXXX)
 
