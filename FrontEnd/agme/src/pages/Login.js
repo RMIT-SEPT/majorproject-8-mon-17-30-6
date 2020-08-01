@@ -45,6 +45,7 @@ export default class Login extends React.Component{
     render(){
         return (
             <div className={"login"}>
+                <h3>You are not authenticated</h3>
                 <input type="text" name={"username"} value={this.state.username} placeholder="Username" onChange={this.handleInputChange}/>
                 <br/>
                 <input type="text" name={"password"} value={this.state.password} placeholder="Password" onChange={this.handleInputChange}/>
