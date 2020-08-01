@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from "react-bootstrap/Button";
-
+import './css/login.css'
 export default class Login extends React.Component{
     constructor(props){
         super(props);

@@ -1,0 +1,13 @@
+.login{
+    border: 1px solid black;
+    width:50vw;
+    height:40vh;
+    border-radius:1vw;
+    margin:10vh 25vw;
+    padding:10vh;
+}
+
+.login button{
+    margin:2vh;
+    padding:1vh;
+}
