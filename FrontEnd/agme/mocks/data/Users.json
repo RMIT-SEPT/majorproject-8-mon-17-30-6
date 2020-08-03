@@ -1,0 +1,7 @@
+[
+    {
+        "username": "basicuser@agme.rmit",
+        "hash": "some hash",
+        "salt": ""
+    }
+]
