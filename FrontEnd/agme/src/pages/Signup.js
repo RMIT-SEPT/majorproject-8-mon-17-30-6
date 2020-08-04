@@ -15,7 +15,6 @@ export default class Signup extends React.Component{
     handleFormChange(e){
         e.preventDefault();
         this.setState({[e.target.name]:e.target.value});
-        console.log(this.state)
     }
 
 
@@ -42,8 +41,7 @@ export default class Signup extends React.Component{
                     </Form.Group>
                     <Button variant="primary" type="submit" onClick={e=>{
                         e.preventDefault();
-                        console.log('clicked')
-                        console.log(e.currentTarget)
+                        //TODO some function here
                     }}>
                         Submit
                     </Button>
