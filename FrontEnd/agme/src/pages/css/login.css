@@ -20,3 +20,9 @@
     cursor:pointer;
     color:cadetblue;
 }
+
+.errorInfo{
+    margin:0;
+    padding:0;
+    color:red;
+}

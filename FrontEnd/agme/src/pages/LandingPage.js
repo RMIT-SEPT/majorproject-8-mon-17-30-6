@@ -1,6 +1,6 @@
 import React from 'react';
 import Login from "./Login";
-import Signup from "./Signup";
+import AuthenticatedContent from './AuthenticatedContent';
 
 export default class LandingPage extends React.Component{
     constructor(props){
@@ -12,11 +12,7 @@ export default class LandingPage extends React.Component{
 
     render(){
         if(this.props.authenticated){
-            return (
-                <div>
-                    You are authenticated
-                </div>
-            )
+            return <AuthenticatedContent/>
         }else{
             return this.state.content;
         }
