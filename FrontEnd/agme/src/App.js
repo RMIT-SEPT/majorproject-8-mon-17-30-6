@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
 import LandingPage from "./pages/LandingPage";
+import Signup from "./pages/Signup";
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from "../node_modules/react-bootstrap/Navbar";
 import Nav from "../node_modules/react-bootstrap/Nav";
@@ -15,9 +17,27 @@ export default class App extends React.Component{
         super(props);
         this.state = {
             authenticated: false,
-            token:null
+            token:null,
+            content: ""
         }
         this.handleAuthentication = this.handleAuthentication.bind(this);
+        this.handleContentChangeRequest = this.handleContentChangeRequest.bind(this);
+
+    }
+
+    componentDidMount(){
+        this.setState({content:<LandingPage handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest}/>})
+    }
+
+    handleContentChangeRequest(e){
+        const content = e.target.getAttribute('name');
+        switch(content){
+            case "signup":
+                this.setState({content:<Signup handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest}/>})
+            break;
+            default:
+                console.log("default")
+        }
     }
 
     handleAuthentication(token){
@@ -50,7 +70,7 @@ export default class App extends React.Component{
                         </Form>
                     </Navbar.Collapse>
                 </Navbar>
-                <LandingPage authenticated={this.state.authenticated} handleAuthentication={this.handleAuthentication}/>
+                {this.state.content}
             </div>
         );
     }

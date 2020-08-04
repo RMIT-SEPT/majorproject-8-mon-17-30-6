@@ -1,9 +1,13 @@
 import React from 'react';
 import Login from "./Login";
+import Signup from "./Signup";
 
 export default class LandingPage extends React.Component{
     constructor(props){
-        super(props)
+        super(props);
+        this.state = {
+            content: <Login handleContentChangeRequest={this.props.handleContentChangeRequest} handleAuthentication={this.props.handleAuthentication}/>
+        }
     }
 
     render(){
@@ -14,9 +18,7 @@ export default class LandingPage extends React.Component{
                 </div>
             )
         }else{
-            return (
-                <Login handleAuthentication={this.props.handleAuthentication}/>
-            )
+            return this.state.content;
         }
     }
 }

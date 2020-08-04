@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from "react-bootstrap/Button";
-import './css/login.css'
+import './css/login.css';
+const User = require('../mocks/models/User');
 export default class Login extends React.Component{
     constructor(props){
         super(props);
@@ -8,8 +9,8 @@ export default class Login extends React.Component{
             isCallingServer: false,
             failed: false,
             error: null,
-            username: null,
-            password: null
+            username: "",
+            password: ""
         };
         this.handleAuthenticateRequest = this.handleAuthenticateRequest.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -51,6 +52,7 @@ export default class Login extends React.Component{
                 <input type="text" name={"password"} value={this.state.password} placeholder="Password" onChange={this.handleInputChange}/>
                 <br/>
                 {this.showAuthenticateButton()}
+                <p name="signup" className="signup_info" onClick={this.props.handleContentChangeRequest}>Or click here to Sign up</p>
             </div>
         )
     }
