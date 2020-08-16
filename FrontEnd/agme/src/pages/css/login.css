@@ -1,0 +1,28 @@
+.login{
+    border: 1px solid grey;
+    width:50vw;
+    height:40vh;
+    border-radius:1vw;
+    margin:10vh 25vw;
+    padding:10vh;
+}
+
+.login button{
+    margin:2vh;
+    padding:1vh;
+}
+
+.signup_info{
+    
+}
+
+.signup_info:hover{
+    cursor:pointer;
+    color:cadetblue;
+}
+
+.errorInfo{
+    margin:0;
+    padding:0;
+    color:red;
+}

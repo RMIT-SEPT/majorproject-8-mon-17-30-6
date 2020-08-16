@@ -1,19 +1,19 @@
 # RMIT SEPT 2020 Major Project
 
-# Group 00
+# Group 06
 
 ## Members
-* SURNAME, GivenName (sXXXX)
-* SURNAME, GivenName (sXXXX)
-* SURNAME, GivenName (sXXXX)
+* De Barros Martins, Leonardo Roberto (s3668709)
+* Ng, James (s3378804)
+* Seymour, Justin (s3655931)
 * SURNAME, GivenName (sXXXX)
 * SURNAME, GivenName (sXXXX)
 
 ## Records
 
-* Github repository : https://github.com/RMIT-SEPT/MajorProject/Groupx
+* Github repository : https://github.com/RMIT-SEPT/majorproject-8-mon-17-30-6/
 * ClickUp Workspace : https://app.clickup.com/xxxx/yyyy
-
+* Trello : https://trello.com/b/p5sOQFs1/sept-group-6
 
 ## Code documentation
 
