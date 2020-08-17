@@ -1,9 +1,6 @@
 package com.rmit.sept.project.agme.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Employee {
@@ -12,6 +9,10 @@ public class Employee {
     private Long id;
     private String username;
     private String userType;
+
+    @ManyToOne
+    private Company company;
+
     public Employee() {
     }
 

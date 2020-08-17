@@ -1,9 +1,6 @@
 package com.rmit.sept.project.agme.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -14,6 +11,11 @@ public class Availability {
     private Date startDateTime;
     private int duration;
     private String serviceType;
+    @ManyToOne
+    private Employee employee;
+
+    @ManyToOne
+    private Company company;
 
     public Availability() {
     }

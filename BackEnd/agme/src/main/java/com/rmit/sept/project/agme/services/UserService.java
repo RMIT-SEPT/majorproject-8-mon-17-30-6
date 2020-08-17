@@ -10,12 +10,7 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public User saveOrUpdateUser (User user){
-
-        //implement logic
+    public User saveOrUpdateUser(User user){
         return userRepository.save(user);
     }
-
-
-
 }

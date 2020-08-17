@@ -1,9 +1,6 @@
 package com.rmit.sept.project.agme.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
@@ -17,6 +14,11 @@ public class Booking {
     private String serviceType;
     private Date startDateTime;
 
+    @ManyToOne
+    private Employee employee;
+
+    @ManyToOne
+    private Company company;
     public Booking() {
     }
 
