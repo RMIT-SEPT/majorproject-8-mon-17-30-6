@@ -4,10 +4,10 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-public class Users {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
     private String name;
     private String username;
     private String address;
@@ -15,30 +15,20 @@ public class Users {
     private String password;
     private Date lastLogin;
     private Date dateCreated;
+    private Date updatedAt;
 
-    public Users(long id, String name, String username, String address, String phone,
-                 String password, Date lastLogin, Date dateCreated, Date onUpdate) {
-        this.id = id;
-        this.name = name;
-        this.username = username;
-        this.address = address;
-        this.phone = phone;
-        this.password = password;
-        this.lastLogin = lastLogin;
-        this.dateCreated = dateCreated;
-        this.onUpdate = onUpdate;
+    public User() {
     }
 
-    private Date onUpdate;
 
     @PrePersist
     protected void onCreate(){
         this.dateCreated = new Date();
     }
 
-    @preUpdate
+    @PreUpdate
     protected void onUpdate(){
-        this.updateAt = new Date()
+        this.updatedAt = new Date();
     }
     public long getId() {
         return id;
@@ -54,10 +44,6 @@ public class Users {
 
     public String getUsername() {
         return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getAddress() {
@@ -76,9 +62,6 @@ public class Users {
         this.phone = phone;
     }
 
-    public String getPassword() {
-        return password;
-    }
 
     public void setPassword(String password) {
         this.password = password;
@@ -88,15 +71,6 @@ public class Users {
         return lastLogin;
     }
 
-    public void setLastLogin(Date lastLogin) {
-        this.lastLogin = lastLogin;
-    }
 
-    public Date getDateCreated() {
-        return dateCreated;
-    }
 
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
 }
