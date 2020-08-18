@@ -11,7 +11,7 @@ public class Company {
     private String name;
     private String address;
     private String phone;
-    private Date dateCreated;
+    private Date createdAt;
     private Date updatedAt;
 
     public Company() {
@@ -20,7 +20,7 @@ public class Company {
 
     @PrePersist
     protected void onCreate(){
-        this.dateCreated = new Date();
+        this.createdAt = new Date();
     }
 
     @PreUpdate
@@ -56,8 +56,8 @@ public class Company {
         return id;
     }
 
-    public Date getDateCreated() {
-        return dateCreated;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
     public Date getUpdatedAt() {

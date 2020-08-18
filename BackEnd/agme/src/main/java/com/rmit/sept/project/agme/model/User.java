@@ -14,7 +14,7 @@ public class User {
     private String phone;
     private String password;
     private Date lastLogin;
-    private Date dateCreated;
+    private Date createdAt;
     private Date updatedAt;
 
     public User() {
@@ -23,7 +23,7 @@ public class User {
 
     @PrePersist
     protected void onCreate(){
-        this.dateCreated = new Date();
+        this.createdAt = new Date();
     }
 
     @PreUpdate
