@@ -6,8 +6,8 @@
 * De Barros Martins, Leonardo Roberto (s3668709)
 * Ng, James (s3378804)
 * Seymour, Justin (s3655931)
-* SURNAME, GivenName (sXXXX)
-* SURNAME, GivenName (sXXXX)
+* Witherow, Guy (s3783428)
+* Alkhalkhali, Mouhannad (s3749653)
 
 ## Records
 
