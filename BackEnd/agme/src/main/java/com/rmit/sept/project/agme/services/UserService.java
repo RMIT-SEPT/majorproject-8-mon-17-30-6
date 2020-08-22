@@ -24,6 +24,10 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public User saveOrUpdateUser(User user){
+        return userRepository.save(user);
+    }
+
 //    Retrieve list of users
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
