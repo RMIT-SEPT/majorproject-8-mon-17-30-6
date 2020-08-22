@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
+@Table
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,9 +18,17 @@ public class User {
     private Date createdAt;
     private Date updatedAt;
 
-    public User() {
+    public User(String name, String username, String address, String phone, String password) {
+        this.name = name;
+        this.username = username;
+        this.address = address;
+        this.phone = phone;
+        this.password = password;
     }
 
+    public User() {
+
+    }
 
     @PrePersist
     protected void onCreate(){

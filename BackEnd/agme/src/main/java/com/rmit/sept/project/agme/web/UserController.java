@@ -5,21 +5,27 @@ import com.rmit.sept.project.agme.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
-public class userController {
+public class UserController {
+    private static List<User> users = new ArrayList<>();
+    static{
+        users.add(new User("a", "ss", "sdf", "dsf", "fd"));
+    }
 
     @Autowired
     private UserService userService;
 
-    @PostMapping("")
-    public ResponseEntity<User> createdNewUser(@RequestBody User user){
-        User user1 = userService.saveOrUpdateUser(user);
-        return new ResponseEntity<User>(user, HttpStatus.CREATED);
+
+    @GetMapping
+    public String getAllUsers(Model model){
+        model.addAttribute("users", users);
+        return "users";
     }
 }
