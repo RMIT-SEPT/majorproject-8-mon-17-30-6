@@ -14,15 +14,19 @@ import java.util.List;
 
 @RestController
 public class UserController {
-//    @GetMapping("/login")
-//    public String getLoginPage(){
-//        return "login";
-//    }
+
+//    inject User service
     @Autowired
     private UserService userService;
 
-    @GetMapping("/login")
-    public List<User> getAllUsers(){
-        return userService.getAllUsers();
+//    retrieve form params
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
+    public boolean authenticateUser(@RequestParam String username, @RequestParam String password){
+        if (username != null &&password != null){
+            return userService.authenticateUser(username, password);
+        }else{
+            return false;
+        }
+
     }
 }
