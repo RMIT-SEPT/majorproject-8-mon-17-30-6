@@ -1,6 +1,25 @@
 [
     {
         "username": "basicuser@agme.rmit",
+        "type": "BASIC_USER",
+        "salt": "70f43342e7b44cd8",
+        "hash": "3390324c26d40cf59fac688a820756407d1cd12d47143c301c9d2f64eb33a7de783c644f2983d6338a44a729475ad0923cf36d4c8c42b2ef77b5960ea357a580"
+    },
+    {
+        "username": "provider",
+        "type": "PROVIDER",
+        "salt": "70f43342e7b44cd8",
+        "hash": "3390324c26d40cf59fac688a820756407d1cd12d47143c301c9d2f64eb33a7de783c644f2983d6338a44a729475ad0923cf36d4c8c42b2ef77b5960ea357a580"
+    },
+    {
+        "username": "admin",
+        "type": "ADMINISTRATOR",
+        "salt": "70f43342e7b44cd8",
+        "hash": "3390324c26d40cf59fac688a820756407d1cd12d47143c301c9d2f64eb33a7de783c644f2983d6338a44a729475ad0923cf36d4c8c42b2ef77b5960ea357a580"
+    },
+    {
+        "username": "user",
+        "type": "BASIC_USER",
         "salt": "70f43342e7b44cd8",
         "hash": "3390324c26d40cf59fac688a820756407d1cd12d47143c301c9d2f64eb33a7de783c644f2983d6338a44a729475ad0923cf36d4c8c42b2ef77b5960ea357a580"
     }
