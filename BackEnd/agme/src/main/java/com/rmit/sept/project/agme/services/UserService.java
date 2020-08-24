@@ -3,6 +3,7 @@ package com.rmit.sept.project.agme.services;
 import com.rmit.sept.project.agme.Repositories.UserRepository;
 import com.rmit.sept.project.agme.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -40,19 +41,16 @@ public class UserService {
 
 //        work factor of bcrypt
         int strength = 10;
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 //        Interate through users to check if the usr matches the username
         for (User next:users){
-            if (username == next.getUsername()){
+            if (username.equals(next.getUsername())){
 //                If User is found, encode password with users salt
-                SecureRandom salt = next.getSalt();
-                BCryptPasswordEncoder bCryptPasswordEncoder =
-                        new BCryptPasswordEncoder(strength, salt);
-                String encodedPassword = bCryptPasswordEncoder.encode(passwordHash);
-
 //                check if the passwords match, if so return true, else false
-                if (next.getPassword() == encodedPassword){
-                    return true;
+//                if (passwordEncoder.matches(passwordHash, next.getPassword())){
+                if (BCrypt.checkpw(passwordHash, next.getPassword()))    {
+                return true;
                 }else{
                     return false;
                 }
