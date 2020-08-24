@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("")
 public class UserController {
 //
 //    inject User service
