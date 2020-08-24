@@ -2,10 +2,18 @@ package com.rmit.sept.project.agme.web;
 
 import com.rmit.sept.project.agme.model.User;
 import com.rmit.sept.project.agme.services.UserService;
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api")
@@ -31,6 +39,7 @@ public class UserController {
 
         }
     }
+
 //    retrieve form params
     @PostMapping(value = "/login")
     public ResponseEntity<?> authenticateUser(@RequestBody User user) {
