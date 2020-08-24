@@ -11,6 +11,16 @@ import Form from "../node_modules/react-bootstrap/Form";
 import FormControl from "../node_modules/react-bootstrap/FormControl";
 import Button from "../node_modules/react-bootstrap/Button";
 
+/**
+ * Basic Flow
+ * 
+ * 1. If User has an active token stored (has been authenticated), show relevant content
+ *  The token will tell what type of content to show
+ *  - Administrators
+ *  - Providers
+ *  - Basic users
+ * 
+ * **/
 export default class App extends React.Component{
 
     constructor(props){
@@ -23,19 +33,22 @@ export default class App extends React.Component{
         let token = null;
         let content = "";
         let expiry = null;
+        let type = null;
         const credentials = localStorage.getItem('credentials')&&(JSON.parse(localStorage.getItem('credentials')))
         if(credentials){
             expiry = credentials.expiry;
             if(new Date(expiry)>new Date()){
                 authenticated = true;
                 token = credentials.token;
+                type = credentials.type;
             }
         }
 
         this.state = {
             authenticated: authenticated,
             token:token,
-            content: content
+            content: content,
+            type: type
         }
         this.handleAuthentication = this.handleAuthentication.bind(this);
         this.handleContentChangeRequest = this.handleContentChangeRequest.bind(this);
@@ -44,7 +57,15 @@ export default class App extends React.Component{
     }
 
     componentDidMount(){
-        this.setState({content:<LandingPage authenticated={this.state.authenticated} handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest}/>})
+        this.setState({
+            content:<LandingPage 
+                authenticated={this.state.authenticated} 
+                handleAuthentication={this.handleAuthentication} 
+                handleContentChangeRequest={this.handleContentChangeRequest}
+                type={this.state.type}
+                expiry={this.state.expiry}
+                />
+            })
 
     }
 
@@ -63,22 +84,30 @@ export default class App extends React.Component{
 
         //save to local storage to persist
         localStorage.setItem('credentials',JSON.stringify(authenticationDetails))
-        console.log(new Date(authenticationDetails.expiry))
         this.setState({
             token:authenticationDetails.token,
             authenticated:true,
+            type: authenticationDetails.type,
             expiry: authenticationDetails.expiry,
-            content: "Authenticated content here"
+            content: <LandingPage 
+                authenticated={true} 
+                handleAuthentication={this.handleAuthentication} 
+                handleContentChangeRequest={this.handleContentChangeRequest}
+                type={authenticationDetails.type}
+                expiry={authenticationDetails.expiry}
+            />
         })
     }
 
     handleLogout(e){
         e.preventDefault();
+        //clear localStorage
+        localStorage.removeItem("credentials");
         this.setState({
             token:null,
             authenticated:false,
             expiry: null,
-            content:<LandingPage authenticated={false} handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest}/>
+            content:<LandingPage handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest}/>
         })
     }
     render(){

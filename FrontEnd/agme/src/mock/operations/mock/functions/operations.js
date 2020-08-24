@@ -17,7 +17,6 @@ const authenticate = async (username, password)=>{
     if(username&&password){
         const dbData = await queryDatabase("users", "username", username);
         if(dbData){
-            console.log(dbData)
             if(dbData.length!==1){
                 return {
                 statusCode: 401,
@@ -26,12 +25,12 @@ const authenticate = async (username, password)=>{
             const salt = dbData[0].salt;
             const passwordData = sha512(password,salt);
             if(passwordData.passwordHash ===dbData[0].hash){
-                console.log('all good')
                 return {
                     statusCode:200,
                     body: {
                         token: "1qazxcft6543wsdfghjio9876trfghjko09876trewsdfvgbhjui876tredsawq234567uikmnbvcfde4567ui",
-                        expiry: new Date().setHours(new Date().getHours()+4)
+                        expiry: new Date().setHours(new Date().getHours()+4),
+                        type: dbData[0].type
                     }
                 }
             }else{
