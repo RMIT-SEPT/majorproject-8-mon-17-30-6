@@ -39,10 +39,6 @@ public class UserService {
 //        Retrieve users
         List<User> users = getAllUsers();
 
-//        work factor of bcrypt
-        int strength = 10;
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
 //        Interate through users to check if the usr matches the username
         for (User next:users){
             if (username.equals(next.getUsername())){
@@ -58,8 +54,22 @@ public class UserService {
         }
         return false;
     }
+    public User getAuthenticatedUser(String username){
+//        Retrieve users
+        List<User> users = getAllUsers();
+        User returnVal = null;
+
+//        Interate through users to check if the usr matches the username
+        for (User next:users){
+            if (username.equals(next.getUsername())){
+                returnVal = next;
+            }
+            }
+        return returnVal;
+    }
 
 
 
 
-}
+
+    }

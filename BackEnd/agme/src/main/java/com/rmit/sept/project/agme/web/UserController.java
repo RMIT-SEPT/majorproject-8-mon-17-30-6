@@ -2,10 +2,8 @@ package com.rmit.sept.project.agme.web;
 
 import com.rmit.sept.project.agme.model.User;
 import com.rmit.sept.project.agme.services.UserService;
-import org.omg.CORBA.DATA_CONVERSION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,18 +15,30 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+//    signup authentication
     @PostMapping("/signup")
-    public ResponseEntity<User> createdNewUser(@RequestBody User user){
-        user.hashPassword();
-        User user1 = userService.saveOrUpdateUser(user);
-        return new ResponseEntity<User>(user, HttpStatus.CREATED);
+    public ResponseEntity<?> createdNewUser(@RequestBody User user){
+//        makes sure passwords are confirmed
+        if (user.getPassword().equals(user.getConfirmPassword()) && user.validSignUp()) {
+//            hash the password before storing
+            user.hashPassword();
+//            store user with hashed password
+            User user1 = userService.saveOrUpdateUser(user);
+//            if signup is succesful, return he user
+            return new ResponseEntity<User>(user, HttpStatus.OK);
+        }else{
+            return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+
+        }
     }
 //    retrieve form params
     @PostMapping(value = "/login")
-    public ResponseEntity<Boolean> authenticateUser(@RequestBody User user) {
+    public ResponseEntity<?> authenticateUser(@RequestBody User user) {
+//        ensures
         if (user.getUsername() != null && user.getPassword() != null) {
             if (userService.authenticateUser(user.getUsername(), user.getPassword())) {
-                return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+                User user1 = userService.getAuthenticatedUser(user.getUsername());
+                return new ResponseEntity<User>(user1, HttpStatus.OK);
             } else {
                 return new ResponseEntity<Boolean>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
             }

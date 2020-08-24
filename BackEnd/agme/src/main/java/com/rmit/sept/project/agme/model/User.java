@@ -1,14 +1,10 @@
 package com.rmit.sept.project.agme.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.sun.istack.NotNull;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.security.SecureRandom;
 import java.util.Date;
 
 @Entity
@@ -17,10 +13,15 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @NotBlank(message = "Username cannot be blank")
     private String username;
     private String address;
     private String phone;
+    @NotBlank(message = "Password cannot be blank")
+    @Size(min=6)
     private String password;
+    @Transient
+    private String confirmPassword;
     private Date lastLogin;
     private Date createdAt;
     private Date updatedAt;
@@ -30,9 +31,19 @@ public class User {
 
     }
 
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
     @PrePersist
     protected void onCreate(){
         this.createdAt = new Date();
+        this.updatedAt = new Date();
+        this.lastLogin = new Date();
 
     }
 
@@ -122,6 +133,12 @@ public class User {
 
     public Date getUpdatedAt() {
         return updatedAt;
+    }
+    public boolean validSignUp(){
+        if (address == null || phone == null || name == null){
+            return false;
+        }
+        return true;
     }
 
 
