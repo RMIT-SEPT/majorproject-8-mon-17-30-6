@@ -32,9 +32,7 @@ public class Booking {
         this.user = user;
     }
 
-    public Booking() {
-
-    }
+    public Booking() {}
 
     public Long getId() {
         return id;
@@ -68,9 +66,33 @@ public class Booking {
         return startDateTime;
     }
 
-    public void setStartDateTime(Date startDateTime) {
-        this.startDateTime = startDateTime;
+    public void setStartDateTime(Date startDateTime) { this.startDateTime = startDateTime; }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
 
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

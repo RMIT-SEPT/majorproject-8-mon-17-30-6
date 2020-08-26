@@ -19,7 +19,7 @@ public class BookingService {
         Iterable<Booking> it = bookingRepository.findAll();
         List<Booking> users = new ArrayList<>();
 
-        it.forEach(users::add);
+        it.forEach(e -> users.add(e));
 
         return users;
     }
