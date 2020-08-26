@@ -19,7 +19,21 @@ public class Booking {
 
     @ManyToOne
     private Company company;
+
+    @ManyToOne
+    private User user;
+
+    public Booking(Date startDateTime, String serviceType, int duration, Employee employee, Company company, User user) {
+        this.startDateTime = startDateTime;
+        this.serviceType = serviceType;
+        this.duration = duration;
+        this.employee = employee;
+        this.company = company;
+        this.user = user;
+    }
+
     public Booking() {
+
     }
 
     public Long getId() {

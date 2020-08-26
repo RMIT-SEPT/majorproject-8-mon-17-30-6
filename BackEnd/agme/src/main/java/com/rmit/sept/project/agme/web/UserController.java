@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/user")
-public class userController {
+public class UserController {
 
     @Autowired
     private UserService userService;
@@ -20,6 +20,6 @@ public class userController {
     @PostMapping("")
     public ResponseEntity<User> createdNewUser(@RequestBody User user){
         User user1 = userService.saveOrUpdateUser(user);
-        return new ResponseEntity<User>(user, HttpStatus.CREATED);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 }
