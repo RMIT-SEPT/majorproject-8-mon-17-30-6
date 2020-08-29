@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.Date;
 @RestController
 @RequestMapping("")
+@CrossOrigin("http://localhost:3000")
 public class UserController {
 //
 //    inject User service
@@ -33,6 +34,8 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<?> createdNewUser(@RequestBody User user){
 //        makes sure passwords are confirmed
+
+//        add validation to ensure user does not exist and all details are filled out
         if (user.getPassword().equals(user.getConfirmPassword())) {
 //            hash the password before storing
             user.hashPassword();

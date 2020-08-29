@@ -65,10 +65,8 @@ export default class App extends React.Component{
         localStorage.setItem('credentials',JSON.stringify(authenticationDetails))
         console.log(new Date(authenticationDetails.expiry))
         this.setState({
-            token:authenticationDetails.token,
+            token:authenticationDetails.jwt,
             authenticated:true,
-            expiry: authenticationDetails.expiry,
-            content: "Authenticated content here"
         })
     }
 
