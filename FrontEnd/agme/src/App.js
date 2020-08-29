@@ -85,8 +85,9 @@ export default class App extends React.Component{
         //save to local storage to persist
         localStorage.setItem('credentials',JSON.stringify(authenticationDetails))
         this.setState({
-            token:authenticationDetails.token,
+            token:authenticationDetails.jwt,
             authenticated:true,
+<<<<<<< HEAD
             type: authenticationDetails.type,
             expiry: authenticationDetails.expiry,
             content: <LandingPage 
@@ -96,6 +97,8 @@ export default class App extends React.Component{
                 type={authenticationDetails.type}
                 expiry={authenticationDetails.expiry}
             />
+=======
+>>>>>>> auth
         })
     }
 

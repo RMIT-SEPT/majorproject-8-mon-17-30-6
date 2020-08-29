@@ -14,6 +14,7 @@ const queryDatabase = (table, key, value) => new Promise(res => {
 })
 
 const authenticate = async (username, password)=>{
+<<<<<<< HEAD
     if(username&&password){
         const dbData = await queryDatabase("users", "username", username);
         if(dbData){
@@ -46,6 +47,26 @@ const authenticate = async (username, password)=>{
             body: "Unauthorised"
         }
     }
+=======
+    
+    return await fetch("http://localhost:8080/login", {
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            accept: "application/JSON",
+        },
+        body: JSON.stringify({
+                    "username": username,
+                    "password": password
+                })
+    })
+    .then(response=>response.json())
+    .then(response=>{
+        console.log(JSON.stringify(response))
+        return response
+    })
+>>>>>>> auth
 }
 
 module.exports = {authenticate}
