@@ -60,6 +60,7 @@ public class UserService implements UserDetailsService {
 //        Retrieve users
         List<User> users = getAllUsers();
         User returnVal = null;
+        s = s.toLowerCase();
 
 //        Interate through users to check if the usr matches the username
         for (User next : users) {

@@ -18,6 +18,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "name cannot be blank")
     private String name;
     @NotBlank(message = "Username cannot be blank")
     private String username;
@@ -115,7 +116,7 @@ public class User implements UserDetails {
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username.toLowerCase();
     }
 
     public String getAddress() {
