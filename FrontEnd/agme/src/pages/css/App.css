@@ -46,3 +46,7 @@ svg.logout:hover{
   color:red;
   cursor:pointer;
 }
+
+nav{
+  position: fixed;
+}
