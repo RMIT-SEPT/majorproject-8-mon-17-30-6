@@ -21,7 +21,9 @@ public class User implements UserDetails {
     private String name;
     @NotBlank(message = "Username cannot be blank")
     private String username;
+    @NotBlank(message = "Address cannot be blank")
     private String address;
+    @NotBlank(message = "Phone number cannot be blank")
     private String phone;
     @NotBlank(message = "Password cannot be blank")
     @Size(min=6)

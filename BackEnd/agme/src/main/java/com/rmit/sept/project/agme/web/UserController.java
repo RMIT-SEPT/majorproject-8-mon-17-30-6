@@ -13,14 +13,22 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import javax.xml.transform.ErrorListener;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("")
 @CrossOrigin("http://localhost:3000")
@@ -32,20 +40,33 @@ public class UserController {
 
 //    signup authentication
     @PostMapping("/signup")
-    public ResponseEntity<?> createdNewUser(@RequestBody User user){
-//        makes sure passwords are confirmed
+    public ResponseEntity<?> createdNewUser(@Valid @RequestBody User user, BindingResult result) {
+//        makes sure passwords are confirmed\			fieldErrors.put(error.getField(), error.getDefaultMessage());
+        if (result.hasErrors()){
+            Map<String, String> errorMap = new HashMap<>();
+            for (FieldError error: result.getFieldErrors()){
+                errorMap.put(error.getField(), error.getDefaultMessage());
+            }
+            return new ResponseEntity<Map<String, String>>(errorMap, HttpStatus.BAD_REQUEST);
+
+        }
 
 //        add validation to ensure user does not exist and all details are filled out
-        if (user.getPassword().equals(user.getConfirmPassword())) {
-//            hash the password before storing
-            user.hashPassword();
-//            store user with hashed password
-            User user1 = userService.saveOrUpdateUser(user);
-//            if signup is succesful, return he user
-            return new ResponseEntity<User>(user, HttpStatus.OK);
-        }else{
-            return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+        if (userService.loadUserByUsername(user.getUsername()) == null) {
 
+            if (user.getPassword().equals(user.getConfirmPassword())) {
+
+//            hash the password before storing
+                user.hashPassword();
+//            store user with hashed password
+                User user1 = userService.saveOrUpdateUser(user);
+//            if signup is succesful, return he user
+                return new ResponseEntity<User>(user, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<Boolean>(false, HttpStatus.BAD_REQUEST);
+            }
+        }else{
+            return ResponseEntity.badRequest().body("username is taken");
         }
     }
 
@@ -65,6 +86,7 @@ public class UserController {
 //        return new ResponseEntity<Boolean>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
 //
 //    }
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
