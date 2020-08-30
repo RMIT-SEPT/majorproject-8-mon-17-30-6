@@ -10,7 +10,7 @@ import NavDropdown from "../node_modules/react-bootstrap/NavDropdown";
 import Form from "../node_modules/react-bootstrap/Form";
 import FormControl from "../node_modules/react-bootstrap/FormControl";
 import Button from "../node_modules/react-bootstrap/Button";
-
+const utils = require('./mock/operations/mock/functions/utils')
 /**
  * Basic Flow
  * 
@@ -81,24 +81,22 @@ export default class App extends React.Component{
     }
 
     handleAuthentication(authenticationDetails){
-
         //save to local storage to persist
         localStorage.setItem('credentials',JSON.stringify(authenticationDetails))
+        const authDetails = utils.decodeJwt(authenticationDetails.jwt)
+        const role = authDetails.role
         this.setState({
             token:authenticationDetails.jwt,
             authenticated:true,
-<<<<<<< HEAD
-            type: authenticationDetails.type,
-            expiry: authenticationDetails.expiry,
-            content: <LandingPage 
+            role: utils.decodeJwt(authenticationDetails.jwt).role, 
+            content:<LandingPage 
                 authenticated={true} 
                 handleAuthentication={this.handleAuthentication} 
                 handleContentChangeRequest={this.handleContentChangeRequest}
-                type={authenticationDetails.type}
-                expiry={authenticationDetails.expiry}
-            />
-=======
->>>>>>> auth
+                type={role}
+                token={authenticationDetails.jwt}
+                expiry={authDetails.expiry}
+                />
         })
     }
 

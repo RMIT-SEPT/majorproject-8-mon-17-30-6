@@ -27,9 +27,9 @@ export default class Login extends React.Component{
         this.setState({isCallingServer:true});
 
         functions.authenticate(this.state.username,this.state.password).then(response=>{
-            if(response.jwt){
+            if(response.statusCode===200){
                 this.setState({isCallingServer:false});
-                this.props.handleAuthentication(response); //propagate response with token
+                this.props.handleAuthentication(response.body); //propagate response with token
             }else{
                 this.setState({isCallingServer:false, failed:true,error:response})
             }
