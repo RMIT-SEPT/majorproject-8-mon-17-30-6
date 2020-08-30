@@ -21,7 +21,6 @@ export default class LandingPage extends React.Component{
     }
 
     render(){
-        console.log('landing page rendering...')
         if(this.props.authenticated){
             switch(this.props.type.toUpperCase()){
                 case "BASIC_USER":
