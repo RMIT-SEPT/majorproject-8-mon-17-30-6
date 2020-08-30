@@ -31,9 +31,13 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     }
 
     protected void configure(HttpSecurity http) throws Exception {
+                http.authorizeRequests().antMatchers("/provider").hasAnyAuthority("PROVIDER");
+        http.authorizeRequests().antMatchers("/user").hasAnyAuthority("USER");
+        http.authorizeRequests().antMatchers("/admin").hasAnyAuthority("ADMIN");
         http.csrf().disable()
                 .authorizeRequests().antMatchers("/login", "/signup")
-                .permitAll().anyRequest().authenticated().and()
+                .permitAll().anyRequest().authenticated()
+                .and()
                 .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

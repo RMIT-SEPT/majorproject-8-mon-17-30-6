@@ -1,6 +1,7 @@
 package com.rmit.sept.project.agme.model;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
@@ -9,6 +10,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 public class User implements UserDetails {
@@ -29,6 +32,15 @@ public class User implements UserDetails {
     private Date createdAt;
     private Date updatedAt;
     String salt;
+    Role role;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public User(@NotBlank(message = "Username cannot be blank") String username, @NotBlank(message = "Password cannot be blank") @Size(min = 6) String password) {
         this.username = username;
@@ -122,7 +134,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        final List<SimpleGrantedAuthority> authorities = new LinkedList<>();
+            authorities.add(new SimpleGrantedAuthority(this.getRole().toString()));
+        return authorities;
     }
 
     public String getPassword() {
