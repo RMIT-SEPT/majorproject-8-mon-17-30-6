@@ -3,19 +3,13 @@ package com.rmit.sept.project.agme.services;
 import com.rmit.sept.project.agme.Repositories.UserRepository;
 import com.rmit.sept.project.agme.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 
-import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -66,6 +60,7 @@ public class UserService implements UserDetailsService {
 //        Retrieve users
         List<User> users = getAllUsers();
         User returnVal = null;
+        s = s.toLowerCase();
 
 //        Interate through users to check if the usr matches the username
         for (User next : users) {

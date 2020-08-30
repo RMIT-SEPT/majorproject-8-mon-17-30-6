@@ -1,10 +1,7 @@
 package com.rmit.sept.project.agme.security;
 
 import com.rmit.sept.project.agme.model.User;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -14,7 +11,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtUtil {
-    private String SECRET_KEY = "secret";
+    private final String SECRET_KEY = "agmekey";
 
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
@@ -26,12 +23,23 @@ public class JwtUtil {
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
         final Claims claims = extractAllClaims(token);
+        if (claims == null){
+            return null;
+        }
         return claimsResolver.apply(claims);
     }
 
     private Claims extractAllClaims(String token){
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
-    }
+        try {
+            return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+        } catch (ExpiredJwtException e) {
+            return null;
+        }catch (SignatureException e) {
+            return null;
+        } catch(Exception e) {
+            return null;
+        }
+        }
 
     private Boolean isTokenExpired(String token){
         return extractExpiration(token).before(new Date());

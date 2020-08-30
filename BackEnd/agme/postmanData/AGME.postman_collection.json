@@ -1,0 +1,467 @@
+{
+	"info": {
+		"_postman_id": "7c1d9d15-5dde-4212-b2a9-803948c044c9",
+		"name": "AGME",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://www.localhost:8080/signup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorisation",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb28iLCJleHAiOjE1OTg3MTY1MzksImlhdCI6MTU5ODY4MDUzOX0.7r4eBWT8m8es8SEUas4N_dFnFA1dtQQHmsJhMULKqac",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorisation",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29zIiwiZXhwIjoxNTk4Nzk0OTgwLCJpYXQiOjE1OTg3NTg5ODB9.DjrVCiGNqRZNrOBnApRDRKLOb-ecxG1rWTOYYcv06qM",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Access-Control-Allow-Origin",
+						"value": "*",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"foosss\",\n    \"password\": \"foofoofoo\",\n    \"confirmPassword\": \"foofoofoo\",\n    \"role\": \"ADMIN\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://www.localhost:8080/signup",
+					"protocol": "http",
+					"host": [
+						"www",
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://www.localhost:8080/signup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorisation",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb28iLCJleHAiOjE1OTg3MTY1MzksImlhdCI6MTU5ODY4MDUzOX0.7r4eBWT8m8es8SEUas4N_dFnFA1dtQQHmsJhMULKqac",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorisation",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29zIiwiZXhwIjoxNTk4Nzk0OTgwLCJpYXQiOjE1OTg3NTg5ODB9.DjrVCiGNqRZNrOBnApRDRKLOb-ecxG1rWTOYYcv06qM",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Access-Control-Allow-Origin",
+						"value": "*",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"foosss\",\n    \"password\": \"foofoofoo\",\n    \"confirmPassword\": \"foofoofoo\",\n    \"role\": \"ADMIN\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://www.localhost:8080/signup",
+					"protocol": "http",
+					"host": [
+						"www",
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://www.localhost:8080/signup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorisation",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb28iLCJleHAiOjE1OTg3MTY1MzksImlhdCI6MTU5ODY4MDUzOX0.7r4eBWT8m8es8SEUas4N_dFnFA1dtQQHmsJhMULKqac",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorisation",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29zIiwiZXhwIjoxNTk4Nzk0OTgwLCJpYXQiOjE1OTg3NTg5ODB9.DjrVCiGNqRZNrOBnApRDRKLOb-ecxG1rWTOYYcv06qM",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Access-Control-Allow-Origin",
+						"value": "*",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"foosss\",\n    \"password\": \"foofoofoo\",\n    \"confirmPassword\": \"foofoofoo\",\n    \"role\": \"ADMIN\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://www.localhost:8080/signup",
+					"protocol": "http",
+					"host": [
+						"www",
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://www.localhost:8080/signup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorisation",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb28iLCJleHAiOjE1OTg3MTY1MzksImlhdCI6MTU5ODY4MDUzOX0.7r4eBWT8m8es8SEUas4N_dFnFA1dtQQHmsJhMULKqac",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorisation",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb29zIiwiZXhwIjoxNTk4Nzk0OTgwLCJpYXQiOjE1OTg3NTg5ODB9.DjrVCiGNqRZNrOBnApRDRKLOb-ecxG1rWTOYYcv06qM",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Access-Control-Allow-Origin",
+						"value": "*",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"fooss\",\n    \"password\": \"foofoofoo\",\n    \"confirmPassword\": \"foofoofoo\",\n    \"role\": \"ADMIN\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://www.localhost:8080/signup",
+					"protocol": "http",
+					"host": [
+						"www",
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://www.localhost:8080/login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorisation",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb28iLCJleHAiOjE1OTg3MTY1MzksImlhdCI6MTU5ODY4MDUzOX0.7r4eBWT8m8es8SEUas4N_dFnFA1dtQQHmsJhMULKqac",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorisation",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb28iLCJleHAiOjE1OTg3MTczODcsImlhdCI6MTU5ODY4MTM4N30.WD0G9L8F_SgAQofs4ta9P9WH19Qgeh3ucBDbjkcgJYM",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"foo\",\n    \"password\": \"foofoofoo\",\n    \"confirmPassword\": \"foofoofoo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://www.localhost:8080/login",
+					"protocol": "http",
+					"host": [
+						"www",
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://www.localhost:8080/hello",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorisation",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb28iLCJleHAiOjE1OTg3MTY1MzksImlhdCI6MTU5ODY4MDUzOX0.7r4eBWT8m8es8SEUas4N_dFnFA1dtQQHmsJhMULKqac",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Authorisation",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb28iLCJleHAiOjE1OTg3MTczODcsImlhdCI6MTU5ODY4MTM4N30.WD0G9L8F_SgAQofs4ta9P9WH19Qgeh3ucBDbjkcgJYM",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"foo\",\n    \"password\": \"foofoofoo\",\n    \"confirmPassword\": \"foofoofoo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://www.localhost:8080/hello",
+					"protocol": "http",
+					"host": [
+						"www",
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hello"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://www.localhost:8080/login/user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorisation",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb28iLCJleHAiOjE1OTg2MzI1NDksImlhdCI6MTU5ODU5NjU0OX0.YFynbdHuZi16XblTb8v138Z8kKdTrU_BoZ06xp2VRf0",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"foo\",\n    \"password\": \"foofoofoo\",\n    \"confirmPassword\": \"foofoofoo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://www.localhost:8080/login/user",
+					"protocol": "http",
+					"host": [
+						"www",
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://www.localhost:8080/login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorisation",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb28iLCJleHAiOjE1OTg2MzI1NDksImlhdCI6MTU5ODU5NjU0OX0.YFynbdHuZi16XblTb8v138Z8kKdTrU_BoZ06xp2VRf0",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"foo\",\n    \"password\": \"foofoofoo\",\n    \"confirmPassword\": \"foofoofoo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://www.localhost:8080/login",
+					"protocol": "http",
+					"host": [
+						"www",
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://www.localhost:8080/signup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJmb28iLCJleHAiOjE1OTg2MzI1NDksImlhdCI6MTU5ODU5NjU0OX0.YFynbdHuZi16XblTb8v138Z8kKdTrU_BoZ06xp2VRf0",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"foo\",\n    \"password\": \"foofoofoo\",\n    \"confirmPassword\": \"foofoofoo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://www.localhost:8080/signup",
+					"protocol": "http",
+					"host": [
+						"www",
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://www.localhost:8080/login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"foo\",\n    \"password\": \"foo\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://www.localhost:8080/login",
+					"protocol": "http",
+					"host": [
+						"www",
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

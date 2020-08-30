@@ -1,6 +1,7 @@
 package com.rmit.sept.project.agme.model;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
@@ -9,16 +10,21 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotBlank(message = "name cannot be blank")
     private String name;
     @NotBlank(message = "Username cannot be blank")
     private String username;
+    @NotBlank(message = "Address cannot be blank")
     private String address;
+    @NotBlank(message = "Phone number cannot be blank")
     private String phone;
     @NotBlank(message = "Password cannot be blank")
     @Size(min=6)
@@ -29,6 +35,15 @@ public class User implements UserDetails {
     private Date createdAt;
     private Date updatedAt;
     String salt;
+    Role role;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
     public User(@NotBlank(message = "Username cannot be blank") String username, @NotBlank(message = "Password cannot be blank") @Size(min = 6) String password) {
         this.username = username;
@@ -101,7 +116,7 @@ public class User implements UserDetails {
     }
 
     public void setUsername(String username) {
-        this.username = username;
+        this.username = username.toLowerCase();
     }
 
     public String getAddress() {
@@ -122,7 +137,9 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        final List<SimpleGrantedAuthority> authorities = new LinkedList<>();
+            authorities.add(new SimpleGrantedAuthority(this.getRole().toString()));
+        return authorities;
     }
 
     public String getPassword() {
