@@ -31,7 +31,7 @@ export default class Login extends React.Component{
                 this.setState({isCallingServer:false});
                 this.props.handleAuthentication(response.body); //propagate response with token
             }else{
-                this.setState({isCallingServer:false, failed:true,error:response.body})
+                this.setState({isCallingServer:false, failed:true,error:response})
             }
         })
         

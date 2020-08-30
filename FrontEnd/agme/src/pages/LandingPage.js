@@ -22,7 +22,7 @@ export default class LandingPage extends React.Component{
 
     render(){
         if(this.props.authenticated){
-            switch(this.props.type){
+            switch(this.props.type.toUpperCase()){
                 case "BASIC_USER":
                     return <BasicUserContent token={this.props.token} expiry={this.props.expiry}/>;
                 case "ADMINISTRATOR":
