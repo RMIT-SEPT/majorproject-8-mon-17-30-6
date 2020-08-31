@@ -2,6 +2,12 @@ import React from 'react';
 import Button from "react-bootstrap/Button";
 import './css/login.css';
 const functions = require('../apiOperations')
+
+/***
+ * Basic flow: This component should simply handle authentication.
+ *  When authentication is succesfull (backend returns 200), the authentication details should propagate to
+ *  the parent component App.js which should then display the LandingPage.js
+ * ***/
 export default class Login extends React.Component{
     constructor(props){
         super(props);
@@ -25,7 +31,7 @@ export default class Login extends React.Component{
                 this.setState({isCallingServer:false});
                 this.props.handleAuthentication(response.body); //propagate response with token
             }else{
-                this.setState({isCallingServer:false, failed:true,error:response.body})
+                this.setState({isCallingServer:false, failed:true,error:response})
             }
         })
         

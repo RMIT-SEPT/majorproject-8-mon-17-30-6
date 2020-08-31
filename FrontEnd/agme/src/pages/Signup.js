@@ -28,7 +28,7 @@ export default class Signup extends React.Component{
                         <Form.Label>Email address</Form.Label>
                         <Form.Control name="email" type="email" placeholder="Enter email" onChange={this.handleFormChange} value={this.state.email}/>
                         <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
+                        Well never share your email with anyone else.
                         </Form.Text>
                     </Form.Group>
 
@@ -36,6 +36,10 @@ export default class Signup extends React.Component{
                         <Form.Label>Password</Form.Label>
                         <Form.Control name="password" type="password" placeholder="Password" onChange={this.handleFormChange} value={this.state.password}/>
                     </Form.Group>
+                     <Form.Group controlId="formBasicPassword">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control name="confirmPassword" type="password" placeholder="Password" onChange={this.handleFormChange} value={this.state.confirmPassword}/>
+                        </Form.Group>
                     <Form.Group controlId="formBasicCheckbox">
                         <Form.Check type="checkbox" label="Check me out" />
                     </Form.Group>
