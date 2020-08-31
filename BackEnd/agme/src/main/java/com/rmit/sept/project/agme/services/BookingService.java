@@ -24,6 +24,8 @@ public class BookingService {
         return users;
     }
 
+    public Booking addBooking(Booking booking) { return bookingRepository.save(booking); }
+
     public Long count() {return bookingRepository.count();}
 
 }

@@ -9,7 +9,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -17,6 +19,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.BDDMockito.given;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -24,13 +28,29 @@ import static org.mockito.BDDMockito.given;
 public class BookingControllerTest {
 
     @MockBean
-    private BookingService bookingService;
+    private BookingController bookingController;
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void getBookings() throws Exception {
+    public void testNewBooking() {
+        Booking testBooking = new Booking();
+        Booking result;
+
+        try {
+            result = bookingController.newBooking(testBooking);
+        }
+        catch (NullPointerException e)
+        {
+            result = null;
+        }
+
+        assertNotEquals(testBooking, result);
+    }
+
+    @Test
+    public void getBookingsTest() {
 
         List<Booking> bookingList = new ArrayList<>();
 
@@ -43,9 +63,14 @@ public class BookingControllerTest {
         booking.setVisible(2);
         booking.setId((long) 24);
 
+        Booking otherBooking = new Booking();
+
         bookingList.add(booking);
+        bookingList.add(otherBooking);
 
-        given(bookingService.findAll()).willReturn(bookingList);
+        bookingController.newBooking(booking);
+        bookingController.newBooking(otherBooking);
 
+        given(bookingController.getBookings()).willReturn(bookingList);
     }
 }

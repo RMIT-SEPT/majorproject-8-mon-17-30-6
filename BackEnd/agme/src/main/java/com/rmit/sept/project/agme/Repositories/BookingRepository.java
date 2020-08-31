@@ -13,4 +13,6 @@ public interface BookingRepository extends CrudRepository<Booking, Long> {
 
     List<Booking> findBookingByCompany(Company company);
 
+    List<Booking> findBookingByEmployee(Employee employee);
+
 }
