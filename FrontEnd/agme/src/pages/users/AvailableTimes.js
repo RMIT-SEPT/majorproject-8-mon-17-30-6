@@ -1,0 +1,133 @@
+import React from 'react';
+import '../../pages/css/availableTimes.css';
+
+//Derived from Boilerplate taken from materia-ui documentation
+//https://material-ui.com/components/tables/
+import PropTypes from 'prop-types';
+import {makeStyles} from '@material-ui/core/styles';
+import Box from '@material-ui/core/Box';
+import Collapse from '@material-ui/core/Collapse';
+import IconButton from '@material-ui/core/IconButton';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper'; //Adds float shadow to table
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import MoodIcon from '@material-ui/icons/Mood';
+import MoodBadIcon from '@material-ui/icons/MoodBad';
+import Button from "@material-ui/core/Button";
+
+//Mock data
+import BookingData from '../../mock/data/Bookings.json'
+
+const bookingsData = BookingData;//call the api
+
+
+const useRowStyles = makeStyles({
+    root: {
+        '& > *': {
+            borderBottom: 'unset',
+        },
+    },
+});
+
+export default class AvailableTimes extends React.Component {
+    render() {
+        return (
+            //Get Provider
+            <TableContainer component={Paper}>
+                <Table aria-label="collapsible table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell/>
+                            <TableCell>Booking&nbsp;ID</TableCell>
+                            <TableCell>Booking&nbsp;Time</TableCell>
+                            <TableCell align="right">Duration&nbsp;(mins)</TableCell>
+                            <TableCell align="right">Type&nbsp;of&nbsp;Service</TableCell>
+                            <TableCell align="right">Attending&nbsp;Team&nbsp;Member</TableCell>
+                            <TableCell align="right">Available</TableCell>
+                            //TODO Need to make changes to db tables to add if service is available
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {bookingsData.map((booking) => (
+                            <Row key={booking.bookingID} row={booking}/>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        )
+    }
+}
+
+function Row(props) {
+    const {row} = props;
+    const [open, setOpen] = React.useState(false);
+    const classes = useRowStyles();
+
+    //is the current user stateful?
+    let buttonBook;
+    let buttonCancel;
+    //if customerId is not falsey the service has been booked
+    buttonBook = (row.customerID)
+        ? <Button variant="contained" disabled> Book Now </Button>//Update DB and change button state
+        : <Button onClick={() => { alert('clicked') }}> Book Now </Button>;
+
+    //allow user to cancel booking if 24 hours before AND they are currently logged in
+    const bookingDateTime = Date.parse(row.startDateTime);
+    const currentDateTime = Date.now();
+    const bookingLockoutTime = 24 * 60 * 60 * 1000;
+    const bookingChangeAllowed = (currentDateTime - bookingDateTime < bookingLockoutTime)
+
+    buttonCancel = (row.customerID==="customerID" && bookingChangeAllowed)
+        ? <Button onClick={() => { alert('clicked') }}> Cancel Booking </Button>//Update DB and change button state
+        : <Button variant="contained" disabled> Cancel Booking</Button>
+
+    return (
+        <React.Fragment>
+            <TableRow className={classes.root}>
+                <TableCell>
+                    <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+                        {open ? <KeyboardArrowUpIcon/> : <KeyboardArrowDownIcon/>}
+                    </IconButton>
+                </TableCell>
+                <TableCell component="th" scope="row">
+                    {row.bookingID}
+                </TableCell>
+                <TableCell align="right">{row.startDateTime}</TableCell>
+                <TableCell align="right">{row.duration}</TableCell>
+                <TableCell align="right">{row.serviceType}</TableCell>
+                <TableCell align="right">{row.employeeName}</TableCell>
+                <TableCell align="right">{row.customerID ? MoodBadIcon : MoodIcon}</TableCell>
+            </TableRow>
+            <TableRow>
+                <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={6}>
+                    <Collapse in={open} timeout="auto" unmountOnExit>
+                        <Box margin={1}>
+                            <Typography variant="h6" gutterBottom component="div">
+                                Book This Session
+                            </Typography>
+                            {buttonBook} {buttonCancel}
+                        </Box>
+                    </Collapse>
+                </TableCell>
+            </TableRow>
+        </React.Fragment>
+    );
+}
+
+Row.propTypes = {
+    row: PropTypes.shape({
+        bookingID: PropTypes.string.isRequired,
+        serviceType: PropTypes.string.isRequired,
+        employeeName: PropTypes.string,
+        startDateTime: PropTypes.string.isRequired,
+        duration: PropTypes.number.isRequired,
+        customerID: PropTypes.string,
+    }).isRequired,
+};
