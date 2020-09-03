@@ -24,8 +24,9 @@ import Button from "@material-ui/core/Button";
 
 //Mock data
 import BookingData from '../../mock/data/Bookings.json'
-
-const bookingsData = BookingData;//call the api
+import * as utils from "../../mock/operations/mock/functions/utils";//Add decode func
+//call the api
+const bookingsData = BookingData;
 
 
 const useRowStyles = makeStyles({
@@ -70,7 +71,6 @@ function Row(props) {
     const [open, setOpen] = React.useState(false);
     const classes = useRowStyles();
 
-    //is the current user stateful?
     let buttonBook;
     let buttonCancel;
     //if customerId is not falsey the service has been booked
@@ -84,7 +84,12 @@ function Row(props) {
     const bookingLockoutTime = 24 * 60 * 60 * 1000;
     const bookingChangeAllowed = (currentDateTime - bookingDateTime < bookingLockoutTime)
 
-    buttonCancel = (row.customerID==="customerID" && bookingChangeAllowed)
+    //TODO check to see if jwt is passing customer identifier
+    const credentials = localStorage.getItem('credentials')&&(JSON.parse(localStorage.getItem('credentials')))
+    const authDetails = utils.decodeJwt(JSON.parse(credentials).jwt)
+    const customerID = authDetails.customerID
+
+    buttonCancel = (row.customerID===customerID && bookingChangeAllowed)
         ? <Button onClick={() => { alert('clicked') }}> Cancel Booking </Button>//Update DB and change button state
         : <Button variant="contained" disabled> Cancel Booking</Button>
 
