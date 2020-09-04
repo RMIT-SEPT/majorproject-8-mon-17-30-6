@@ -1,0 +1,13 @@
+svg.logout{
+    margin:0 0 0 1vw;
+  }
+  
+svg.logout:hover{
+    margin:0 0 0 1vw;
+    color:red;
+    cursor:pointer;
+  }
+  
+nav{
+    position: fixed;
+  }

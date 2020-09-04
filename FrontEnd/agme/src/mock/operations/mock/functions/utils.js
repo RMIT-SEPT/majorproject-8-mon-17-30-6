@@ -45,5 +45,13 @@ const decodeJwt = (jwt)=>{
     }).join(''));
     return JSON.parse(jsonPayload)
 }
+const getDecodedJwtFromLocalStorage =() =>{
+    // Get JWT Header, Payload and Signature
+    const stringifiedJwtPayload = localStorage.getItem('credentials').split('.')[1];
+    //decode payload
+    let data = stringifiedJwtPayload;
+    let buff = new Buffer(data, 'base64');
+    return JSON.parse(buff.toString('ascii'));
 
-module.exports = {generateSaltAndHash, sha512, decodeJwt}
+}
+module.exports = {generateSaltAndHash, sha512, decodeJwt, getDecodedJwtFromLocalStorage}
