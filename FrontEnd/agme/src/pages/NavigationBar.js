@@ -11,6 +11,9 @@ import {getDecodedJwtFromLocalStorage}  from "../mock/operations/mock/functions/
  * ****/
 export default class NavigationBar extends React.Component{
     render(){
+         //uncomment to test error
+         //throw new Error({errorId: "AGME ERROR",errorDetails: []});
+
         const decodedJwtPayload = getDecodedJwtFromLocalStorage();
         if(decodedJwtPayload){
             if(decodedJwtPayload.role==='provider'){
