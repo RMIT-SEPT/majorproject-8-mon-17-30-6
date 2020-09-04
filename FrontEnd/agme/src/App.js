@@ -7,8 +7,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from "../node_modules/react-bootstrap/Navbar";
 import Nav from "../node_modules/react-bootstrap/Nav";
 import NavDropdown from "../node_modules/react-bootstrap/NavDropdown";
-import Form from "../node_modules/react-bootstrap/Form";
-import FormControl from "../node_modules/react-bootstrap/FormControl";
 import Button from "../node_modules/react-bootstrap/Button";
 import ViewProviders from './pages/users/ViewProviders';
 const utils = require('./mock/operations/mock/functions/utils')
@@ -144,12 +142,10 @@ export default class App extends React.Component{
                                 <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
-                        <Form inline>
-                            <FormControl type="text" placeholder="Search provider" className="mr-sm-2" />
-                            <Button variant="outline-success">Search</Button>
-                            {logoutButton()}      
-                        </Form>
+                        
                     </Navbar.Collapse>
+                    {logoutButton()}      
+
                 </Navbar>
                 {this.state.content}
             </div>
