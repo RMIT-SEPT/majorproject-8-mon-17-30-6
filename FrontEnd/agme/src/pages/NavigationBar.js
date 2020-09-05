@@ -1,10 +1,10 @@
 import React from 'react';
-import Navbar from "../../node_modules/react-bootstrap/Navbar";
-import Nav from "../../node_modules/react-bootstrap/Nav";
-import NavDropdown from "../../node_modules/react-bootstrap/NavDropdown";
-import './css/navigationbar.css'
-import { GrLogout } from "react-icons/gr";
 import {getDecodedJwtFromLocalStorage}  from "../mock/operations/mock/functions/utils";//Add decode func
+import ProviderNavigationBar from './providers/ProviderNavigationBar';
+import UserNavigationBar from './users/UserNavigationBar';
+import AdminNavigationBar from './administrators/AdminNavigationBar'
+import VisitorNavigationBar from './visitors/VisitorNavigationBar'
+
 
 /***
  * This class should handle the Navigation bar so that the appropriate menu's are displayed
@@ -15,44 +15,47 @@ export default class NavigationBar extends React.Component{
         const decodedJwtPayload = getDecodedJwtFromLocalStorage();
         if(decodedJwtPayload&&(decodedJwtPayload.exp>decodedJwtPayload.iat)){
             if(decodedJwtPayload.role==='provider'){
-                //show navigation bar for providers
+                return (
+                    <ProviderNavigationBar 
+                        handleLogout={this.props.handleLogout} 
+                        token={this.props&&this.props.token} 
+                        handleSelectNavBar={this.props.handleSelectNavBar}
+                        />
+                )
             }else if(decodedJwtPayload.role==='user'){
-                //show navigation bar for user
+                return (
+                    <UserNavigationBar 
+                        handleLogout={this.props.handleLogout} 
+                        token={this.props&&this.props.token} 
+                        handleSelectNavBar={this.props.handleSelectNavBar}
+                    />
+                )
             }else if(decodedJwtPayload.role==='administrator'){
-                //show navigation bar for admin
+                return (
+                <AdminNavigationBar 
+                    handleLogout={this.props.handleLogout} 
+                    token={this.props&&this.props.token} 
+                    handleSelectNavBar={this.props.handleSelectNavBar}    
+                />
+                )
             }else{
-                //Not expected to have any different role - throw an error
+                /***
+                 * Should never enter this block unless token was tampered
+                 * ***/
+                localStorage.remoteItem('credentials');
+                throw new Error({
+                    errorId: "INVALID_LOGIN",
+                    message: "Your session has expired. Please refresh your browser."
+                })
             }
 
         }else{
             //no user authenticated
+            return (
+                <VisitorNavigationBar handleSelectNavBar={this.props.handleSelectNavBar}/>
+            )
         }
 
-        const logoutButton = ()=>{
-            if(decodedJwtPayload&&(decodedJwtPayload.exp>decodedJwtPayload.iat)){
-                return <GrLogout className="logout" onClick={this.props.handleLogout}/>
-            }
-        }
-        return (
-            <Navbar bg="light" expand="lg">
-                    <Navbar.Brand href="#home">AGME</Navbar.Brand>
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="mr-auto">
-                            <Nav.Link href="#home">Home</Nav.Link>
-                            <Nav.Link href="#link">Link</Nav.Link>
-                            <NavDropdown title="Services" id="basic-nav-dropdown">
-                                <NavDropdown.Item name="providers" onClick={this.props.handleSelectNavBar}>Providers</NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-                                <NavDropdown.Divider />
-                                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-                            </NavDropdown>
-                        </Nav>
-                        
-                    </Navbar.Collapse>
-                    {logoutButton()}      
-                </Navbar>
-        )
+
     }
 }
