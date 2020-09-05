@@ -1,4 +1,4 @@
-
+const config = require('../../../../config.json')
 /***
  * Generic function to call apis
  * ***/
@@ -32,8 +32,8 @@ const testResponse = async (response)=>{
 }
 
 const authenticate = async (username, password)=>{
-    const endpoint = "http://localhost:8080/";
-    const uri = "login"
+    const url = config.api.url;
+    const uri = config.api.uri.login
     const options = {
         method: "POST",
         mode: "cors",
@@ -46,8 +46,11 @@ const authenticate = async (username, password)=>{
                     "password": password
                 })
     }
-    const response = await apiCall(endpoint,uri,options);
-    console.log(response)
+    const response = await apiCall(url,uri,options);
+    console.log(response);
+    if(response.statusCode===200){
+        localStorage.setItem('credentials', JSON.stringify(response.body.jwt))
+    }
    return response;
 }
 

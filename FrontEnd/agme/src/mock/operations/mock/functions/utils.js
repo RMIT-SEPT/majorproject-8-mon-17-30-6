@@ -47,7 +47,11 @@ const decodeJwt = (jwt)=>{
 }
 const getDecodedJwtFromLocalStorage =() =>{
     // Get JWT Header, Payload and Signature
-    const stringifiedJwtPayload = localStorage.getItem('credentials').split('.')[1];
+    const credentials = JSON.parse(localStorage.getItem('credentials'));
+    if(!credentials){
+        return null;
+    }
+    const stringifiedJwtPayload = credentials.split('.')[1];
     //decode payload
     let data = stringifiedJwtPayload;
     let buff = new Buffer(data, 'base64');

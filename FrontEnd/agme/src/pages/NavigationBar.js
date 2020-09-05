@@ -10,12 +10,10 @@ import {getDecodedJwtFromLocalStorage}  from "../mock/operations/mock/functions/
  * This class should handle the Navigation bar so that the appropriate menu's are displayed
  * ****/
 export default class NavigationBar extends React.Component{
-    render(){
-         //uncomment to test error
-         //throw new Error({errorId: "AGME ERROR",errorDetails: []});
 
+    render(){
         const decodedJwtPayload = getDecodedJwtFromLocalStorage();
-        if(decodedJwtPayload){
+        if(decodedJwtPayload&&(decodedJwtPayload.exp>decodedJwtPayload.iat)){
             if(decodedJwtPayload.role==='provider'){
                 //show navigation bar for providers
             }else if(decodedJwtPayload.role==='user'){
@@ -31,8 +29,8 @@ export default class NavigationBar extends React.Component{
         }
 
         const logoutButton = ()=>{
-            if(this.props.authenticated){
-                return <GrLogout className="logout" onClick={this.handleLogout}/>
+            if(decodedJwtPayload&&(decodedJwtPayload.exp>decodedJwtPayload.iat)){
+                return <GrLogout className="logout" onClick={this.props.handleLogout}/>
             }
         }
         return (
