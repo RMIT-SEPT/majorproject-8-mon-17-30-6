@@ -11,17 +11,21 @@ import java.util.List;
 @Service
 public class BookingService {
 
-    @Autowired
     private BookingRepository bookingRepository;
 
+    @Autowired
+    public BookingService(BookingRepository bookingRepository) {
+        this.bookingRepository = bookingRepository;
+    }
+
     // Get arraylist of all users
-    public List<Booking> findAll() {
+    public List<Booking> getAllBookings() {
         Iterable<Booking> it = bookingRepository.findAll();
-        List<Booking> users = new ArrayList<>();
+        List<Booking> bookings = new ArrayList<>();
 
-        it.forEach(e -> users.add(e));
+        it.forEach(bookings::add);
 
-        return users;
+        return bookings;
     }
 
     public Booking addBooking(Booking booking) { return bookingRepository.save(booking); }
