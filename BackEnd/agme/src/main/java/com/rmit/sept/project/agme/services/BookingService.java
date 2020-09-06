@@ -18,6 +18,9 @@ public class BookingService {
         this.bookingRepository = bookingRepository;
     }
 
+    public BookingService(){
+
+    }
     // Get arraylist of all users
     public List<Booking> getAllBookings() {
         Iterable<Booking> it = bookingRepository.findAll();
