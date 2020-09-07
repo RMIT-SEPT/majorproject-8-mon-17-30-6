@@ -1,6 +1,6 @@
 package com.rmit.sept.project.agme.services;
 
-import com.rmit.sept.project.agme.Repositories.EmployeeRepository;
+import com.rmit.sept.project.agme.repositories.EmployeeRepository;
 import com.rmit.sept.project.agme.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

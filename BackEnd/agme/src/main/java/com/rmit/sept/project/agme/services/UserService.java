@@ -1,6 +1,6 @@
 package com.rmit.sept.project.agme.services;
 
-import com.rmit.sept.project.agme.Repositories.UserRepository;
+import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

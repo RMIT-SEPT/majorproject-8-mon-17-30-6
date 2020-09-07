@@ -5,14 +5,13 @@ import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-import com.rmit.sept.project.agme.filters.AppConfig;
+
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -21,7 +20,6 @@ import java.io.IOException;
 
 @Component
 @EnableAutoConfiguration
-@Import({AppConfig.class})
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired

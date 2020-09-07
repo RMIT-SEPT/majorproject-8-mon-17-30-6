@@ -52,7 +52,7 @@ public class UserController {
             errorDetails.add(errorsTypeAndValues);
             errorContainer.put("errorDetails", errorDetails);
 //            returns JSON response with error details
-            return new ResponseEntity<>(errorContainer, HttpStatus.OK);
+            return new ResponseEntity<>(errorContainer, HttpStatus.BAD_REQUEST);
         }
 
 
