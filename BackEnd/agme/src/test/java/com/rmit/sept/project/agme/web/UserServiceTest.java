@@ -1,27 +1,18 @@
-package com.rmit.sept.project.agme;
+package com.rmit.sept.project.agme.web;
 
 import com.rmit.sept.project.agme.Repositories.UserRepository;
 import com.rmit.sept.project.agme.model.User;
 import com.rmit.sept.project.agme.services.UserService;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.Optional;
-
 import static com.rmit.sept.project.agme.model.Role.ADMIN;
-import static com.sun.xml.internal.ws.policy.sourcemodel.wspolicy.XmlToken.Optional;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
