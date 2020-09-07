@@ -1,4 +1,5 @@
-const {authenticate} = require('./mock/functions/operations')
+const {authenticate, getDecodedJwtFromLocalStorage} = require('./mock/functions/operations')
 module.exports = {
-    authenticate: authenticate
+    authenticate: authenticate,
+    getDecodedJwtFromLocalStorage: getDecodedJwtFromLocalStorage
 }
