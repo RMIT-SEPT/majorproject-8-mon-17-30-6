@@ -26,7 +26,6 @@ public class EmployeeService {
 
         return employees;
     }
-
     public Employee addEmployee(Employee employee) { return employeeRepository.save(employee); }
     public Long count() {return employeeRepository.count();}
 }

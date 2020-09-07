@@ -1,11 +1,17 @@
 package com.rmit.sept.project.agme.web;
 
+import com.rmit.sept.project.agme.Repositories.UserRepository;
 import com.rmit.sept.project.agme.model.Employee;
+import com.rmit.sept.project.agme.security.JwtUtil;
+import com.rmit.sept.project.agme.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -17,6 +23,7 @@ import static org.mockito.BDDMockito.given;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(BookingController.class)
+
 public class EmployeeControllerTest {
 
     @MockBean
@@ -24,6 +31,16 @@ public class EmployeeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+    @MockBean
+    JwtUtil jwtUtil;
+
+    @MockBean
+    UserService userService;
+    @MockBean
+     BookingController bookingController;
+
+    @MockBean
+    UserRepository userRepository;
 
     @Test
     public void testNewEmployee() {
