@@ -14,23 +14,25 @@ import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
-    private UserRepository userRepository;
 
     //injecting user repository access
     @Autowired
-    public UserService(UserRepository userRepository) {
-        super();
-        this.userRepository = userRepository;
+    private UserRepository userRepository;
+
+    public UserService() {
+
     }
 
     public User saveOrUpdateUser(User user) {
+
         return userRepository.save(user);
     }
 
     //    Retrieve list of users
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<>();
-        this.userRepository.findAll().forEach(users::add);
+        Iterable<User> aa = userRepository.findAll();
+        aa.forEach(users::add);
         return users;
     }
 
