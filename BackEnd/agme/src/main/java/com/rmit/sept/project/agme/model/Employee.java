@@ -13,7 +13,12 @@ public class Employee {
     @ManyToOne
     private Company company;
 
-    public Employee() {
+    public Employee() {}
+
+    public Employee(String username, String userType, Company company) {
+        this.username = username;
+        this.userType = userType;
+        this.company = company;
     }
 
     public String getUsername() {
@@ -32,5 +37,11 @@ public class Employee {
         this.userType = userType;
     }
 
+    public Long getId() { return id; }
 
+    public void setId(Long id) { this.id = id; }
+
+    public Company getCompany() { return company; }
+
+    public void setCompany(Company company) { this.company = company; }
 }

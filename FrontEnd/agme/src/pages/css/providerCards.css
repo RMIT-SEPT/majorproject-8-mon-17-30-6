@@ -1,0 +1,22 @@
+table.providerCard{
+    width: 70vw;
+    border-collapse: separate;
+    border-spacing:0;
+}
+
+table.providerCard tbody tr td.logo{
+    background-color: silver;
+    border: 1px solid black;
+    border-radius:2vh 0 0 2vh;
+    font-size:2vw;
+}
+table.providerCard{
+    margin: 1vh 0 0 1vw;
+}
+
+table.providerCard tbody tr td.providerDescription{
+    border: 1px solid black;
+
+    border-radius:0 2vh 2vh 0;
+    font-size:1vw;
+}

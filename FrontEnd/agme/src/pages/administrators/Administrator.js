@@ -1,10 +1,10 @@
 import React from 'react';
 
-export default class AuthenticatedContent extends React.Component{
+export default class Administrator extends React.Component{
     render(){
         return (
             <div>
-                You are authenticated
+                Admin Content here
             </div>
         )
     }

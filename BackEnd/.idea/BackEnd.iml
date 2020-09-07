@@ -12,11 +12,13 @@
       </configuration>
     </facet>
   </component>
+
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="Validation API-2.0.1.Final" level="project" />
+
   </component>
 </module>

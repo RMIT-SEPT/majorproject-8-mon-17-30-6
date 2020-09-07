@@ -1,21 +1,40 @@
-const tables = {
-    users: require('../../../data/Users.json')
+
+/***
+ * Generic function to call apis
+ * ***/
+const apiCall = async(endpoint,uri,options)=>{
+    const response = await fetch(endpoint+uri,options);
+    console.log(response)
+    return testResponse(response)
 }
 
-const {sha512} = require('./utils')
-
-
-const queryDatabase = (table, key, value) => new Promise(res => {
-    setTimeout(_ => {
-        const rows = tables[table].filter(row=>{
-            return row[key]===value})
-        res(rows) //Return it here!
-    }, 2000);
-})
+/***
+ * Internal function to test and format response from api
+ * **/
+const testResponse = async (response)=>{
+    try{
+        if(RegExp('^2[0-9]{2}$').test(response.status)){
+            return {
+                statusCode: response.status,
+                body: await response.json()
+            }
+        }else{
+            throw response;
+        }
+       
+    }catch(error){
+        console.log(error)
+        return {
+            statusCode: error.status,
+            body: await error.text()
+        }
+    }
+}
 
 const authenticate = async (username, password)=>{
-    
-    return await fetch("http://localhost:8080/login", {
+    const endpoint = "http://localhost:8080/";
+    const uri = "login"
+    const options = {
         method: "POST",
         mode: "cors",
         headers: {
@@ -26,12 +45,10 @@ const authenticate = async (username, password)=>{
                     "username": username,
                     "password": password
                 })
-    })
-    .then(response=>response.json())
-    .then(response=>{
-        console.log(JSON.stringify(response))
-        return response
-    })
+    }
+    const response = await apiCall(endpoint,uri,options);
+    console.log(response)
+   return response;
 }
 
 module.exports = {authenticate}
