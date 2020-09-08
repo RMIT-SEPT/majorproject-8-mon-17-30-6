@@ -2,6 +2,7 @@ import React from 'react';
 import './pages/css/App.css';
 import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup";
+import Login from "./pages/Login";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {getDecodedJwtFromLocalStorage}  from "./mock/operations/mock/functions/utils";//Add decode func
 import ViewProviders from './pages/users/ViewProviders';
