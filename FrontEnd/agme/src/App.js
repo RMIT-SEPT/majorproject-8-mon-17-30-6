@@ -34,7 +34,6 @@ export default class App extends React.Component{
 
 
         this.handleAuthentication = this.handleAuthentication.bind(this);
-        this.handleContentChangeRequest = this.handleContentChangeRequest.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.handleSelectNavBar = this.handleSelectNavBar.bind(this)
 
@@ -45,23 +44,12 @@ export default class App extends React.Component{
             content:<LandingPage 
                 authenticated={this.state&&this.state.authenticated} 
                 handleAuthentication={this.handleAuthentication} 
-                handleContentChangeRequest={this.handleContentChangeRequest}
+                handleContentChangeRequest={this.handleSelectNavBar}
                 type={this.state&&this.state.type}
                 expiry={this.state&&this.state.expiry}
                 />
             })
 
-    }
-
-    handleContentChangeRequest(e){
-        const content = e.target.getAttribute('name');
-        switch(content){
-            case "signup":
-                this.setState({content :<Signup handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest}/>})
-            break;
-            default:
-                console.log("default")
-        }
     }
 
     handleAuthentication(){
@@ -74,7 +62,7 @@ export default class App extends React.Component{
             content:<LandingPage 
                 authenticated={true} 
                 handleAuthentication={this.handleAuthentication} 
-                handleContentChangeRequest={this.handleContentChangeRequest}
+                handleContentChangeRequest={this.handleSelectNavBar}
                 type={role}
                 token={authDetails.jwt}
                 expiry={authDetails.expiry}
@@ -90,17 +78,27 @@ export default class App extends React.Component{
             token:null,
             authenticated:false,
             expiry: null,
-            content:<LandingPage handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest}/>
+            content:<LandingPage handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleSelectNavBar}/>
         })
     }
 
+    //To handle component change
     handleSelectNavBar(e){
-        e.preventDefault()
-        if(e.target.name === 'providers'){
-            this.setState({
-                content: <ViewProviders/>
-            })
-        }
+        e.preventDefault();
+        const contentString = (e.target&&e.target.getAttribute('name') || e);
+        let component = "";
+        switch(contentString){
+            case "signup":
+                component = <Signup handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleSelectNavBar}/>
+                break;
+            case "providers":
+                component = <ViewProviders/>
+                break;
+            default:
+                console.log("no content available?");
+        }  
+        this.setState({content :component})
+
     }
     render(){
         return (
