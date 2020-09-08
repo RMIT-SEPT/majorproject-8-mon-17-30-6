@@ -2,6 +2,8 @@ import React from 'react';
 import './pages/css/App.css';
 import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+
 import { GrLogout } from "react-icons/gr";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from "../node_modules/react-bootstrap/Navbar";
@@ -50,6 +52,7 @@ export default class App extends React.Component{
         }
         this.handleAuthentication = this.handleAuthentication.bind(this);
         this.handleContentChangeRequest = this.handleContentChangeRequest.bind(this);
+           this.handleContentChangeRequestSignup = this.handleContentChangeRequestSignup.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.handleSelectNavBar = this.handleSelectNavBar.bind(this)
 
@@ -78,7 +81,16 @@ export default class App extends React.Component{
                 console.log("default")
         }
     }
-
+    
+    handleContentChangeRequestSignup(componentName){
+        switch(componentName){
+            case "login":
+                this.setState({content :<Login handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>})
+            break;
+            default:
+                console.log("default")
+        }
+    }
     handleAuthentication(authenticationDetails){
         //save to local storage to persist
         localStorage.setItem('credentials',JSON.stringify(authenticationDetails))
