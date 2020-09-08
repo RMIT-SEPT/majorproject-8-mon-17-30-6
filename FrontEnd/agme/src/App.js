@@ -35,7 +35,7 @@ export default class App extends React.Component{
 
         this.handleAuthentication = this.handleAuthentication.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
-        this.handleSelectNavBar = this.handleSelectNavBar.bind(this)
+        this.handleContentChangeRequest = this.handleContentChangeRequest.bind(this)
 
     }
 
@@ -44,7 +44,7 @@ export default class App extends React.Component{
             content:<LandingPage 
                 authenticated={this.state&&this.state.authenticated} 
                 handleAuthentication={this.handleAuthentication} 
-                handleContentChangeRequest={this.handleSelectNavBar}
+                handleContentChangeRequest={this.handleContentChangeRequest}
                 type={this.state&&this.state.type}
                 expiry={this.state&&this.state.expiry}
                 />
@@ -62,7 +62,7 @@ export default class App extends React.Component{
             content:<LandingPage 
                 authenticated={true} 
                 handleAuthentication={this.handleAuthentication} 
-                handleContentChangeRequest={this.handleSelectNavBar}
+                handleContentChangeRequest={this.handleContentChangeRequest}
                 type={role}
                 token={authDetails.jwt}
                 expiry={authDetails.expiry}
@@ -78,18 +78,18 @@ export default class App extends React.Component{
             token:null,
             authenticated:false,
             expiry: null,
-            content:<LandingPage handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleSelectNavBar}/>
+            content:<LandingPage handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest}/>
         })
     }
 
     //To handle component change
-    handleSelectNavBar(e){
+    handleContentChangeRequest(e){
         e.preventDefault();
         const contentString = (e.target&&e.target.getAttribute('name') || e);
         let component = "";
         switch(contentString){
             case "signup":
-                component = <Signup handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleSelectNavBar}/>
+                component = <Signup handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest}/>
                 break;
             case "providers":
                 component = <ViewProviders/>
@@ -104,7 +104,7 @@ export default class App extends React.Component{
         return (
             <div className="App">
                 <CustomisedError>
-                    <NavigationBar handleLogout={this.handleLogout} token={this.state&&this.state.token} handleSelectNavBar={this.handleSelectNavBar}/>
+                    <NavigationBar handleLogout={this.handleLogout} token={this.state&&this.state.token} handleSelectNavBar={this.handleContentChangeRequest}/>
                     {this.state&&this.state.content}
                 </CustomisedError>
             </div>
