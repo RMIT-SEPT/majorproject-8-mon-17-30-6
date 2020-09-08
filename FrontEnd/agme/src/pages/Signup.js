@@ -1,74 +1,188 @@
 import React from 'react';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import './css/signup.css'
+import Button from "react-bootstrap/Button";
+import './css/login.css';
+const functions = require('../apiOperations')
+
+/***
+
+ * ***/
 export default class Signup extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            email: "",
-            password: "",
+            isCallingServer: false,
+            failed: false,
+            error: null,
             username: "",
-            name: "",
+            password: "",
+            confirmPassword: "",
+            fname: "",
+            role: "",
             address: "",
             phone: ""
+
         };
-        this.handleFormChange= this.handleFormChange.bind(this);
+        
+        this.handleSignupRequest = this.handleSignupRequest.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+    
+
+    handleSignupRequest(){
+        //mock for now
+        this.setState({isCallingServer:true});
+
+        functions.signupNewUser(this.state.username,this.state.fname, this.state.phone, this.state.address, this.state.role, this.state.password, this.state.confirmPassword).then(response=>{
+            if(response.statusCode===200){
+                this.setState({isCallingServer:false});
+                alert("Signup succesful. Please login");
+                this.props.import React from 'react';
+import Button from "react-bootstrap/Button";
+import './css/login.css';
+const functions = require('../apiOperations')
+
+/***
+
+ * ***/
+export default class Signup extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            isCallingServer: false,
+            failed: false,
+            error: null,
+            username: "",
+            password: "",
+            confirmPassword: "",
+            fname: "",
+            role: "",
+            address: "",
+            phone: ""
+
+        };
+        
+        this.handleSignupRequest = this.handleSignupRequest.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
+    }
+    
+
+    handleSignupRequest(){
+        //mock for now
+        this.setState({isCallingServer:true});
+
+        functions.signupNewUser(this.state.username,this.state.fname, this.state.phone, this.state.address, this.state.role, this.state.password, this.state.confirmPassword).then(response=>{
+            if(response.statusCode===200){
+                this.setState({isCallingServer:false});
+                alert("Signup succesful. Please login");
+                this.props.handleContentChangeRequest('login');
+                
+                }else{
+                this.setState({isCallingServer:false, failed:true,error:response})
+            }
+        })
+        
     }
 
-    handleFormChange(e){
+    showSignupButtonButton(){
+        if(this.state.isCallingServer){
+            return <Button variant={"secondary"}>processing</Button>
+        }
+        if(this.state.password&&this.state.username&&this.state.fname&&this.state.phone&&this.state.address&&this.state.role&&this.state.confirmPassword&&(!this.state.isCallingServer)){
+            return <Button onClick={this.handleSignupRequest}>Signup</Button>
+        }
+    }
+
+    handleInputChange(e){
         e.preventDefault();
-        this.setState({[e.target.name]:e.target.value});
+        const name = e.target.name;
+        const value = e.target.value;
+        this.setState({[name]:value})
     }
 
-
+    showError(){
+        if(this.state.error){
+            return <p className="errorInfo">Invalid Credentials supplied!</p>
+        }else{
+            return <p></p>
+        }
+    }
 
     render(){
         return (
-            <div className={"signup"}>
-                <h3>Become an Agme Member</h3>
-                <Form>
-                 <Form.Group controlId="formBasicName">
-                        <Form.Label>Your name</Form.Label>
-                        <Form.Control name="name" type="text" placeholder="Name" onChange={this.handleFormChange} value={this.state.name}/>
-                    </Form.Group>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control name="email" type="text" placeholder="Enter email" onChange={this.handleFormChange} value={this.state.email}/>
-                        <Form.Text className="text-muted">
-                        We will never share your email with anyone else.
-                        </Form.Text>
-                    </Form.Group>
-                    <Form.Group controlId="formBasicEmail">
-                        <Form.Label>Address</Form.Label>
-                        <Form.Control name="address" type="text" placeholder="Address" onChange={this.handleFormChange} value={this.state.address}/>
-                        <Form.Text className="text-muted">
-                        We will never disclose your address with any provider. Some providers quote services based on your location, so only the approximate distance is shared.
-                        </Form.Text>
-                    </Form.Group>
-                    <Form.Group controlId="formBasicUsername">
-                        <Form.Label>Username</Form.Label>
-                        <Form.Control name="username" type="text" placeholder="Username" onChange={this.handleFormChange} value={this.state.username}/>
-                    </Form.Group>
+            <div className={"signupNew"}>
+                <h3 className="title">You are not authenticated</h3>
+                <input type="text" name={"username"} value={this.state.username} placeholder="Username" onChange={this.handleInputChange}/>
+                <br/>
+                <input type="text" name={"fname"} value={this.state.fname} placeholder="name" onChange={this.handleInputChange}/>
+                <br/>
+                <input type="text" name={"phone"} value={this.state.phone} placeholder="phone" onChange={this.handleInputChange}/>
+                <br/>
+                <input type="text" name={"address"} value={this.state.address} placeholder="address" onChange={this.handleInputChange}/>
+                <br/>
+                <input type="text" name={"role"} value={this.state.role} placeholder="role" onChange={this.handleInputChange}/>
+                <br/>
+                <input type="password" name={"password"} value={this.state.password} placeholder="Password" onChange={this.handleInputChange}/>
+                <br/>
+                <input type="password" name={"confirmPassword"} value={this.state.confirmPassword} placeholder="confirmPassword" onChange={this.handleInputChange}/>
+                {this.showError()}
+                {this.showSignupButtonButton()}
+                <p name="login" className="login_info" onClick={this.props.handleContentChangeRequest}>Or click here to Sign up</p>
+            </div>
+        )
+    }
+}('login');
+                
+                }else{
+                this.setState({isCallingServer:false, failed:true,error:response})
+            }
+        })
+        
+    }
 
-                    <Form.Group controlId="formBasicPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control name="password" type="password" placeholder="Password" onChange={this.handleFormChange} value={this.state.password}/>
-                    </Form.Group>
-                     <Form.Group controlId="formBasicPassword">
-                            <Form.Label>Confirm Password</Form.Label>
-                            <Form.Control name="confirmPassword" type="password" placeholder="Password" onChange={this.handleFormChange} value={this.state.confirmPassword}/>
-                        </Form.Group>
-                    <Form.Group controlId="formBasicCheckbox">
-                        <Form.Check type="checkbox" label="Check me out" />
-                    </Form.Group>
-                    <Button variant="primary" type="submit" onClick={e=>{
-                        e.preventDefault();
-                        //TODO some function here
-                    }}>
-                        Submit
-                    </Button>
-                    </Form>
+    showSignupButtonButton(){
+        if(this.state.isCallingServer){
+            return <Button variant={"secondary"}>processing</Button>
+        }
+        if(this.state.password&&this.state.username&&this.state.fname&&this.state.phone&&this.state.address&&this.state.role&&this.state.confirmPassword&&(!this.state.isCallingServer)){
+            return <Button onClick={this.handleSignupRequest}>Signup</Button>
+        }
+    }
+
+    handleInputChange(e){
+        e.preventDefault();
+        const name = e.target.name;
+        const value = e.target.value;
+        this.setState({[name]:value})
+    }
+
+    showError(){
+        if(this.state.error){
+            return <p className="errorInfo">Invalid Credentials supplied!</p>
+        }else{
+            return <p></p>
+        }
+    }
+
+    render(){
+        return (
+            <div className={"signupNew"}>
+                <h3 className="title">You are not authenticated</h3>
+                <input type="text" name={"username"} value={this.state.username} placeholder="Username" onChange={this.handleInputChange}/>
+                <br/>
+                <input type="text" name={"fname"} value={this.state.fname} placeholder="name" onChange={this.handleInputChange}/>
+                <br/>
+                <input type="text" name={"phone"} value={this.state.phone} placeholder="phone" onChange={this.handleInputChange}/>
+                <br/>
+                <input type="text" name={"address"} value={this.state.address} placeholder="address" onChange={this.handleInputChange}/>
+                <br/>
+                <input type="text" name={"role"} value={this.state.role} placeholder="role" onChange={this.handleInputChange}/>
+                <br/>
+                <input type="password" name={"password"} value={this.state.password} placeholder="Password" onChange={this.handleInputChange}/>
+                <br/>
+                <input type="password" name={"confirmPassword"} value={this.state.confirmPassword} placeholder="confirmPassword" onChange={this.handleInputChange}/>
+                {this.showError()}
+                {this.showSignupButtonButton()}
+                <p name="login" className="login_info" onClick={this.props.handleContentChangeRequest}>Or click here to Sign up</p>
             </div>
         )
     }

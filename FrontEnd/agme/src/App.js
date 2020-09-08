@@ -94,6 +94,9 @@ export default class App extends React.Component{
             case "providers":
                 component = <ViewProviders/>
                 break;
+            case "login":
+                component = <Login/>
+                break;
             default:
                 console.log("no content available?");
         }  
