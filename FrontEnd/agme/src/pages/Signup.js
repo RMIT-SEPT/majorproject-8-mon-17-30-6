@@ -83,9 +83,9 @@ export default class Signup extends React.Component{
                 <br/>
                 <input type="text" name={"role"} value={this.state.role} placeholder="role" onChange={this.handleInputChange}/>
                 <br/>
-                <input type="text" name={"password"} value={this.state.password} placeholder="Password" onChange={this.handleInputChange}/>
+                <input type="password" name={"password"} value={this.state.password} placeholder="Password" onChange={this.handleInputChange}/>
                 <br/>
-                <input type="text" name={"confirmPassword"} value={this.state.confirmPassword} placeholder="confirmPassword" onChange={this.handleInputChange}/>
+                <input type="password" name={"confirmPassword"} value={this.state.confirmPassword} placeholder="confirmPassword" onChange={this.handleInputChange}/>
                 {this.showError()}
                 {this.showSignupButtonButton()}
                 <p name="login" className="login_info" onClick={this.props.handleContentChangeRequest}>Or click here to Sign up</p>
