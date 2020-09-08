@@ -78,7 +78,6 @@ export default class App extends React.Component{
         }  
         this.setState({content:component})
     }
-
     handleAuthentication(authenticationDetails){
         //save to local storage to persist
         localStorage.setItem('credentials',JSON.stringify(authenticationDetails))
