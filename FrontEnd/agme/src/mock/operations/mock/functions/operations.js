@@ -54,13 +54,29 @@ const authenticate = async (username, password)=>{
    return response;
 }
 
-const getDecodedJwtFromLocalStorage = async() =>{
-    // Get JWT Header, Payload and Signature
-    const stringifiedJwtPayload = localStorage.getItem('credentials').split('.')[1];
-    //decode payload
-    let data = stringifiedJwtPayload;
-    let buff = new Buffer(data, 'base64');
-    return JSON.parse(buff.toString('ascii'));
-
+const signupNewUser = async (username, fname, address, phone, role, password, confirmPassword)=>{
+    const endpoint = "http://localhost:8080/";
+    const uri = "signup"
+    const options = {
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            accept: "application/JSON",
+        },
+        body: JSON.stringify({
+                    "username": username,
+                    "password": password,
+                    'confirmPassword': confirmPassword,
+                    "name": fname,
+                    "address": address,
+                    "phone": phone,
+                    "role": role
+                })
+    }
+    const response = await apiCall(endpoint,uri,options);
+    console.log(response)
+   return response;
 }
-module.exports = {authenticate, getDecodedJwtFromLocalStorage}
+
+module.exports = {authenticate, signupNewUser}

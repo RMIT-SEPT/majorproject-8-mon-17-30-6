@@ -8,6 +8,7 @@ import {getDecodedJwtFromLocalStorage}  from "./mock/operations/mock/functions/u
 import ViewProviders from './pages/users/ViewProviders';
 import NavigationBar from './pages/NavigationBar';
 import CustomisedError from "./miscelaneous/CustomisedError";
+const utils = require('./mock/operations/mock/functions/utils')
 /**
  * Basic Flow
  * 
@@ -53,8 +54,35 @@ export default class App extends React.Component{
 
     }
 
-    handleAuthentication(){
-        const authDetails = getDecodedJwtFromLocalStorage();
+    //To handle component change
+    handleContentChangeRequest(e){
+        try{
+            e.preventDefault();
+        }catch(e){
+
+        }
+        const contentString = (e.target&&e.target.getAttribute('name') || e);
+        let component = "";
+        switch(contentString){
+            case "signup":
+                component = <Signup handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest}/>
+                break;
+            case "providers":
+                component = <ViewProviders/>
+                break;
+            case "login":
+                component = <Login/>
+                break;
+            default:
+                console.log("no content available?");
+        }  
+        this.setState({content:component})
+    }
+
+    handleAuthentication(authenticationDetails){
+        //save to local storage to persist
+        localStorage.setItem('credentials',JSON.stringify(authenticationDetails))
+        const authDetails = utils.decodeJwt(authenticationDetails.jwt)
         const role = authDetails.role
         this.setState({
             token:authDetails.jwt,
@@ -81,28 +109,6 @@ export default class App extends React.Component{
             expiry: null,
             content:<LandingPage handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest}/>
         })
-    }
-
-    //To handle component change
-    handleContentChangeRequest(e){
-        e.preventDefault();
-        const contentString = (e.target&&e.target.getAttribute('name') || e);
-        let component = "";
-        switch(contentString){
-            case "signup":
-                component = <Signup handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest}/>
-                break;
-            case "providers":
-                component = <ViewProviders/>
-                break;
-            case "login":
-                component = <Login/>
-                break;
-            default:
-                console.log("no content available?");
-        }  
-        this.setState({content :component})
-
     }
     render(){
         return (
