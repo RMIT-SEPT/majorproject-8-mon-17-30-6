@@ -4,6 +4,7 @@ import com.rmit.sept.project.agme.model.User;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -17,10 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Component
+@EnableAutoConfiguration
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
     private UserService userDetailsService;
+
 
     @Autowired
     private JwtUtil jwtUtil;

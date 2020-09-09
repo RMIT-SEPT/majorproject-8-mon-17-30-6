@@ -5,18 +5,15 @@ import com.rmit.sept.project.agme.services.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Book;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/booking")
 public class BookingController {
-
-    private final BookingService bookingService;
-
     @Autowired
-    public BookingController(BookingService bookingService) {
-        this.bookingService = bookingService;
-    }
+    BookingService bookingService;
+
 
     @PostMapping("/bookings")
     Booking newBooking(@RequestBody Booking booking) {
@@ -25,7 +22,9 @@ public class BookingController {
 
     @GetMapping("/bookings")
     List<Booking> getBookings() {
-        return bookingService.findAll();
+        return bookingService.getAllBookings();
     }
+    public BookingController(){
 
+    }
 }

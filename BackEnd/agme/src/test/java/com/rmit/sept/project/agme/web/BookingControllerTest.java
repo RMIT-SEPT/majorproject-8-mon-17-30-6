@@ -1,10 +1,12 @@
 package com.rmit.sept.project.agme.web;
 
+import com.rmit.sept.project.agme.Repositories.UserRepository;
 import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.model.Company;
 import com.rmit.sept.project.agme.model.Employee;
 import com.rmit.sept.project.agme.model.User;
-import com.rmit.sept.project.agme.services.BookingService;
+import com.rmit.sept.project.agme.security.JwtUtil;
+import com.rmit.sept.project.agme.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +21,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.BDDMockito.given;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(BookingController.class)
 public class BookingControllerTest {
+
+    @MockBean
+    JwtUtil jwtUtil;
+
+    @MockBean
+    UserService userService;
+    @MockBean
+    UserRepository userRepository;
 
     @MockBean
     private BookingController bookingController;
