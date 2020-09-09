@@ -2,6 +2,7 @@
     border: 1px solid grey;
     width:50vw;
     height:40vh;
+    display: table;
     border-radius:1vw;
     margin:10vh 25vw;
     padding:10vh;
@@ -25,4 +26,15 @@
     margin:0;
     padding:0;
     color:red;
+}
+.form-container{
+    width: 40vh;
+    margin: auto;
+}
+.form-group label{
+    float: left;
+}
+.errorLabel{
+    color: red;
+    float: left;
 }

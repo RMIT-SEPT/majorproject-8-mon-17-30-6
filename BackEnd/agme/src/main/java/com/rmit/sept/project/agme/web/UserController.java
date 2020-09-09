@@ -34,22 +34,26 @@ public class UserController {
 //            hashmap for the outer container of errors
             HashMap<String,Object> errorContainer = new HashMap<>();
 //            hashmap containing the errors details
-            List<HashMap<String,Object>> errorDetails = new ArrayList<>();
+            HashMap<String,Object> errorDetails = new HashMap<>();
 //            array list for the fields that have errors
             List<String> fieldsWithErrors = new ArrayList<>();
 //            provides error code as well as a list of the fields with errors
-            HashMap<String,Object> errorsTypeAndValues = new HashMap<>();
-            errorsTypeAndValues.put("errorType", "PARTIAL_INFORMATION");
+            List<String> errorsTypeAndValues = new ArrayList<>();
+            errorDetails.put("errorType", "PARTIAL_INFORMATION");
             errorContainer.put("ErrorId", "404API");
+            List<String> errorMessages = new ArrayList<>();
 
 //            loops through the errors and adds them to the arraylist
             for (FieldError error: result.getFieldErrors()){
 //                return new ResponseEntity<List<FieldError>>(result.getFieldErrors(), HttpStatus.BAD_REQUEST);
-                fieldsWithErrors.add(error.getField());
+                errorsTypeAndValues.add(error.getField());
+                errorMessages.add(error.getDefaultMessage());
+
             }
 
-            errorsTypeAndValues.put("missingFields", fieldsWithErrors);
-            errorDetails.add(errorsTypeAndValues);
+            errorDetails.put("missingFields", errorsTypeAndValues);
+            errorDetails.put("errorMsg", errorMessages);
+
             errorContainer.put("errorDetails", errorDetails);
 //            returns JSON response with error details
             return new ResponseEntity<>(errorContainer, HttpStatus.BAD_REQUEST);

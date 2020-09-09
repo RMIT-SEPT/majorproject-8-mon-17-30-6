@@ -27,7 +27,7 @@ public class User implements UserDetails {
     @NotBlank(message = "Phone number cannot be blank")
     private String phone;
     @NotBlank(message = "Password cannot be blank")
-    @Size(min=6)
+    @Size(min=6, message="Password must be at least 6 characters\n")
     private String password;
     @Transient
     private String confirmPassword;

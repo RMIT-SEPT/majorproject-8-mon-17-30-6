@@ -77,6 +77,9 @@ export default class App extends React.Component{
             case "signup":
                 this.setState({content :<Signup handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>})
             break;
+            case "login":
+                this.setState({content :<Login handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>})
+            break;
             default:
                 console.log("default")
         }

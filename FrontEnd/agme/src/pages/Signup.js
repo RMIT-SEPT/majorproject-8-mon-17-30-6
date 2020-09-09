@@ -12,14 +12,26 @@ export default class Signup extends React.Component{
         this.state = {
             isCallingServer: false,
             failed: false,
-            error: null,
+            error: "",
             username: "",
             password: "",
             confirmPassword: "",
             fname: "",
             role: "",
             address: "",
-            phone: ""
+            phone: "",
+            usernameError: false,
+            phoneError: false,
+            passwordError: false,
+            passwordConfirmError: false,
+            phoneErrorMsg: "",
+            usernameErrorMsg: "",
+            passwordErrorMsg: "",
+            addressError: "",
+            addressErrorMsg: "",
+            fnameErrorMsg: "",
+            fnameError: false
+
 
         };
         
@@ -37,9 +49,62 @@ export default class Signup extends React.Component{
                 this.setState({isCallingServer:false});
                 alert("Signup succesful. Please login");
                 this.props.handleContentChangeRequestSignup('login');
-                
                 }else{
-                this.setState({isCallingServer:false, failed:true,error:response})
+   
+                const errorResult = JSON.parse(response.body);
+                const fullError = errorResult.errorDetails.missingFields;
+                Object.values(errorResult.errorDetails.missingFields).map((value) => {
+                    this.setState({isCallingServer:false,error:true,fnameError:false,passwordConfirmError:false,password:false,phoneError:false});
+                    if (value === "phone"){
+                        this.setState({phoneError:true});
+                    }else 
+                    if (value === "password"){
+                        this.setState({passwordError:true});
+                    }else 
+                    if (value === "username"){
+                        this.setState({usernameError:true});
+                    }else 
+                    if (value === "address"){
+                        this.setState({addressError:true});
+                    }else 
+                    if (value === "name"){
+                        this.setState({fnameError:true});
+                    }
+                    return console.log(value);
+                })
+                if (this.state.phoneError){
+                    this.setState({phoneErrorMsg:"invalid phone number"})
+            
+                }else{
+                    this.setState({phoneErrorMsg:""})
+                }
+                if (this.state.usernameError){
+                    this.setState({usernameErrorMsg:"Username is taken"})
+                }else{
+                    this.setState({usernameErrorMsg:""})
+                }
+                if (this.state.passwordError){
+                    this.setState({passwordErrorMsg:"Password must be at least 6 characters long"})
+                }else{
+                    this.setState({passwordErrorMsg:""})
+                }
+                if (this.state.addressError){
+                    this.setState({addressErrorMsg:"Password must be at least 6 characters long"})
+                }else{
+                    this.setState({addressErrorMsg:""})
+                }
+                if (this.state.fnameError){
+                    this.setState({fnameErrorMsg:"Password must be at least 6 characters long"})
+                }else{
+                    this.setState({fnameErrorMsg:""})
+                }
+                if (this.state.passwordConfirm !== this.state.password){
+                    this.setState({passwordConfirmErrorMsg:"Passwords do not match"})
+                }else{
+                    this.setState({passwordConfirmErrorMsg:""})
+                }
+
+
             }
         })
         
@@ -62,33 +127,43 @@ export default class Signup extends React.Component{
     }
 
     showError(){
-        if(this.state.error){
-            return <p className="errorInfo">Invalid Credentials supplied!</p>
-        }else{
-            return <p></p>
-        }
+
+            return <p className="errorInfo">{this.state.error}</p>
     }
 
     render(){
         return (
-            <div className={"signupNew"}>
-                <h3 className="title">You are not authenticated</h3>
-                <input type="text" name={"username"} value={this.state.username} placeholder="Username" onChange={this.handleInputChange}/>
-                <br/>
-                <input type="text" name={"fname"} value={this.state.fname} placeholder="name" onChange={this.handleInputChange}/>
-                <br/>
-                <input type="text" name={"phone"} value={this.state.phone} placeholder="phone" onChange={this.handleInputChange}/>
-                <br/>
-                <input type="text" name={"address"} value={this.state.address} placeholder="address" onChange={this.handleInputChange}/>
-                <br/>
-                <input type="text" name={"role"} value={this.state.role} placeholder="role" onChange={this.handleInputChange}/>
-                <br/>
-                <input type="password" name={"password"} value={this.state.password} placeholder="Password" onChange={this.handleInputChange}/>
-                <br/>
-                <input type="password" name={"confirmPassword"} value={this.state.confirmPassword} placeholder="confirmPassword" onChange={this.handleInputChange}/>
-                {this.showError()}
-                {this.showSignupButtonButton()}
-                <p name="login" className="login_info" onClick={this.props.handleContentChangeRequest}>Or click here to Sign up</p>
+            <div className={"signup"}>
+                <h3 className="title">Please fill out the details below</h3>
+                <div className="form-container">
+                    <input className="form-control" type="text" name={"username"} value={this.state.username} placeholder="Username" onChange={this.handleInputChange}/>
+                    <label className= "errorLabel">{this.state.usernameErrorMsg}</label>
+                    <br/>
+                    <input className="form-control" type="text" name={"fname"} value={this.state.fname} placeholder="name" onChange={this.handleInputChange}/>
+                    <label className= "errorLabel">{this.state.fnameErrorMsg}</label>
+                    <br/>
+                    <input className="form-control" type="text" name={"phone"} value={this.state.phone} placeholder="phone" onChange={this.handleInputChange}/>
+                    <label className= "errorLabel">{this.state.phoneErrorMsg}</label>
+                    <br/>
+                    <input className="form-control" type="text" name={"address"} value={this.state.address} placeholder="address" onChange={this.handleInputChange}/>
+                    <label className= "errorLabel">{this.state.addressErrorMsg}</label>
+                    <br/>
+                    <select className="form-control" name={"role"} value={this.state.role} placeholder="role" onChange={this.handleInputChange}>
+                    <option value="" disabled defaultValue>Choose a role</option>
+                    <option value="USER">User</option>
+                    <option value="PROVIDER">Provider</option>
+                    <option value="ADMIN">Admin</option>
+                   </select>
+                    <br/>
+                    <input className="form-control" type="password" name={"password"} value={this.state.password} placeholder="Password" onChange={this.handleInputChange}/>
+                    <label className= "errorLabel">{this.state.passwordErrorMsg}</label>
+                    <br/>
+                    <input  className="form-control" type="password" name={"confirmPassword"} value={this.state.confirmPassword} placeholder="confirmPassword" onChange={this.handleInputChange}/>
+                    <label className= "errorLabel">{this.state.passwordConfirmErrorMsg}</label>
+                    {this.showError()}
+                    {this.showSignupButtonButton()}
+                    <p name="login" className="signup_info" onClick={this.props.handleContentChangeRequest}>Already a member? Login here</p>
+                </div>
             </div>
         )
     }
