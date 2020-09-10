@@ -1,66 +1,50 @@
 package com.rmit.sept.project.agme.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
-import java.util.Date;
+import javax.validation.constraints.NotBlank;
+import java.util.Collection;
 
 @Entity
-public class Company {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
-    private String address;
-    private String phone;
-    private Date createdAt;
-    private Date updatedAt;
-
+public class Company extends AbstractUser implements UserDetails {
     public Company() {
 
     }
+    @NotBlank
+    private String company_name;
 
-    @PrePersist
-    protected void onCreate(){
-        this.createdAt = new Date();
+    public String getCompany_name() {
+        return company_name;
     }
 
-    @PreUpdate
-    protected void onUpdate(){
-        this.updatedAt = new Date();
+    public void setCompany_name(String company_name) {
+        this.company_name = company_name;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
     }
 
-    public String getAddress() {
-        return address;
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
     }
 
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 }

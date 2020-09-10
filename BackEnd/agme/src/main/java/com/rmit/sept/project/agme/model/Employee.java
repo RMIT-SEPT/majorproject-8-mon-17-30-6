@@ -1,13 +1,13 @@
 package com.rmit.sept.project.agme.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
-public class Employee {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String username;
+public class Employee extends AbstractUser implements UserDetails {
     private String userType;
 
     @ManyToOne
@@ -16,18 +16,36 @@ public class Employee {
     public Employee() {}
 
     public Employee(String username, String userType, Company company) {
-        this.username = username;
+        this.setUsername(username);
         this.userType = userType;
         this.company = company;
     }
 
-    public String getUsername() {
-        return username;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
     }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
+    }
+
 
     public String getUserType() {
         return userType;
@@ -37,9 +55,6 @@ public class Employee {
         this.userType = userType;
     }
 
-    public Long getId() { return id; }
-
-    public void setId(Long id) { this.id = id; }
 
     public Company getCompany() { return company; }
 

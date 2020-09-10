@@ -23,14 +23,15 @@ export default class Signup extends React.Component{
             usernameError: false,
             phoneError: false,
             passwordError: false,
-            passwordConfirmError: false,
+            confirmPasswordError: false,
             phoneErrorMsg: "",
             usernameErrorMsg: "",
             passwordErrorMsg: "",
             addressError: "",
             addressErrorMsg: "",
             fnameErrorMsg: "",
-            fnameError: false
+            fnameError: false,
+            confirmPasswordErrorMsg: ""
 
 
         };
@@ -50,66 +51,81 @@ export default class Signup extends React.Component{
                 alert("Signup succesful. Please login");
                 this.props.handleContentChangeRequestSignup('login');
                 }else{
-   
-                const errorResult = JSON.parse(response.body);
-                const fullError = errorResult.errorDetails.missingFields;
-                Object.values(errorResult.errorDetails.missingFields).map((value) => {
-                    this.setState({isCallingServer:false,error:true,fnameError:false,passwordConfirmError:false,password:false,phoneError:false});
-                    if (value === "phone"){
-                        this.setState({phoneError:true});
-                    }else 
-                    if (value === "password"){
-                        this.setState({passwordError:true});
-                    }else 
-                    if (value === "username"){
-                        this.setState({usernameError:true});
-                    }else 
-                    if (value === "address"){
-                        this.setState({addressError:true});
-                    }else 
-                    if (value === "name"){
-                        this.setState({fnameError:true});
-                    }
-                    return console.log(value);
-                })
-                if (this.state.phoneError){
-                    this.setState({phoneErrorMsg:"invalid phone number"})
-            
-                }else{
-                    this.setState({phoneErrorMsg:""})
-                }
-                if (this.state.usernameError){
-                    this.setState({usernameErrorMsg:"Username is taken"})
-                }else{
-                    this.setState({usernameErrorMsg:""})
-                }
-                if (this.state.passwordError){
-                    this.setState({passwordErrorMsg:"Password must be at least 6 characters long"})
-                }else{
-                    this.setState({passwordErrorMsg:""})
-                }
-                if (this.state.addressError){
-                    this.setState({addressErrorMsg:"Password must be at least 6 characters long"})
-                }else{
-                    this.setState({addressErrorMsg:""})
-                }
-                if (this.state.fnameError){
-                    this.setState({fnameErrorMsg:"Password must be at least 6 characters long"})
-                }else{
-                    this.setState({fnameErrorMsg:""})
-                }
-                if (this.state.passwordConfirm !== this.state.password){
-                    this.setState({passwordConfirmErrorMsg:"Passwords do not match"})
-                }else{
-                    this.setState({passwordConfirmErrorMsg:""})
-                }
-
-
+                    console.log(this.state.confirmPassword);
+                    console.log(this.state.password);
+                    this.setState({isCallingServer:false});
+ 
+                    const errorResult = JSON.parse(response.body);
+                    const fullError = errorResult.errorDetails.missingFields;
+                    this.checkForError(fullError);
             }
         })
         
     }
+    checkForError(fields){
+        this.setState({fnameError:false,confirmPasswordError:false,passwordError:false,phoneError:false,usernameError:false});
 
+        Object.values(fields).map((value) => {
+            if (value === "phone"){
+                this.setState({phoneError:true});
+            }else 
+            if (value === "password"){
+                this.setState({passwordError:true});
+            }else 
+            if (value === "username"){
+                this.setState({usernameError:true});
+            }else 
+            if (value === "address"){
+                this.setState({addressError:true});
+            }else 
+            if (value === "name"){
+                this.setState({fnameError:true});
+            }else 
+            if (value === "confirmPassword"){
+                this.setState({confirmPasswordError:true});
+            }
+            return console.log(value);
+        })
+        this.setError();
+    }
+
+    setError(){
+
+        if (this.state.phoneError){
+            this.setState({phoneErrorMsg:"invalid phone number"})
+    
+        }else{
+            this.setState({phoneErrorMsg:""})
+        }
+        if (this.state.usernameError){
+            this.setState({usernameErrorMsg:"Username is taken"})
+        }else{
+            this.setState({usernameErrorMsg:""})
+        }
+        if (this.state.passwordError){
+            this.setState({passwordErrorMsg:"Password must be at least 6 characters long"})
+        }else{
+            this.setState({passwordErrorMsg:""})
+        }
+        if (this.state.addressError){
+            this.setState({addressErrorMsg:"Password must be at least 6 characters long"})
+        }else{
+            this.setState({addressErrorMsg:""})
+        }
+        if (this.state.fnameError){
+            this.setState({fnameErrorMsg:"Password must be at least 6 characters long"})
+        }else{
+            this.setState({fnameErrorMsg:""})
+        }  
+        if (this.state.confirmPasswordError){
+            this.setState({confirmPasswordErrorMsg:"Passwords do not match"});
+
+        }else{
+            this.setState({confirmPasswordErrorMsg:""});
+
+        }
+   
+    }
     showSignupButtonButton(){
         if(this.state.isCallingServer){
             return <Button variant={"secondary"}>processing</Button>
@@ -123,7 +139,9 @@ export default class Signup extends React.Component{
         e.preventDefault();
         const name = e.target.name;
         const value = e.target.value;
-        this.setState({[name]:value})
+        this.setState({[name]:value});
+        console.log(this.state.confirmPassword);
+        console.log(this.state.password);
     }
 
     showError(){
@@ -159,7 +177,7 @@ export default class Signup extends React.Component{
                     <label className= "errorLabel">{this.state.passwordErrorMsg}</label>
                     <br/>
                     <input  className="form-control" type="password" name={"confirmPassword"} value={this.state.confirmPassword} placeholder="confirmPassword" onChange={this.handleInputChange}/>
-                    <label className= "errorLabel">{this.state.passwordConfirmErrorMsg}</label>
+                    <label className= "errorLabel">{this.state.confirmPasswordErrorMsg}</label>
                     {this.showError()}
                     {this.showSignupButtonButton()}
                     <p name="login" className="signup_info" onClick={this.props.handleContentChangeRequest}>Already a member? Login here</p>

@@ -70,5 +70,6 @@ public class UserService implements UserDetailsService {
                 returnVal = next;
             }
         }
-        return returnVal;    }
+        return returnVal;
+    }
 }

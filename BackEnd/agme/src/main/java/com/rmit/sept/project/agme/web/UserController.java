@@ -30,7 +30,7 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<?> createdNewUser(@Valid @RequestBody User user, BindingResult result) {
 //        validates form data to ensure all criteria is met
-        if (result.hasErrors()){
+        if (result.hasErrors() || !user.getPassword().equals(user.getConfirmPassword()) || userService.loadUserByUsername(user.getUsername()) != null) {
 //            hashmap for the outer container of errors
             HashMap<String,Object> errorContainer = new HashMap<>();
 //            hashmap containing the errors details
@@ -44,6 +44,12 @@ public class UserController {
             List<String> errorMessages = new ArrayList<>();
 
 //            loops through the errors and adds them to the arraylist
+                if (!user.getPassword().equals(user.getConfirmPassword())){
+                    errorsTypeAndValues.add("confirmPassword");
+                }
+                if (userService.loadUserByUsername(user.getUsername()) != null){
+                    errorsTypeAndValues.add("username");
+                }
             for (FieldError error: result.getFieldErrors()){
 //                return new ResponseEntity<List<FieldError>>(result.getFieldErrors(), HttpStatus.BAD_REQUEST);
                 errorsTypeAndValues.add(error.getField());
@@ -79,6 +85,7 @@ public class UserController {
             return new ResponseEntity<>("Username is taken", HttpStatus.BAD_REQUEST);
         }
     }
+
 
 //    retrieve form params
 //    @PostMapping(value = "/login")

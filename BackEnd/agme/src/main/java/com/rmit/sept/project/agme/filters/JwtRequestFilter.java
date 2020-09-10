@@ -2,12 +2,14 @@ package com.rmit.sept.project.agme.filters;
 
 import com.rmit.sept.project.agme.model.User;
 import com.rmit.sept.project.agme.security.JwtUtil;
+import com.rmit.sept.project.agme.services.LoginSignupService;
 import com.rmit.sept.project.agme.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -23,7 +25,7 @@ import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Autowired
-    private UserService userDetailsService;
+    private LoginSignupService loginSignupService;
 
 
     @Autowired
@@ -41,9 +43,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             username = jwtUtil.extractUsername(jwt);
         }
 //        ensure details are valid
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null && userDetailsService.loadUserByUsername(username) != null){
+        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null && loginSignupService.loadUserByUsername(username) != null){
 //            load user
-            User user = (User) this.userDetailsService.loadUserByUsername(username);
+            UserDetails user = loginSignupService.loadUserByUsername(username);
+
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
                     user, null, user.getAuthorities());
 //            set authorities
