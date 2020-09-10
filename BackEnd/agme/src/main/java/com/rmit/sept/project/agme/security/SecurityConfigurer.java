@@ -30,7 +30,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 //        sets restriction on api endpoints for user type
         http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
         http.headers().frameOptions().sameOrigin();
-        http.authorizeRequests().antMatchers("/provider").hasAnyAuthority("PROVIDER");
+        http.authorizeRequests().antMatchers("/provider").hasAnyAuthority("COMPANY");
         http.authorizeRequests().antMatchers("/user").hasAnyAuthority("USER");
         http.authorizeRequests().antMatchers("/admin").hasAnyAuthority("ADMIN");
 //        removes restriction on access to sign and login

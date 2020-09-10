@@ -39,6 +39,19 @@ public class UserController {
     @Autowired
     EmployeeService employeeService;
 
+
+
+    @GetMapping("/signup")
+    public ResponseEntity<?> getCompanies() {
+        List<Company> companies = new ArrayList<>();
+        Iterable<Company> aa =  companyService.getAll();
+        aa.forEach(companies::add);
+        HashMap<String, String> returnVal = new HashMap<>();
+        for (Company next:companies){
+            returnVal.put(next.getUsername(), next.getCompanyName());
+        }
+        return new ResponseEntity<>(returnVal, HttpStatus.OK);
+    }
 //    signup authentication
     @PostMapping("/signup")
     public ResponseEntity<?> createdNewUser(@Valid @RequestBody SignUpRequest user, BindingResult result) {
@@ -46,16 +59,16 @@ public class UserController {
         boolean containsErrors = false;
 
         if (user.getRole() == COMPANY){
-            if (user.getCompany_name() == null){
+            if (user.getCompany_name() == null || user.getCompany_name() == ""){
                 errorsTypeAndValues.add("companyName");
                 containsErrors = true;
             }
         }else if (user.getRole() == EMPLOYEE){
             if (user.getCompany() == null){
-                errorsTypeAndValues.add("Company");
+                errorsTypeAndValues.add("company");
                 containsErrors = true;
             }
-            if (user.getUserType()== null){
+            if (user.getUserType()== null || user.getUserType() == ""){
                 errorsTypeAndValues.add("userType");
                 containsErrors = true;
             }
@@ -103,8 +116,8 @@ public class UserController {
             if (user.getPassword().equals(user.getConfirmPassword())) {
 //            hash the password before storing
                 user.hashPassword();
-                Company user1 = new Company();
                 if (user.getRole() == Role.COMPANY){
+                    Company user1 = new Company();
                     user1.setUsername(user.getUsername());
                     user1.setAddress(user.getAddress());
                     user1.setCompanyName(user.getCompany_name());
@@ -112,7 +125,18 @@ public class UserController {
                     user1.setPassword(user.getPassword());
                     user1.setPhone(user.getPhone());
                     user1.setName(user.getName());
+                    user1.setRole(user.getRole());
                     companyService.saveOrUpdate(user1);
+                }else if (user.getRole() == Role.USER){
+                    User user1 = new User();
+                    user1.setUsername(user.getUsername());
+                    user1.setAddress(user.getAddress());
+                    user1.setConfirmPassword(user.getConfirmPassword());
+                    user1.setPassword(user.getPassword());
+                    user1.setPhone(user.getPhone());
+                    user1.setName(user.getName());
+                    user1.setRole(user.getRole());
+                    userService.saveOrUpdateUser(user1);
                 }
 
 //            store user with hashed password in database

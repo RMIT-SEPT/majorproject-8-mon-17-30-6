@@ -35,7 +35,11 @@ export default class Signup extends React.Component{
             showCompanyName: false,
             companyName: "",
             companyNameError: false,
-            companyNameErrorMsg: ""
+            companyNameErrorMsg: "",
+            showEmployeeInfo: false,
+            userType: "",
+            userTypeError: false,
+            userTypeErrorMsg: ""
 
 
         };
@@ -49,7 +53,8 @@ export default class Signup extends React.Component{
         //mock for now
         this.setState({isCallingServer:true});
 
-        functions.signupNewUser(this.state.username,this.state.fname, this.state.phone, this.state.address, this.state.role, this.state.password, this.state.confirmPassword, this.state.companyName).then(response=>{
+        functions.signupNewUser(this.state.username,this.state.fname, this.state.phone, this.state.address, this.state.role, this.state.password,
+             this.state.confirmPassword, this.state.companyName, this.state.userType).then(response=>{
             if(response.statusCode===200){
                 this.setState({isCallingServer:false});
                 alert("Signup succesful. Please login");
@@ -57,14 +62,14 @@ export default class Signup extends React.Component{
                 }else{
                     this.setState({isCallingServer:false});
                     const errorResult = JSON.parse(response.body);
-                    const fullError = errorResult.errorDetails.missingFields;
+                    const  fullError = errorResult.errorDetails.missingFields;
                     this.checkForError(fullError);
             }
         })
         
     }
     checkForError(fields){
-        this.setState({fnameError:false,confirmPasswordError:false,passwordError:false,phoneError:false,usernameError:false});
+        this.setState({fnameError:false,confirmPasswordError:false,passwordError:false,phoneError:false,usernameError:false,companyNameError:false, userTypeError:false});
 
         Object.values(fields).map((value) => {
             if (value === "phone"){
@@ -87,6 +92,9 @@ export default class Signup extends React.Component{
             }else 
             if (value === "companyName"){
                 this.setState({companyNameError:true});
+            }else
+            if (value === "userType"){
+                this.setState({userTypeError:true});
             }
             return console.log(value);
         })
@@ -133,14 +141,20 @@ export default class Signup extends React.Component{
         }else{
             this.setState({companyNameErrorMsg:""});
         }
+        if (this.state.userTypeError){
+            this.setState({userTypeErrorMsg:"User type cannot be blank"});
+
+        }else{
+            this.setState({userTypeErrorMsg:""});
+        }
    
     }
     showSignupButtonButton(){
         if(this.state.isCallingServer){
             return <Button variant={"secondary"}>processing</Button>
         }
-        if(this.state.password&&this.state.username&&this.state.fname&&this.state.phone&&this.state.address&&this.state.role&&this.state.confirmPassword&&this.state.companyName&&(!this.state.isCallingServer)){
-            return <Button onClick={this.handleSignupRequest}>Signup</Button>
+        if(this.state.password&&this.state.username&&this.state.fname&&this.state.phone&&this.state.address&&this.state.role&&this.state.confirmPassword&&(!this.state.isCallingServer)){
+            return <Button className="btn btn-success form-control" onClick={this.handleSignupRequest}>Signup</Button>
         }
     }
 
@@ -156,6 +170,13 @@ export default class Signup extends React.Component{
             this.setState({showCompanyName:false})
             }
         }
+        if (e.target.value === "EMPLOYEE"){
+            this.setState({showEmployeeInfo:true})
+        }else{
+            if (e.target.name === "role"){
+            this.setState({showEmployeeInfo:false})
+            }
+        }
     }
 
     showError(){
@@ -165,7 +186,17 @@ export default class Signup extends React.Component{
     showCompanyNameInput(){
         if (this.state.showCompanyName === true){
             return   <React.Fragment>
-            <input className="form-control" type="text" name={"companyName"} value={this.state.companyName} placeholder="Company Name" onChange={this.handleInputChange}/><br/>  </React.Fragment>
+            <input className="form-control" type="text" required name={"companyName"} value={this.state.companyName} placeholder="Company Name" onChange={this.handleInputChange}/>                    
+            <label className= "errorLabel">{this.state.companyNameErrorMsg}</label>
+            <br/>  </React.Fragment>
+        }
+    }
+    showEmployeeInfo(){
+        if (this.state.showEmployeeInfo === true){
+            return   <React.Fragment>
+            <input className="form-control" type="text" required name={"userType"} value={this.state.userType} placeholder="User Type" onChange={this.handleInputChange}/>                    
+            <label className= "errorLabel">{this.state.userTypeErrorMsg}</label>
+            <br/>  </React.Fragment>
         }
     }
 
@@ -174,31 +205,34 @@ export default class Signup extends React.Component{
             <div className={"signup"}>
                 <h3 className="title">Please fill out the details below</h3>
                 <div className="form-container">
-                    <input className="form-control" type="text" name={"username"} value={this.state.username} placeholder="Username" onChange={this.handleInputChange}/>
+                    <select className="form-control" name={"role"} value={this.state.role} placeholder="role" onChange={this.handleInputChange}>
+                        <option value="" disabled defaultValue>Choose a role</option>
+                        <option value="USER">User</option>
+                        <option value="COMPANY">Company</option>
+                        <option value="EMPLOYEE">Employee</option>
+                    </select>
+                    <br/>
+                    <input className="form-control" required type="text" name={"username"} value={this.state.username} placeholder="Username" onChange={this.handleInputChange}/>
                     <label className= "errorLabel">{this.state.usernameErrorMsg}</label>
                     <br/>
                     <input className="form-control" type="text" name={"fname"} value={this.state.fname} placeholder="name" onChange={this.handleInputChange}/>
                     <label className= "errorLabel">{this.state.fnameErrorMsg}</label>
                     <br/>
                     {this.showCompanyNameInput()}
+                    {this.showEmployeeInfo()}
+
                     <input className="form-control" type="text" name={"phone"} value={this.state.phone} placeholder="phone" onChange={this.handleInputChange}/>
                     <label className= "errorLabel">{this.state.phoneErrorMsg}</label>
                     <br/>
                     <input className="form-control" type="text" name={"address"} value={this.state.address} placeholder="address" onChange={this.handleInputChange}/>
                     <label className= "errorLabel">{this.state.addressErrorMsg}</label>
                     <br/>
-                    <select className="form-control" name={"role"} value={this.state.role} placeholder="role" onChange={this.handleInputChange}>
-                    <option value="" disabled defaultValue>Choose a role</option>
-                    <option value="USER">User</option>
-                    <option value="COMPANY">Company</option>
-                    <option value="ADMIN">Admin</option>
-                   </select>
-                    <br/>
+           
                     <input className="form-control" type="password" name={"password"} value={this.state.password} placeholder="Password" onChange={this.handleInputChange}/>
                     <label className= "errorLabel">{this.state.passwordErrorMsg}</label>
                     <br/>
                     <input  className="form-control" type="password" name={"confirmPassword"} value={this.state.confirmPassword} placeholder="confirmPassword" onChange={this.handleInputChange}/>
-                    <label className= "errorLabel">{this.state.confirmPasswordErrorMsg}</label>
+                    <label className= "errorLabel">{this.state.confirmPasswordErrorMsg}</label><br></br>
                     {this.showError()}
                     {this.showSignupButtonButton()}
                     <p name="login" className="signup_info" onClick={this.props.handleContentChangeRequest}>Already a member? Login here</p>

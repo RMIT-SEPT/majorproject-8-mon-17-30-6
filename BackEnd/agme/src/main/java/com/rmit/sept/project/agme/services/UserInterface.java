@@ -16,7 +16,7 @@ public interface UserInterface {
     public abstract UserDetails saveOrUpdate(UserDetails user);
 
     //    Retrieve list of users
-    abstract public List<UserDetails> getAll();
+    abstract public List<?> getAll();
 
 
 

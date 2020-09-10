@@ -41,22 +41,22 @@ public class EmployeeService implements UserInterface {
     }
 
     @Override
-    public List<UserDetails> getAll() {
-        List<UserDetails> employee = new ArrayList<>();
+    public List<Employee> getAll() {
+        List<Employee> employee = new ArrayList<>();
         Iterable<Employee> aa = employeeRepository.findAll();
         aa.forEach(employee::add);
         return employee;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String s) {
+    public Employee loadUserByUsername(String s) {
         //        Retrieve users
-        List<UserDetails> users = getAll();
-        UserDetails returnVal = null;
+        List<Employee> users = getAll();
+        Employee returnVal = null;
         s = s.toLowerCase();
 
 //        Interate through users to check if the usr matches the username
-        for (UserDetails next : users) {
+        for (Employee next : users) {
             if (s.equals(next.getUsername())) {
                 returnVal = next;
             }

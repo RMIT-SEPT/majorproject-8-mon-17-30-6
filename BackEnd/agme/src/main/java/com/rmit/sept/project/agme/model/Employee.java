@@ -1,10 +1,13 @@
 package com.rmit.sept.project.agme.model;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 public class Employee extends AbstractUser implements UserDetails {
@@ -33,7 +36,9 @@ public class Employee extends AbstractUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        final List<SimpleGrantedAuthority> authorities = new LinkedList<>();
+        authorities.add(new SimpleGrantedAuthority(this.getRole().toString()));
+        return authorities;
     }
 
     @Override
