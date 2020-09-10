@@ -1,4 +1,36 @@
 .signup{
-    width:60vw;
-    padding:5vh;
+    border: 1px solid grey;
+    width:30vw;
+    height:40vh;
+    display: table;
+    border-radius:1vw;
+    padding:10vh;
+    text-align: center;
+    margin: auto;    
+    margin-top:10vh;
+
+
+    
+}
+
+.signup_info{
+    
+}
+
+.signup_info:hover{
+    cursor:pointer;
+    color:cadetblue;
+}
+
+.errorInfo{
+    margin:0;
+    padding:0;
+    color:red;
+}
+.form-container{
+    width: 60vh;
+    margin: auto;
+}
+.form-group label{
+    float: left;
 }

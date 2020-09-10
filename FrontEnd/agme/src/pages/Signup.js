@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from "react-bootstrap/Button";
-import './css/login.css';
+import './css/signup.css';
 const functions = require('../apiOperations')
 
 /***
@@ -245,7 +245,7 @@ export default class Signup extends React.Component{
     
     render(){
         return (
-            <div className={"login"}>
+            <div className={"signup"}>
                 <h3 className="title">Please fill out the details below</h3>
                 <div className="form-container">
                     <select className="form-control" name={"role"} value={this.state.role} placeholder="role" onChange={this.handleInputChange}>
