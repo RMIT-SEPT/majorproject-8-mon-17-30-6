@@ -2,7 +2,7 @@ package com.rmit.sept.project.agme.model;
 
 public class SignUpRequest extends AbstractUser {
     public String companyName;
-    private Company company;
+    private String companyUsername;
     private String userType;
 
     public SignUpRequest(){
@@ -13,16 +13,16 @@ public class SignUpRequest extends AbstractUser {
         return companyName;
     }
 
-    public void setCompany_name(String companyName) {
+    public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
 
-    public Company getCompany() {
-        return company;
+    public String getCompanyUsername() {
+        return companyUsername;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setCompanyUsername(String company) {
+        this.companyUsername = companyUsername;
     }
 
     public String getUserType() {

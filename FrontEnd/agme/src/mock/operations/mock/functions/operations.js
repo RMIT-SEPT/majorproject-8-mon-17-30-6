@@ -51,7 +51,7 @@ const authenticate = async (username, password)=>{
    return response;
 }
 
-const signupNewUser = async (username, fname, address, phone, role, password, confirmPassword, companyName, userType)=>{
+const signupNewUser = async (username, fname, address, phone, role, password, confirmPassword, companyName, userType, companyUsername)=>{
     const endpoint = "http://localhost:8080/";
     const uri = "signup"
     const options = {
@@ -70,7 +70,9 @@ const signupNewUser = async (username, fname, address, phone, role, password, co
                     "phone": phone,
                     "role": role,
                     "companyName": companyName,
-                    "userType": userType
+                    "userType": userType,
+                    "companyUsername": companyUsername
+
 
                 })
     }

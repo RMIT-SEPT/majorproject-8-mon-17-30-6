@@ -42,7 +42,9 @@ export default class Signup extends React.Component{
             userTypeErrorMsg: "",
             options: [],
             called: false,
-            companyUsername: ""
+            companyUsername: "",
+            companyUsernameError: false,
+            companyUsernameErrorMsg: ""
 
         };
         
@@ -57,7 +59,7 @@ export default class Signup extends React.Component{
         this.setState({isCallingServer:true});
 
         functions.signupNewUser(this.state.username,this.state.fname, this.state.phone, this.state.address, this.state.role, this.state.password,
-             this.state.confirmPassword, this.state.companyName, this.state.userType).then(response=>{
+             this.state.confirmPassword, this.state.companyName, this.state.userType, this.state.companyUsername).then(response=>{
             if(response.statusCode===200){
                 this.setState({isCallingServer:false});
                 alert("Signup succesful. Please login");
@@ -98,6 +100,9 @@ export default class Signup extends React.Component{
             }else
             if (value === "userType"){
                 this.setState({userTypeError:true});
+            }else
+            if (value === "companyUsername"){
+                this.setState({companyUsernameError:true});
             }
             return console.log(value);
         })
@@ -149,6 +154,12 @@ export default class Signup extends React.Component{
 
         }else{
             this.setState({userTypeErrorMsg:""});
+        }
+        if (this.state.companyUsernameError){
+            this.setState({companyUsernameErrorMsg:"Please select a company"});
+
+        }else{
+            this.setState({companyUsernameErrorMsg:""});
         }
    
     }
@@ -203,18 +214,13 @@ export default class Signup extends React.Component{
         }
     }
  
-
-         
-    
-
     showCompanyInput(){
         if (!this.state.called && this.state.showEmployeeInfo){
         functions.getCompaniesFromAPI().then(response=>{
             var arr = [];
-
-            var i = 0;
+            arr.push(<option value="" disabled defaultValue>Choose a Company</option>);
             for(var key in response.body){
-                arr.push(<option value={key}>{response.body[key]}</option>);
+                arr.push(<option key={key} value={key}>{response.body[key]}</option>);
               }
               this.setState({options:arr,isCallingServer:false, called:true});
         }
@@ -223,6 +229,8 @@ export default class Signup extends React.Component{
     if (this.state.showEmployeeInfo){
     return <React.Fragment>
     <select className="form-control" name={"company"} value={this.state.companyUsername} placeholder="Company" onChange={this.handleInputChange}>{this.state.options}</select>
+    <label className= "errorLabel">{this.state.companyUsernameErrorMsg}</label>
+
     <br/>
     </React.Fragment>
     }
@@ -232,7 +240,7 @@ export default class Signup extends React.Component{
     
     render(){
         return (
-            <div className={"signup"}>
+            <div className={"login"}>
                 <h3 className="title">Please fill out the details below</h3>
                 <div className="form-container">
                     <select className="form-control" name={"role"} value={this.state.role} placeholder="role" onChange={this.handleInputChange}>
@@ -261,7 +269,7 @@ export default class Signup extends React.Component{
                     <input className="form-control" type="password" name={"password"} value={this.state.password} placeholder="Password" onChange={this.handleInputChange}/>
                     <label className= "errorLabel">{this.state.passwordErrorMsg}</label>
                     <br/>
-                    <input  className="form-control" type="password" name={"confirmPassword"} value={this.state.confirmPassword} placeholder="confirmPassword" onChange={this.handleInputChange}/>
+                    <input  className="form-control" type="password" name={"confirmPassword"} value={this.state.confirmPassword} placeholder="Confirm Password" onChange={this.handleInputChange}/>
                     <label className= "errorLabel">{this.state.confirmPasswordErrorMsg}</label><br></br>
                     {this.showError()}
                     {this.showSignupButtonButton()}

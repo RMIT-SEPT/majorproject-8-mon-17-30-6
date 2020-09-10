@@ -64,8 +64,8 @@ public class UserController {
                 containsErrors = true;
             }
         }else if (user.getRole() == EMPLOYEE){
-            if (user.getCompany() == null){
-                errorsTypeAndValues.add("company");
+            if (user.getCompanyUsername() == null|| user.getCompanyUsername() == ""){
+                errorsTypeAndValues.add("companyUsername");
                 containsErrors = true;
             }
             if (user.getUserType()== null || user.getUserType() == ""){
