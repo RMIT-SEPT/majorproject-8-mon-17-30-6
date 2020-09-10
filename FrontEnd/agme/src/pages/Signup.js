@@ -39,11 +39,14 @@ export default class Signup extends React.Component{
             showEmployeeInfo: false,
             userType: "",
             userTypeError: false,
-            userTypeErrorMsg: ""
-
+            userTypeErrorMsg: "",
+            options: [],
+            called: false,
+            companyUsername: ""
 
         };
         
+        this.showCompanyNameInput = this.showCompanyNameInput.bind(this);
         this.handleSignupRequest = this.handleSignupRequest.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
     }
@@ -199,7 +202,34 @@ export default class Signup extends React.Component{
             <br/>  </React.Fragment>
         }
     }
+ 
 
+         
+    
+
+    showCompanyInput(){
+        if (!this.state.called && this.state.showEmployeeInfo){
+        functions.getCompaniesFromAPI().then(response=>{
+            var arr = [];
+
+            var i = 0;
+            for(var key in response.body){
+                arr.push(<option value={key}>{response.body[key]}</option>);
+              }
+              this.setState({options:arr,isCallingServer:false, called:true});
+        }
+        )
+    }
+    if (this.state.showEmployeeInfo){
+    return <React.Fragment>
+    <select className="form-control" name={"company"} value={this.state.companyUsername} placeholder="Company" onChange={this.handleInputChange}>{this.state.options}</select>
+    <br/>
+    </React.Fragment>
+    }
+
+}
+        
+    
     render(){
         return (
             <div className={"signup"}>
@@ -220,7 +250,7 @@ export default class Signup extends React.Component{
                     <br/>
                     {this.showCompanyNameInput()}
                     {this.showEmployeeInfo()}
-
+                    {this.showCompanyInput()}
                     <input className="form-control" type="text" name={"phone"} value={this.state.phone} placeholder="phone" onChange={this.handleInputChange}/>
                     <label className= "errorLabel">{this.state.phoneErrorMsg}</label>
                     <br/>

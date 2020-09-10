@@ -1,8 +1,6 @@
-const {authenticate} = require('./mock/functions/operations')
+const {authenticate, signupNewUser, getCompaniesFromAPI} = require('./mock/functions/operations').default
 module.exports = {
-    authenticate: authenticate
-}
-const {signupNewUser} = require('./mock/functions/operations')
-module.exports = {
-    signupNewUser: signupNewUser
+    authenticate: authenticate,
+    signupNewUser: signupNewUser,
+    getCompaniesFromAPI: getCompaniesFromAPI
 }

@@ -78,6 +78,15 @@ const signupNewUser = async (username, fname, address, phone, role, password, co
     console.log(response)
    return response;
 }
-
-module.exports = {authenticate}
-module.exports = {signupNewUser}
+const getCompaniesFromAPI = async ()=>{
+    const endpoint = "http://localhost:8080/";
+    const uri = "signup"
+    const options = {
+        method: "GET",
+        mode: "cors"
+    }
+    const response = await apiCall(endpoint,uri,options);
+    console.log(response)
+   return response;
+}
+export default {authenticate, signupNewUser, getCompaniesFromAPI}

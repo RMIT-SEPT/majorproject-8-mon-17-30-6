@@ -3,6 +3,6 @@ let functions = require('./'+type+'/operations')
 functions = require('./mock/operations')
 module.exports = {
     authenticate: functions.authenticate,
-    signupNewUser: functions.signupNewUser
-
+    signupNewUser: functions.signupNewUser,
+    getCompaniesFromAPI: functions.getCompaniesFromAPI
 }
