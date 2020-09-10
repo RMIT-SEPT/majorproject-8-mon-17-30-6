@@ -51,7 +51,7 @@ const authenticate = async (username, password)=>{
    return response;
 }
 
-const signupNewUser = async (username, fname, address, phone, role, password, confirmPassword)=>{
+const signupNewUser = async (username, fname, address, phone, role, password, confirmPassword, companyName)=>{
     const endpoint = "http://localhost:8080/";
     const uri = "signup"
     const options = {
@@ -68,7 +68,8 @@ const signupNewUser = async (username, fname, address, phone, role, password, co
                     "name": fname,
                     "address": address,
                     "phone": phone,
-                    "role": role
+                    "role": role,
+                    "companyName": companyName
                 })
     }
     const response = await apiCall(endpoint,uri,options);

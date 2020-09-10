@@ -5,20 +5,23 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.lang.annotation.Inherited;
 import java.util.Date;
-@Entity
+
+@MappedSuperclass
 public abstract class AbstractUser {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @NotBlank(message = "Username cannot be blank")
     private String username;
+    @NotBlank(message = "name cannot be blank")
     private String name;
     @NotBlank(message = "Password cannot be blank")
     @Size(min=6, message="Password must be at least 6 characters\n")
     private String password;
     @Transient
     private String confirmPassword;
+    @NotBlank(message = "address cannot be blank")
     private String address;
+    @NotBlank(message = "phone cannot be blank")
     private String phone;
     private Date lastLogin;
     private Date createdAt;
@@ -72,13 +75,6 @@ public abstract class AbstractUser {
         this.updatedAt = new Date();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getUsername() {
         return username;

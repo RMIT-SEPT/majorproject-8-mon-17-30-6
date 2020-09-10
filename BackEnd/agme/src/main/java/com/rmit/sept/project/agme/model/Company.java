@@ -9,19 +9,24 @@ import java.util.Collection;
 
 @Entity
 public class Company extends AbstractUser implements UserDetails {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     public Company() {
 
     }
     @NotBlank
-    private String company_name;
+    private String companyName;
 
-    public String getCompany_name() {
-        return company_name;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setCompany_name(String company_name) {
-        this.company_name = company_name;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

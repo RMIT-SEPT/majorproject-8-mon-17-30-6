@@ -31,7 +31,11 @@ export default class Signup extends React.Component{
             addressErrorMsg: "",
             fnameErrorMsg: "",
             fnameError: false,
-            confirmPasswordErrorMsg: ""
+            confirmPasswordErrorMsg: "",
+            showCompanyName: false,
+            companyName: "",
+            companyNameError: false,
+            companyNameErrorMsg: ""
 
 
         };
@@ -45,16 +49,13 @@ export default class Signup extends React.Component{
         //mock for now
         this.setState({isCallingServer:true});
 
-        functions.signupNewUser(this.state.username,this.state.fname, this.state.phone, this.state.address, this.state.role, this.state.password, this.state.confirmPassword).then(response=>{
+        functions.signupNewUser(this.state.username,this.state.fname, this.state.phone, this.state.address, this.state.role, this.state.password, this.state.confirmPassword, this.state.companyName).then(response=>{
             if(response.statusCode===200){
                 this.setState({isCallingServer:false});
                 alert("Signup succesful. Please login");
                 this.props.handleContentChangeRequestSignup('login');
                 }else{
-                    console.log(this.state.confirmPassword);
-                    console.log(this.state.password);
                     this.setState({isCallingServer:false});
- 
                     const errorResult = JSON.parse(response.body);
                     const fullError = errorResult.errorDetails.missingFields;
                     this.checkForError(fullError);
@@ -83,6 +84,9 @@ export default class Signup extends React.Component{
             }else 
             if (value === "confirmPassword"){
                 this.setState({confirmPasswordError:true});
+            }else 
+            if (value === "companyName"){
+                this.setState({companyNameError:true});
             }
             return console.log(value);
         })
@@ -122,7 +126,12 @@ export default class Signup extends React.Component{
 
         }else{
             this.setState({confirmPasswordErrorMsg:""});
+        }
+        if (this.state.companyNameError){
+            this.setState({companyNameErrorMsg:"Company name cannot be blank"});
 
+        }else{
+            this.setState({companyNameErrorMsg:""});
         }
    
     }
@@ -130,7 +139,7 @@ export default class Signup extends React.Component{
         if(this.state.isCallingServer){
             return <Button variant={"secondary"}>processing</Button>
         }
-        if(this.state.password&&this.state.username&&this.state.fname&&this.state.phone&&this.state.address&&this.state.role&&this.state.confirmPassword&&(!this.state.isCallingServer)){
+        if(this.state.password&&this.state.username&&this.state.fname&&this.state.phone&&this.state.address&&this.state.role&&this.state.confirmPassword&&this.state.companyName&&(!this.state.isCallingServer)){
             return <Button onClick={this.handleSignupRequest}>Signup</Button>
         }
     }
@@ -140,13 +149,24 @@ export default class Signup extends React.Component{
         const name = e.target.name;
         const value = e.target.value;
         this.setState({[name]:value});
-        console.log(this.state.confirmPassword);
-        console.log(this.state.password);
+        if (e.target.value === "COMPANY"){
+            this.setState({showCompanyName:true})
+        }else{
+            if (e.target.name === "role"){
+            this.setState({showCompanyName:false})
+            }
+        }
     }
 
     showError(){
 
             return <p className="errorInfo">{this.state.error}</p>
+    }
+    showCompanyNameInput(){
+        if (this.state.showCompanyName === true){
+            return   <React.Fragment>
+            <input className="form-control" type="text" name={"companyName"} value={this.state.companyName} placeholder="Company Name" onChange={this.handleInputChange}/><br/>  </React.Fragment>
+        }
     }
 
     render(){
@@ -160,6 +180,7 @@ export default class Signup extends React.Component{
                     <input className="form-control" type="text" name={"fname"} value={this.state.fname} placeholder="name" onChange={this.handleInputChange}/>
                     <label className= "errorLabel">{this.state.fnameErrorMsg}</label>
                     <br/>
+                    {this.showCompanyNameInput()}
                     <input className="form-control" type="text" name={"phone"} value={this.state.phone} placeholder="phone" onChange={this.handleInputChange}/>
                     <label className= "errorLabel">{this.state.phoneErrorMsg}</label>
                     <br/>
@@ -169,7 +190,7 @@ export default class Signup extends React.Component{
                     <select className="form-control" name={"role"} value={this.state.role} placeholder="role" onChange={this.handleInputChange}>
                     <option value="" disabled defaultValue>Choose a role</option>
                     <option value="USER">User</option>
-                    <option value="PROVIDER">Provider</option>
+                    <option value="COMPANY">Company</option>
                     <option value="ADMIN">Admin</option>
                    </select>
                     <br/>

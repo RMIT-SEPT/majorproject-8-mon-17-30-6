@@ -9,7 +9,9 @@ import java.util.Collection;
 @Entity
 public class Employee extends AbstractUser implements UserDetails {
     private String userType;
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @ManyToOne
     private Company company;
 
@@ -19,6 +21,14 @@ public class Employee extends AbstractUser implements UserDetails {
         this.setUsername(username);
         this.userType = userType;
         this.company = company;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Override

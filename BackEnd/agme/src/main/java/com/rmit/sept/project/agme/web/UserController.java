@@ -1,9 +1,10 @@
 package com.rmit.sept.project.agme.web;
 
-import com.rmit.sept.project.agme.model.AuthenticationRequest;
-import com.rmit.sept.project.agme.model.AuthenticationResponse;
-import com.rmit.sept.project.agme.model.User;
+import com.rmit.sept.project.agme.model.*;
 import com.rmit.sept.project.agme.security.JwtUtil;
+import com.rmit.sept.project.agme.services.CompanyService;
+import com.rmit.sept.project.agme.services.EmployeeService;
+import com.rmit.sept.project.agme.services.LoginSignupService;
 import com.rmit.sept.project.agme.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.*;
 
+import static com.rmit.sept.project.agme.model.Role.COMPANY;
+import static com.rmit.sept.project.agme.model.Role.EMPLOYEE;
+
 @RestController
 @RequestMapping("")
 @CrossOrigin("http://localhost:3000")
@@ -26,11 +30,39 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private LoginSignupService loginSignupService;
+
+    @Autowired
+    private CompanyService companyService;
+
+    @Autowired
+    EmployeeService employeeService;
+
 //    signup authentication
     @PostMapping("/signup")
-    public ResponseEntity<?> createdNewUser(@Valid @RequestBody User user, BindingResult result) {
+    public ResponseEntity<?> createdNewUser(@Valid @RequestBody SignUpRequest user, BindingResult result) {
+        List<String> errorsTypeAndValues = new ArrayList<>();
+        boolean containsErrors = false;
+
+        if (user.getRole() == COMPANY){
+            if (user.getCompany_name() == null){
+                errorsTypeAndValues.add("companyName");
+                containsErrors = true;
+            }
+        }else if (user.getRole() == EMPLOYEE){
+            if (user.getCompany() == null){
+                errorsTypeAndValues.add("Company");
+                containsErrors = true;
+            }
+            if (user.getUserType()== null){
+                errorsTypeAndValues.add("userType");
+                containsErrors = true;
+            }
+        }
 //        validates form data to ensure all criteria is met
-        if (result.hasErrors() || !user.getPassword().equals(user.getConfirmPassword()) || userService.loadUserByUsername(user.getUsername()) != null) {
+        if (result.hasErrors() || !user.getPassword().equals(user.getConfirmPassword()) ||  containsErrors ||
+        loginSignupService.loadUserByUsername(user.getUsername()) != null) {
 //            hashmap for the outer container of errors
             HashMap<String,Object> errorContainer = new HashMap<>();
 //            hashmap containing the errors details
@@ -38,7 +70,6 @@ public class UserController {
 //            array list for the fields that have errors
             List<String> fieldsWithErrors = new ArrayList<>();
 //            provides error code as well as a list of the fields with errors
-            List<String> errorsTypeAndValues = new ArrayList<>();
             errorDetails.put("errorType", "PARTIAL_INFORMATION");
             errorContainer.put("ErrorId", "404API");
             List<String> errorMessages = new ArrayList<>();
@@ -67,13 +98,24 @@ public class UserController {
 
 
 //         validation to ensure user does not exist and all details are filled out
-        if (userService.loadUserByUsername(user.getUsername()) == null) {
+        if (loginSignupService.loadUserByUsername(user.getUsername()) == null) {
 //            ensure password is equal to the confirmPassword field
             if (user.getPassword().equals(user.getConfirmPassword())) {
 //            hash the password before storing
                 user.hashPassword();
+                Company user1 = new Company();
+                if (user.getRole() == Role.COMPANY){
+                    user1.setUsername(user.getUsername());
+                    user1.setAddress(user.getAddress());
+                    user1.setCompanyName(user.getCompany_name());
+                    user1.setConfirmPassword(user.getConfirmPassword());
+                    user1.setPassword(user.getPassword());
+                    user1.setPhone(user.getPhone());
+                    user1.setName(user.getName());
+                    companyService.saveOrUpdate(user1);
+                }
+
 //            store user with hashed password in database
-                User user1 = userService.saveOrUpdateUser(user);
 //            if signup is successful, return the user
                 return new ResponseEntity<>(user, HttpStatus.OK);
             } else {
