@@ -1,4 +1,4 @@
-
+const config = require('../../../../config.json')
 /***
  * Generic function to call apis
  * ***/
@@ -47,8 +47,11 @@ const authenticate = async (username, password, role)=>{
                     "role": role
                 })
     }
-    const response = await apiCall(endpoint,uri,options);
-    console.log(response)
+    const response = await apiCall(url,uri,options);
+    console.log(response);
+    if(response.statusCode===200){
+        localStorage.setItem('credentials', JSON.stringify(response.body.jwt))
+    }
    return response;
 }
 
@@ -92,4 +95,14 @@ const getCompaniesFromAPI = async ()=>{
     console.log(response)
    return response;
 }
-export default {authenticate, signupNewUser, getCompaniesFromAPI}
+export default {authenticate, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage}
+
+const getDecodedJwtFromLocalStorage = async() =>{
+    // Get JWT Header, Payload and Signature
+    const stringifiedJwtPayload = localStorage.getItem('credentials').split('.')[1];
+    //decode payload
+    let data = stringifiedJwtPayload;
+    let buff = new Buffer(data, 'base64');
+    return JSON.parse(buff.toString('ascii'));
+
+}

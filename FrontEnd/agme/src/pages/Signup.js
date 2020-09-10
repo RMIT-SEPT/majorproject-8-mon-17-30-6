@@ -46,6 +46,7 @@ export default class Signup extends React.Component{
             companyUsernameError: false,
             companyUsernameErrorMsg: ""
 
+
         };
         
         this.showCompanyNameInput = this.showCompanyNameInput.bind(this);
@@ -279,6 +280,7 @@ export default class Signup extends React.Component{
                     {this.showSignupButtonButton()}
                     <p name="login" className="signup_info" onClick={this.props.handleContentChangeRequest}>Already a member? Login here</p>
                 </div>
+
             </div>
         )
     }

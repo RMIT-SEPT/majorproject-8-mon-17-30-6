@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from "react-bootstrap/Button";
 import './css/login.css';
+
 const functions = require('../apiOperations')
 
 /***
@@ -30,7 +31,7 @@ export default class Login extends React.Component{
         functions.authenticate(this.state.username,this.state.password, this.state.role).then(response=>{
             if(response.statusCode===200){
                 this.setState({isCallingServer:false});
-                this.props.handleAuthentication(response.body); //propagate response with token
+                this.props.handleAuthentication(); //propagate response with token
             }else{
                 this.setState({isCallingServer:false, failed:true,error:response})
             }
