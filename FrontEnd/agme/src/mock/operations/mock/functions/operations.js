@@ -31,7 +31,7 @@ const testResponse = async (response)=>{
     }
 }
 
-const authenticate = async (username, password)=>{
+const authenticate = async (username, password, role)=>{
     const endpoint = "http://localhost:8080/";
     const uri = "login"
     const options = {
@@ -43,7 +43,8 @@ const authenticate = async (username, password)=>{
         },
         body: JSON.stringify({
                     "username": username,
-                    "password": password
+                    "password": password,
+                    "role": role
                 })
     }
     const response = await apiCall(endpoint,uri,options);

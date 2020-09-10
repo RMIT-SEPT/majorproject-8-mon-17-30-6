@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,12 +16,24 @@ public class Company extends AbstractUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    public Company() {
 
-    }
     @NotBlank
     private String companyName;
 
+    public Company(String username, String name,String password, String confirmPassword,
+                  String address, String phone, Role role, String companyName) {
+        setUsername(username);
+        setName(name);
+        setPassword(password);
+        setConfirmPassword(confirmPassword);
+        setAddress(address);
+        setPhone(phone);
+        setRole(role);
+        this.companyName = companyName;
+    }
+    public Company() {
+
+    }
     public String getCompanyName() {
         return companyName;
     }

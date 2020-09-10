@@ -39,7 +39,6 @@ public class UserService implements UserDetailsService {
     public boolean authenticateUser(String username, String passwordHash) {
 //        Retrieve users
         List<User> users = getAllUsers();
-
 //        Interate through users to check if the usr matches the username
         for (User next : users) {
             if (username.equals(next.getUsername())) {

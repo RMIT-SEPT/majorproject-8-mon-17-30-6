@@ -17,7 +17,17 @@ public class User extends AbstractUser implements UserDetails {
     public User() {
 
     }
+    public User(String username, String name,String password, String confirmPassword,
+                    String address, String phone, Role role) {
+        setUsername(username);
+        setName(name);
+        setPassword(password);
+        setConfirmPassword(confirmPassword);
+        setAddress(address);
+        setPhone(phone);
+        setRole(role);
 
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

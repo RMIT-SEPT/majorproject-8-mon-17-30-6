@@ -5,6 +5,7 @@ import com.rmit.sept.project.agme.repositories.EmployeeRepository;
 import com.rmit.sept.project.agme.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -62,6 +63,25 @@ public class EmployeeService implements UserInterface {
             }
         }
         return returnVal;
+    }
+
+    @Override
+    public boolean authenticateUser(String username, String passwordHash) {
+        List<Employee> users = getAll();
+//        Interate through users to check if the usr matches the username
+        for (Employee next : users) {
+            if (username.equals(next.getUsername())) {
+//                If User is found, encode password with users salt
+//                check if the passwords match, if so return true, else false
+//                if (passwordEncoder.matches(passwordHash, next.getPassword())){
+                if (BCrypt.checkpw(passwordHash, next.getPassword())) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 
 }

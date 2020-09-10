@@ -18,8 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.*;
 
-import static com.rmit.sept.project.agme.model.Role.COMPANY;
-import static com.rmit.sept.project.agme.model.Role.EMPLOYEE;
+import static com.rmit.sept.project.agme.model.Role.*;
 
 @RestController
 @RequestMapping("")
@@ -91,7 +90,7 @@ public class UserController {
                 if (!user.getPassword().equals(user.getConfirmPassword())){
                     errorsTypeAndValues.add("confirmPassword");
                 }
-                if (userService.loadUserByUsername(user.getUsername()) != null){
+                if (loginSignupService.loadUserByUsername(user.getUsername()) != null){
                     errorsTypeAndValues.add("username");
                 }
             for (FieldError error: result.getFieldErrors()){
@@ -117,37 +116,18 @@ public class UserController {
 //            hash the password before storing
                 user.hashPassword();
                 if (user.getRole() == Role.COMPANY){
-                    Company user1 = new Company();
-                    user1.setUsername(user.getUsername());
-                    user1.setAddress(user.getAddress());
-                    user1.setCompanyName(user.getCompany_name());
-                    user1.setConfirmPassword(user.getConfirmPassword());
-                    user1.setPassword(user.getPassword());
-                    user1.setPhone(user.getPhone());
-                    user1.setName(user.getName());
-                    user1.setRole(user.getRole());
+                    Company user1 = new Company(user.getUsername(), user.getName(), user.getPassword()
+                            ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(), user.getCompanyName());
                     companyService.saveOrUpdate(user1);
                 }else if (user.getRole() == Role.USER){
-                    User user1 = new User();
-                    user1.setUsername(user.getUsername());
-                    user1.setAddress(user.getAddress());
-                    user1.setConfirmPassword(user.getConfirmPassword());
-                    user1.setPassword(user.getPassword());
-                    user1.setPhone(user.getPhone());
-                    user1.setName(user.getName());
-                    user1.setRole(user.getRole());
+                    User user1 = new User(user.getUsername(), user.getName(), user.getPassword()
+                            ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole());
                     userService.saveOrUpdateUser(user1);
-                }else if (user.getRole() == Role.USER){
-                    Employee user1 = new Employee();
-                    user1.setUsername(user.getUsername());
-                    user1.setAddress(user.getAddress());
-                    user1.setConfirmPassword(user.getConfirmPassword());
-                    user1.setPassword(user.getPassword());
-                    user1.setPhone(user.getPhone());
-                    user1.setName(user.getName());
-                    user1.setRole(user.getRole());
-                    user1.setCompany(companyService.loadUserByUsername(user.getCompanyUsername()));
-                    user1.setUserType(user.getUserType());
+
+                }else if (user.getRole() == EMPLOYEE){
+                    Employee user1 = new Employee(user.getUsername(), user.getName(), user.getPassword()
+                            ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(),
+                            companyService.loadUserByUsername(user.getCompanyUsername()), user.getUserType());
                     employeeService.addEmployee(user1);
                 }
 
@@ -187,26 +167,50 @@ public class UserController {
     @Autowired
     JwtUtil jwtUtil;
     @PostMapping(value = "/login")
-    public ResponseEntity<?> createAuthenticationRequest(@RequestBody AuthenticationRequest authenticationRequest)  {
+    public ResponseEntity<?> createAuthenticationRequest(@RequestBody AuthenticationRequest authenticationRequest)
+    {
 //        checks that the relevant fields are filled out
         if (authenticationRequest.getUsername() != null && authenticationRequest.getPassword() != null) {
 //            authenticates the given data with the database
-            if (userService.authenticateUser(authenticationRequest.getUsername(), authenticationRequest.getPassword())) {
-//                if details match, retrieve the user
-                final UserDetails user = userService.loadUserByUsername(
-                        authenticationRequest.getUsername());
+            if (authenticationRequest.getRole() == EMPLOYEE) {
+                if (employeeService.authenticateUser(authenticationRequest.getUsername(), authenticationRequest.getPassword())) {
+                    final UserDetails user = employeeService.loadUserByUsername(
+                            authenticationRequest.getUsername());
 //                generate token
-                final String jwt = jwtUtil.generateToken((User) user);
+                    final String jwt = jwtUtil.generateToken(user);
 //                respond wih token
-                return ResponseEntity.ok(new AuthenticationResponse(jwt));
-            } else {
-                return ResponseEntity.badRequest().body("Invalid username and password");
-
+                    return ResponseEntity.ok(new AuthenticationResponse(jwt));
+                }else{
+                    return ResponseEntity.badRequest().body("Invalid username and password");
+                }
+            } else if (authenticationRequest.getRole() == COMPANY) {
+                if (companyService.authenticateUser(authenticationRequest.getUsername(), authenticationRequest.getPassword())) {
+                    final UserDetails user = companyService.loadUserByUsername(
+                            authenticationRequest.getUsername());
+//                generate token
+                    final String jwt = jwtUtil.generateToken(user);
+//                respond wih token
+                    return ResponseEntity.ok(new AuthenticationResponse(jwt));
+                }else{
+                    return ResponseEntity.badRequest().body("Invalid username and password");
+                }
+            } else if (authenticationRequest.getRole() == USER) {
+                if (userService.authenticateUser(authenticationRequest.getUsername(), authenticationRequest.getPassword())) {
+//                if details match, retrieve the user
+                    final UserDetails user = userService.loadUserByUsername(
+                            authenticationRequest.getUsername());
+//                generate token
+                    final String jwt = jwtUtil.generateToken((User) user);
+//                respond wih token
+                    return ResponseEntity.ok(new AuthenticationResponse(jwt));
+                }else{
+                    return ResponseEntity.badRequest().body("Invalid username and password");
+                }
             }
-
         } else {
             return ResponseEntity.badRequest().body("Please enter a username and password");
 
         }
+        return ResponseEntity.badRequest().body("Invalid username and password");
     }
 }

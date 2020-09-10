@@ -21,4 +21,6 @@ public interface UserInterface {
 
 
     public UserDetails loadUserByUsername(String s);
-}
+    public abstract boolean authenticateUser(String username, String passwordHash);
+
+    }

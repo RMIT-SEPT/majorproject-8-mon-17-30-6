@@ -20,6 +20,18 @@ public class Employee extends AbstractUser implements UserDetails {
 
     public Employee() {}
 
+    public Employee(String username, String name,String password, String confirmPassword,
+                   String address, String phone, Role role, Company company, String userType) {
+        setUsername(username);
+        setName(name);
+        setPassword(password);
+        setConfirmPassword(confirmPassword);
+        setAddress(address);
+        setPhone(phone);
+        setRole(role);
+        this.company = company;
+        this.userType = userType;
+    }
     public Employee(String username, String userType, Company company) {
         this.setUsername(username);
         this.userType = userType;

@@ -30,6 +30,7 @@ public abstract class AbstractUser {
     String salt;
 
 
+
     public Role getRole() {
         return role;
     }
