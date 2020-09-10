@@ -45,16 +45,11 @@ public class EmployeeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
-    JwtUtil jwtUtil;
 
-    @MockBean
-    UserService userService;
     @MockBean
      BookingController bookingController;
 
-    @MockBean
-    UserRepository userRepository;
+
 
     @Test
     public void testNewEmployee() {

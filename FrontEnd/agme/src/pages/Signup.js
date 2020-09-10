@@ -245,7 +245,7 @@ export default class Signup extends React.Component{
     
     render(){
         return (
-            <div className={"signup"}>
+            <div className={"login"}>
                 <h3 className="title">Please fill out the details below</h3>
                 <div className="form-container">
                     <select className="form-control" name={"role"} value={this.state.role} placeholder="role" onChange={this.handleInputChange}>

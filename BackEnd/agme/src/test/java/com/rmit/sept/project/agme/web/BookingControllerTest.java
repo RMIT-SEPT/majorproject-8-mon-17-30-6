@@ -36,13 +36,6 @@ public class BookingControllerTest {
     @MockBean
     JwtUtil jwtUtil;
 
-    @MockBean
-    JwtUtil jwtUtil;
-
-    @MockBean
-    UserService userService;
-    @MockBean
-    UserRepository userRepository;
 
     @MockBean
     private BookingController bookingController;

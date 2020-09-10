@@ -44,7 +44,7 @@ export default class Login extends React.Component{
             return <Button variant={"secondary"}>Authenticating</Button>
         }
         if(this.state.password&&this.state.username&&this.state.role&&(!this.state.isCallingServer)){
-            return <Button onClick={this.handleAuthenticateRequest}>Authenticate</Button>
+            return <Button className="form-control btn btn-success" onClick={this.handleAuthenticateRequest}>Authenticate</Button>
         }
     }
 
@@ -68,9 +68,9 @@ export default class Login extends React.Component{
             <div className={"login"}>
                 <h3 className="title">You are not authenticated</h3>
                 <div className="form-container">
+                <br/><br/>
                 <input type="text" name={"username"} value={this.state.username} placeholder="Username" className="form-control" onChange={this.handleInputChange}/>
                 <br/>
-
                 <input type="text" name={"password"} value={this.state.password} className="form-control" placeholder="Password" onChange={this.handleInputChange}/>
                 <br/>
                 <select className="form-control" name={"role"} value={this.state.role} required placeholder="role" onChange={this.handleInputChange}>
