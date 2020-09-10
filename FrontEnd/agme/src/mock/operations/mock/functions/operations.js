@@ -31,9 +31,9 @@ const testResponse = async (response)=>{
     }
 }
 
-const authenticate = async (username, password)=>{
+const authenticate = async (username, password, role)=>{
     const url = config.api.url;
-    const uri = config.api.uri.login
+    const uri = config.api.uri
     const options = {
         method: "POST",
         mode: "cors",
@@ -43,7 +43,8 @@ const authenticate = async (username, password)=>{
         },
         body: JSON.stringify({
                     "username": username,
-                    "password": password
+                    "password": password,
+                    "role": role
                 })
     }
     const response = await apiCall(url,uri,options);
@@ -51,6 +52,47 @@ const authenticate = async (username, password)=>{
     if(response.statusCode===200){
         localStorage.setItem('credentials', JSON.stringify(response.body.jwt))
     }
+   return response;
+}
+
+const signupNewUser = async (username, fname, address, phone, role, password, confirmPassword, companyName, userType, companyUsername)=>{
+    const endpoint = "http://localhost:8080/";
+    const uri = "signup"
+    const options = {
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            accept: "application/JSON",
+        },
+        body: JSON.stringify({
+                    "username": username,
+                    "password": password,
+                    'confirmPassword': confirmPassword,
+                    "name": fname,
+                    "address": address,
+                    "phone": phone,
+                    "role": role,
+                    "companyName": companyName,
+                    "userType": userType,
+                    "companyUsername": companyUsername
+
+
+                })
+    }
+    const response = await apiCall(endpoint,uri,options);
+    console.log(response)
+   return response;
+}
+const getCompaniesFromAPI = async ()=>{
+    const endpoint = "http://localhost:8080/";
+    const uri = "signup"
+    const options = {
+        method: "GET",
+        mode: "cors"
+    }
+    const response = await apiCall(endpoint,uri,options);
+    console.log(response)
    return response;
 }
 
@@ -63,4 +105,4 @@ const getDecodedJwtFromLocalStorage = async() =>{
     return JSON.parse(buff.toString('ascii'));
 
 }
-module.exports = {authenticate, getDecodedJwtFromLocalStorage}
+export default {authenticate, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage}

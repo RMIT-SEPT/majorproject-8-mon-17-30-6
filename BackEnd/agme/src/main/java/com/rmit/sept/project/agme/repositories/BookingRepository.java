@@ -1,4 +1,4 @@
-package com.rmit.sept.project.agme.Repositories;
+package com.rmit.sept.project.agme.repositories;
 
 import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.model.Company;

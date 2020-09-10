@@ -28,12 +28,15 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
     protected void configure(HttpSecurity http) throws Exception {
 //        sets restriction on api endpoints for user type
-        http.authorizeRequests().antMatchers("/provider").hasAnyAuthority("PROVIDER");
+        http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
+        http.headers().frameOptions().sameOrigin();
+        http.authorizeRequests().antMatchers("/company").hasAnyAuthority("COMPANY");
+        http.authorizeRequests().antMatchers("/employee").hasAnyAuthority("EMPLOYEE");
         http.authorizeRequests().antMatchers("/user").hasAnyAuthority("USER");
         http.authorizeRequests().antMatchers("/admin").hasAnyAuthority("ADMIN");
 //        removes restriction on access to sign and login
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/login", "/signup")
+                .authorizeRequests().antMatchers("/login", "/signup", "/h2-console")
                 .permitAll().anyRequest().authenticated()
                 .and()
                 .sessionManagement()

@@ -2,11 +2,13 @@ import React from 'react';
 import './pages/css/App.css';
 import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup";
+import Login from "./pages/Login";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {getDecodedJwtFromLocalStorage}  from "./mock/operations/mock/functions/utils";//Add decode func
 import ViewProviders from './pages/users/ViewProviders';
 import NavigationBar from './pages/NavigationBar';
 import CustomisedError from "./miscelaneous/CustomisedError";
+const utils = require('./mock/operations/mock/functions/utils')
 /**
  * Basic Flow
  * 
@@ -34,9 +36,8 @@ export default class App extends React.Component{
 
 
         this.handleAuthentication = this.handleAuthentication.bind(this);
-        this.handleContentChangeRequest = this.handleContentChangeRequest.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
-        this.handleSelectNavBar = this.handleSelectNavBar.bind(this)
+        this.handleContentChangeRequest = this.handleContentChangeRequest.bind(this)
 
     }
 
@@ -53,19 +54,34 @@ export default class App extends React.Component{
 
     }
 
+    //To handle component change
     handleContentChangeRequest(e){
-        const content = e.target.getAttribute('name');
-        switch(content){
-            case "signup":
-                this.setState({content :<Signup handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest}/>})
-            break;
-            default:
-                console.log("default")
-        }
-    }
+        try{
+            e.preventDefault();
+        }catch(e){
 
-    handleAuthentication(){
-        const authDetails = getDecodedJwtFromLocalStorage();
+        }
+        const contentString = e.target ? e.target.getAttribute('name') : e;
+        let component = "";
+        switch(contentString){
+            case "signup":
+                component = <Signup handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest}/>
+                break;
+            case "providers":
+                component = <ViewProviders/>
+                break;
+            case "login":
+                component = <Login/>
+                break;
+            default:
+                console.log("no content available?");
+        }  
+        this.setState({content:component})
+    }
+    handleAuthentication(authenticationDetails){
+        //save to local storage to persist
+        localStorage.setItem('credentials',JSON.stringify(authenticationDetails))
+        const authDetails = utils.decodeJwt(authenticationDetails.jwt)
         const role = authDetails.role
         this.setState({
             token:authDetails.jwt,
@@ -93,24 +109,14 @@ export default class App extends React.Component{
             content:<LandingPage handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest}/>
         })
     }
-
-    handleSelectNavBar(e){
-        e.preventDefault()
-        if(e.target.name === 'providers'){
-            this.setState({
-                content: <ViewProviders/>
-            })
-        }
-    }
     render(){
         return (
             <div className="App">
                 <CustomisedError>
-                    <NavigationBar handleLogout={this.handleLogout} token={this.state&&this.state.token} handleSelectNavBar={this.handleSelectNavBar}/>
+                    <NavigationBar handleLogout={this.handleLogout} token={this.state&&this.state.token} handleSelectNavBar={this.handleContentChangeRequest}/>
                     {this.state&&this.state.content}
                 </CustomisedError>
             </div>
         );
     }
 }
-

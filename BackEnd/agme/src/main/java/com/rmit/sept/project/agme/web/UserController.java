@@ -1,9 +1,10 @@
 package com.rmit.sept.project.agme.web;
 
-import com.rmit.sept.project.agme.model.AuthenticationRequest;
-import com.rmit.sept.project.agme.model.AuthenticationResponse;
-import com.rmit.sept.project.agme.model.User;
+import com.rmit.sept.project.agme.model.*;
 import com.rmit.sept.project.agme.security.JwtUtil;
+import com.rmit.sept.project.agme.services.CompanyService;
+import com.rmit.sept.project.agme.services.EmployeeService;
+import com.rmit.sept.project.agme.services.LoginSignupService;
 import com.rmit.sept.project.agme.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.*;
 
+import static com.rmit.sept.project.agme.model.Role.*;
+
 @RestController
 @RequestMapping("")
 @CrossOrigin("http://localhost:3000")
@@ -26,44 +29,109 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private LoginSignupService loginSignupService;
+
+    @Autowired
+    private CompanyService companyService;
+
+    @Autowired
+    EmployeeService employeeService;
+
+
+
+    @GetMapping("/signup")
+    public ResponseEntity<?> getCompanies() {
+        List<Company> companies = new ArrayList<>();
+        Iterable<Company> aa =  companyService.getAll();
+        aa.forEach(companies::add);
+        HashMap<String, String> returnVal = new HashMap<>();
+        for (Company next:companies){
+            returnVal.put(next.getUsername(), next.getCompanyName());
+        }
+        return new ResponseEntity<>(returnVal, HttpStatus.OK);
+    }
 //    signup authentication
     @PostMapping("/signup")
-    public ResponseEntity<?> createdNewUser(@Valid @RequestBody User user, BindingResult result) {
+    public ResponseEntity<?> createdNewUser(@Valid @RequestBody SignUpRequest user, BindingResult result) {
+        List<String> errorsTypeAndValues = new ArrayList<>();
+        boolean containsErrors = false;
+
+        if (user.getRole() == COMPANY){
+            if (user.getCompany_name() == null || user.getCompany_name() == ""){
+                errorsTypeAndValues.add("companyName");
+                containsErrors = true;
+            }
+        }else if (user.getRole() == EMPLOYEE){
+            if (user.getCompanyUsername() == null|| user.getCompanyUsername() == ""){
+                errorsTypeAndValues.add("companyUsername");
+                containsErrors = true;
+            }
+            if (user.getUserType()== null || user.getUserType() == ""){
+                errorsTypeAndValues.add("userType");
+                containsErrors = true;
+            }
+        }
 //        validates form data to ensure all criteria is met
-        if (result.hasErrors()){
+        if (result.hasErrors() || !user.getPassword().equals(user.getConfirmPassword()) ||  containsErrors ||
+        loginSignupService.loadUserByUsername(user.getUsername()) != null) {
 //            hashmap for the outer container of errors
             HashMap<String,Object> errorContainer = new HashMap<>();
 //            hashmap containing the errors details
-            List<HashMap<String,Object>> errorDetails = new ArrayList<>();
+            HashMap<String,Object> errorDetails = new HashMap<>();
 //            array list for the fields that have errors
             List<String> fieldsWithErrors = new ArrayList<>();
 //            provides error code as well as a list of the fields with errors
-            HashMap<String,Object> errorsTypeAndValues = new HashMap<>();
-            errorsTypeAndValues.put("errorType", "PARTIAL_INFORMATION");
+            errorDetails.put("errorType", "PARTIAL_INFORMATION");
             errorContainer.put("ErrorId", "404API");
+            List<String> errorMessages = new ArrayList<>();
 
 //            loops through the errors and adds them to the arraylist
+                if (!user.getPassword().equals(user.getConfirmPassword())){
+                    errorsTypeAndValues.add("confirmPassword");
+                }
+                if (loginSignupService.loadUserByUsername(user.getUsername()) != null){
+                    errorsTypeAndValues.add("username");
+                }
             for (FieldError error: result.getFieldErrors()){
 //                return new ResponseEntity<List<FieldError>>(result.getFieldErrors(), HttpStatus.BAD_REQUEST);
-                fieldsWithErrors.add(error.getField());
+                errorsTypeAndValues.add(error.getField());
+                errorMessages.add(error.getDefaultMessage());
+
             }
 
-            errorsTypeAndValues.put("missingFields", fieldsWithErrors);
-            errorDetails.add(errorsTypeAndValues);
+            errorDetails.put("missingFields", errorsTypeAndValues);
+            errorDetails.put("errorMsg", errorMessages);
+
             errorContainer.put("errorDetails", errorDetails);
 //            returns JSON response with error details
-            return new ResponseEntity<>(errorContainer, HttpStatus.OK);
+            return new ResponseEntity<>(errorContainer, HttpStatus.BAD_REQUEST);
         }
 
 
 //         validation to ensure user does not exist and all details are filled out
-        if (userService.loadUserByUsername(user.getUsername()) == null) {
+        if (loginSignupService.loadUserByUsername(user.getUsername()) == null) {
 //            ensure password is equal to the confirmPassword field
             if (user.getPassword().equals(user.getConfirmPassword())) {
 //            hash the password before storing
                 user.hashPassword();
+                if (user.getRole() == Role.COMPANY){
+                    Company user1 = new Company(user.getUsername(), user.getName(), user.getPassword()
+                            ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(), user.getCompanyName());
+                    companyService.saveOrUpdate(user1);
+                }else if (user.getRole() == Role.USER){
+                    User user1 = new User(user.getUsername(), user.getName(), user.getPassword()
+                            ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole());
+                    userService.saveOrUpdateUser(user1);
+
+                }else if (user.getRole() == EMPLOYEE){
+                    Employee user1 = new Employee(user.getUsername(), user.getName(), user.getPassword()
+                            ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(),
+                            companyService.loadUserByUsername(user.getCompanyUsername()), user.getUserType());
+                    employeeService.addEmployee(user1);
+                }
+
 //            store user with hashed password in database
-                User user1 = userService.saveOrUpdateUser(user);
 //            if signup is successful, return the user
                 return new ResponseEntity<>(user, HttpStatus.OK);
             } else {
@@ -75,6 +143,7 @@ public class UserController {
             return new ResponseEntity<>("Username is taken", HttpStatus.BAD_REQUEST);
         }
     }
+
 
 //    retrieve form params
 //    @PostMapping(value = "/login")
@@ -98,26 +167,50 @@ public class UserController {
     @Autowired
     JwtUtil jwtUtil;
     @PostMapping(value = "/login")
-    public ResponseEntity<?> createAuthenticationRequest(@RequestBody AuthenticationRequest authenticationRequest)  {
+    public ResponseEntity<?> createAuthenticationRequest(@RequestBody AuthenticationRequest authenticationRequest)
+    {
 //        checks that the relevant fields are filled out
         if (authenticationRequest.getUsername() != null && authenticationRequest.getPassword() != null) {
 //            authenticates the given data with the database
-            if (userService.authenticateUser(authenticationRequest.getUsername(), authenticationRequest.getPassword())) {
-//                if details match, retrieve the user
-                final UserDetails user = userService.loadUserByUsername(
-                        authenticationRequest.getUsername());
+            if (authenticationRequest.getRole() == EMPLOYEE) {
+                if (employeeService.authenticateUser(authenticationRequest.getUsername(), authenticationRequest.getPassword())) {
+                    final UserDetails user = employeeService.loadUserByUsername(
+                            authenticationRequest.getUsername());
 //                generate token
-                final String jwt = jwtUtil.generateToken((User) user);
+                    final String jwt = jwtUtil.generateToken(user);
 //                respond wih token
-                return ResponseEntity.ok(new AuthenticationResponse(jwt));
-            } else {
-                return ResponseEntity.badRequest().body("Invalid username and password");
-
+                    return ResponseEntity.ok(new AuthenticationResponse(jwt));
+                }else{
+                    return ResponseEntity.badRequest().body("Invalid username and password");
+                }
+            } else if (authenticationRequest.getRole() == COMPANY) {
+                if (companyService.authenticateUser(authenticationRequest.getUsername(), authenticationRequest.getPassword())) {
+                    final UserDetails user = companyService.loadUserByUsername(
+                            authenticationRequest.getUsername());
+//                generate token
+                    final String jwt = jwtUtil.generateToken(user);
+//                respond wih token
+                    return ResponseEntity.ok(new AuthenticationResponse(jwt));
+                }else{
+                    return ResponseEntity.badRequest().body("Invalid username and password");
+                }
+            } else if (authenticationRequest.getRole() == USER) {
+                if (userService.authenticateUser(authenticationRequest.getUsername(), authenticationRequest.getPassword())) {
+//                if details match, retrieve the user
+                    final UserDetails user = userService.loadUserByUsername(
+                            authenticationRequest.getUsername());
+//                generate token
+                    final String jwt = jwtUtil.generateToken((User) user);
+//                respond wih token
+                    return ResponseEntity.ok(new AuthenticationResponse(jwt));
+                }else{
+                    return ResponseEntity.badRequest().body("Invalid username and password");
+                }
             }
-
         } else {
             return ResponseEntity.badRequest().body("Please enter a username and password");
 
         }
+        return ResponseEntity.badRequest().body("Invalid username and password");
     }
 }

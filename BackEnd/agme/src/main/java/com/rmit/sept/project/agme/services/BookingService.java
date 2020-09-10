@@ -1,6 +1,6 @@
 package com.rmit.sept.project.agme.services;
 
-import com.rmit.sept.project.agme.Repositories.BookingRepository;
+import com.rmit.sept.project.agme.repositories.BookingRepository;
 import com.rmit.sept.project.agme.model.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,5 +1,5 @@
 package com.rmit.sept.project.agme.model;
 
 public enum Role {
-    USER, ADMIN, PROVIDER, WORKER;
+    USER, ADMIN, COMPANY, EMPLOYEE;
 }

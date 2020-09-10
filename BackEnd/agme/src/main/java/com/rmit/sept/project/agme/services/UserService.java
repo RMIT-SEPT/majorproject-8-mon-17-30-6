@@ -1,6 +1,6 @@
 package com.rmit.sept.project.agme.services;
 
-import com.rmit.sept.project.agme.Repositories.UserRepository;
+import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -39,7 +39,6 @@ public class UserService implements UserDetailsService {
     public boolean authenticateUser(String username, String passwordHash) {
 //        Retrieve users
         List<User> users = getAllUsers();
-
 //        Interate through users to check if the usr matches the username
         for (User next : users) {
             if (username.equals(next.getUsername())) {
@@ -70,5 +69,6 @@ public class UserService implements UserDetailsService {
                 returnVal = next;
             }
         }
-        return returnVal;    }
+        return returnVal;
+    }
 }

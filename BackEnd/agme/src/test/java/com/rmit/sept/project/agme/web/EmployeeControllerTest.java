@@ -1,8 +1,10 @@
 package com.rmit.sept.project.agme.web;
 
-import com.rmit.sept.project.agme.Repositories.UserRepository;
+import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.model.Employee;
 import com.rmit.sept.project.agme.security.JwtUtil;
+import com.rmit.sept.project.agme.services.BookingService;
+
 import com.rmit.sept.project.agme.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,6 +27,18 @@ import static org.mockito.BDDMockito.given;
 @WebMvcTest(BookingController.class)
 
 public class EmployeeControllerTest {
+
+    @MockBean
+    UserRepository userRepository;
+
+    @MockBean
+    UserService userService;
+
+    @MockBean
+    JwtUtil jwtUtil;
+
+    @MockBean
+    BookingService bookingService;
 
     @MockBean
     private EmployeeController employeeController;

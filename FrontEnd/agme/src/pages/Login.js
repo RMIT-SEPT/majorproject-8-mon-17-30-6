@@ -17,7 +17,8 @@ export default class Login extends React.Component{
             failed: false,
             error: null,
             username: "",
-            password: ""
+            password: "",
+            role: ""
         };
         this.handleAuthenticateRequest = this.handleAuthenticateRequest.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -27,7 +28,7 @@ export default class Login extends React.Component{
         //mock for now
         this.setState({isCallingServer:true});
 
-        functions.authenticate(this.state.username,this.state.password).then(response=>{
+        functions.authenticate(this.state.username,this.state.password, this.state.role).then(response=>{
             if(response.statusCode===200){
                 this.setState({isCallingServer:false});
                 this.props.handleAuthentication(); //propagate response with token
@@ -42,7 +43,7 @@ export default class Login extends React.Component{
         if(this.state.isCallingServer){
             return <Button variant={"secondary"}>Authenticating</Button>
         }
-        if(this.state.password&&this.state.username&&(!this.state.isCallingServer)){
+        if(this.state.password&&this.state.username&&this.state.role&&(!this.state.isCallingServer)){
             return <Button onClick={this.handleAuthenticateRequest}>Authenticate</Button>
         }
     }
@@ -68,8 +69,16 @@ export default class Login extends React.Component{
                 <h3 className="title">You are not authenticated</h3>
                 <input type="text" name={"username"} value={this.state.username} placeholder="Username" onChange={this.handleInputChange}/>
                 <br/>
+
                 <input type="text" name={"password"} value={this.state.password} placeholder="Password" onChange={this.handleInputChange}/>
                 <br/>
+                <select className="form-control" name={"role"} value={this.state.role} required placeholder="role" onChange={this.handleInputChange}>
+                <option value="" disabled defaultValue>Choose a role</option>
+                <option value="USER">User</option>
+                <option value="COMPANY">Company</option>
+                <option value="EMPLOYEE">Employee</option>
+            </select>
+            <br/>
                 {this.showError()}
                 {this.showAuthenticateButton()}
                 <p name="signup" className="signup_info" onClick={this.props.handleContentChangeRequest}>Or click here to Sign up</p>

@@ -1,6 +1,6 @@
 package com.rmit.sept.project.agme.web;
 
-import com.rmit.sept.project.agme.Repositories.UserRepository;
+import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.model.Company;
 import com.rmit.sept.project.agme.model.Employee;
@@ -27,6 +27,14 @@ import static org.mockito.BDDMockito.given;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(BookingController.class)
 public class BookingControllerTest {
+    @MockBean
+    UserRepository userRepository;
+
+    @MockBean
+    UserService userService;
+
+    @MockBean
+    JwtUtil jwtUtil;
 
     @MockBean
     JwtUtil jwtUtil;
