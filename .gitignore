@@ -5,5 +5,5 @@ terraform.tfstate
 terraform.tfstate.backup
 tmp/
 .idea
-.BackEnd/agme/.idea
-.FrontEnd/agme/.idea
+BackEnd/agme/.idea
+FrontEnd/agme/.idea
