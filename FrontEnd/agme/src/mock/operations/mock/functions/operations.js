@@ -32,8 +32,8 @@ const testResponse = async (response)=>{
 }
 
 const authenticate = async (username, password, role)=>{
-    const endpoint = "http://localhost:8080/";
-    const uri = "login"
+    const url = config.api.url;
+    const uri = config.api.uri
     const options = {
         method: "POST",
         mode: "cors",
@@ -95,7 +95,6 @@ const getCompaniesFromAPI = async ()=>{
     console.log(response)
    return response;
 }
-export default {authenticate, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage}
 
 const getDecodedJwtFromLocalStorage = async() =>{
     // Get JWT Header, Payload and Signature
@@ -106,3 +105,4 @@ const getDecodedJwtFromLocalStorage = async() =>{
     return JSON.parse(buff.toString('ascii'));
 
 }
+export default {authenticate, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage}
