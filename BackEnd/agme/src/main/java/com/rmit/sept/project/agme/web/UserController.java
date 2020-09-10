@@ -137,6 +137,18 @@ public class UserController {
                     user1.setName(user.getName());
                     user1.setRole(user.getRole());
                     userService.saveOrUpdateUser(user1);
+                }else if (user.getRole() == Role.USER){
+                    Employee user1 = new Employee();
+                    user1.setUsername(user.getUsername());
+                    user1.setAddress(user.getAddress());
+                    user1.setConfirmPassword(user.getConfirmPassword());
+                    user1.setPassword(user.getPassword());
+                    user1.setPhone(user.getPhone());
+                    user1.setName(user.getName());
+                    user1.setRole(user.getRole());
+                    user1.setCompany(companyService.loadUserByUsername(user.getCompanyUsername()));
+                    user1.setUserType(user.getUserType());
+                    employeeService.addEmployee(user1);
                 }
 
 //            store user with hashed password in database

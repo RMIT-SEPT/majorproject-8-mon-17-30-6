@@ -17,11 +17,15 @@ public class SignUpRequest extends AbstractUser {
         this.companyName = companyName;
     }
 
+    public String getCompanyName() {
+        return companyName;
+    }
+
     public String getCompanyUsername() {
         return companyUsername;
     }
 
-    public void setCompanyUsername(String company) {
+    public void setCompanyUsername(String companyUsername) {
         this.companyUsername = companyUsername;
     }
 

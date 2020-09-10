@@ -74,7 +74,7 @@ export default class Signup extends React.Component{
         
     }
     checkForError(fields){
-        this.setState({fnameError:false,confirmPasswordError:false,passwordError:false,phoneError:false,usernameError:false,companyNameError:false, userTypeError:false});
+        this.setState({fnameError:false,confirmPasswordError:false,passwordError:false,phoneError:false,usernameError:false,companyNameError:false, userTypeError:false,companyUsernameError:false});
 
         Object.values(fields).map((value) => {
             if (value === "phone"){
@@ -218,17 +218,21 @@ export default class Signup extends React.Component{
         if (!this.state.called && this.state.showEmployeeInfo){
         functions.getCompaniesFromAPI().then(response=>{
             var arr = [];
-            arr.push(<option value="" disabled defaultValue>Choose a Company</option>);
+            var i = 0;
+            arr.push(<option value=""  disabled defaultValue>Choose a Company</option>);
             for(var key in response.body){
-                arr.push(<option key={key} value={key}>{response.body[key]}</option>);
+                arr.push(<option key={i} value={key}>{response.body[key]}</option>);
+                i++;
               }
               this.setState({options:arr,isCallingServer:false, called:true});
         }
         )
+        console.log(this.state.companyUsername)
     }
     if (this.state.showEmployeeInfo){
     return <React.Fragment>
-    <select className="form-control" name={"company"} value={this.state.companyUsername} placeholder="Company" onChange={this.handleInputChange}>{this.state.options}</select>
+    <select className="form-control" name={"companyUsername"} value={this.state.companyUsername} placeholder="role" onChange={this.handleInputChange}>{this.state.options}</select>
+
     <label className= "errorLabel">{this.state.companyUsernameErrorMsg}</label>
 
     <br/>
