@@ -6,6 +6,9 @@ import com.rmit.sept.project.agme.model.Company;
 import com.rmit.sept.project.agme.model.Employee;
 import com.rmit.sept.project.agme.model.User;
 import com.rmit.sept.project.agme.security.JwtUtil;
+import com.rmit.sept.project.agme.services.CompanyService;
+import com.rmit.sept.project.agme.services.EmployeeService;
+import com.rmit.sept.project.agme.services.LoginSignupService;
 import com.rmit.sept.project.agme.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,6 +38,15 @@ public class BookingControllerTest {
 
     @MockBean
     JwtUtil jwtUtil;
+
+    @MockBean
+    CompanyService companyService;
+
+    @MockBean
+    EmployeeService employeeService;
+
+    @MockBean
+    LoginSignupService loginSignupService;
 
 
     @MockBean

@@ -3,9 +3,8 @@ package com.rmit.sept.project.agme.web;
 import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.model.Employee;
 import com.rmit.sept.project.agme.security.JwtUtil;
-import com.rmit.sept.project.agme.services.BookingService;
+import com.rmit.sept.project.agme.services.*;
 
-import com.rmit.sept.project.agme.services.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -48,7 +47,14 @@ public class EmployeeControllerTest {
 
     @MockBean
      BookingController bookingController;
+    @MockBean
+    CompanyService companyService;
 
+    @MockBean
+    EmployeeService employeeService;
+
+    @MockBean
+    LoginSignupService loginSignupService;
 
 
     @Test
