@@ -2,6 +2,9 @@ package com.rmit.sept.project.agme.web;
 
 import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.security.JwtUtil;
+import com.rmit.sept.project.agme.services.CompanyService;
+import com.rmit.sept.project.agme.services.EmployeeService;
+import com.rmit.sept.project.agme.services.LoginSignupService;
 import com.rmit.sept.project.agme.services.UserService;
 import net.minidev.json.JSONObject;
 import org.junit.Test;
@@ -43,11 +46,20 @@ public class UserControllerTest {
     @MockBean
     JwtUtil jwtUtil;
 
+    @MockBean
+    LoginSignupService loginSignupService;
+
     @Autowired
     UserService userService;
 
     @Autowired
     UserController userController;
+
+    @MockBean
+    CompanyService companyService;
+
+    @MockBean
+    EmployeeService employeeService;
 
     @Test
     public void shouldReturnHTTPStatus400_whenCreatingUserWithIncompleteFields() throws Exception {

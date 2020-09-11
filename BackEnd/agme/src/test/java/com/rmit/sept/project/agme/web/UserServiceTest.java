@@ -1,7 +1,7 @@
 package com.rmit.sept.project.agme.web;
 
-import com.rmit.sept.project.agme.Repositories.UserRepository;
 import com.rmit.sept.project.agme.model.User;
+import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.services.UserService;
 import org.junit.Assert;
 import org.junit.Test;
