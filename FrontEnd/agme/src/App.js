@@ -38,6 +38,8 @@ export default class App extends React.Component{
         this.handleAuthentication = this.handleAuthentication.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.handleContentChangeRequest = this.handleContentChangeRequest.bind(this)
+        this.handleContentChangeRequestSignup = this.handleContentChangeRequestSignup.bind(this)
+
 
     }
 
@@ -47,6 +49,7 @@ export default class App extends React.Component{
                 authenticated={this.state&&this.state.authenticated} 
                 handleAuthentication={this.handleAuthentication} 
                 handleContentChangeRequest={this.handleContentChangeRequest}
+                handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}
                 type={this.state&&this.state.type}
                 expiry={this.state&&this.state.expiry}
                 />
@@ -65,19 +68,39 @@ export default class App extends React.Component{
         let component = "";
         switch(contentString){
             case "signup":
-                component = <Signup handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest}/>
+                component = <Signup handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>
                 break;
             case "providers":
                 component = <ViewProviders/>
                 break;
             case "login":
-                component = <Login/>
+                component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>
                 break;
             default:
                 console.log("no content available?");
         }  
         this.setState({content:component})
     }
+    handleContentChangeRequestSignup(componentName){
+ 
+        const contentString = componentName;
+        let component = "";
+        switch(contentString){
+            case "signup":
+                component = <Signup handleContentChangeRequestSignup={this.handleContentChangeRequestSignup} handleContentChangeRequest={this.handleContentChangeRequest}/>
+                break;
+            case "providers":
+                component = <ViewProviders/>
+                break;
+            case "login":
+                component = <Login handleContentChangeRequest={this.handleContentChangeRequest}/>
+                break;
+            default:
+                console.log("no content available?");
+        }  
+        this.setState({content:component})
+    }
+
     handleAuthentication(authenticationDetails){
         //save to local storage to persist
         localStorage.setItem('credentials',JSON.stringify(authenticationDetails))

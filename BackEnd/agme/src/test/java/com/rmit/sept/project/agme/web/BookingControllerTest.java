@@ -48,6 +48,7 @@ public class BookingControllerTest {
     @MockBean
     LoginSignupService loginSignupService;
 
+
     @MockBean
     private BookingController bookingController;
 
