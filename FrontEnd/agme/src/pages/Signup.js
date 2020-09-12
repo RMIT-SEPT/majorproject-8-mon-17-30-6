@@ -70,21 +70,16 @@ export default class Signup extends React.Component{
     }
 
     showFieldsBasedOnRole(){
-        switch(this.state.entity.role){
-            case 'COMPANY':
-                return   <React.Fragment>
-                    <br/>
-            <input className="form-control" type="text" required name={"companyName"} value={this.state.entity.companyName} placeholder="Company Name" onChange={this.handleInputChange}/>                    
-            <label className= "errorLabel">{this.showError('companyName')}</label>
+        const fields ={
+            COMPANY: ['companyName'],
+            EMPLOYEE: ['userType']
+        }
+        if(fields[this.state.entity.role]){
+            return   <React.Fragment>
+                    <FormFields showError={this.showError} fields={fields[this.state.entity.role]} entity={this.state.entity} onChange={this.handleInputChange}/>
             </React.Fragment>
-            case 'EMPLOYEE':
-                return   <React.Fragment>
-                    <br/>
-                <input className="form-control" type="text" required name={"userType"} value={this.state.entity.userType} placeholder="User Type" onChange={this.handleInputChange}/>                    
-                <label className= "errorLabel">{this.showError('userType')}</label>
-                <br/>  </React.Fragment>
-            default:
-                return ""
+        }else{
+            return ""
         }
     }
  
