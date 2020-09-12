@@ -23,7 +23,6 @@ export default class Signup extends React.Component{
             errors: new Set()
         };
         
-        this.showCompanyNameInput = this.showCompanyNameInput.bind(this);
         this.handleSignupRequest = this.handleSignupRequest.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleRoleChange = this.handleRoleChange.bind(this);
@@ -43,7 +42,6 @@ export default class Signup extends React.Component{
                     this.setState({isCallingServer:false});
                     const errorResult = JSON.parse(response.body);
                     const  fullError = errorResult.errorDetails.missingFields;
-                    console.log(fullError)
                     this.checkForError(fullError);
             }
         })
@@ -94,20 +92,22 @@ export default class Signup extends React.Component{
         this.setState({[name]:value});
     }
 
-    showCompanyNameInput(){
-        if (this.state.showCompanyName === true){
-            return   <React.Fragment>
+    showFieldsBasedOnRole(){
+        switch(this.state.entity.role){
+            case 'COMPANY':
+                return   <React.Fragment>
+                    <br/>
             <input className="form-control" type="text" required name={"companyName"} value={this.state.entity.companyName} placeholder="Company Name" onChange={this.handleInputChange}/>                    
             <label className= "errorLabel">{this.showError('companyName')}</label>
-            <br/>  </React.Fragment>
-        }
-    }
-    showEmployeeInfo(){
-        if (this.state.showEmployeeInfo === true){
-            return   <React.Fragment>
-            <input className="form-control" type="text" required name={"userType"} value={this.state.entity.userType} placeholder="User Type" onChange={this.handleInputChange}/>                    
-            <label className= "errorLabel">{this.showError('userType')}</label>
-            <br/>  </React.Fragment>
+            </React.Fragment>
+            case 'EMPLOYEE':
+                return   <React.Fragment>
+                    <br/>
+                <input className="form-control" type="text" required name={"userType"} value={this.state.entity.userType} placeholder="User Type" onChange={this.handleInputChange}/>                    
+                <label className= "errorLabel">{this.showError('userType')}</label>
+                <br/>  </React.Fragment>
+            default:
+                return ""
         }
     }
  
@@ -116,7 +116,7 @@ export default class Signup extends React.Component{
         functions.getCompaniesFromAPI().then(response=>{
             var arr = [];
             var i = 0;
-            arr.push(<option value=""  disabled defaultValue>Choose a Company</option>);
+            arr.push(<option key={i} value=""  disabled defaultValue>Choose a Company</option>);
             for(var key in response.body){
                 arr.push(<option key={i} value={key}>{response.body[key]}</option>);
                 i++;
@@ -132,7 +132,6 @@ export default class Signup extends React.Component{
 
     <label className= "errorLabel">{this.showError('companyUsername')}</label>
 
-    <br/>
     </React.Fragment>
     }
 
@@ -161,8 +160,7 @@ export default class Signup extends React.Component{
                         <option value="EMPLOYEE">Employee</option>
                     </select>
                     {this.showFormFields(['username', 'name'], 'text')}
-                    {this.showCompanyNameInput()}
-                    {this.showEmployeeInfo()}
+                    {this.showFieldsBasedOnRole()}
                     {this.showCompanyInput()}
                     {this.showFormFields(['phone', 'address'], 'text')}
                     {this.showFormFields(['password', 'confirmPassword'], 'password')}       
