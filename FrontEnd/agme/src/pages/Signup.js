@@ -5,9 +5,6 @@ import Entity from '../model/Entity';
 const functions = require('../apiOperations');
 const errorMessages = require('../model/errorMessages.json').signup;
 
-/***
-
- * ***/
 export default class Signup extends React.Component{
     constructor(props){
         super(props);
