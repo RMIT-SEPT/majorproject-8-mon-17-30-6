@@ -43,6 +43,7 @@ export default class Signup extends React.Component{
                     this.setState({isCallingServer:false});
                     const errorResult = JSON.parse(response.body);
                     const  fullError = errorResult.errorDetails.missingFields;
+                    console.log(fullError)
                     this.checkForError(fullError);
             }
         })
@@ -50,7 +51,6 @@ export default class Signup extends React.Component{
     }
 
     showError(field){
-        console.log('called showError for field ', field)
         if(!this.state.errors){
             return "";
         }
@@ -92,7 +92,6 @@ export default class Signup extends React.Component{
         const value = e.target.value;
         this.state.entity.setField(e.target.name,e.target.value);
         this.setState({[name]:value});
-        console.log(this.state.entity)
     }
 
     showCompanyNameInput(){
