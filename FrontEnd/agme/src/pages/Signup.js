@@ -2,6 +2,7 @@ import React from 'react';
 import Button from "react-bootstrap/Button";
 import './css/signup.css';
 import Entity from '../model/Entity';
+import FormFields from '../miscelaneous/FormFields'
 const functions = require('../apiOperations');
 const errorMessages = require('../model/errorMessages.json').signup;
 
@@ -20,6 +21,7 @@ export default class Signup extends React.Component{
         
         this.handleSignupRequest = this.handleSignupRequest.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.showError = this.showError.bind(this)
     }
     
     handleSignupRequest(){
@@ -32,15 +34,13 @@ export default class Signup extends React.Component{
                 alert("Signup succesful. Please login");
                 this.props.handleContentChangeRequestSignup('login');
                 }else{
-                    this.setState({isCallingServer:false});
-                    const errorResult = JSON.parse(response.body);
-                    const  fullError = errorResult.errorDetails.missingFields;
-                    this.checkForError(fullError);
+                    this.setState({
+                        isCallingServer:false,
+                        errors: new Set(JSON.parse(response.body).errorDetails.missingFields)
+                    });
             }
-        })
-        
+        })       
     }
-
     showError(field){
         if(!this.state.errors){
             return "";
@@ -50,11 +50,6 @@ export default class Signup extends React.Component{
         }else{
             return errorMessages[field]|| ""
         }
-    }
-    checkForError(fields){
-        this.setState({
-            errors:new Set(fields)
-        });
     }
 
     showSignupButtonButton(){
@@ -117,16 +112,6 @@ export default class Signup extends React.Component{
     }
 
     }
-
-    showFormFields(fields, type){
-        return fields.map((field,i)=>{
-            return <b key={i}>
-                <br/>
-                <input className="form-control" required type={type} name={field} value={this.state.entity[field]||""} placeholder={field} onChange={this.handleInputChange}/>
-                <label className= "errorLabel">{this.showError(field)}</label>
-            </b>
-        })
-    }
         
     render(){
         return (
@@ -139,11 +124,11 @@ export default class Signup extends React.Component{
                         <option value="COMPANY">Company</option>
                         <option value="EMPLOYEE">Employee</option>
                     </select>
-                    {this.showFormFields(['username', 'name'], 'text')}
+                    <FormFields showError={this.showError} fields={['username', 'name']} entity={this.state.entity} onChange={this.handleInputChange}/>
                     {this.showFieldsBasedOnRole()}
                     {this.showCompanyInput()}
-                    {this.showFormFields(['phone', 'address'], 'text')}
-                    {this.showFormFields(['password', 'confirmPassword'], 'password')}       
+                    <FormFields showError={this.showError} fields={['phone', 'address']} entity={this.state.entity} onChange={this.handleInputChange}/>
+                    <FormFields showError={this.showError} fields={['password', 'confirmPassword']} type='password' entity={this.state.entity} onChange={this.handleInputChange}/>
                     {this.showSignupButtonButton()}
                     <p name="login" className="signup_info" onClick={this.props.handleContentChangeRequest}>Already a member? Login here</p>
                 </div>
