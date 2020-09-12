@@ -33,7 +33,7 @@ const testResponse = async (response)=>{
 
 const authenticate = async (username, password, role)=>{
     const url = config.api.url;
-    const uri = config.api.uri
+    const uri = config.api.uri.login;
     const options = {
         method: "POST",
         mode: "cors",
@@ -55,9 +55,9 @@ const authenticate = async (username, password, role)=>{
    return response;
 }
 
-const signupNewUser = async (username, fname, address, phone, role, password, confirmPassword, companyName, userType, companyUsername)=>{
-    const endpoint = "http://localhost:8080/";
-    const uri = "signup"
+const signupNewUser = async (entity)=>{
+    const endpoint = config.api.url;
+    const uri = config.api.uri.signup;
     const options = {
         method: "POST",
         mode: "cors",
@@ -65,20 +65,7 @@ const signupNewUser = async (username, fname, address, phone, role, password, co
             "Content-Type": "application/JSON",
             accept: "application/JSON",
         },
-        body: JSON.stringify({
-                    "username": username,
-                    "password": password,
-                    'confirmPassword': confirmPassword,
-                    "name": fname,
-                    "address": address,
-                    "phone": phone,
-                    "role": role,
-                    "companyName": companyName,
-                    "userType": userType,
-                    "companyUsername": companyUsername
-
-
-                })
+        body: JSON.stringify(entity)
     }
     const response = await apiCall(endpoint,uri,options);
     console.log(response)
