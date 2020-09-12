@@ -78,9 +78,8 @@ export default class Signup extends React.Component{
             return   <React.Fragment>
                     <FormFields showError={this.showError} fields={fields[this.state.entity.role]} entity={this.state.entity} onChange={this.handleInputChange}/>
             </React.Fragment>
-        }else{
-            return ""
         }
+        return ""
     }
  
     showCompanyInput(){
