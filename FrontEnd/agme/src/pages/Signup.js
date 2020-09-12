@@ -137,7 +137,6 @@ export default class Signup extends React.Component{
 
     }
 
-
     showFormFields(fields, type){
         return fields.map((field,i)=>{
             return <b key={i}>
