@@ -15,8 +15,6 @@ export default class Signup extends React.Component{
             isCallingServer: false,
             failed: false,
             error: "",
-            showCompanyName: false,
-            showEmployeeInfo: false,
             options: [],
             called: false,
             entity: new Entity(),
@@ -25,10 +23,8 @@ export default class Signup extends React.Component{
         
         this.handleSignupRequest = this.handleSignupRequest.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleRoleChange = this.handleRoleChange.bind(this);
     }
     
-
     handleSignupRequest(){
         //mock for now
         this.setState({isCallingServer:true});
@@ -73,17 +69,6 @@ export default class Signup extends React.Component{
         }
     }
 
-    //only to be called for role
-    handleRoleChange(e){
-        e.preventDefault();
-        this.setState({
-            role: e.target.value,
-            showCompanyName: (e.target.value==='COMPANY'),
-            showEmployeeInfo: (e.target.value==='EMPLOYEE')
-        });
-        this.state.entity.setField('role', e.target.value)
-    }
-
     handleInputChange(e){
         e.preventDefault();
         const name = e.target.name;
@@ -112,7 +97,7 @@ export default class Signup extends React.Component{
     }
  
     showCompanyInput(){
-        if (!this.state.called && this.state.showEmployeeInfo){
+        if (!this.state.called && (this.state.entity.role==='EMPLOYEE')){
         functions.getCompaniesFromAPI().then(response=>{
             var arr = [];
             var i = 0;
@@ -124,9 +109,8 @@ export default class Signup extends React.Component{
               this.setState({options:arr,isCallingServer:false, called:true});
         }
         )
-        console.log(this.state.companyUsername)
     }
-    if (this.state.showEmployeeInfo){
+    if (this.state.entity.role === 'EMPLOYEE'){
     return <React.Fragment>
     <select className="form-control" name={"companyUsername"} value={this.state.entity.companyUsername} placeholder="role" onChange={this.handleInputChange}>{this.state.options}</select>
 
@@ -152,7 +136,7 @@ export default class Signup extends React.Component{
             <div className={"login"}>
                 <h3 className="title">Please fill out the details below</h3>
                 <div className="form-container">
-                    <select className="form-control" name={"role"} value={this.state.entity.role||""} placeholder="role" onChange={this.handleRoleChange}>
+                    <select className="form-control" name={"role"} value={this.state.entity.role||""} placeholder="role" onChange={this.handleInputChange}>
                         <option value="" disabled defaultValue>Choose a role</option>
                         <option value="USER">User</option>
                         <option value="COMPANY">Company</option>
