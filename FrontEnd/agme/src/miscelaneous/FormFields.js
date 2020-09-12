@@ -1,4 +1,10 @@
 import React from 'react';
+/***
+ * This class is to be used to simplify rendering of multiple form fields
+ * Necessary props are the fields - array of field names, an entity object to hold the attributes
+ * showError and onChange functions are also required, the developer should pass a function to give the 
+ * desired behaviour
+ * ***/
 export default class FormFields extends React.Component{
     render(){
         return this.props.fields.map((field,i)=>{
