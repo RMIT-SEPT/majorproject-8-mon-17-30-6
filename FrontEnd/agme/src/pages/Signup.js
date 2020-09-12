@@ -1,11 +1,13 @@
 import React from 'react';
 import Button from "react-bootstrap/Button";
 import './css/signup.css';
-const functions = require('../apiOperations')
+import Entity from '../model/Entity';
+import FormFields from '../miscelaneous/FormFields';
+import SelectOptions from '../miscelaneous/SelectOptions'
 
-/***
+const functions = require('../apiOperations');
+const errorMessages = require('../model/errorMessages.json').signup;
 
- * ***/
 export default class Signup extends React.Component{
     constructor(props){
         super(props);
@@ -13,162 +15,50 @@ export default class Signup extends React.Component{
             isCallingServer: false,
             failed: false,
             error: "",
-            username: "",
-            password: "",
-            confirmPassword: "",
-            fname: "",
-            role: "",
-            address: "",
-            phone: "",
-            usernameError: false,
-            phoneError: false,
-            passwordError: false,
-            confirmPasswordError: false,
-            phoneErrorMsg: "",
-            usernameErrorMsg: "",
-            passwordErrorMsg: "",
-            addressError: "",
-            addressErrorMsg: "",
-            fnameErrorMsg: "",
-            fnameError: false,
-            confirmPasswordErrorMsg: "",
-            showCompanyName: false,
-            companyName: "",
-            companyNameError: false,
-            companyNameErrorMsg: "",
-            showEmployeeInfo: false,
-            userType: "",
-            userTypeError: false,
-            userTypeErrorMsg: "",
             options: [],
             called: false,
-            companyUsername: "",
-            companyUsernameError: false,
-            companyUsernameErrorMsg: ""
-
-
+            entity: new Entity(),
+            errors: new Set()
         };
         
-        this.showCompanyNameInput = this.showCompanyNameInput.bind(this);
         this.handleSignupRequest = this.handleSignupRequest.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.showError = this.showError.bind(this)
     }
     
-
     handleSignupRequest(){
         //mock for now
         this.setState({isCallingServer:true});
 
-        functions.signupNewUser(this.state.username,this.state.fname, this.state.phone, this.state.address, this.state.role, this.state.password,
-             this.state.confirmPassword, this.state.companyName, this.state.userType, this.state.companyUsername).then(response=>{
+        functions.signupNewUser(this.state.entity).then(response=>{
             if(response.statusCode===200){
                 this.setState({isCallingServer:false});
                 alert("Signup succesful. Please login");
                 this.props.handleContentChangeRequestSignup('login');
                 }else{
-                    this.setState({isCallingServer:false});
-                    const errorResult = JSON.parse(response.body);
-                    const  fullError = errorResult.errorDetails.missingFields;
-                    this.checkForError(fullError);
+                    this.setState({
+                        isCallingServer:false,
+                        errors: new Set(JSON.parse(response.body).errorDetails.missingFields)
+                    });
             }
-        })
-        
+        })       
     }
-    checkForError(fields){
-        this.setState({fnameError:false,confirmPasswordError:false,passwordError:false,phoneError:false,usernameError:false,companyNameError:false, userTypeError:false,companyUsernameError:false});
-
-        Object.values(fields).map((value) => {
-            if (value === "phone"){
-                this.setState({phoneError:true});
-            }else 
-            if (value === "password"){
-                this.setState({passwordError:true});
-            }else 
-            if (value === "username"){
-                this.setState({usernameError:true});
-            }else 
-            if (value === "address"){
-                this.setState({addressError:true});
-            }else 
-            if (value === "name"){
-                this.setState({fnameError:true});
-            }else 
-            if (value === "confirmPassword"){
-                this.setState({confirmPasswordError:true});
-            }else 
-            if (value === "companyName"){
-                this.setState({companyNameError:true});
-            }else
-            if (value === "userType"){
-                this.setState({userTypeError:true});
-            }else
-            if (value === "companyUsername"){
-                this.setState({companyUsernameError:true});
-            }
-            return console.log(value);
-        })
-        this.setError();
+    showError(field){
+        if(!this.state.errors){
+            return "";
+        }
+        if(!this.state.errors.has(field)){
+            return ""
+        }else{
+            return errorMessages[field]|| ""
+        }
     }
 
-    setError(){
-
-        if (this.state.phoneError){
-            this.setState({phoneErrorMsg:"invalid phone number"})
-    
-        }else{
-            this.setState({phoneErrorMsg:""})
-        }
-        if (this.state.usernameError){
-            this.setState({usernameErrorMsg:"Username is taken"})
-        }else{
-            this.setState({usernameErrorMsg:""})
-        }
-        if (this.state.passwordError){
-            this.setState({passwordErrorMsg:"Password must be at least 6 characters long"})
-        }else{
-            this.setState({passwordErrorMsg:""})
-        }
-        if (this.state.addressError){
-            this.setState({addressErrorMsg:"Password must be at least 6 characters long"})
-        }else{
-            this.setState({addressErrorMsg:""})
-        }
-        if (this.state.fnameError){
-            this.setState({fnameErrorMsg:"Password must be at least 6 characters long"})
-        }else{
-            this.setState({fnameErrorMsg:""})
-        }  
-        if (this.state.confirmPasswordError){
-            this.setState({confirmPasswordErrorMsg:"Passwords do not match"});
-
-        }else{
-            this.setState({confirmPasswordErrorMsg:""});
-        }
-        if (this.state.companyNameError){
-            this.setState({companyNameErrorMsg:"Company name cannot be blank"});
-
-        }else{
-            this.setState({companyNameErrorMsg:""});
-        }
-        if (this.state.userTypeError){
-            this.setState({userTypeErrorMsg:"User type cannot be blank"});
-
-        }else{
-            this.setState({userTypeErrorMsg:""});
-        }
-        if (this.state.companyUsernameError){
-            this.setState({companyUsernameErrorMsg:"Please select a company"});
-
-        }else{
-            this.setState({companyUsernameErrorMsg:""});
-        }
-   
-    }
     showSignupButtonButton(){
         if(this.state.isCallingServer){
             return <Button variant={"secondary"}>processing</Button>
         }
-        if(this.state.password&&this.state.username&&this.state.fname&&this.state.phone&&this.state.address&&this.state.role&&this.state.confirmPassword&&(!this.state.isCallingServer)){
+        if(this.state.entity.isComplete()&&(!this.state.isCallingServer)){
             return <Button className="btn btn-success form-control" onClick={this.handleSignupRequest}>Signup</Button>
         }
     }
@@ -177,50 +67,29 @@ export default class Signup extends React.Component{
         e.preventDefault();
         const name = e.target.name;
         const value = e.target.value;
+        this.state.entity.setField(e.target.name,e.target.value);
         this.setState({[name]:value});
-        if (e.target.value === "COMPANY"){
-            this.setState({showCompanyName:true})
-        }else{
-            if (e.target.name === "role"){
-            this.setState({showCompanyName:false})
-            }
-        }
-        if (e.target.value === "EMPLOYEE"){
-            this.setState({showEmployeeInfo:true})
-        }else{
-            if (e.target.name === "role"){
-            this.setState({showEmployeeInfo:false})
-            }
-        }
     }
 
-    showError(){
-
-            return <p className="errorInfo">{this.state.error}</p>
-    }
-    showCompanyNameInput(){
-        if (this.state.showCompanyName === true){
-            return   <React.Fragment>
-            <input className="form-control" type="text" required name={"companyName"} value={this.state.companyName} placeholder="Company Name" onChange={this.handleInputChange}/>                    
-            <label className= "errorLabel">{this.state.companyNameErrorMsg}</label>
-            <br/>  </React.Fragment>
+    showFieldsBasedOnRole(){
+        const fields ={
+            COMPANY: ['companyName'],
+            EMPLOYEE: ['userType']
         }
-    }
-    showEmployeeInfo(){
-        if (this.state.showEmployeeInfo === true){
+        if(fields[this.state.entity.role]){
             return   <React.Fragment>
-            <input className="form-control" type="text" required name={"userType"} value={this.state.userType} placeholder="User Type" onChange={this.handleInputChange}/>                    
-            <label className= "errorLabel">{this.state.userTypeErrorMsg}</label>
-            <br/>  </React.Fragment>
+                    <FormFields showError={this.showError} fields={fields[this.state.entity.role]} entity={this.state.entity} onChange={this.handleInputChange}/>
+            </React.Fragment>
         }
+        return ""
     }
  
     showCompanyInput(){
-        if (!this.state.called && this.state.showEmployeeInfo){
+        if (!this.state.called && (this.state.entity.role==='EMPLOYEE')){
         functions.getCompaniesFromAPI().then(response=>{
             var arr = [];
             var i = 0;
-            arr.push(<option value=""  disabled defaultValue>Choose a Company</option>);
+            arr.push(<option key={i} value=""  disabled defaultValue>Choose a Company</option>);
             for(var key in response.body){
                 arr.push(<option key={i} value={key}>{response.body[key]}</option>);
                 i++;
@@ -228,59 +97,39 @@ export default class Signup extends React.Component{
               this.setState({options:arr,isCallingServer:false, called:true});
         }
         )
-        console.log(this.state.companyUsername)
     }
-    if (this.state.showEmployeeInfo){
+    if (this.state.entity.role === 'EMPLOYEE'){
     return <React.Fragment>
-    <select className="form-control" name={"companyUsername"} value={this.state.companyUsername} placeholder="role" onChange={this.handleInputChange}>{this.state.options}</select>
+        <select className="form-control" name={"companyUsername"} value={this.state.entity.companyUsername} placeholder="role" onChange={this.handleInputChange}>{this.state.options}</select>      
+        <label className= "errorLabel">{this.showError('companyUsername')}</label>
 
-    <label className= "errorLabel">{this.state.companyUsernameErrorMsg}</label>
-
-    <br/>
     </React.Fragment>
     }
 
-}
+    }
         
-    
     render(){
         return (
             <div className={"login"}>
                 <h3 className="title">Please fill out the details below</h3>
                 <div className="form-container">
-                    <select className="form-control" name={"role"} value={this.state.role} placeholder="role" onChange={this.handleInputChange}>
-                        <option value="" disabled defaultValue>Choose a role</option>
-                        <option value="USER">User</option>
-                        <option value="COMPANY">Company</option>
-                        <option value="EMPLOYEE">Employee</option>
-                    </select>
-                    <br/>
-                    <input className="form-control" required type="text" name={"username"} value={this.state.username} placeholder="Username" onChange={this.handleInputChange}/>
-                    <label className= "errorLabel">{this.state.usernameErrorMsg}</label>
-                    <br/>
-                    <input className="form-control" type="text" name={"fname"} value={this.state.fname} placeholder="name" onChange={this.handleInputChange}/>
-                    <label className= "errorLabel">{this.state.fnameErrorMsg}</label>
-                    <br/>
-                    {this.showCompanyNameInput()}
-                    {this.showEmployeeInfo()}
+                    <SelectOptions
+                        className="form-control"
+                        name="role"
+                        entity={this.state.entity}
+                        placeholder="role"
+                        onChange={this.handleInputChange}
+                        options={[{value:"USER",label: "User"},{value:"COMPANY",label: "Company"},{value:"EMPLOYEE",label: "Employee"}]}
+                        defaultValue={{value: "", label: "Choose a role"}}
+                    />
+                    <FormFields showError={this.showError} fields={['username', 'name']} entity={this.state.entity} onChange={this.handleInputChange}/>
+                    {this.showFieldsBasedOnRole()}
                     {this.showCompanyInput()}
-                    <input className="form-control" type="text" name={"phone"} value={this.state.phone} placeholder="phone" onChange={this.handleInputChange}/>
-                    <label className= "errorLabel">{this.state.phoneErrorMsg}</label>
-                    <br/>
-                    <input className="form-control" type="text" name={"address"} value={this.state.address} placeholder="address" onChange={this.handleInputChange}/>
-                    <label className= "errorLabel">{this.state.addressErrorMsg}</label>
-                    <br/>
-           
-                    <input className="form-control" type="password" name={"password"} value={this.state.password} placeholder="Password" onChange={this.handleInputChange}/>
-                    <label className= "errorLabel">{this.state.passwordErrorMsg}</label>
-                    <br/>
-                    <input  className="form-control" type="password" name={"confirmPassword"} value={this.state.confirmPassword} placeholder="Confirm Password" onChange={this.handleInputChange}/>
-                    <label className= "errorLabel">{this.state.confirmPasswordErrorMsg}</label><br></br>
-                    {this.showError()}
+                    <FormFields showError={this.showError} fields={['phone', 'address']} entity={this.state.entity} onChange={this.handleInputChange}/>
+                    <FormFields showError={this.showError} fields={['password', 'confirmPassword']} type='password' entity={this.state.entity} onChange={this.handleInputChange}/>
                     {this.showSignupButtonButton()}
                     <p name="login" className="signup_info" onClick={this.props.handleContentChangeRequest}>Already a member? Login here</p>
                 </div>
-
             </div>
         )
     }
