@@ -2,7 +2,9 @@ import React from 'react';
 import Button from "react-bootstrap/Button";
 import './css/signup.css';
 import Entity from '../model/Entity';
-import FormFields from '../miscelaneous/FormFields'
+import FormFields from '../miscelaneous/FormFields';
+import SelectOptions from '../miscelaneous/SelectOptions'
+
 const functions = require('../apiOperations');
 const errorMessages = require('../model/errorMessages.json').signup;
 
@@ -112,12 +114,15 @@ export default class Signup extends React.Component{
             <div className={"login"}>
                 <h3 className="title">Please fill out the details below</h3>
                 <div className="form-container">
-                    <select className="form-control" name={"role"} value={this.state.entity.role||""} placeholder="role" onChange={this.handleInputChange}>
-                        <option value="" disabled defaultValue>Choose a role</option>
-                        <option value="USER">User</option>
-                        <option value="COMPANY">Company</option>
-                        <option value="EMPLOYEE">Employee</option>
-                    </select>
+                    <SelectOptions
+                        className="form-control"
+                        name="role"
+                        entity={this.state.entity}
+                        placeholder="role"
+                        onChange={this.handleInputChange}
+                        options={[{value:"USER",label: "User"},{value:"COMPANY",label: "Company"},{value:"EMPLOYEE",label: "Employee"}]}
+                        defaultValue={{value: "", label: "Choose a role"}}
+                    />
                     <FormFields showError={this.showError} fields={['username', 'name']} entity={this.state.entity} onChange={this.handleInputChange}/>
                     {this.showFieldsBasedOnRole()}
                     {this.showCompanyInput()}
