@@ -100,9 +100,8 @@ export default class Signup extends React.Component{
     }
     if (this.state.entity.role === 'EMPLOYEE'){
     return <React.Fragment>
-    <select className="form-control" name={"companyUsername"} value={this.state.entity.companyUsername} placeholder="role" onChange={this.handleInputChange}>{this.state.options}</select>
-
-    <label className= "errorLabel">{this.showError('companyUsername')}</label>
+        <select className="form-control" name={"companyUsername"} value={this.state.entity.companyUsername} placeholder="role" onChange={this.handleInputChange}>{this.state.options}</select>      
+        <label className= "errorLabel">{this.showError('companyUsername')}</label>
 
     </React.Fragment>
     }
