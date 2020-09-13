@@ -74,6 +74,9 @@ export default class App extends React.Component{
             case "providers":
                 component = <ViewProviders/>
                 break;
+            case "services":
+                    component = <Services/>
+                    break;
             case "login":
                 component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>
                 break;
@@ -95,6 +98,7 @@ export default class App extends React.Component{
                 break;
             case "login":
                 component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleAuthentication={this.handleAuthentication}/>
+                break;
             case "services":
                 component = <Services handleContentChangeRequest={this.handleContentChangeRequest} handleAuthentication={this.handleAuthentication}/>
                 break;

@@ -1,0 +1,29 @@
+div.card {
+    width: 80vw;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    text-align: center;
+    margin: 1vh 0 2vh 1vw;
+  }
+  
+  div.card div.header {
+    background-color: cadetblue;
+    color: white;
+    padding: 10px;
+    font-size: 40px;
+  }
+  
+  div.card div.container {
+    padding: 10px;
+  }
+
+div.card:hover{
+    width: 80vw;
+    box-shadow: 0 4px 8px 0 rgba(99, 181, 83, 0.2), 0 6px 20px 0 rgba(17, 179, 17, 0.19);
+    text-align: center;
+    margin: 1vh 0 2vh 1vw;
+    cursor: pointer;
+  }
+
+  div.card:hover div.header{
+   background-color:rgb(60, 134, 136);
+  }
