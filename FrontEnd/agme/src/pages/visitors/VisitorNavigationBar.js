@@ -29,10 +29,8 @@ export default class VisitorNavigationBar extends React.Component{
                             <Nav.Link href="#link">Link</Nav.Link>
                             <NavDropdown title="Services" id="basic-nav-dropdown">
                                 <NavDropdown.Item name="providers" onClick={this.props.handleSelectNavBar}>Providers</NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-                                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                                <NavDropdown.Item name="services" onClick={this.props.handleSelectNavBar}>Services</NavDropdown.Item>
                             </NavDropdown>
                             <Nav.Link name="login" onClick={this.props.handleSelectNavBar}>Login</Nav.Link>
                         </Nav>

@@ -3,6 +3,7 @@ import './pages/css/App.css';
 import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import Services from "./pages/services/Services";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {getDecodedJwtFromLocalStorage}  from "./mock/operations/mock/functions/utils";//Add decode func
 import ViewProviders from './pages/users/ViewProviders';
@@ -93,7 +94,9 @@ export default class App extends React.Component{
                 component = <ViewProviders/>
                 break;
             case "login":
-                component = <Login handleContentChangeRequest={this.handleContentChangeRequest}/>
+                component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleAuthentication={this.handleAuthentication}/>
+            case "services":
+                component = <Services handleContentChangeRequest={this.handleContentChangeRequest} handleAuthentication={this.handleAuthentication}/>
                 break;
             default:
                 console.log("no content available?");
@@ -101,10 +104,11 @@ export default class App extends React.Component{
         this.setState({content:component})
     }
 
-    handleAuthentication(authenticationDetails){
+    handleAuthentication(){
         //save to local storage to persist
-        localStorage.setItem('credentials',JSON.stringify(authenticationDetails))
-        const authDetails = utils.decodeJwt(authenticationDetails.jwt)
+        const credentials = localStorage.getItem('credentials');
+        if(!credentials){return;}
+        const authDetails = utils.decodeJwt(JSON.parse(credentials).jwt)
         const role = authDetails.role
         this.setState({
             token:authDetails.jwt,
