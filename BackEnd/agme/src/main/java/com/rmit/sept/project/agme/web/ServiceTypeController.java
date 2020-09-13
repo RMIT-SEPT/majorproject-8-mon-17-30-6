@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/service")
+@RequestMapping("/services")
 public class ServiceTypeController {
     @Autowired
     private ServiceTypeService serviceTypeService;
 
-    @PostMapping("")
+    @PostMapping("/add")
     public ResponseEntity<ServiceType> createServiceType(@RequestBody ServiceType serviceType){
         ServiceType response = serviceTypeService.saveOrUpdateServiceType(serviceType);
         return new ResponseEntity<ServiceType>(response, HttpStatus.CREATED);
