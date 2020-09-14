@@ -51,7 +51,7 @@ const getDecodedJwtFromLocalStorage =() =>{
     if(!credentials){
         return null;
     }
-    const stringifiedJwtPayload = credentials.split('.')[1];
+    const stringifiedJwtPayload = credentials.jwt.split('.')[1];
     //decode payload
     let data = stringifiedJwtPayload;
     let buff = new Buffer(data, 'base64');

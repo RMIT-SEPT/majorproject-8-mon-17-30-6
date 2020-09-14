@@ -50,7 +50,9 @@ const authenticate = async (username, password, role)=>{
     const response = await apiCall(url,uri,options);
     console.log(response);
     if(response.statusCode===200){
-        localStorage.setItem('credentials', JSON.stringify(response.body.jwt))
+        localStorage.setItem('credentials', JSON.stringify(response.body))
+    }else{
+        localStorage.removeItem('credentials')
     }
    return response;
 }
