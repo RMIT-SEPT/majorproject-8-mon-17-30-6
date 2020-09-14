@@ -5,9 +5,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 public class Employee extends AbstractUser implements UserDetails {
@@ -15,8 +13,11 @@ public class Employee extends AbstractUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+    @OneToOne
     private Company company;
+
+    @OneToMany
+    private List<Booking> list = new ArrayList<Booking>();
 
     public Employee() {}
 
