@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.BDDMockito.given;
 
@@ -47,7 +48,6 @@ public class BookingControllerTest {
 
     @MockBean
     LoginSignupService loginSignupService;
-
 
     @MockBean
     private BookingController bookingController;
@@ -81,7 +81,7 @@ public class BookingControllerTest {
         User user = new User();
         Date date = new Date();
 
-        Booking booking = new Booking(date, "Test", 2, employee, company, user);
+        Booking booking = new Booking(date, "Test", 120, employee, company, user);
         booking.setVisible(2);
         booking.setId((long) 24);
 
@@ -94,5 +94,74 @@ public class BookingControllerTest {
         bookingController.newBooking(otherBooking);
 
         given(bookingController.getBookings()).willReturn(bookingList);
+    }
+
+    @Test
+    public void getBookingByIdTest() {
+
+        Long id = 1000L;
+        Employee employee = new Employee();
+        Company company = new Company();
+        User user = new User();
+        Date date = new Date();
+
+        Booking temp = new Booking(date, "Test", 120, employee, company, user);
+        temp.setId(id);
+
+        bookingController.newBooking(temp);
+
+        given(bookingController.getBookingById(id)).willReturn(temp);
+    }
+
+    @Test
+    public void getBookingsByCompanyTest() {
+
+        Booking temp1 = new Booking();
+        Company comp1 = new Company();
+        temp1.setCompany(comp1);
+
+        Booking temp2 = new Booking();
+        temp2.setCompany(comp1);
+
+        Booking temp3 = new Booking();
+        Company comp2 = new Company();
+        temp3.setCompany(comp2);
+
+        bookingController.newBooking(temp1);
+        bookingController.newBooking(temp2);
+        bookingController.newBooking(temp3);
+
+        List<Booking> list = new ArrayList<>();
+        list.add(temp1);
+        list.add(temp2);
+
+        given(bookingController.getBookingsByCompany(comp1)).willReturn(list);
+
+    }
+
+    @Test
+    public void getBookingsByEmployeeTest() {
+
+        Booking temp1 = new Booking();
+        Employee emp1 = new Employee();
+        temp1.setEmployee(emp1);
+
+        Booking temp2 = new Booking();
+        temp2.setEmployee(emp1);
+
+        Booking temp3 = new Booking();
+        Employee emp2 = new Employee();
+        temp3.setEmployee(emp2);
+
+        bookingController.newBooking(temp1);
+        bookingController.newBooking(temp2);
+        bookingController.newBooking(temp3);
+
+        List<Booking> list = new ArrayList<>();
+        list.add(temp1);
+        list.add(temp2);
+
+        given(bookingController.getBookingsByEmployee(emp1)).willReturn(list);
+
     }
 }

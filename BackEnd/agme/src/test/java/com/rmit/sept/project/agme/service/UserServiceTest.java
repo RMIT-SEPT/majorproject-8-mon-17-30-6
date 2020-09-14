@@ -3,7 +3,6 @@ package com.rmit.sept.project.agme.service;
 import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.model.User;
 import com.rmit.sept.project.agme.services.UserService;
-import com.sun.deploy.security.ruleset.ExceptionRule;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
