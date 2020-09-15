@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequestMapping("/company")
+@RequestMapping("/git p")
 public class CompanyController
 {
     @Autowired
