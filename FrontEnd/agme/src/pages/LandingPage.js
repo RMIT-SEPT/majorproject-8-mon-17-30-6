@@ -3,6 +3,7 @@ import Login from "./Login";
 import BasicUserContent from './users/BasicUserContent';
 import Provider from './providers/Provider';
 import Administrator from './administrators/Administrator';
+const functions = require('../apiOperations')
 
 /**
  * Basic flow:
@@ -19,8 +20,26 @@ export default class LandingPage extends React.Component{
             
         }
     }
+    showCurrentBookings(){
+        functions.getCurrentBookings().then(response=>{
+            if(response.statusCode===200){
+                this.setState({isCallingServer:false});
+                console.log(response.body);
+                }else{
+                    this.setState({
+                        isCallingServer:false,
+                        errors: new Set(JSON.parse(response.body).errorDetails.missingFields)
+                    });
+            }
+        }) 
+
+    }
+    renderContentForBookings(response){
+
+    }
 
     render(){
+        this.showCurrentBookings();
         if(this.props.authenticated){
             switch(this.props.type.toUpperCase()){
                 case "BASIC_USER":

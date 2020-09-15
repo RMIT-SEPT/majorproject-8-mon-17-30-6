@@ -82,6 +82,17 @@ const getCompaniesFromAPI = async ()=>{
     console.log(response)
    return response;
 }
+const getCurrentBookings = async ()=>{
+    const endpoint = "http://localhost:8080/";
+    const uri = "company/bookings"
+    const options = {
+        method: "GET",
+        mode: "cors"
+    }
+    const response = await apiCall(endpoint,uri,options);
+    console.log(response)
+   return response;
+}
 
 const getDecodedJwtFromLocalStorage = async() =>{
     // Get JWT Header, Payload and Signature
@@ -92,4 +103,4 @@ const getDecodedJwtFromLocalStorage = async() =>{
     return JSON.parse(buff.toString('ascii'));
 
 }
-export default {authenticate, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage}
+export default {authenticate, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage, getCurrentBookings}

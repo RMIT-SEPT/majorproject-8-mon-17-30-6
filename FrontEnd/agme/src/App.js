@@ -74,7 +74,7 @@ export default class App extends React.Component{
                 component = <ViewProviders/>
                 break;
             case "login":
-                component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>
+                component = <Login handleContentChangeRequest={this.handleContentChangeRequest} Signup handleAuthentication={this.handleAuthentication} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>
                 break;
             default:
                 console.log("no content available?");
