@@ -25,14 +25,6 @@ describe("App", () => {
     expect(title).toEqual("You are not authenticated");
   });
 
-  it("It should display a text for user sign up", () => {
-    //get the content from the App component - simply the LandingPage
-    const landingPage = mount(component.state().content); 
-    //Get the content from LandingPage - should be login page when starting
-    const loginPage = mount(landingPage.state().content); 
-    const title = loginPage.find(".login").find(".title").text();
-    expect(title).toEqual("You are not authenticated");
-  });
 
   it("It should allow an unregistered user to click on sign up", () => {
     //simulate click om signup component
