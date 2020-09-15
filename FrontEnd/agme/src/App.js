@@ -59,30 +59,36 @@ export default class App extends React.Component{
     }
 
     //To handle component change
-    handleContentChangeRequest(e){
+    handleContentChangeRequest(e, isComponent){
         try{
             e.preventDefault();
         }catch(e){
 
         }
-        const contentString = e.target ? e.target.getAttribute('name') : e;
         let component = "";
-        switch(contentString){
-            case "signup":
-                component = <Signup handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>
-                break;
-            case "providers":
-                component = <ViewProviders/>
-                break;
-            case "services":
-                    component = <Services/>
+        //to let each navbar to change component rendered directly
+        if(isComponent){
+            component = e;
+        }else{
+            const contentString = e.target ? e.target.getAttribute('name') : e;
+            switch(contentString){
+                case "signup":
+                    component = <Signup handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>
                     break;
-            case "login":
-                component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>
-                break;
-            default:
-                console.log("no content available?");
-        }  
+                case "providers":
+                    component = <ViewProviders/>
+                    break;
+                case "services":
+                        component = <Services/>
+                        break;
+                case "login":
+                    component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>
+                    break;
+                default:
+                    console.log("no content available?");
+            }  
+        }
+
         this.setState({content:component})
     }
     handleContentChangeRequestSignup(componentName){
@@ -112,7 +118,8 @@ export default class App extends React.Component{
         //save to local storage to persist
         const credentials = localStorage.getItem('credentials');
         if(!credentials){return;}
-        const authDetails = utils.decodeJwt(JSON.parse(credentials).jwt)
+        const authDetails = utils.decodeJwt(JSON.parse(credentials).jwt);
+        console.log(authDetails)
         const role = authDetails.role
         this.setState({
             token:authDetails.jwt,

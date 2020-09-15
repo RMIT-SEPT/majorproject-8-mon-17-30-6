@@ -1,6 +1,6 @@
 import React from 'react';
 import Login from "./Login";
-import BasicUserContent from './users/BasicUserContent';
+import UserDashboard from './users/UserDashboard';
 import Provider from './providers/Provider';
 import Administrator from './administrators/Administrator';
 
@@ -13,7 +13,7 @@ import Administrator from './administrators/Administrator';
  * **/
 export default class LandingPage extends React.Component{
     constructor(props){
-        super(props);
+        super(props)
         this.state = {
             content: <Login handleContentChangeRequest={this.props.handleContentChangeRequest} handleAuthentication={this.props.handleAuthentication}/>
             
@@ -22,14 +22,15 @@ export default class LandingPage extends React.Component{
 
     render(){
         if(this.props.authenticated){
+            console.log(this.props.type)
             switch(this.props.type.toUpperCase()){
-                case "BASIC_USER":
-                    return <BasicUserContent token={this.props.token} expiry={this.props.expiry}/>;
-                case "ADMINISTRATOR":
+                case "USER":
+                    return <UserDashboard token={this.props.token} expiry={this.props.expiry}/>;
+                case "ADMIN":
                     return <Administrator token={this.props.token} expiry={this.props.expiry}/>;
                 case "PROVIDER":
                     return <Provider token={this.props.token} expiry={this.props.expiry}/>;
-                default:
+                    default:
                         return this.state.content;            
             }
             

@@ -25,12 +25,14 @@ export default class UserNavigationBar extends React.Component{
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link href="#home">Home</Nav.Link>
-                            <Nav.Link href="#link">Link</Nav.Link>
                             <NavDropdown title="Services" id="basic-nav-dropdown">
                                 <NavDropdown.Item name="providers" onClick={this.props.handleSelectNavBar}>Providers</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item name="services" onClick={this.props.handleSelectNavBar}>Services</NavDropdown.Item>
+                            </NavDropdown>
+                            <NavDropdown title="Manage Appointments" id="basic-nav-dropdown">
+                                <NavDropdown.Item name="upcomingAppointments" onClick={this.props.handleSelectNavBar}>View my appointments</NavDropdown.Item>
+                              
                             </NavDropdown>
                         </Nav>
                         
