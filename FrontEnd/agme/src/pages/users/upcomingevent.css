@@ -1,0 +1,13 @@
+.upcoming_event_company{
+    text-align:left;
+}
+
+
+.accordion .card, .accordion .card:hover{
+    width: 30vw;
+    float:left;
+}
+
+.accordion .card .collapse.show{
+    width: 30vw;
+}

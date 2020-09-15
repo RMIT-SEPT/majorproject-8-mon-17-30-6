@@ -13,8 +13,9 @@ export default class NavigationBar extends React.Component{
 
     render(){
         const decodedJwtPayload = getDecodedJwtFromLocalStorage();
+        console.log(decodedJwtPayload)
         if(decodedJwtPayload&&(decodedJwtPayload.exp>decodedJwtPayload.iat)){
-            if(decodedJwtPayload.role==='provider'){
+            if(decodedJwtPayload.role.toUpperCase().includes('PROVIDER')){
                 return (
                     <ProviderNavigationBar 
                         handleLogout={this.props.handleLogout} 
@@ -22,7 +23,7 @@ export default class NavigationBar extends React.Component{
                         handleSelectNavBar={this.props.handleSelectNavBar}
                         />
                 )
-            }else if(decodedJwtPayload.role==='user'){
+            }else if(decodedJwtPayload.role.toUpperCase().includes('USER')){
                 return (
                     <UserNavigationBar 
                         handleLogout={this.props.handleLogout} 
@@ -30,7 +31,7 @@ export default class NavigationBar extends React.Component{
                         handleSelectNavBar={this.props.handleSelectNavBar}
                     />
                 )
-            }else if(decodedJwtPayload.role==='administrator'){
+            }else if(decodedJwtPayload.role.toUpperCase().includes('ADMIN')){
                 return (
                 <AdminNavigationBar 
                     handleLogout={this.props.handleLogout} 
@@ -42,7 +43,7 @@ export default class NavigationBar extends React.Component{
                 /***
                  * Should never enter this block unless token was tampered
                  * ***/
-                localStorage.remoteItem('credentials');
+                localStorage.removeItem('credentials');
                 throw new Error({
                     errorId: "INVALID_LOGIN",
                     message: "Your session has expired. Please refresh your browser."
