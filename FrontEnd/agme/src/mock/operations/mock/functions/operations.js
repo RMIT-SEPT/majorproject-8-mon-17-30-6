@@ -70,7 +70,6 @@ const signupNewUser = async (entity)=>{
         body: JSON.stringify(entity)
     }
     const response = await apiCall(endpoint,uri,options);
-    console.log(response)
    return response;
 }
 const getCompaniesFromAPI = async ()=>{
