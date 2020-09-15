@@ -13,7 +13,7 @@ import Administrator from './administrators/Administrator';
  * **/
 export default class LandingPage extends React.Component{
     constructor(props){
-        super(props)
+        super(props);
         this.state = {
             content: <Login handleContentChangeRequest={this.props.handleContentChangeRequest} handleAuthentication={this.props.handleAuthentication}/>
             
@@ -24,14 +24,16 @@ export default class LandingPage extends React.Component{
         if(this.props.authenticated){
             console.log(this.props.type)
             switch(this.props.type.toUpperCase()){
+                case "[USER]":
+                    return <UserDashboard token={this.props.token} expiry={this.props.expiry}/>;
                 case "USER":
                     return <UserDashboard token={this.props.token} expiry={this.props.expiry}/>;
                 case "ADMIN":
                     return <Administrator token={this.props.token} expiry={this.props.expiry}/>;
                 case "PROVIDER":
                     return <Provider token={this.props.token} expiry={this.props.expiry}/>;
-                    default:
-                        return this.state.content;            
+                default:
+                    return <div>Cannot load your content</div>;            
             }
             
         }else{

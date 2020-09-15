@@ -4,7 +4,7 @@ export default class UserDashboard extends React.Component{
     render(){
         return (
             <div>
-                User dashboard goes here...0
+                User dashboard goes here...
             </div>
         )
     }
