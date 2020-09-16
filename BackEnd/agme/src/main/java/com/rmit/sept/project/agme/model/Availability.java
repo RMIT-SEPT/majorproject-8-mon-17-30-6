@@ -1,7 +1,9 @@
 package com.rmit.sept.project.agme.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Availability {
@@ -13,9 +15,6 @@ public class Availability {
     private String serviceType;
     @ManyToOne
     private Employee employee;
-
-    @ManyToOne
-    private Company company;
 
     public Availability() {
     }

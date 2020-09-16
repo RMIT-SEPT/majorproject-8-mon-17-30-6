@@ -19,6 +19,8 @@ public class ServiceType {
 
     private String name;
     private String description;
+    @ManyToMany
+    List<Company> company;
 
     public ServiceType(String name, String description) {
         this.name = name;
