@@ -25,4 +25,14 @@ public class ServiceTypeService {
         it.forEach(services::add);
         return services;
     }
+
+    public ServiceType loadServiceByName(String name){
+        List<ServiceType> services = getAllServices();
+        for (ServiceType next:services){
+            if (next.getName().equals(name)){
+                return next;
+            }
+        }
+        return null;
+    }
 }

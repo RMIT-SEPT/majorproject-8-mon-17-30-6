@@ -3,6 +3,7 @@ package com.rmit.sept.project.agme.web;
 import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.model.Employee;
 import com.rmit.sept.project.agme.security.JwtUtil;
+import com.rmit.sept.project.agme.services.BookingService;
 import com.rmit.sept.project.agme.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,11 +14,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/employee")
+@RequestMapping("/employee")
 public class EmployeeController
 {
 
     private final EmployeeService employeeService;
+    @Autowired
+    private BookingService bookingService;
 
     @Autowired
     JwtUtil jwtUtil;
@@ -28,17 +31,6 @@ public class EmployeeController
         this.employeeService = employeeService;
     }
 
-    @PostMapping("/employees")
-    Employee newEmployee(@RequestBody Employee employee)
-    {
-        return employeeService.addEmployee(employee);
-    }
-
-    @GetMapping("/employees")
-    List<Employee> getEmployees()
-    {
-        return employeeService.getAllEmployees();
-    }
 
     @GetMapping("/bookings")
     public ResponseEntity<?> getBookings(@RequestHeader("Authorisation") String authorisationHeader)
@@ -48,10 +40,10 @@ public class EmployeeController
             String jwt = authorisationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
         }
-        List<Booking> bookings = new ArrayList<>();
+        List<Booking> bookings = bookingService.getAllBookings();
         List<Booking> bookingsForCompany = new ArrayList<>();
         for (Booking next : bookings) {
-            if (next.getCompany().getUsername().equals(username)) {
+            if (next.getEmployee().getUsername().equals(username)) {
                 bookingsForCompany.add(next);
             }
         }

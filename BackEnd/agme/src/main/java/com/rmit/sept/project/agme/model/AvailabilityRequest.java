@@ -6,7 +6,7 @@ public class AvailabilityRequest
 {
     private Date date;
     private String companyUsername;
-    private String workerUsername;
+    private String employeeUsername;
 
     public AvailabilityRequest(){
 
@@ -31,13 +31,13 @@ public class AvailabilityRequest
         this.companyUsername = companyUsername;
     }
 
-    public String getWorkerUsername()
+    public String getEmployeeUsername()
     {
-        return workerUsername;
+        return employeeUsername;
     }
 
-    public void setWorkerUsername(String workerUsername)
+    public void setEmployeeUsername(String employeeUsername)
     {
-        this.workerUsername = workerUsername;
+        this.employeeUsername = employeeUsername;
     }
 }

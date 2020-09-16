@@ -13,7 +13,8 @@ public class Employee extends AbstractUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+
+    @ManyToOne
     private Company company;
 
     @OneToMany
@@ -84,7 +85,7 @@ public class Employee extends AbstractUser implements UserDetails {
     }
 
 
-    public Company getCompany() { return company; }
+    public Company getCompany() { return null; }
 
     public void setCompany(Company company) { this.company = company; }
 }
