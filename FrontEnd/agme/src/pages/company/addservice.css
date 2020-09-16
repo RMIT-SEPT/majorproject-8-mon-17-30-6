@@ -1,0 +1,12 @@
+
+.App div.accordion{
+    width: 90vw;
+    }
+
+.App div.accordion .card{
+    width: 90vw;
+}
+
+button{
+    margin:1vw;
+}
