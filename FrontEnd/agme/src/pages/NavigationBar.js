@@ -1,6 +1,5 @@
 import React from 'react';
 import {getDecodedJwtFromLocalStorage}  from "../mock/operations/mock/functions/utils";//Add decode func
-import ProviderNavigationBar from './providers/ProviderNavigationBar';
 import UserNavigationBar from './users/UserNavigationBar';
 import AdminNavigationBar from './administrators/AdminNavigationBar'
 import VisitorNavigationBar from './visitors/VisitorNavigationBar'
@@ -15,14 +14,14 @@ export default class NavigationBar extends React.Component{
         const decodedJwtPayload = getDecodedJwtFromLocalStorage();
         console.log(decodedJwtPayload)
         if(decodedJwtPayload&&(decodedJwtPayload.exp>decodedJwtPayload.iat)){
-            if(decodedJwtPayload.role.toUpperCase().includes('PROVIDER')){
+            if(decodedJwtPayload.role.toUpperCase().includes('COMPANY')){
                 return (
-                    <ProviderNavigationBar 
+                    <CompanyNavigationBar 
                         handleLogout={this.props.handleLogout} 
                         token={this.props&&this.props.token} 
-                        handleSelectNavBar={this.props.handleSelectNavBar}
-                        />
-                )
+                        handleSelectNavBar={this.props.handleSelectNavBar}    
+                    />
+                    )
             }else if(decodedJwtPayload.role.toUpperCase().includes('USER')){
                 return (
                     <UserNavigationBar 
@@ -34,14 +33,6 @@ export default class NavigationBar extends React.Component{
             }else if(decodedJwtPayload.role.toUpperCase().includes('ADMIN')){
                 return (
                 <AdminNavigationBar 
-                    handleLogout={this.props.handleLogout} 
-                    token={this.props&&this.props.token} 
-                    handleSelectNavBar={this.props.handleSelectNavBar}    
-                />
-                )
-            }else if(decodedJwtPayload.role.toUpperCase().includes('COMPANY')){
-                return (
-                <CompanyNavigationBar 
                     handleLogout={this.props.handleLogout} 
                     token={this.props&&this.props.token} 
                     handleSelectNavBar={this.props.handleSelectNavBar}    
