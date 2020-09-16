@@ -1,26 +1,27 @@
 package com.rmit.sept.project.agme.web;
 
+import com.rmit.sept.project.agme.model.AvailabilityRequest;
 import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.services.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 @RestController
-@RequestMapping("")
+@RequestMapping("/user")
 @CrossOrigin("http://localhost:3000")
 public class AvailabilityController
 {
     @Autowired
     BookingService bookingService;
 
-    @GetMapping
-    public void getAvailableDays(){
+    @RequestMapping("/availability")
+    @PostMapping
+    public ResponseEntity<?> getAvailableDays(@RequestBody AvailabilityRequest availabilityRequest){
         List<Booking> bookings = bookingService.getAllBookings();
         Date today = new Date(2);
         List<Integer> availablility = new ArrayList<>();
@@ -35,7 +36,8 @@ public class AvailabilityController
         availablility.add(17);
         int time;
         for (Booking next:bookings){
-            if (next.getStartDateTime() == today){
+            if (next.getStartDateTime() == availabilityRequest.getDate() && next.getCompany().getUsername().equals(availabilityRequest.getCompanyUsername())
+                    && next.getEmployee().getUsername().equals(availabilityRequest.getWorkerUsername())){
                 time = next.getStartDateTime().getHours();
                 for (int i = 0; i < next.getDuration();i++){
                     availablility.remove(time);
@@ -43,6 +45,7 @@ public class AvailabilityController
                 }
             }
         }
+        return new ResponseEntity<>(availablility, HttpStatus.OK);
 
 
     }
