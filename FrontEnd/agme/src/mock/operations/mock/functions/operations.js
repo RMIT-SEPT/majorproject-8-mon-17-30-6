@@ -4,6 +4,7 @@ const config = require('../../../../config.json')
  * ***/
 const apiCall = async(endpoint,uri,options)=>{
     const response = await fetch(endpoint+uri,options);
+    console.log(response)
     return testResponse(response)
 }
 
@@ -22,6 +23,7 @@ const testResponse = async (response)=>{
         }
        
     }catch(error){
+        console.log(error)
         return {
             statusCode: error.status,
             body: await error.text()
@@ -46,8 +48,13 @@ const authenticate = async (username, password, role)=>{
                 })
     }
     const response = await apiCall(url,uri,options);
+    console.log(response);
     if(response.statusCode===200){
+
+        console.log('response 200')
+        console.log('setting local storage credentials')
         localStorage.setItem('credentials', JSON.stringify(response.body));
+        console.log(localStorage.getItem('credentials'))
     }else{
         localStorage.removeItem('credentials')
     }
@@ -77,6 +84,7 @@ const getCompaniesFromAPI = async ()=>{
         mode: "cors"
     }
     const response = await apiCall(endpoint,uri,options);
+    console.log(response)
    return response;
 }
 
