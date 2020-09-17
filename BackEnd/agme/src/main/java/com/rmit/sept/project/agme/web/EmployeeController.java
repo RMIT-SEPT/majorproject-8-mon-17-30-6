@@ -40,10 +40,14 @@ public class EmployeeController
             String jwt = authorisationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
         }
+//        Returns bookings for the user if they belong to the user
         List<Booking> bookings = bookingService.getAllBookings();
         List<Booking> bookingsForCompany = new ArrayList<>();
         for (Booking next : bookings) {
             if (next.getEmployee().getUsername().equals(username)) {
+//                Removes unnecesary info for response
+                next.getCompany().setEmployees(null);
+                next.getServiceType().setCompany(null);
                 bookingsForCompany.add(next);
             }
         }

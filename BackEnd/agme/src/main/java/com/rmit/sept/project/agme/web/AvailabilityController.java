@@ -23,9 +23,11 @@ public class AvailabilityController
 
     @PostMapping("/availability")
     public ResponseEntity<?> getAvailableDays(@RequestBody AvailabilityRequest availabilityRequest){
+// Retrieve all bookings
         List<Booking> bookings = bookingService.getAllBookings();
         Date today = new Date(2);
         List<Integer> availablility = new ArrayList<Integer>();
+//        All employees have a default availability
         availablility.add(9);
         availablility.add(10);
         availablility.add(11);
@@ -36,6 +38,7 @@ public class AvailabilityController
         availablility.add(16);
         availablility.add(17);
         int time;
+//        Loop through each booking and remove the booked times from the availability list
         for (Booking next:bookings){
             if (next.getStartDateTime().getDay() == availabilityRequest.getDate().getDay() && next.getCompany().getUsername().equals(availabilityRequest.getCompanyUsername())
                     && next.getEmployee().getUsername().equals(availabilityRequest.getEmployeeUsername())){
@@ -54,12 +57,14 @@ public class AvailabilityController
 
             }
         }
+//        Return list of available times
         return new ResponseEntity<>(availablility, HttpStatus.OK);
 
 
     }
     @Autowired
     ServiceTypeService serviceTypeService;
+//    Returns the required data for the above post method
     @GetMapping("/availability")
     public ResponseEntity<?> getAvailableDays(){
         List<ServiceType> service = serviceTypeService.getAllServices();
