@@ -36,7 +36,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/admin").hasAnyAuthority("ADMIN");
 //        removes restriction on access to sign and login
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/login", "/signup", "/h2-console")
+                .authorizeRequests().antMatchers("/login", "/signup", "/h2-console", "/healthcheck")
                 .permitAll().anyRequest().authenticated()
                 .and()
                 .sessionManagement()

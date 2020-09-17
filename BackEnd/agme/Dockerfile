@@ -8,3 +8,4 @@ FROM openjdk:8-jre-alpine
 WORKDIR /app
 COPY --from=MAVEN_BUILD /build/target/agme-0.0.1.jar /app/
 ENTRYPOINT ["java", "-jar", "agme-0.0.1.jar"]
+EXPOSE 8080
