@@ -120,7 +120,10 @@ export default class App extends React.Component{
         if(!credentials){return;}
 
         const authDetails = utils.decodeJwt(JSON.parse(credentials).jwt);
+<<<<<<< HEAD
         authDetails.role = 'user';//remove this once backend is fixed
+=======
+>>>>>>> a7a8c27dd063126f29d1092f48700f316089f792
         const role = authDetails.role
         this.setState({
             token:authDetails.jwt,
