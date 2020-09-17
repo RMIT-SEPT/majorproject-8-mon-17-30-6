@@ -1,35 +1,27 @@
 package com.rmit.sept.project.agme.service;
 
-import com.rmit.sept.project.agme.repositories.BookingRepository;
-import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.model.Company;
-import com.rmit.sept.project.agme.model.Employee;
-import com.rmit.sept.project.agme.model.User;
+import com.rmit.sept.project.agme.repositories.BookingRepository;
+import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.services.*;
-import com.rmit.sept.project.agme.web.BookingController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 import static org.mockito.BDDMockito.given;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(BookingService.class)
-public class BookingServiceest {
+public class BookingServiceTest {
     @MockBean
     UserRepository userRepository;
 
@@ -48,17 +40,11 @@ public class BookingServiceest {
     @MockBean
     LoginSignupService loginSignupService;
 
-    @MockBean
-    private BookingController bookingController;
-
     @Autowired
     BookingService bookingService;
 
     @MockBean
     BookingRepository bookingRepository;
-
-    @Autowired
-    private MockMvc mockMvc;
 
     @Test
     public void newBooking_willReturnTrue_whenCriteriaIsMetForANewBooking() {
