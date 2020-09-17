@@ -25,8 +25,13 @@ public class ServiceTypeController {
 
     //    Return available services for a user
     @GetMapping("/services")
-    List<ServiceType> getServices() {
-        return serviceTypeService.getAllServices();
+    ResponseEntity<?> getServices() {
+        if (serviceTypeService.getAllServices().size() == 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        } else {
+            return new ResponseEntity<>(serviceTypeService.getAllServices(), HttpStatus.OK);
+        }
     }
 
 }
