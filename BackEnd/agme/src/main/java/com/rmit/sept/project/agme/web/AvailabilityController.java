@@ -59,9 +59,8 @@ public class AvailabilityController
         }
 //        Return list of available times
         return new ResponseEntity<>(availablility, HttpStatus.OK);
-
-
     }
+
     @Autowired
     ServiceTypeService serviceTypeService;
 //    Returns the required data for the above post method

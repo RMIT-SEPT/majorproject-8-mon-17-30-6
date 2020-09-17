@@ -57,27 +57,6 @@ public class BookingController {
     }
 
 
-    //  Gets all bookings for logged in user
-    @GetMapping("/bookings")
-    public ResponseEntity<?> getBookings(@RequestHeader("Authorisation") String authorisationHeader){
-        String username = "";
-//        Gets username from the jwt topken
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
-        }
-        List<Booking> bookings = bookingService.getAllBookings();
-        List<Booking> bookingsForUser = new ArrayList<>();
-//        Loops through bookings and retrieve the one needed for the user
-        for (Booking next:bookings){
-            if (next.getUser().getUsername().equals(username)){
-                next.getCompany().setEmployees(null);
-                next.getServiceType().setCompany(null);
-                bookingsForUser.add(next);
-            }
-        }
-        return new ResponseEntity<>(bookingsForUser, HttpStatus.OK);
-    }
     @GetMapping("/bookings/find")
     Booking getBookingById(Long id) { return bookingService.getBookingById(id); }
 

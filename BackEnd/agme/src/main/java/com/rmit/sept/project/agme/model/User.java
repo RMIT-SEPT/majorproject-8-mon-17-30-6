@@ -27,7 +27,6 @@ public class User extends AbstractUser implements UserDetails {
         setAddress(address);
         setPhone(phone);
         setRole(role);
-
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
