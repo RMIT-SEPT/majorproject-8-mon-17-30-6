@@ -1,10 +1,12 @@
-package com.rmit.sept.project.agme.web;
+package com.rmit.sept.project.agme.service;
 
 import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.model.Employee;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.services.*;
 
+import com.rmit.sept.project.agme.web.BookingController;
+import com.rmit.sept.project.agme.web.EmployeeController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -25,7 +27,7 @@ import static org.mockito.BDDMockito.given;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(BookingController.class)
 
-public class EmployeeControllerTest {
+public class EmployeeServiceTest {
 
     @MockBean
     UserRepository userRepository;
@@ -58,22 +60,6 @@ public class EmployeeControllerTest {
 
 
     @Test
-    public void testNewEmployee() {
-        Employee testEmployee = new Employee();
-        Employee result;
-
-        try {
-            result = employeeController.newEmployee(testEmployee);
-        }
-        catch (NullPointerException e)
-        {
-            result = null;
-        }
-
-        assertNotEquals(testEmployee, result);
-    }
-
-    @Test
     public void getEmployeesTest() {
 
         List<Employee> employeeList = new ArrayList<>();
@@ -84,9 +70,9 @@ public class EmployeeControllerTest {
         employeeList.add(testEmployee);
         employeeList.add(otherEmployee);
 
-        employeeController.newEmployee(testEmployee);
-        employeeController.newEmployee(otherEmployee);
+        employeeService.addEmployee(testEmployee);
+        employeeService.addEmployee(otherEmployee);
 
-        given(employeeController.getEmployees()).willReturn(employeeList);
+        given(employeeService.getAll()).willReturn(employeeList);
     }
 }

@@ -1,5 +1,6 @@
 package com.rmit.sept.project.agme.model;
 
+//Class to get username and password for login
 public class AuthenticationRequest {
     private String username;
     private String password;

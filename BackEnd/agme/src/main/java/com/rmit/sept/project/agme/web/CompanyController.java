@@ -2,39 +2,79 @@ package com.rmit.sept.project.agme.web;
 
 import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.model.Company;
+import com.rmit.sept.project.agme.model.ServiceType;
+import com.rmit.sept.project.agme.repositories.CompanyRepository;
 import com.rmit.sept.project.agme.security.JwtUtil;
+import com.rmit.sept.project.agme.services.BookingService;
 import com.rmit.sept.project.agme.services.CompanyService;
+import com.rmit.sept.project.agme.services.ServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RequestMapping("/git p")
+@RestController
+@RequestMapping("/company")
 public class CompanyController
 {
     @Autowired
-    JwtUtil jwtUtil;
+    private JwtUtil jwtUtil;
 
     @Autowired
-    CompanyService companyService;
+    private CompanyService companyService;
 
-    @GetMapping("/bookings")
+    @Autowired
+    private CompanyRepository companyRepository;
+
+    @Autowired
+    private ServiceTypeService serviceTypeService;
+
+    @Autowired
+    private BookingService bookingService;
+
+//    Creates a new service for a company
+    @PostMapping("/new-service")
+    public ResponseEntity<?> newService(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody ServiceType serviceType){
+        String username = "";
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) {
+            String jwt = authorisationHeader.substring(7);
+            username = jwtUtil.extractUsername(jwt);
+        }
+//        If service exists add teh company as one that offers it, if not then create the service and add the company
+        Company company = companyService.loadUserByUsername(username);
+        ServiceType service = serviceTypeService.loadServiceByName(serviceType.getName());
+        serviceType.addCompany(company);
+        if (service == null){
+            serviceTypeService.saveOrUpdateServiceType(serviceType);
+        }else{
+            service.addCompany(company);
+            serviceTypeService.saveOrUpdateServiceType(service);
+        }
+
+        return new ResponseEntity<>(serviceType, HttpStatus.OK);
+
+    }
+
+//  Gets all bookings for logged in company
+        @GetMapping("/bookings")
     public ResponseEntity<?> getBookings(@RequestHeader("Authorisation") String authorisationHeader){
         String username = "";
+//        Gets username from the jwt topken
         if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
             String jwt = authorisationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
         }
-        List<Booking> bookings = new ArrayList<>();
+        List<Booking> bookings = bookingService.getAllBookings();
         List<Booking> bookingsForCompany = new ArrayList<>();
+//        Loops through bookings and retrieve the one needed for the company
         for (Booking next:bookings){
             if (next.getCompany().getUsername().equals(username)){
+                next.getCompany().setEmployees(null);
+                next.getServiceType().setCompany(null);
                 bookingsForCompany.add(next);
             }
         }

@@ -2,12 +2,15 @@ package com.rmit.sept.project.agme.model;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
-import javax.persistence.*;
+import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.lang.annotation.Inherited;
 import java.util.Date;
 
+// Abstract class for common methods and variable for all user types
 @MappedSuperclass
 public abstract class AbstractUser {
     @NotBlank(message = "Username cannot be blank")
@@ -135,4 +138,5 @@ public abstract class AbstractUser {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
 }

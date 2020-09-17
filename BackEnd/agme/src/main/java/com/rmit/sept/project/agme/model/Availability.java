@@ -3,6 +3,7 @@ package com.rmit.sept.project.agme.model;
 import javax.persistence.*;
 import java.util.Date;
 
+//Class to give availability for a worker on a given day
 @Entity
 public class Availability {
     @Id
@@ -13,9 +14,6 @@ public class Availability {
     private String serviceType;
     @ManyToOne
     private Employee employee;
-
-    @ManyToOne
-    private Company company;
 
     public Availability() {
     }

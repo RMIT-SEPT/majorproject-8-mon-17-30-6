@@ -66,6 +66,7 @@ export default class App extends React.Component{
             console.log(error)
         }
         let component = "";
+
         //to let each navbar to change component rendered directly
         if(isComponent){
             component = e;
@@ -88,7 +89,6 @@ export default class App extends React.Component{
                     console.log("no content available?");
             }  
         }
-
         this.setState({content:component})
     }
     handleContentChangeRequestSignup(componentName){
@@ -118,6 +118,7 @@ export default class App extends React.Component{
         //save to local storage to persist
         const credentials = localStorage.getItem('credentials');
         if(!credentials){return;}
+
         const authDetails = utils.decodeJwt(JSON.parse(credentials).jwt);
         authDetails.role = 'user';//remove this once backend is fixed
         const role = authDetails.role

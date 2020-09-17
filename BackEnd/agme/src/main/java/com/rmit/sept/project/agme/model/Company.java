@@ -6,11 +6,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+// entity for a company
 @Entity
 public class Company extends AbstractUser implements UserDetails {
     @Id
@@ -20,6 +21,9 @@ public class Company extends AbstractUser implements UserDetails {
     @NotBlank
     private String companyName;
 
+    @OneToMany
+    List<Employee> employees = new ArrayList<>();
+// Constructor for a company
     public Company(String username, String name,String password, String confirmPassword,
                   String address, String phone, Role role, String companyName) {
         setUsername(username);
@@ -34,6 +38,29 @@ public class Company extends AbstractUser implements UserDetails {
     public Company() {
 
     }
+    public void addEmployee(Employee employee){
+        employees.add(employee);
+    }
+    public Long getId()
+    {
+        return id;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
+
+    public List<Employee> getEmployees()
+    {
+        return employees;
+    }
+
+    public void setEmployees(List<Employee> employees)
+    {
+        this.employees = employees;
+    }
+
     public String getCompanyName() {
         return companyName;
     }
@@ -43,7 +70,7 @@ public class Company extends AbstractUser implements UserDetails {
     }
 
 
-
+//  Spring security requirement for a company
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         final List<SimpleGrantedAuthority> authorities = new LinkedList<>();

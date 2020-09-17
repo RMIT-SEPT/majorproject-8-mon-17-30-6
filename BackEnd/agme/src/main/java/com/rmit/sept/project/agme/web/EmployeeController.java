@@ -1,30 +1,56 @@
 package com.rmit.sept.project.agme.web;
 
+import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.model.Employee;
+import com.rmit.sept.project.agme.security.JwtUtil;
+import com.rmit.sept.project.agme.services.BookingService;
 import com.rmit.sept.project.agme.services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/employee")
-public class EmployeeController {
+@RequestMapping("/employee")
+public class EmployeeController
+{
 
     private final EmployeeService employeeService;
+    @Autowired
+    private BookingService bookingService;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService) {
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    public EmployeeController(EmployeeService employeeService)
+    {
         this.employeeService = employeeService;
     }
 
-    @PostMapping("/employees")
-    Employee newEmployee(@RequestBody Employee employee) {
-        return employeeService.addEmployee(employee);
-    }
 
-    @GetMapping("/employees")
-    List<Employee> getEmployees() {
-        return employeeService.getAllEmployees();
+    @GetMapping("/bookings")
+    public ResponseEntity<?> getBookings(@RequestHeader("Authorisation") String authorisationHeader)
+    {
+        String username = "";
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) {
+            String jwt = authorisationHeader.substring(7);
+            username = jwtUtil.extractUsername(jwt);
+        }
+//        Returns bookings for the user if they belong to the user
+        List<Booking> bookings = bookingService.getAllBookings();
+        List<Booking> bookingsForCompany = new ArrayList<>();
+        for (Booking next : bookings) {
+            if (next.getEmployee().getUsername().equals(username)) {
+//                Removes unnecesary info for response
+                next.getCompany().setEmployees(null);
+                next.getServiceType().setCompany(null);
+                bookingsForCompany.add(next);
+            }
+        }
+        return new ResponseEntity<>(bookingsForCompany, HttpStatus.OK);
     }
 }
