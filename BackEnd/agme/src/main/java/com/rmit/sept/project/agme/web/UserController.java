@@ -1,21 +1,14 @@
 package com.rmit.sept.project.agme.web;
 
-import com.rmit.sept.project.agme.model.*;
+import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.security.JwtUtil;
-import com.rmit.sept.project.agme.services.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.rmit.sept.project.agme.services.BookingService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-
-import javax.validation.Valid;
-import java.util.*;
-
-import static com.rmit.sept.project.agme.model.Role.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -23,28 +16,21 @@ import static com.rmit.sept.project.agme.model.Role.*;
 public class UserController {
 //
 //    inject User service
-    @Autowired
-    private UserService userService;
 
-    @Autowired
-    private LoginSignupService loginSignupService;
+    private final BookingService bookingService;
 
-    @Autowired
-    private CompanyService companyService;
+    private final JwtUtil jwtUtil;
 
-    @Autowired
-    private EmployeeService employeeService;
+    public UserController(BookingService bookingService, JwtUtil jwtUtil) {
+        this.bookingService = bookingService;
+        this.jwtUtil = jwtUtil;
+    }
 
-    @Autowired
-    private BookingService bookingService;
-
-    @Autowired
-    private JwtUtil jwtUtil;
     //  Gets all bookings for logged in user
     @GetMapping("/bookings")
     public ResponseEntity<?> getBookings(@RequestHeader("Authorisation") String authorisationHeader){
         String username = "";
-//        Gets username from the jwt topken
+//        Gets username from the jwt token
         if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
             String jwt = authorisationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
