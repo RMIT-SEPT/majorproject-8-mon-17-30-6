@@ -36,7 +36,6 @@ public class UserController {
     EmployeeService employeeService;
 
 
-
     @GetMapping("/signup")
     public ResponseEntity<?> getCompanies() {
         List<Company> companies = new ArrayList<>();
