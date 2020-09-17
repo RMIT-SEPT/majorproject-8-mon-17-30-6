@@ -1,2 +1,2 @@
 #!/bin/bash
-cat "This is test"
+cd BackEnd/agme
