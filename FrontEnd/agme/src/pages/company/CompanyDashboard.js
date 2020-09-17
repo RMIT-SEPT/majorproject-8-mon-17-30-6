@@ -17,6 +17,22 @@ const employees = [
             },
             {
                 "date": "2020-09-22",
+                "times": [8,9],
+                "serviceType": "HAIRDRESSER",
+                "customer":{
+                    "name": "Marlene"
+                }
+            },
+            {
+                "date": "2020-09-22",
+                "times": [8,9],
+                "serviceType": "HAIRDRESSER",
+                "customer":{
+                    "name": "Marlene"
+                }
+            },
+            {
+                "date": "2020-09-22",
                 "times": [10],
                 "serviceType": "GYM",
                 "customer":{
@@ -51,7 +67,7 @@ const employees = [
 ]
 
 export default class CompanyDashboard extends React.Component{
-    
+
     constructor(props){
         super(props);
         this.state ={

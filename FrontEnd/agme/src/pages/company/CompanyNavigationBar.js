@@ -7,6 +7,7 @@ import { GrLogout } from "react-icons/gr";
 import {getDecodedJwtFromLocalStorage}  from "../../mock/operations/mock/functions/utils";//Add decode func
 import AddService from './AddService';
 import CompanyDashboard from './CompanyDashboard';
+import CompanyAppointmentList from './CompanyAppointmentList';
 /***
  * This class should handle the Navigation bar so that the appropriate menu's are displayed
  * ****/
@@ -25,8 +26,11 @@ export default class CompanyNavigationBar extends React.Component{
                 this.props.handleSelectNavBar(<AddService/>, true)
                 break;
             case 'upcomingAppointments':
-                    this.props.handleSelectNavBar(<CompanyDashboard/>, true)
-                    break;               
+                this.props.handleSelectNavBar(<CompanyDashboard/>, true)
+                break;
+            case 'appointmentsList':
+                this.props.handleSelectNavBar(<CompanyAppointmentList/>, true)
+                break;
             default:
                 break;
         }
@@ -52,11 +56,13 @@ export default class CompanyNavigationBar extends React.Component{
                             <NavDropdown title="Appointments" id="basic-nav-dropdown">
                                 <NavDropdown.Item name="upcomingAppointments" onClick={this.handleSelectNavBar}>View Appointments</NavDropdown.Item>
                                 <NavDropdown.Divider />
+                                <NavDropdown.Item name="appointmentsList" onClick={this.handleSelectNavBar}>Search All Appointments</NavDropdown.Item>
+                                <NavDropdown.Divider />
                             </NavDropdown>
                         </Nav>
-                        
+
                     </Navbar.Collapse>
-                    {logoutButton()}      
+                    {logoutButton()}
                 </Navbar>
         )
     }
