@@ -5,6 +5,7 @@ import java.util.Date;
 
 //Class to give availability for a worker on a given day
 @Entity
+@Table
 public class Availability {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,6 +13,7 @@ public class Availability {
     private Date startDateTime;
     private int duration;
     private String serviceType;
+
     @ManyToOne
     private Employee employee;
 
