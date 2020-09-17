@@ -2,15 +2,8 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
       - image: circleci/node:9
-
     steps:
       - checkout
-
-      # todo: find nicer solution than constantly "cd"ing to unit_testing
       - run: cd FrontEnd/agme && npm install
-
       - run: cd FrontEnd/agme && npm test
-
-      # TODO: add caching to speed things up.
