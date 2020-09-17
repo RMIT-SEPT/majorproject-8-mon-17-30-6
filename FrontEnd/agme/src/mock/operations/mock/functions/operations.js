@@ -50,7 +50,13 @@ const authenticate = async (username, password, role)=>{
     const response = await apiCall(url,uri,options);
     console.log(response);
     if(response.statusCode===200){
-        localStorage.setItem('credentials', JSON.stringify(response.body.jwt))
+
+        console.log('response 200')
+        console.log('setting local storage credentials')
+        localStorage.setItem('credentials', JSON.stringify(response.body));
+        console.log(localStorage.getItem('credentials'))
+    }else{
+        localStorage.removeItem('credentials')
     }
    return response;
 }
@@ -68,7 +74,6 @@ const signupNewUser = async (entity)=>{
         body: JSON.stringify(entity)
     }
     const response = await apiCall(endpoint,uri,options);
-    console.log(response)
    return response;
 }
 const getCompaniesFromAPI = async ()=>{

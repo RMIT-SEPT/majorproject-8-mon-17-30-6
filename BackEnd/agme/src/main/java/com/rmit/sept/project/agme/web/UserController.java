@@ -2,10 +2,7 @@ package com.rmit.sept.project.agme.web;
 
 import com.rmit.sept.project.agme.model.*;
 import com.rmit.sept.project.agme.security.JwtUtil;
-import com.rmit.sept.project.agme.services.CompanyService;
-import com.rmit.sept.project.agme.services.EmployeeService;
-import com.rmit.sept.project.agme.services.LoginSignupService;
-import com.rmit.sept.project.agme.services.UserService;
+import com.rmit.sept.project.agme.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,7 +34,6 @@ public class UserController {
 
     @Autowired
     EmployeeService employeeService;
-
 
 
     @GetMapping("/signup")
@@ -129,6 +125,9 @@ public class UserController {
                             ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(),
                             companyService.loadUserByUsername(user.getCompanyUsername()), user.getUserType());
                     employeeService.addEmployee(user1);
+                    Company comp = companyService.loadUserByUsername(user.getCompanyUsername());
+                    comp.addEmployee(user1);
+                    companyService.saveOrUpdate(comp);
                 }
 
 //            store user with hashed password in database
@@ -212,5 +211,24 @@ public class UserController {
 
         }
         return ResponseEntity.badRequest().body("Invalid username and password");
+    }
+    @Autowired
+    private BookingService bookingService;
+    @GetMapping("/bookings")
+    public ResponseEntity<?> getBookings(@RequestHeader("Authorisation") String authorisationHeader)
+    {
+        String username = "";
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) {
+            String jwt = authorisationHeader.substring(7);
+            username = jwtUtil.extractUsername(jwt);
+        }
+        List<Booking> bookings = bookingService.getAllBookings();
+        List<Booking> bookingsForCompany = new ArrayList<>();
+        for (Booking next : bookings) {
+            if (next.getEmployee().getUsername().equals(username)) {
+                bookingsForCompany.add(next);
+            }
+        }
+        return new ResponseEntity<>(bookingsForCompany, HttpStatus.OK);
     }
 }

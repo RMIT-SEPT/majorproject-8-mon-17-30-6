@@ -1,9 +1,9 @@
 import React from 'react';
 import Login from "./Login";
-import BasicUserContent from './users/BasicUserContent';
+import UserDashboard from './users/UserDashboard';
 import Provider from './providers/Provider';
 import Administrator from './administrators/Administrator';
-
+import CompanyDashboard from './company/CompanyDashboard'
 /**
  * Basic flow:
  *  LandingPage component is rendered when the App component has set up authentication details sucessfully
@@ -23,14 +23,18 @@ export default class LandingPage extends React.Component{
     render(){
         if(this.props.authenticated){
             switch(this.props.type.toUpperCase()){
-                case "BASIC_USER":
-                    return <BasicUserContent token={this.props.token} expiry={this.props.expiry}/>;
-                case "ADMINISTRATOR":
+                case "[USER]":
+                    return <UserDashboard token={this.props.token} expiry={this.props.expiry}/>;
+                case "USER":
+                    return <UserDashboard token={this.props.token} expiry={this.props.expiry}/>;
+                case "COMPANY":
+                    return <CompanyDashboard token={this.props.token} expiry={this.props.expiry}/>;
+                case "ADMIN":
                     return <Administrator token={this.props.token} expiry={this.props.expiry}/>;
                 case "PROVIDER":
                     return <Provider token={this.props.token} expiry={this.props.expiry}/>;
                 default:
-                        return this.state.content;            
+                    return <div>Cannot load your content</div>;            
             }
             
         }else{

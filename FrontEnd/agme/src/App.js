@@ -3,6 +3,7 @@ import './pages/css/App.css';
 import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import Services from "./pages/services/Services";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {getDecodedJwtFromLocalStorage}  from "./mock/operations/mock/functions/utils";//Add decode func
 import ViewProviders from './pages/users/ViewProviders';
@@ -21,8 +22,8 @@ const utils = require('./mock/operations/mock/functions/utils')
  * **/
 export default class App extends React.Component{
 
-    constructor(props){
-        super(props);
+    constructor(){
+        super();
         const authDetails = getDecodedJwtFromLocalStorage();
         if(authDetails){
 
@@ -58,27 +59,36 @@ export default class App extends React.Component{
     }
 
     //To handle component change
-    handleContentChangeRequest(e){
+    handleContentChangeRequest(e, isComponent){
         try{
             e.preventDefault();
-        }catch(e){
-
+        }catch(error){
+            console.log(error)
         }
-        const contentString = e.target ? e.target.getAttribute('name') : e;
         let component = "";
-        switch(contentString){
-            case "signup":
-                component = <Signup handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>
-                break;
-            case "providers":
-                component = <ViewProviders/>
-                break;
-            case "login":
-                component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>
-                break;
-            default:
-                console.log("no content available?");
-        }  
+
+        //to let each navbar to change component rendered directly
+        if(isComponent){
+            component = e;
+        }else{
+            const contentString = e.target ? e.target.getAttribute('name') : e;
+            switch(contentString){
+                case "signup":
+                    component = <Signup handleAuthentication={this.handleAuthentication} handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>
+                    break;
+                case "providers":
+                    component = <ViewProviders/>
+                    break;
+                case "services":
+                        component = <Services/>
+                        break;
+                case "login":
+                    component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>
+                    break;
+                default:
+                    console.log("no content available?");
+            }  
+        }
         this.setState({content:component})
     }
     handleContentChangeRequestSignup(componentName){
@@ -93,7 +103,10 @@ export default class App extends React.Component{
                 component = <ViewProviders/>
                 break;
             case "login":
-                component = <Login handleContentChangeRequest={this.handleContentChangeRequest}/>
+                component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleAuthentication={this.handleAuthentication}/>
+                break;
+            case "services":
+                component = <Services handleContentChangeRequest={this.handleContentChangeRequest} handleAuthentication={this.handleAuthentication}/>
                 break;
             default:
                 console.log("no content available?");
@@ -101,10 +114,13 @@ export default class App extends React.Component{
         this.setState({content:component})
     }
 
-    handleAuthentication(authenticationDetails){
+    handleAuthentication(){
         //save to local storage to persist
-        localStorage.setItem('credentials',JSON.stringify(authenticationDetails))
-        const authDetails = utils.decodeJwt(authenticationDetails.jwt)
+        const credentials = localStorage.getItem('credentials');
+        if(!credentials){return;}
+
+        const authDetails = utils.decodeJwt(JSON.parse(credentials).jwt);
+        authDetails.role = 'user';//remove this once backend is fixed
         const role = authDetails.role
         this.setState({
             token:authDetails.jwt,

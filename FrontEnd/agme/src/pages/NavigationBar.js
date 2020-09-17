@@ -4,7 +4,7 @@ import ProviderNavigationBar from './providers/ProviderNavigationBar';
 import UserNavigationBar from './users/UserNavigationBar';
 import AdminNavigationBar from './administrators/AdminNavigationBar'
 import VisitorNavigationBar from './visitors/VisitorNavigationBar'
-
+import CompanyNavigationBar from './company/CompanyNavigationBar'
 
 /***
  * This class should handle the Navigation bar so that the appropriate menu's are displayed
@@ -14,7 +14,7 @@ export default class NavigationBar extends React.Component{
     render(){
         const decodedJwtPayload = getDecodedJwtFromLocalStorage();
         if(decodedJwtPayload&&(decodedJwtPayload.exp>decodedJwtPayload.iat)){
-            if(decodedJwtPayload.role==='provider'){
+            if(decodedJwtPayload.role.toUpperCase().includes('PROVIDER')){
                 return (
                     <ProviderNavigationBar 
                         handleLogout={this.props.handleLogout} 
@@ -22,7 +22,7 @@ export default class NavigationBar extends React.Component{
                         handleSelectNavBar={this.props.handleSelectNavBar}
                         />
                 )
-            }else if(decodedJwtPayload.role==='user'){
+            }else if(decodedJwtPayload.role.toUpperCase().includes('USER')){
                 return (
                     <UserNavigationBar 
                         handleLogout={this.props.handleLogout} 
@@ -30,9 +30,17 @@ export default class NavigationBar extends React.Component{
                         handleSelectNavBar={this.props.handleSelectNavBar}
                     />
                 )
-            }else if(decodedJwtPayload.role==='administrator'){
+            }else if(decodedJwtPayload.role.toUpperCase().includes('ADMIN')){
                 return (
                 <AdminNavigationBar 
+                    handleLogout={this.props.handleLogout} 
+                    token={this.props&&this.props.token} 
+                    handleSelectNavBar={this.props.handleSelectNavBar}    
+                />
+                )
+            }else if(decodedJwtPayload.role.toUpperCase().includes('COMPANY')){
+                return (
+                <CompanyNavigationBar 
                     handleLogout={this.props.handleLogout} 
                     token={this.props&&this.props.token} 
                     handleSelectNavBar={this.props.handleSelectNavBar}    
@@ -42,7 +50,7 @@ export default class NavigationBar extends React.Component{
                 /***
                  * Should never enter this block unless token was tampered
                  * ***/
-                localStorage.remoteItem('credentials');
+                localStorage.removeItem('credentials');
                 throw new Error({
                     errorId: "INVALID_LOGIN",
                     message: "Your session has expired. Please refresh your browser."
