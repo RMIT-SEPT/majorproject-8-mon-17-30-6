@@ -1,7 +1,11 @@
 package com.rmit.sept.project.agme.security;
 
 import com.rmit.sept.project.agme.model.User;
+import com.rmit.sept.project.agme.services.CompanyService;
+import com.rmit.sept.project.agme.services.EmployeeService;
+import com.rmit.sept.project.agme.services.UserService;
 import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +17,12 @@ import java.util.function.Function;
 @Service
 public class JwtUtil {
     private final String SECRET_KEY = "agmekey";
-
+    @Autowired
+    UserService userService;
+    @Autowired
+    CompanyService companyService;
+    @Autowired
+    EmployeeService employeeService;
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
     }
@@ -48,7 +57,13 @@ public class JwtUtil {
 
     public String generateToken(UserDetails user){
         Map<String, Object> claims = new HashMap<>();
-        claims.put("role", "provider");
+        if (userService.loadUserByUsername(user.getUsername()) != null){
+            claims.put("role", "USER");
+        }else  if (companyService.loadUserByUsername(user.getUsername()) != null){
+            claims.put("role", "COMPANY");
+        }else  if (employeeService.loadUserByUsername(user.getUsername()) != null){
+            claims.put("role", "EMPLOYEE");
+        }
         return createToken(claims, user.getUsername());
     }
 

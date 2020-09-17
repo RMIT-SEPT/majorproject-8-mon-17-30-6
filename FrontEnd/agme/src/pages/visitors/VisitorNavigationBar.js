@@ -33,6 +33,8 @@ export default class VisitorNavigationBar extends React.Component{
                                 <NavDropdown.Item name="services" onClick={this.props.handleSelectNavBar}>Services</NavDropdown.Item>
                             </NavDropdown>
                             <Nav.Link name="login" onClick={this.props.handleSelectNavBar}>Login</Nav.Link>
+                        
+                        
                         </Nav>
                         
                     </Navbar.Collapse>
