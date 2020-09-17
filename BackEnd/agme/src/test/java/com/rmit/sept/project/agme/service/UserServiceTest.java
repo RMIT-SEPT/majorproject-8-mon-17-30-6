@@ -42,6 +42,7 @@ public class UserServiceTest {
     @Autowired
     UserService userService;
 
+//    Service tests
     @Test
     public void loadUser_shouldReturnTrue_WithfindbyId() throws Exception {
         User user = new User();

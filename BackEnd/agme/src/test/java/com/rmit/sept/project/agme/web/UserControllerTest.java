@@ -35,6 +35,8 @@ public class UserControllerTest {
             return new UserService();
         }
     }
+
+//    Mockn beans and required beans
     @Autowired
     MockMvc mvc;
 
