@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+//Entity for a basic user
 @Entity
 public class User extends AbstractUser implements UserDetails {
     public User() {

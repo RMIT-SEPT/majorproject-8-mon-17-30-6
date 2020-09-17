@@ -2,6 +2,7 @@ package com.rmit.sept.project.agme.model;
 
 import java.util.Date;
 
+// Request for availability
 public class AvailabilityRequest
 {
     private Date date;

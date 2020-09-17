@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-
+// entity for a company
 @Entity
 public class Company extends AbstractUser implements UserDetails {
     @Id
@@ -24,7 +24,7 @@ public class Company extends AbstractUser implements UserDetails {
 
     @OneToMany
     List<Employee> employees = new ArrayList<>();
-
+// Constructor for a company
     public Company(String username, String name,String password, String confirmPassword,
                   String address, String phone, Role role, String companyName) {
         setUsername(username);
@@ -71,7 +71,7 @@ public class Company extends AbstractUser implements UserDetails {
     }
 
 
-
+//  Spring security requirement for a company
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         final List<SimpleGrantedAuthority> authorities = new LinkedList<>();

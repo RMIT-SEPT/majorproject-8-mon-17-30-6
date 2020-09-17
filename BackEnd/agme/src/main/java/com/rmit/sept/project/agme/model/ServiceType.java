@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-
+// Entity for the services offered
 @Entity
 public class ServiceType {
     @Id
@@ -19,6 +19,7 @@ public class ServiceType {
     private Long id;
     private String name;
     private String description;
+//    Companies that offer this service
     @ManyToMany
     private List<Company> company = new ArrayList<>();
 

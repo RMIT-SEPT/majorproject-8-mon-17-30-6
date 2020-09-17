@@ -23,14 +23,18 @@ public class JwtUtil {
     CompanyService companyService;
     @Autowired
     EmployeeService employeeService;
+
+//    Get username from a token
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
     }
 
+//    Gets exirpation date from a token
     public Date extractExpiration(String token){
         return extractClaim(token, Claims::getExpiration);
     }
 
+//    gets a claim from a token
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver){
         final Claims claims = extractAllClaims(token);
         if (claims == null){
@@ -38,7 +42,7 @@ public class JwtUtil {
         }
         return claimsResolver.apply(claims);
     }
-
+// Extracts all claims from a token
     private Claims extractAllClaims(String token){
         try {
             return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
@@ -51,12 +55,15 @@ public class JwtUtil {
         }
         }
 
+//        Checks if token is valid
     private Boolean isTokenExpired(String token){
         return extractExpiration(token).before(new Date());
     }
 
+//    Generates token
     public String generateToken(UserDetails user){
         Map<String, Object> claims = new HashMap<>();
+//        Token generaated based on user type
         if (userService.loadUserByUsername(user.getUsername()) != null){
             claims.put("role", "USER");
         }else  if (companyService.loadUserByUsername(user.getUsername()) != null){
