@@ -23,7 +23,7 @@ public class EmployeeController
     private BookingService bookingService;
 
     @Autowired
-    JwtUtil jwtUtil;
+    private JwtUtil jwtUtil;
 
     @Autowired
     public EmployeeController(EmployeeService employeeService)

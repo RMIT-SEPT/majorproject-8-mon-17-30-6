@@ -36,7 +36,7 @@ public class LoginSignupController {
     private CompanyService companyService;
 
     @Autowired
-    EmployeeService employeeService;
+    private EmployeeService employeeService;
 
 
     @GetMapping("/signup")
@@ -79,8 +79,7 @@ public class LoginSignupController {
 //            hashmap for the outer container of errors
 
 //            array list for the fields that have errors
-            List<String> fieldsWithErrors = new ArrayList<>();
-//            provides error code as well as a list of the fields with errors
+            //            provides error code as well as a list of the fields with errors
             errorDetails.put("errorType", "PARTIAL_INFORMATION");
             errorContainer.put("ErrorId", "404API");
 
@@ -213,7 +212,7 @@ public class LoginSignupController {
                     final UserDetails user = userService.loadUserByUsername(
                             authenticationRequest.getUsername());
 //                generate token
-                    final String jwt = jwtUtil.generateToken((User) user);
+                    final String jwt = jwtUtil.generateToken(user);
 //                respond wih token
                     return ResponseEntity.ok(new AuthenticationResponse(jwt));
                 }else{

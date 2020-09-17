@@ -4,12 +4,8 @@ import com.rmit.sept.project.agme.model.*;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.awt.print.Book;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,20 +13,21 @@ import java.util.List;
 public class BookingController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    EmployeeService employeeService ;
+    private EmployeeService employeeService ;
     @Autowired
-    CompanyService companyService;
+    private CompanyService companyService;
 
     @Autowired
-    JwtUtil jwtUtil;
+    private JwtUtil jwtUtil;
 
     @Autowired
-    ServiceTypeService serviceTypeService;
+    private ServiceTypeService serviceTypeService;
 
-    final BookingService bookingService;
+    @Autowired
+    private BookingService bookingService;
     public BookingController(BookingService bookingService){
 
         this.bookingService = bookingService;
@@ -39,7 +36,7 @@ public class BookingController {
 //    Creates a new booking for a user based on the jwt token
     @PostMapping("/new-booking")
     Booking newBooking(@RequestBody BookingRequest booking, @RequestHeader("Authorisation") String authorisationHeader) {
-//        Gets usrename from the jwt token
+//        Gets username from the jwt token
         String username = "";
         if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
             String jwt = authorisationHeader.substring(7);

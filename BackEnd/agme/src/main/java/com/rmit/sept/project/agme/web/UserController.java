@@ -3,6 +3,7 @@ package com.rmit.sept.project.agme.web;
 import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.services.BookingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +17,11 @@ import java.util.List;
 public class UserController {
 //
 //    inject User service
+    @Autowired
+    private BookingService bookingService;
 
-    private final BookingService bookingService;
-
-    private final JwtUtil jwtUtil;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     public UserController(BookingService bookingService, JwtUtil jwtUtil) {
         this.bookingService = bookingService;

@@ -1,20 +1,22 @@
 package com.rmit.sept.project.agme.web;
 
-import com.rmit.sept.project.agme.model.Booking;
-import com.rmit.sept.project.agme.model.ServiceType;
 import com.rmit.sept.project.agme.services.ServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/user")
 public class ServiceTypeController {
     @Autowired
     private ServiceTypeService serviceTypeService;
+
+    public ServiceTypeController(ServiceTypeService serviceTypeService) {
+        this.serviceTypeService = serviceTypeService;
+    }
 
 //    Return available services for a user
 //    @PostMapping("/services")

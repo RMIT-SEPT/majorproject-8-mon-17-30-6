@@ -22,19 +22,19 @@ import java.util.List;
 public class CompanyController
 {
     @Autowired
-    JwtUtil jwtUtil;
+    private JwtUtil jwtUtil;
 
     @Autowired
-    CompanyService companyService;
+    private CompanyService companyService;
 
     @Autowired
-    CompanyRepository companyRepository;
+    private CompanyRepository companyRepository;
 
     @Autowired
-    ServiceTypeService serviceTypeService;
+    private ServiceTypeService serviceTypeService;
 
     @Autowired
-    BookingService bookingService;
+    private BookingService bookingService;
 
 //    Creates a new service for a company
     @PostMapping("/new-service")
