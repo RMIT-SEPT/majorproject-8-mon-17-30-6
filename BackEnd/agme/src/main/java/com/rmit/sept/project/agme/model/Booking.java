@@ -22,12 +22,15 @@ public class Booking {
     @ManyToOne
     private User user;
 
+//    the service that has been chosen
     @ManyToOne
     private ServiceType serviceType;
 
+//    The start time for a booking
     private int hour;
 
 
+//    Constructor for booking
     public Booking(Date startDateTime, int duration, Employee employee, Company company, User user, int hour, ServiceType serviceType) {
         this.startDateTime = startDateTime;
         this.serviceType = serviceType;

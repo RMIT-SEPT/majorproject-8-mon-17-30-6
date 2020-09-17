@@ -52,7 +52,7 @@ public class UserController {
     public ResponseEntity<?> createdNewUser(@Valid @RequestBody SignUpRequest user, BindingResult result) {
         List<String> errorsTypeAndValues = new ArrayList<>();
         boolean containsErrors = false;
-
+//        Error messages depending on the user type
         if (user.getRole() == COMPANY){
             if (user.getCompany_name() == null || user.getCompany_name() == ""){
                 errorsTypeAndValues.add("companyName");
@@ -111,6 +111,7 @@ public class UserController {
             if (user.getPassword().equals(user.getConfirmPassword())) {
 //            hash the password before storing
                 user.hashPassword();
+//                Creates a user depending on the type
                 if (user.getRole() == Role.COMPANY){
                     Company user1 = new Company(user.getUsername(), user.getName(), user.getPassword()
                             ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(), user.getCompanyName());
@@ -211,24 +212,5 @@ public class UserController {
 
         }
         return ResponseEntity.badRequest().body("Invalid username and password");
-    }
-    @Autowired
-    private BookingService bookingService;
-    @GetMapping("/bookings")
-    public ResponseEntity<?> getBookings(@RequestHeader("Authorisation") String authorisationHeader)
-    {
-        String username = "";
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) {
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
-        }
-        List<Booking> bookings = bookingService.getAllBookings();
-        List<Booking> bookingsForCompany = new ArrayList<>();
-        for (Booking next : bookings) {
-            if (next.getEmployee().getUsername().equals(username)) {
-                bookingsForCompany.add(next);
-            }
-        }
-        return new ResponseEntity<>(bookingsForCompany, HttpStatus.OK);
     }
 }

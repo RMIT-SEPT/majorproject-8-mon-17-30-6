@@ -8,6 +8,7 @@ import javax.validation.constraints.Size;
 import java.lang.annotation.Inherited;
 import java.util.Date;
 
+// Abstract class for common methods and variable for all user types
 @MappedSuperclass
 public abstract class AbstractUser {
     @NotBlank(message = "Username cannot be blank")

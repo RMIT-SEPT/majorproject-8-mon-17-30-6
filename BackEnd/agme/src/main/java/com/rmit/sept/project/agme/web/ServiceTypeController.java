@@ -16,12 +16,14 @@ public class ServiceTypeController {
     @Autowired
     private ServiceTypeService serviceTypeService;
 
-    @PostMapping("/services")
-    public ResponseEntity<ServiceType> createServiceType(@RequestBody ServiceType serviceType){
-        ServiceType response = serviceTypeService.saveOrUpdateServiceType(serviceType);
-        return new ResponseEntity<ServiceType>(response, HttpStatus.CREATED);
-    }
+//    Return available services for a user
+//    @PostMapping("/services")
+//    public ResponseEntity<ServiceType> createServiceType(@RequestBody ServiceType serviceType){
+//        ServiceType response = serviceTypeService.saveOrUpdateServiceType(serviceType);
+//        return new ResponseEntity<ServiceType>(response, HttpStatus.CREATED);
+//    }
 
+    //    Return available services for a user
     @GetMapping("/services")
     List<ServiceType> getServices() {
         return serviceTypeService.getAllServices();
