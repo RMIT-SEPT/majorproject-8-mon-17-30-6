@@ -60,7 +60,6 @@ export default class App extends React.Component{
 
     //To handle component change
     handleContentChangeRequest(e, isComponent){
-        console.log(isComponent)
         try{
             e.preventDefault();
         }catch(error){
@@ -70,7 +69,6 @@ export default class App extends React.Component{
 
         //to let each navbar to change component rendered directly
         if(isComponent){
-            console.log('component is true...')
             component = e;
         }else{
             const contentString = e.target ? e.target.getAttribute('name') : e;
@@ -123,7 +121,6 @@ export default class App extends React.Component{
 
         const authDetails = utils.decodeJwt(JSON.parse(credentials).jwt);
         authDetails.role = 'user';//remove this once backend is fixed
-        console.log(authDetails)
         const role = authDetails.role
         this.setState({
             token:authDetails.jwt,
