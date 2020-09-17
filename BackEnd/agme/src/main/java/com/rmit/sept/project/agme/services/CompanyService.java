@@ -1,7 +1,6 @@
 package com.rmit.sept.project.agme.services;
 
 import com.rmit.sept.project.agme.model.Company;
-import com.rmit.sept.project.agme.model.User;
 import com.rmit.sept.project.agme.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,8 +14,8 @@ public class CompanyService implements UserInterface {
     @Autowired
     CompanyRepository companyRepository;
     @Override
-    public UserDetails saveOrUpdate(UserDetails user) {
-        return companyRepository.save((Company) user);
+    public void saveOrUpdate(UserDetails user) {
+        companyRepository.save((Company) user);
     }
 
     @Override
@@ -52,11 +51,7 @@ public class CompanyService implements UserInterface {
 //                If User is found, encode password with users salt
 //                check if the passwords match, if so return true, else false
 //                if (passwordEncoder.matches(passwordHash, next.getPassword())){
-                if (BCrypt.checkpw(passwordHash, next.getPassword())) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return BCrypt.checkpw(passwordHash, next.getPassword());
             }
         }
         return false;

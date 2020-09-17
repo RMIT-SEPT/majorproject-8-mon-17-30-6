@@ -45,11 +45,7 @@ public class UserService implements UserDetailsService {
 //                If User is found, encode password with users salt
 //                check if the passwords match, if so return true, else false
 //                if (passwordEncoder.matches(passwordHash, next.getPassword())){
-                if (BCrypt.checkpw(passwordHash, next.getPassword())) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return BCrypt.checkpw(passwordHash, next.getPassword());
             }
         }
         return false;
