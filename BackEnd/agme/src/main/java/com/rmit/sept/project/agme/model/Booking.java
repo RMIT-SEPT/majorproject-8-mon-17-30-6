@@ -11,7 +11,6 @@ public class Booking {
 
     private int duration;
     private int visible;
-    private String serviceType;
     private Date startDateTime;
 
     @ManyToOne
@@ -23,16 +22,37 @@ public class Booking {
     @ManyToOne
     private User user;
 
-    public Booking(Date startDateTime, String serviceType, int duration, Employee employee, Company company, User user) {
+    @ManyToOne
+    private ServiceType serviceType;
+
+    private int hour;
+
+
+    public Booking(Date startDateTime, int duration, Employee employee, Company company, User user, int hour, ServiceType serviceType) {
         this.startDateTime = startDateTime;
         this.serviceType = serviceType;
         this.duration = duration;
         this.employee = employee;
         this.company = company;
         this.user = user;
+        this.hour = hour;
     }
 
     public Booking() {}
+
+//    public Booking(Date date, int duration, Employee employee, Company company, User user)
+//    {
+//    }
+
+    public int getHour()
+    {
+        return hour;
+    }
+
+    public void setHour(int hour)
+    {
+        this.hour = hour;
+    }
 
     public Long getId() {
         return id;
@@ -54,11 +74,11 @@ public class Booking {
         this.visible = visible;
     }
 
-    public String getServiceType() {
+    public ServiceType getServiceType() {
         return serviceType;
     }
 
-    public void setServiceType(String serviceType) {
+    public void setServiceType(ServiceType serviceType) {
         this.serviceType = serviceType;
     }
 
