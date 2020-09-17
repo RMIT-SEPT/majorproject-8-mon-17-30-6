@@ -31,6 +31,8 @@ public class LoginSignupService {
             user = employeeService.loadUserByUsername(username);
         }else if (companyService.loadUserByUsername(username) != null){
             user = companyService.loadUserByUsername(username);
+        }else if (companyService.loadUserByUsername(username) != null){
+            user = companyService.loadUserByUsername(username);
         }
         return user;
 
