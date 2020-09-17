@@ -12,18 +12,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.HashMap;
 
-import static com.rmit.sept.project.agme.model.Role.ADMIN;
 import static com.rmit.sept.project.agme.model.Role.COMPANY;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -65,7 +61,7 @@ public class LoginSignupControllerTest {
 
     @Test
     public void shouldReturnHTTPStatus400_whenCreatingUserWithIncompleteFields() throws Exception {
-        HashMap<String, Object> ob = new HashMap<String, Object>();
+        HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user");
         ob.put("address", "user");
@@ -80,7 +76,7 @@ public class LoginSignupControllerTest {
     }
     @Test
     public void shouldReturnHTTPStatus400_whenCreatingUserWithcompleteFieldsButPWDoesNotMatch() throws Exception {
-        HashMap<String, Object> ob = new HashMap<String, Object>();
+        HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user");
         ob.put("address", "user");
@@ -96,7 +92,7 @@ public class LoginSignupControllerTest {
 
     @Test
     public void shouldReturnHTTPStatusOk_whenCreatingUserWithcompleteFields() throws Exception {
-        HashMap<String, Object> ob = new HashMap<String, Object>();
+        HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user");
         ob.put("address", "user");
@@ -104,7 +100,6 @@ public class LoginSignupControllerTest {
         ob.put("phone", "password");
         ob.put("confirmPassword", "password");
         ob.put("role", Role.USER);
-        String o = new JSONObject(ob).toJSONString();
 
         mvc.perform(post("/signup")
                 .content(new JSONObject(ob).toJSONString())
@@ -113,7 +108,7 @@ public class LoginSignupControllerTest {
     }
     @Test
     public void shouldReturnHTTPStatus400_whenCreatingCompanyWithIncompleteFields() throws Exception {
-        HashMap<String, Object> ob = new HashMap<String, Object>();
+        HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user");
         ob.put("address", "user");
@@ -128,7 +123,7 @@ public class LoginSignupControllerTest {
     }
     @Test
     public void shouldReturnHTTPStatusok_whenCreatingCompanyWithcompleteFields() throws Exception {
-        HashMap<String, Object> ob = new HashMap<String, Object>();
+        HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user");
         ob.put("address", "user");
@@ -137,7 +132,6 @@ public class LoginSignupControllerTest {
         ob.put("confirmPassword", "password");
         ob.put("companyName", "password");
         ob.put("role", Role.COMPANY);
-        String o = new JSONObject(ob).toJSONString();
 
         mvc.perform(post("/signup")
                 .content(new JSONObject(ob).toJSONString())
@@ -146,7 +140,7 @@ public class LoginSignupControllerTest {
     }
     @Test
     public void shouldReturnHTTPStatus400_whenCreatingCompanyWithcompleteFieldsButPWDoesNotMatch() throws Exception {
-        HashMap<String, Object> ob = new HashMap<String, Object>();
+        HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user");
         ob.put("address", "user");
@@ -161,7 +155,7 @@ public class LoginSignupControllerTest {
     }
     @Test
     public void shouldReturnHTTPStatus400_whenCreatingEmployeeWithcompleteFieldsButPWDoesNotMatch() throws Exception {
-        HashMap<String, Object> ob = new HashMap<String, Object>();
+        HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user");
         ob.put("address", "user");
@@ -176,7 +170,7 @@ public class LoginSignupControllerTest {
     }
     @Test
     public void shouldReturnHTTPStatus404_whenCreatingEmployeeWithcompleteFieldsButCompanyDoesNotExist() throws Exception {
-        HashMap<String, Object> ob = new HashMap<String, Object>();
+        HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user1");
         ob.put("address", "user");
