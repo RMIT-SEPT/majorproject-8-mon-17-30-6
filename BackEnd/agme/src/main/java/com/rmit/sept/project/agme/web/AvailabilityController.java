@@ -11,21 +11,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
 @RestController
 @RequestMapping("/user")
 @CrossOrigin("http://localhost:3000")
 public class AvailabilityController
 {
     @Autowired
-    BookingService bookingService;
+    private BookingService bookingService;
 
     @PostMapping("/availability")
     public ResponseEntity<?> getAvailableDays(@RequestBody AvailabilityRequest availabilityRequest){
 // Retrieve all bookings
         List<Booking> bookings = bookingService.getAllBookings();
-        Date today = new Date(2);
         List<Integer> availablility = new ArrayList<Integer>();
 //        All employees have a default availability
         availablility.add(9);
@@ -59,9 +58,8 @@ public class AvailabilityController
         }
 //        Return list of available times
         return new ResponseEntity<>(availablility, HttpStatus.OK);
-
-
     }
+
     @Autowired
     ServiceTypeService serviceTypeService;
 //    Returns the required data for the above post method
