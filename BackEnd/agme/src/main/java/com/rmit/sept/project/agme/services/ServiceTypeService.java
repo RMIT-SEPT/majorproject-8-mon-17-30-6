@@ -23,6 +23,7 @@ public class ServiceTypeService {
         Iterable<ServiceType> it = serviceTypeRepository.findAll();
         List<ServiceType> services = new ArrayList<>();
         it.forEach(services::add);
+
         return services;
     }
 }

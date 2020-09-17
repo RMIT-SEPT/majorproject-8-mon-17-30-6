@@ -1,0 +1,477 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "AGME API",
+        "version": "0"
+    },
+    "tags": [
+        {
+            "name": "AGME Api",
+            "description": "The AGME API provides services for registering companies and users"
+        }
+    ],
+    "paths": {
+        "/signup": {
+            "post": {
+                "operationId": "createdNewUser",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/SignupRequestBody"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfull signup",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SignupResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "SIGNUP"
+                ]
+            }
+        },
+        "/login": {
+            "post": {
+                "operationId": "createAuthenticationRequest",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/LoginRequestBody"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfull login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LoginResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "LOGIN"
+                ]
+            }
+        },
+        "/user/services": {
+            "post": {
+                "operationId": "createServiceType",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/ServiceTypeRequestBody"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfull login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ServiceTypeResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Service Types"
+                ]
+            },
+            "get": {
+                "operationId": "getServices",
+                "responses": {
+                    "200": {
+                        "description": "Successfull login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetServicesResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Service Types"
+                ]
+            }
+        },
+        "/api/employee/employees": {
+            "post": {
+                "operationId": "newEmployee",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/NewEmployeeRequestBody"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfull signup",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/NewEmployeeResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Employee"
+                ]
+            },
+            "get": {
+                "operationId": "getEmployees",
+                "responses": {
+                    "200": {
+                        "description": "Successfull signup",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetEmployeesResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Employee"
+                ]
+            }
+        },
+        "/api/booking/bookings": {
+            "post": {
+                "operationId": "newBooking",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/NewBookingRequestBody"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfull booking",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Booking"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Bookings"
+                ]
+            },
+            "get": {
+                "operationId": "getBookings",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetBookingsResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Bookings"
+                ]
+            }
+        }
+    },
+    "components": {
+        "requestBodies": {
+            "NewBookingRequestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/Booking"
+                        }
+                    }
+                }
+            },
+            "NewEmployeeRequestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/NewEmployeeRequest"
+                        }
+                    }
+                }
+            },
+            "ServiceTypeRequestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/ServiceTypeRequest"
+                        }
+                    }
+                }
+            },
+            "SignupRequestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/SignupRequestBody"
+                        }
+                    }
+                }
+            },
+            "LoginRequestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/LoginRequestBody"
+                        }
+                    }
+                }
+            }
+        },
+        "schemas": {
+            "Booking": {
+                "type": "object",
+                "properties": {
+                    "employee": {
+                        "$ref": "#/components/schemas/Employee"
+                    },
+                    "date": {
+                        "type": "string"
+                    },
+                    "company": {
+                        "$ref": "#/components/schemas/Company"
+                    },
+                    "time": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 23
+                    }
+                }
+            },
+            "GetBookingsResponse": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/Booking"
+                }
+            },
+            "GetEmployeesResponse": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/Employee"
+                }
+            },
+            "NewEmployeeRequest": {
+                "$ref": "#/components/schemas/Employee"
+            },
+            "NewEmployeeResponse": {
+                "$ref": "#/components/schemas/Employee"
+            },
+            "User": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "confirmPassword": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Company": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "companyName": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ]
+            },
+            "Employee": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "company": {
+                                "$ref": "#/components/schemas/Company"
+                            },
+                            "userType": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                ]
+            },
+            "GetServicesResponse": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/ServiceTypeResponse"
+                }
+            },
+            "ServiceTypeRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "example": "GYM"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "A gym is a club, building, or large room, usually containing special equipment, where people go to do physical exercise and get fit."
+                    }
+                }
+            },
+            "ServiceTypeResponse": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "primary key for service type",
+                        "type": "string",
+                        "example": "1"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "GYM"
+                    },
+                    "description": {
+                        "type": "string",
+                        "example": "A gym is a club, building, or large room, usually containing special equipment, where people go to do physical exercise and get fit."
+                    }
+                }
+            },
+            "LoginResponse": {
+                "type": "object",
+                "properties": {
+                    "jwt": {
+                        "description": "A JWT authentication token",
+                        "type": "string"
+                    }
+                }
+            },
+            "LoginRequestBody": {
+                "type": "object",
+                "properties": {
+                    "role": {
+                        "type": "string",
+                        "enum": [
+                            "USER",
+                            "ADMIN",
+                            "COMPANY"
+                        ]
+                    },
+                    "username": {
+                        "description": "A username for the service user. This must be unique in the database system.",
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "SignupRequestBody": {
+                "type": "object",
+                "properties": {
+                    "role": {
+                        "type": "string",
+                        "enum": [
+                            "USER",
+                            "ADMIN",
+                            "COMPANY"
+                        ]
+                    },
+                    "username": {
+                        "description": "A username for the service user. This must be unique in the database system.",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "Full name of the user",
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "confirmPassword": {
+                        "type": "string"
+                    }
+                }
+            },
+            "SignupResponse": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "confirmPassword": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "lastLogin": {
+                        "type": "string"
+                    },
+                    "createdAt": {
+                        "type": "string"
+                    },
+                    "updatedAt": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string"
+                    },
+                    "companyName": {
+                        "type": "string"
+                    },
+                    "companyUsername": {
+                        "type": "string"
+                    },
+                    "userType": {
+                        "type": "string"
+                    },
+                    "company_name": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
