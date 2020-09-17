@@ -18,7 +18,7 @@ import java.util.*;
 import static com.rmit.sept.project.agme.model.Role.*;
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/user")
 @CrossOrigin("http://localhost:3000")
 public class UserController {
 //

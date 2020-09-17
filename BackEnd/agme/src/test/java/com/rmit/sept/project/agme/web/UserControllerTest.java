@@ -50,7 +50,6 @@ public class UserControllerTest {
     @Autowired
     UserService userService;
 
-
     @MockBean
     CompanyService companyService;
 
@@ -62,14 +61,14 @@ public class UserControllerTest {
 
     @Test
     public void getBookings_shouldReturnHTTPStatus400_NoBookingIsFound() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/bookings"))
+        mvc.perform(MockMvcRequestBuilders.get("/user/bookings"))
                 .andExpect(status().isBadRequest());
     }
     @Test
     public void getBookings_shouldReturnHTTPStatus400_userExistsButNotLoggedIn() throws Exception {
         Booking booking = new Booking();
         bookingService.addBooking(booking);
-        mvc.perform(MockMvcRequestBuilders.get("/bookings"))
+        mvc.perform(MockMvcRequestBuilders.get("/user/bookings"))
                 .andExpect(status().isBadRequest());
     }
     @Test
@@ -78,7 +77,7 @@ public class UserControllerTest {
         User user = new User();
         userService.saveOrUpdateUser(user);
         bookingService.addBooking(booking);
-        mvc.perform(MockMvcRequestBuilders.get("/bookings"))
+        mvc.perform(MockMvcRequestBuilders.get("/user/bookings"))
                 .andExpect(status().isBadRequest());
     }
 }
