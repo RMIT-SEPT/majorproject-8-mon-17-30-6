@@ -13,7 +13,6 @@ export default class CompanyNavigationBar extends React.Component{
 
     render(){
         const decodedJwtPayload = getDecodedJwtFromLocalStorage();
-        console.log(decodedJwtPayload)
         const logoutButton = ()=>{
             if(decodedJwtPayload&&(decodedJwtPayload.exp>decodedJwtPayload.iat)){
                 return <GrLogout className="logout" onClick={this.props.handleLogout}/>

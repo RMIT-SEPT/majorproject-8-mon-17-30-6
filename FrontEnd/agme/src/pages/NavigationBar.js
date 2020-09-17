@@ -13,7 +13,6 @@ export default class NavigationBar extends React.Component{
 
     render(){
         const decodedJwtPayload = getDecodedJwtFromLocalStorage();
-        console.log(decodedJwtPayload)
         if(decodedJwtPayload&&(decodedJwtPayload.exp>decodedJwtPayload.iat)){
             if(decodedJwtPayload.role.toUpperCase().includes('PROVIDER')){
                 return (
