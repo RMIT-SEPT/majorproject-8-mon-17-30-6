@@ -36,20 +36,23 @@ public class AvailabilityController
     ServiceTypeService serviceTypeService;
 //    Returns the required data for the above post method
     @GetMapping("/availability")
-    public ResponseEntity<?> getAvailableDays(@RequestParam String name, @RequestParam Date date
+    public ResponseEntity<?> getAvailableDaysPerService(@RequestBody AvailabilityRequest availabilityRequest){
+        ServiceType service = serviceTypeService.loadServiceByName(availabilityRequest.getServiceName());
+        HashMap<String, Object> maps = new HashMap<>();
 
-    ){
-        ServiceType service = serviceTypeService.loadServiceByName(name);
-        HashMap<String, List<Integer>> map = new HashMap<>();
         for (Company next: service.getCompany())
         {
             for (Employee employee:next.getEmployees())
             {
-                map.put(employee.getUsername(), availabilityService.getAvailabilityForService(employee.getUsername(), date));
+                HashMap<String, Object> map = new HashMap<>();
+
+                map.put("name", employee.getName());
+                map.put("availability", availabilityService.getAvailabilityForService(employee.getUsername(), availabilityRequest.getDate()));
+                maps.put(employee.getUsername(), map);
             }
         }
 
-        return new ResponseEntity<>(map, HttpStatus.OK);
+        return new ResponseEntity<>(maps, HttpStatus.OK);
 
     }
 }

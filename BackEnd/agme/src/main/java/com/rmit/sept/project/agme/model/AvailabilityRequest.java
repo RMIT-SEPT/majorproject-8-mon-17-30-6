@@ -11,10 +11,20 @@ public class AvailabilityRequest
     private Date date;
     private String companyUsername;
     private String employeeUsername;
+    private String serviceName;
 
     public AvailabilityRequest(){
 
     }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
     public Date getDate()
     {
         return date;

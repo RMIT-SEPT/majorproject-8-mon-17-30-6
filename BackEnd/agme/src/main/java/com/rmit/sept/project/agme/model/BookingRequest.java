@@ -11,7 +11,7 @@ public class BookingRequest
 {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy HH:mm:ss")
     private Date date;
-    private String  companyUsername;
+//    private String  companyUsername;
     private int duration;
     private String serviceType;
     private String  employeeUsername;
@@ -53,15 +53,15 @@ public class BookingRequest
         this.date = date;
     }
 
-    public String getCompanyUsername()
-    {
-        return companyUsername;
-    }
-
-    public void setCompanyUsername(String companyUsername)
-    {
-        this.companyUsername = companyUsername;
-    }
+//    public String getCompanyUsername()
+//    {
+//        return companyUsername;
+//    }
+//
+//    public void setCompanyUsername(String companyUsername)
+//    {
+//        this.companyUsername = companyUsername;
+//    }
 
     public int getDuration()
     {

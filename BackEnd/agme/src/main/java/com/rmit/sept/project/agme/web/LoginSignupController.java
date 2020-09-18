@@ -125,7 +125,7 @@ public class LoginSignupController {
                 }else if (user.getRole() == EMPLOYEE){
                     Employee user1 = new Employee(user.getUsername(), user.getName(), user.getPassword()
                             ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(),
-                            companyService.loadUserByUsername(user.getCompanyUsername()));
+                            companyService.loadUserByUsername(user.getCompanyUsername()), user.getCompanyUsername());
                     employeeService.addEmployee(user1);
                     Company comp = companyService.loadUserByUsername(user.getCompanyUsername());
                     if (comp != null) {
