@@ -1,5 +1,7 @@
 package com.rmit.sept.project.agme.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -11,6 +13,8 @@ public class Booking {
 
     private int duration;
     private int visible;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy HH:mm:ss")
     private Date startDateTime;
 
     @ManyToOne
@@ -26,19 +30,17 @@ public class Booking {
     @ManyToOne
     private ServiceType serviceType;
 
-//    The start time for a booking
-    private int hour;
+
 
 
 //    Constructor for booking
-    public Booking(Date startDateTime, int duration, Employee employee, Company company, User user, int hour, ServiceType serviceType) {
+    public Booking(Date startDateTime, int duration, Employee employee, Company company, User user, ServiceType serviceType) {
         this.startDateTime = startDateTime;
         this.serviceType = serviceType;
         this.duration = duration;
         this.employee = employee;
         this.company = company;
         this.user = user;
-        this.hour = hour;
     }
 
     public Booking() {}
@@ -47,15 +49,6 @@ public class Booking {
 //    {
 //    }
 
-    public int getHour()
-    {
-        return hour;
-    }
-
-    public void setHour(int hour)
-    {
-        this.hour = hour;
-    }
 
     public Long getId() {
         return id;

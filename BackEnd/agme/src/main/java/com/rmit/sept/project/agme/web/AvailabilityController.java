@@ -41,10 +41,10 @@ public class AvailabilityController
         for (Booking next:bookings){
             if (next.getStartDateTime().getDay() == availabilityRequest.getDate().getDay() && next.getCompany().getUsername().equals(availabilityRequest.getCompanyUsername())
                     && next.getEmployee().getUsername().equals(availabilityRequest.getEmployeeUsername())){
-                time = next.getHour();
+                time = next.getStartDateTime().getHours();
                 int x = 0;
                 for (Integer curr: availablility){
-                    if (curr == next.getHour()){
+                    if (curr == time){
                         break;
                     }
                     x++;

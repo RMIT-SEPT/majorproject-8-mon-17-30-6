@@ -5,6 +5,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Entity
@@ -15,6 +17,7 @@ public class Employee extends AbstractUser implements UserDetails {
 
     @ManyToOne
     private Company company;
+
 
     @OneToMany
     private List<Booking> list = new ArrayList<Booking>();

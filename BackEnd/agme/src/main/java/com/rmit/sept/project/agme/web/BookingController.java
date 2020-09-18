@@ -48,7 +48,7 @@ public class BookingController {
         Company company = companyService.loadUserByUsername(booking.getCompanyUsername());
         ServiceType serviceType = serviceTypeService.loadServiceByName(booking.getServiceType());
 //      Creates a new booking
-        Booking newBooking = new Booking(booking.getDate(), booking.getDuration(), employee, company, user, booking.getHour(), serviceType);
+        Booking newBooking = new Booking(booking.getDate(), booking.getDuration(), employee, company, user, serviceType);
 //        Returns the booking
         return bookingService.addBooking(newBooking);
     }
