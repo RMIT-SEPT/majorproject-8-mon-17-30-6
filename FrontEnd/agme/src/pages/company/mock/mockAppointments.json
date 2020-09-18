@@ -10,6 +10,9 @@
         },
         "company": {
             "name": "Harry's Hair"
+        },
+        "user": {
+            "name": "Jack"
         }
     },
     {
@@ -23,6 +26,9 @@
         },
         "company": {
             "name": "Wolly's Wool Wearers"
+        },
+        "user": {
+            "name": "Jack"
         }
     },
     {
@@ -36,11 +42,14 @@
         },
         "company": {
             "name": "Pinkies Party Planners"
+        },
+        "user": {
+            "name": "Jack"
         }
     },{
         "id": 4,
         "duration": 15,
-        "serviceType": "Hair",
+        "serviceType": "Fitting",
         "startDateTime": "2020-09-16T04:00:00.000+00:00",
         "employee": {
             "name": "Tom",
@@ -48,6 +57,9 @@
         },
         "company": {
             "name": "Harry's Hair"
+        },
+        "user": {
+            "name": "Wally"
         }
     },{
         "id": 5,
@@ -60,6 +72,9 @@
         },
         "company": {
             "name": "Tammy's Cleaners I dont know whatever"
+        },
+        "user": {
+            "name": "Tom"
         }
     },{
         "id": 6,
@@ -72,6 +87,9 @@
         },
         "company": {
             "name": "The Pope's Party"
+        },
+        "user": {
+            "name": "Denise"
         }
     }
 ]
