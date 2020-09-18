@@ -40,6 +40,7 @@ public class Company extends AbstractUser implements UserDetails {
     public Company() {
 
     }
+
     public void addEmployee(Employee employee){
         employees.add(employee);
     }
