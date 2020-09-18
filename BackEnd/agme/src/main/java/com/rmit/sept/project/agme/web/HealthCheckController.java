@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/")
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class HealthCheckController {
 
     @GetMapping("/healthcheck")
