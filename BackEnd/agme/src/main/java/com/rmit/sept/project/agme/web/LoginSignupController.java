@@ -22,7 +22,7 @@ import java.util.List;
 import static com.rmit.sept.project.agme.model.Role.*;
 @RestController
 @RequestMapping("")
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class LoginSignupController {
 
     //    inject User service

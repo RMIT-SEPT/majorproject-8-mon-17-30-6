@@ -19,6 +19,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/company")
+@CrossOrigin(origins = "*")
 public class CompanyController
 {
     @Autowired
