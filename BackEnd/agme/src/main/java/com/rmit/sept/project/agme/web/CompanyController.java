@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/company")
-@CrossOrigin(origins = "*")
+@CrossOrigin("http://localhost:3000")
 public class CompanyController
 {
     @Autowired
@@ -86,6 +86,12 @@ public class CompanyController
     @GetMapping("/allservices")
     //returns all services
     ResponseEntity<?> getAllServices(@RequestHeader("Authorisation") String authorisationHeader) {
+        String username = "";
+        String role = "";
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
+            String jwt = authorisationHeader.substring(7);
+            username = jwtUtil.extractUsername(jwt);
+        }
         if (serviceTypeService.getAllServices().size() == 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
