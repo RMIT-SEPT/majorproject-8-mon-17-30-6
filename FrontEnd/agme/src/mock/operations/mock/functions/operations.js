@@ -3,7 +3,11 @@ const config = require('../../../../config.json')
  * Generic function to call apis
  * ***/
 const apiCall = async(endpoint,uri,options)=>{
+    console.log(endpoint)
+    console.log(uri)
+    console.log(options)
     const response = await fetch(endpoint+uri,options);
+
     console.log(response)
     return testResponse(response)
 }
@@ -77,18 +81,40 @@ const signupNewUser = async (entity)=>{
    return response;
 }
 const getCompaniesFromAPI = async ()=>{
-    const endpoint = config.api.endpoint;
+    const url = config.api.url;
     const uri = "signup"
     const options = {
         method: "GET",
         mode: "cors"
     }
-    const response = await apiCall(endpoint,uri,options);
+    const response = await apiCall(url,uri,options);
     console.log(response)
    return response;
 }
 
-const getDecodedJwtFromLocalStorage = async() =>{
+const getAllServicesProvider = async ()=>{
+    const url = config.api.url;
+    const uri = "company/allservices"
+    const options = {
+        method: "GET",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+    }
+    console.log(url)
+    console.log(uri)
+    console.log(options)
+    console.log(JSON.parse(localStorage.getItem('credentials')).jwt)
+    const response = await apiCall(url,uri,options);
+    console.log(response)
+   return response;
+}
+
+const getDecodedJwtFromLocalStorage = () =>{
     // Get JWT Header, Payload and Signature
     const stringifiedJwtPayload = localStorage.getItem('credentials').split('.')[1];
     //decode payload
@@ -97,4 +123,4 @@ const getDecodedJwtFromLocalStorage = async() =>{
     return JSON.parse(buff.toString('ascii'));
 
 }
-export default {authenticate, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage}
+export default {authenticate, getAllServicesProvider, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage}

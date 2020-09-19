@@ -1,13 +1,24 @@
 import React from 'react';
+//import Button from "react-bootstrap/Button";
 import './services.css'
 //mocked services
-const services = require('./mock/services.json')
+//const services = require('./mock/services.json');
+const {getAllServicesProvider} = require('../../mock/operations');
 //To view list of services
-export default class Services extends React.Component{
+export class AgmeServices extends React.Component{
     constructor(props){
         super(props)
-        this.state = {services: this.props.services || services}
+        this.state = {services: []}
+        getAllServicesProvider().then(response=>{
+            if(response.statusCode === 200){
+                this.setState({
+                    services: response.body
+                })
+            }
+        })
     }
+
+
     render(){
         let servicesComponents = (this.state.services)
             &&(this.state.services.length>0)
@@ -26,6 +37,7 @@ export default class Services extends React.Component{
         }
         return (
             <div>
+                <h5>These are all services registed in AGME</h5>
                 {servicesComponents}
             </div>
         )

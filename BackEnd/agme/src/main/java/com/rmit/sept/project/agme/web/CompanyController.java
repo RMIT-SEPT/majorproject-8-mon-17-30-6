@@ -9,6 +9,7 @@ import com.rmit.sept.project.agme.services.BookingService;
 import com.rmit.sept.project.agme.services.CompanyService;
 import com.rmit.sept.project.agme.services.ServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -89,7 +90,7 @@ public class CompanyController
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         } else {
-            return new ResponseEntity<>(serviceTypeService.getAllServices(), HttpStatus.OK);
+            return new ResponseEntity<>(serviceTypeService.getAllServices(),HttpStatus.OK);
         }
     }
 }
