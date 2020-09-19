@@ -91,7 +91,7 @@ export default class Signup extends React.Component{
             var i = 0;
             arr.push(<option key={i} value=""  disabled defaultValue>Choose a Company</option>);
             for(var key in response.body){
-                arr.push(<option key={i} value={key}>{response.body[key]}</option>);
+                arr.push(<option key={i+1} value={key}>{response.body[key]}</option>);
                 i++;
               }
               this.setState({options:arr,isCallingServer:false, called:true});
@@ -100,7 +100,7 @@ export default class Signup extends React.Component{
     }
     if (this.state.entity.role === 'EMPLOYEE'){
     return <React.Fragment>
-        <select className="form-control" name={"companyUsername"} value={this.state.entity.companyUsername} placeholder="role" onChange={this.handleInputChange}>{this.state.options}</select>      
+        <select className="form-control" name={"companyUsername"} value={this.state.entity.companyUsername||""} placeholder="role" onChange={this.handleInputChange}>{this.state.options}</select>      
         <label className= "errorLabel">{this.showError('companyUsername')}</label>
 
     </React.Fragment>
