@@ -20,7 +20,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/company")
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class CompanyController
 {
     @Autowired
