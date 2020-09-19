@@ -12,13 +12,13 @@ import CustomisedError from "./miscelaneous/CustomisedError";
 const utils = require('./mock/operations/mock/functions/utils')
 /**
  * Basic Flow
- *
+ * 
  * 1. If User has an active token stored (has been authenticated), show relevant content
  *  The token will tell what type of content to show
  *  - Administrators
  *  - Providers
  *  - Basic users
- *
+ * 
  * **/
 export default class App extends React.Component{
 
@@ -46,9 +46,9 @@ export default class App extends React.Component{
 
     componentDidMount(){
         this.setState({
-            content:<LandingPage
-                authenticated={this.state&&this.state.authenticated}
-                handleAuthentication={this.handleAuthentication}
+            content:<LandingPage 
+                authenticated={this.state&&this.state.authenticated} 
+                handleAuthentication={this.handleAuthentication} 
                 handleContentChangeRequest={this.handleContentChangeRequest}
                 handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}
                 type={this.state&&this.state.type}
@@ -87,12 +87,12 @@ export default class App extends React.Component{
                     break;
                 default:
                     console.log("no content available?");
-            }
+            }  
         }
         this.setState({content:component})
     }
     handleContentChangeRequestSignup(componentName){
-
+ 
         const contentString = componentName;
         let component = "";
         switch(contentString){
@@ -110,7 +110,7 @@ export default class App extends React.Component{
                 break;
             default:
                 console.log("no content available?");
-        }
+        }  
         this.setState({content:component})
     }
 
@@ -120,14 +120,15 @@ export default class App extends React.Component{
         if(!credentials){return;}
 
         const authDetails = utils.decodeJwt(JSON.parse(credentials).jwt);
+        authDetails.role = 'user';//remove this once backend is fixed
         const role = authDetails.role
         this.setState({
             token:authDetails.jwt,
             authenticated:true,
-            role: authDetails.role,
-            content:<LandingPage
-                authenticated={true}
-                handleAuthentication={this.handleAuthentication}
+            role: authDetails.role, 
+            content:<LandingPage 
+                authenticated={true} 
+                handleAuthentication={this.handleAuthentication} 
                 handleContentChangeRequest={this.handleContentChangeRequest}
                 type={role}
                 token={authDetails.jwt}
