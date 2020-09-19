@@ -9,6 +9,7 @@ import com.rmit.sept.project.agme.services.BookingService;
 import com.rmit.sept.project.agme.services.CompanyService;
 import com.rmit.sept.project.agme.services.ServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -82,4 +83,20 @@ public class CompanyController
         return new ResponseEntity<>(bookingsForCompany, HttpStatus.OK);
     }
 
+    @GetMapping("/allservices")
+    //returns all services
+    ResponseEntity<?> getAllServices(@RequestHeader("Authorisation") String authorisationHeader) {
+        String username = "";
+        String role = "";
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
+            String jwt = authorisationHeader.substring(7);
+            username = jwtUtil.extractUsername(jwt);
+        }
+        if (serviceTypeService.getAllServices().size() == 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        } else {
+            return new ResponseEntity<>(serviceTypeService.getAllServices(),HttpStatus.OK);
+        }
+    }
 }

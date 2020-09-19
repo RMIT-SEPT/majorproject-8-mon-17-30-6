@@ -27,6 +27,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     }
 
     protected void configure(HttpSecurity http) throws Exception {
+        http.cors();
+
 //        Allows access to db
 //        sets restriction on api endpoints for user type
         http.authorizeRequests().antMatchers("/h2-console/**").permitAll();

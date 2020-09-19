@@ -4,7 +4,6 @@ const config = require('../../../../config.json')
  * ***/
 const apiCall = async(endpoint,uri,options)=>{
     const response = await fetch(endpoint+uri,options);
-    console.log(response)
     return testResponse(response)
 }
 
@@ -48,13 +47,9 @@ const authenticate = async (username, password, role)=>{
                 })
     }
     const response = await apiCall(url,uri,options);
-    console.log(response);
     if(response.statusCode===200){
 
-        console.log('response 200')
-        console.log('setting local storage credentials')
         localStorage.setItem('credentials', JSON.stringify(response.body));
-        console.log(localStorage.getItem('credentials'))
     }else{
         localStorage.removeItem('credentials')
     }
@@ -77,18 +72,34 @@ const signupNewUser = async (entity)=>{
    return response;
 }
 const getCompaniesFromAPI = async ()=>{
-    const endpoint = config.api.endpoint;
+    const url = config.api.url;
     const uri = "signup"
     const options = {
         method: "GET",
         mode: "cors"
     }
-    const response = await apiCall(endpoint,uri,options);
-    console.log(response)
+    const response = await apiCall(url,uri,options);
    return response;
 }
 
-const getDecodedJwtFromLocalStorage = async() =>{
+const getAllServicesProvider = async ()=>{
+    const url = config.api.url;
+    const uri = "company/allservices"
+    const options = {
+        method: "GET",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+    }
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
+const getDecodedJwtFromLocalStorage = () =>{
     // Get JWT Header, Payload and Signature
     const stringifiedJwtPayload = localStorage.getItem('credentials').split('.')[1];
     //decode payload
@@ -97,4 +108,4 @@ const getDecodedJwtFromLocalStorage = async() =>{
     return JSON.parse(buff.toString('ascii'));
 
 }
-export default {authenticate, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage}
+export default {authenticate, getAllServicesProvider, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage}

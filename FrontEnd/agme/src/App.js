@@ -3,7 +3,6 @@ import './pages/css/App.css';
 import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import Services from "./pages/services/Services";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {getDecodedJwtFromLocalStorage}  from "./mock/operations/mock/functions/utils";//Add decode func
 import ViewProviders from './pages/users/ViewProviders';
@@ -79,11 +78,8 @@ export default class App extends React.Component{
                 case "providers":
                     component = <ViewProviders/>
                     break;
-                case "services":
-                        component = <Services/>
-                        break;
                 case "login":
-                    component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>
+                    component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup} handleAuthentication={this.handleAuthentication}/>
                     break;
                 default:
                     console.log("no content available?");
@@ -104,9 +100,6 @@ export default class App extends React.Component{
                 break;
             case "login":
                 component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleAuthentication={this.handleAuthentication}/>
-                break;
-            case "services":
-                component = <Services handleContentChangeRequest={this.handleContentChangeRequest} handleAuthentication={this.handleAuthentication}/>
                 break;
             default:
                 console.log("no content available?");
