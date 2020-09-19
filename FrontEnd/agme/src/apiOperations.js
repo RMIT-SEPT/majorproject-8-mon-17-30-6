@@ -4,5 +4,6 @@ functions = require('./mock/operations')
 module.exports = {
     authenticate: functions.authenticate,
     signupNewUser: functions.signupNewUser,
-    getCompaniesFromAPI: functions.getCompaniesFromAPI
+    getCompaniesFromAPI: functions.getCompaniesFromAPI,
+    getAllServicesForUser: functions.getAllServicesForUser
 }
