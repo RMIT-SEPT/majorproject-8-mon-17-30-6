@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
 //Entity for a basic user
 @Entity
 public class User extends AbstractUser implements UserDetails {
+
     public User() {
 
     }

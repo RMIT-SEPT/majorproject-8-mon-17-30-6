@@ -1,17 +1,30 @@
 package com.rmit.sept.project.agme.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 // Request for availability
 public class AvailabilityRequest
 {
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy HH:mm:ss")
     private Date date;
     private String companyUsername;
     private String employeeUsername;
+    private String serviceName;
 
     public AvailabilityRequest(){
 
     }
+
+    public String getServiceName() {
+        return serviceName;
+    }
+
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
+
     public Date getDate()
     {
         return date;

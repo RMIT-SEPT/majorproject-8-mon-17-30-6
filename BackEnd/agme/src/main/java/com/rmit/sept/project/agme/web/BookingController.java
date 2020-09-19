@@ -46,10 +46,10 @@ public class BookingController {
 //        Instantiates a user, service, employee and company for the bookings.
         User user = (User)userService.loadUserByUsername(username);
         Employee employee = employeeService.loadUserByUsername(booking.getEmployeeUsername());
-        Company company = companyService.loadUserByUsername(booking.getCompanyUsername());
+        Company company = companyService.loadUserByUsername(employee.getCompanyUsername());
         ServiceType serviceType = serviceTypeService.loadServiceByName(booking.getServiceType());
 //      Creates a new booking
-        Booking newBooking = new Booking(booking.getDate(), booking.getDuration(), employee, company, user, booking.getHour(), serviceType);
+        Booking newBooking = new Booking(booking.getDate(), booking.getDuration(), employee, company, user, serviceType);
 //        Returns the booking
         return bookingService.addBooking(newBooking);
     }
