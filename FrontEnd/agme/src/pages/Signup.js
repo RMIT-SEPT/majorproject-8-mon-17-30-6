@@ -34,7 +34,7 @@ export default class Signup extends React.Component{
             if(response.statusCode===200){
                 this.setState({isCallingServer:false});
                 alert("Signup succesful. Please login");
-                this.props.handleContentChangeRequestSignup('login');
+                this.props.handleContentChangeRequest('login');
                 }else{
                     this.setState({
                         isCallingServer:false,
