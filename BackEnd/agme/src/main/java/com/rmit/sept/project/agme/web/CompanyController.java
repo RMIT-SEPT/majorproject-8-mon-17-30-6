@@ -82,4 +82,14 @@ public class CompanyController
         return new ResponseEntity<>(bookingsForCompany, HttpStatus.OK);
     }
 
+    @GetMapping("/allservices")
+    //returns all services
+    ResponseEntity<?> getAllServices(@RequestHeader("Authorisation") String authorisationHeader) {
+        if (serviceTypeService.getAllServices().size() == 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        } else {
+            return new ResponseEntity<>(serviceTypeService.getAllServices(), HttpStatus.OK);
+        }
+    }
 }
