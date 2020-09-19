@@ -1,0 +1,31 @@
+.carouselOuttter{
+    background-color: cadetblue;
+    width:90vw;
+    height:90vh;
+    margin:0 0 0 5vw;
+}
+
+.availability{
+    padding: 1vh;
+    border: 1px solid black;
+}
+
+.availability .available{
+    padding: 1vh;
+    border: 1px solid black;
+    width:3vw;
+}
+
+.availability .available.true{
+    padding: 1vh;
+    border: 1px solid black;
+    width:3vw;
+    background-color: green;
+}
+
+.availability .available.false{
+    padding: 1vh;
+    border: 1px solid black;
+    width:3vw;
+    background-color: grey;
+}
