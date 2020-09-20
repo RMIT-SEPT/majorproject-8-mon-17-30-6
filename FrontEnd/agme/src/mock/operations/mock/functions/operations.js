@@ -99,6 +99,24 @@ const getAllServicesProvider = async ()=>{
    return response;
 }
 
+const deleteBooking = async (bookingId)=>{
+    const url = config.api.url;
+    const uri = config.api.uri.company.deleteBooking
+    const options = {
+        method: "DELETE",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+        body: bookingId
+    }
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
 const getCompanyEmployees = async ()=>{
     const url = config.api.url;
     const uri = config.api.uri.company.getEmployees
@@ -150,5 +168,6 @@ export default {
     getCompaniesFromAPI, 
     getDecodedJwtFromLocalStorage,
     getCompanyEmployees,
-    getCompanyBookings
+    getCompanyBookings,
+    deleteBooking
 }

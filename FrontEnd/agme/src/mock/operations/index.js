@@ -4,7 +4,8 @@ const {
   authenticate, signupNewUser, 
   getCompaniesFromAPI, 
   getDecodedJwtFromLocalStorage,
-  getCompanyBookings
+  getCompanyBookings,
+  deleteBooking
 } = require('./mock/functions/operations').default
 module.exports = {
     authenticate: authenticate,
@@ -13,5 +14,6 @@ module.exports = {
       getDecodedJwtFromLocalStorage: getDecodedJwtFromLocalStorage,
       getAllServicesProvider:getAllServicesProvider,
       getCompanyEmployees:getCompanyEmployees,
-      getCompanyBookings:getCompanyBookings
+      getCompanyBookings:getCompanyBookings,
+      deleteBooking: deleteBooking
 }

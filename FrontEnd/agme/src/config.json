@@ -6,7 +6,8 @@
       "login": "login",
       "company":{
         "getEmployees": "company/employees",
-        "getBookings": "company/bookings"
+        "getBookings": "company/bookings",
+        "deleteBooking": "company/bookings"
       }
     }
   }
