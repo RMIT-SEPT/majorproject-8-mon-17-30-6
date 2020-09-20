@@ -24,50 +24,53 @@ export default class UserDashboard extends React.Component{
             array: [],
             timeSlots: [],
             calledSlot: false,
-            calledAl: false
+            calledAl: false,
+            chosen: "",
+            duration: ""
 
         };
         this.handleInputChange = this.handleInputChange.bind(this);
     }
-    showAvailableServices(){
-        if (!this.state.called){
-        functions.getAllServicesForUser().then(response=>{
-            var arr = [];
-            var i = 1;
-            arr.push(<option key={0} value=""  disabled defaultValue>Choose a Service</option>);
 
+    // Show available services
+    showAvailableServices(){
+        // if the command hasnt been executed
+        if (!this.state.called){
+            // get all services
+            functions.getAllServicesForUser().then(response=>{
+            var servicetypes = [];
+            var i = 1;
+            //  add default to array
+            servicetypes.push(<option key={0} value=""   defaultValue>Choose a Service</option>);
+
+            // loops through services and adds them
             this.serviceType = response.body.map((serviceType) =>
-            arr.push(<option key={i} value={serviceType.name}>{serviceType.name}</option>),
-            i++
-            );
-              this.setState({options:arr,isCallingServer:false, called:true});
-        }
-    
+                servicetypes.push(<option key={i} value={serviceType.name}>{serviceType.name}</option>),
+                i++);
+            this.setState({options:servicetypes,isCallingServer:false, called:true});
+            }
         )
     }
-    
-    
     return <React.Fragment>
-        <select className="form-control" name={"serviceTypeName"} value={this.state.serviceName}  onChange={this.handleInputChange}>{this.state.options}</select>      
-    </React.Fragment>
-    
-
-    }
+                <select className="form-control" name={"serviceName"} value={this.state.serviceName}  onChange={this.handleInputChange}>{this.state.options}</select>      
+          </React.Fragment>
+}
     handleInputChange(e){
         e.preventDefault();
         const name = e.target.name;
         const value = e.target.value;
+        this.setState({[name]:value})
         if (name === "employee"){
             var index = e.nativeEvent.target.selectedIndex;
 
             {this.handleTimeValue(index)}
 
         }
-        this.setState({[name]:value})
 
     }
     showAvailableTimes(){
-        if (!this.state.calledTime){
+        console.log(this.state.serviceName)
+        if (!this.state.calledTime && this.state.serviceName != "" && this.state.dayToBook != "" ){
             var today = new Date();
             var day = today.getDay();
             var diff = this.state.dayToBook-day;
@@ -76,10 +79,11 @@ export default class UserDashboard extends React.Component{
             var dateT = today.getDay() + "-" + today.getMonth() + "-" + today.getFullYear().toString().substr(-2) + " " + today.getHours() + ":00:00"
             var i = 1;
 
-            functions.getAvailabilityForService("mark",dateT).then(response=>{
+            functions.getAvailabilityForService(this.state.serviceName,dateT).then(response=>{
                 var employeesVal = [];
                 var employeeAvailability = [];
-                employeesVal.push(<option key={0} value=""  disabled defaultValue>Employee</option>);
+                console.log(response.body)
+                employeesVal.push(<option key={0} value=""   defaultValue>Please select an employee</option>);
                 // maps employee names
                 this.serviceType = response.body.map((serviceType) =>
                     employeesVal.push(<option key={i} value={serviceType}>{serviceType.name}</option>),
@@ -95,20 +99,30 @@ export default class UserDashboard extends React.Component{
             }
             )
     }
+    if (this.state.serviceName != "" && this.state.dayToBook != ""){
         return <React.Fragment>
-            <select className="form-control" name={"employee"} value={this.state.employee}  onChange={this.handleInputChange}>{this.state.employees}</select> 
+            <select className="form-control" name={"employee"} onChange={this.handleInputChange}>{this.state.employees}</select> 
             <br></br>     
-            <select className="form-control" name={"timeToBook"} value={this.state.timeToBook}  onChange={this.handleInputChange}>{this.state.timeSlots}</select>      
+            <label>Duration</label>
+            <select className="form-control" name={"duration"} value={this.state.duration}  onChange={this.handleInputChange}>
+            <option defaultValue value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            </select>     <br></br> 
+
+            <select className="form-control" name={"chosen"} value={this.state.chosen}  onChange={this.handleInputChange}>{this.state.timeSlots}</select>      
 
 
         </React.Fragment>
+    }
     }
 
     handleTimeValue(index){
         console.log(index)
         var options = [];
         console.log(this.state.array)
-        for (var i =0; i<5;i++){
+        for (var i =0; i<9;i++){
             options.push(<option key={i} value={this.state.array[index-1][i]}>{this.state.array[index-1][i]}</option>);
         }
         this.setState({timeSlots:options});
