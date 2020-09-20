@@ -75,12 +75,12 @@ export default class UserDashboard extends React.Component{
             var i = 1;
 
             functions.getAvailabilityForService("mark",dateT).then(response=>{
-                var arr = [];
+                var employeesVal = [];
                 var ar = [];
-                arr.push(<option key={0} value=""  disabled defaultValue>Employee</option>);
+                employeesVal.push(<option key={0} value=""  disabled defaultValue>Employee</option>);
                 this.serviceType = response.body.map((serviceType) =>
-                arr.push(<option key={i} value={serviceType}>{serviceType.name}</option>),
-                this.setState({employees:arr,isCallingServer:false, calledTime:true}),
+                employeesVal.push(<option key={i} value={serviceType}>{serviceType.name}</option>),
+                this.setState({employees:employeesVal,isCallingServer:false, calledTime:true}),
                 i++,
                 );
                 this.serviceType = response.body.map((serviceType) =>
@@ -108,7 +108,7 @@ export default class UserDashboard extends React.Component{
     }
 
     handleTimeValue(){
-        console.log(this.state.employee.toString)
+        console.log(this.state.employee.t)
 
         for (var i = 0; i< this.state.employee; i++){
             if (this.state.employee === this.state.employees[i]){
