@@ -127,4 +127,17 @@ public class CompanyController
             return new ResponseEntity<>(employeesForCompany,HttpStatus.OK);
         }
     }
+
+
+    @DeleteMapping("/bookings")
+    public ResponseEntity<?> deleteBooking(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody int bookingId){
+        String username = "";
+//        Gets username from the jwt topken
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
+            String jwt = authorisationHeader.substring(7);
+            username = jwtUtil.extractUsername(jwt);
+        }
+        return new ResponseEntity<>("Nothing done yet", HttpStatus.OK);
+    }
+
 }
