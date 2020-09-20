@@ -99,6 +99,23 @@ const getAllServicesProvider = async ()=>{
    return response;
 }
 
+const getCompanyEmployees = async ()=>{
+    const url = config.api.url;
+    const uri = config.api.uri.company.getEmployees
+    const options = {
+        method: "GET",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+    }
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
 const getDecodedJwtFromLocalStorage = () =>{
     // Get JWT Header, Payload and Signature
     const stringifiedJwtPayload = localStorage.getItem('credentials').split('.')[1];
@@ -108,4 +125,30 @@ const getDecodedJwtFromLocalStorage = () =>{
     return JSON.parse(buff.toString('ascii'));
 
 }
-export default {authenticate, getAllServicesProvider, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage}
+
+const getCompanyBookings = async ()=>{
+    const url = config.api.url;
+    const uri = config.api.uri.company.getBookings
+    const options = {
+        method: "GET",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+    }
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
+export default {
+    authenticate, 
+    getAllServicesProvider, 
+    signupNewUser, 
+    getCompaniesFromAPI, 
+    getDecodedJwtFromLocalStorage,
+    getCompanyEmployees,
+    getCompanyBookings
+}

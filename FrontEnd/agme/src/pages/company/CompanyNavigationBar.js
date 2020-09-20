@@ -5,9 +5,7 @@ import NavDropdown from "../../../node_modules/react-bootstrap/NavDropdown";
 import '../css/navigationbar.css'
 import { GrLogout } from "react-icons/gr";
 import {getDecodedJwtFromLocalStorage}  from "../../mock/operations/mock/functions/utils";//Add decode func
-import { AgmeServices } from './AgmeServices';
-import { CompanyServices } from './CompanyServices'
-import { AddExistingService } from './AddExistingService'
+import ComponentsHandler from './ComponentsHandler';
 /***
  * This class should handle the Navigation bar so that the appropriate menu's are displayed
  * ****/
@@ -21,20 +19,7 @@ export default class CompanyNavigationBar extends React.Component{
 
     handleSelectNavBar(e){
         e.preventDefault();
-        const name = e.target.name;
-        switch(name){
-            case 'agmeServices':
-                this.props.handleSelectNavBar(<AgmeServices />, true)
-                break;
-            case 'companyServices':
-                    this.props.handleSelectNavBar(<CompanyServices />, true)
-                    break;               
-            case 'addExistingService':
-                    this.props.handleSelectNavBar(<AddExistingService />, true)
-                    break;      
-                    default:
-                break;
-        }
+        this.props.handleSelectNavBar(<ComponentsHandler component={e.target.name}/>, true);
     }
     render(){
         const decodedJwtPayload = getDecodedJwtFromLocalStorage();
@@ -55,9 +40,11 @@ export default class CompanyNavigationBar extends React.Component{
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item name="agmeServices" onClick={this.handleSelectNavBar}>Agme Services</NavDropdown.Item>
                                 <NavDropdown.Item name="companyServices" onClick={this.handleSelectNavBar}>My Services</NavDropdown.Item>
-                                <NavDropdown.Item name="addExistingService" onClick={this.handleSelectNavBar}>Add an existing to your company</NavDropdown.Item>
+                                <NavDropdown.Item name="addExistingServices" onClick={this.handleSelectNavBar}>Add an existing service</NavDropdown.Item>
                             </NavDropdown>
-
+                            <NavDropdown title="Employees" id="basic-nav-dropdown">
+                                <NavDropdown.Item name="viewEmployees" onClick={this.handleSelectNavBar}>View Employees</NavDropdown.Item>
+                            </NavDropdown>
                         </Nav>
                     </Navbar.Collapse>
                     {logoutButton()}      
