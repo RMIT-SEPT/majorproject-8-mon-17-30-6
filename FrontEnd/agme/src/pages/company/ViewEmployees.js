@@ -2,7 +2,7 @@ import React from 'react';
 import Employee from '../../model/Employee';
 import { EmployeeSchedule } from './EmployeeSchedule';
 import './viewEmployees.css'
-const {getCompanyEmployees} = require('../../mock/operations');
+const {getCompanyEmployees, deleteBooking} = require('../../mock/operations');
 //uncomment when integrating with API
 //const {getCompanyBookings} = require('../../mock/operations');
 
@@ -14,6 +14,9 @@ export class ViewEmployees extends React.Component{
             selectedEmployee: null,
             bookings:require('./mock/bookings.json')
         }
+
+
+
         getCompanyEmployees().then(response=>{
             if(response.statusCode===200){
                 const employees = response.body.map(employee=>{return new Employee(employee)});
@@ -29,8 +32,23 @@ export class ViewEmployees extends React.Component{
         //     }
         // });
 
-
+        this.deleteBooking = this.deleteBooking.bind(this);
         this.handleSelectEmployee = this.handleSelectEmployee.bind(this);
+    }
+
+    //need to delete here, otherwise children components wont re-render properly
+    deleteBooking(e){
+        e.preventDefault();
+        const bookingId = e.currentTarget.value;
+        deleteBooking(bookingId).then(response=>{
+            if(response.statusCode===204){
+                const bookings = this.state.bookings.filter(booking=>{
+                    return Number(booking.id)!==Number(bookingId);
+                });
+                this.setState({bookings:bookings})
+            }
+        })
+
     }
 
     handleSelectEmployee(e){
@@ -51,7 +69,7 @@ export class ViewEmployees extends React.Component{
                         <option value={'DEFAULT'} disabled>Select an employee</option>
                         {options}
                     </select>
-                    <EmployeeSchedule employee={new Employee(this.state.selectedEmployee)} bookings={this.state.bookings}/>
+                    <EmployeeSchedule deleteBooking={this.deleteBooking} employee={new Employee(this.state.selectedEmployee)} bookings={this.state.bookings}/>
                 </div>
             )
         }

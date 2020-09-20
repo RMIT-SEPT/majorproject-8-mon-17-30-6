@@ -13,3 +13,16 @@
     width:5vw;
     display: inline-block;
 }
+
+.schedule_delete_button{
+    margin: 0 0 0 3vw ;
+    border: 1px solid white;
+    height:7vh;
+}
+.button_info{
+    margin:0 0.75vw 0 0;
+}
+
+.delete_info{
+    margin: 0 0 0 1vw;
+}
