@@ -167,22 +167,7 @@
                     }
                 }
             },
-            "GetBookingsResponse": {
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/Booking"
-                }
-            },
-            "GetEmployeesResponse": {
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/Employee"
-                }
-            },
             "NewEmployeeRequest": {
-                "$ref": "#/components/schemas/Employee"
-            },
-            "NewEmployeeResponse": {
                 "$ref": "#/components/schemas/Employee"
             },
             "User": {
@@ -226,6 +211,62 @@
                     }
                 ]
             },
+            "CompanyDetails": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "companyName": {
+                                "type": "string"
+                            },
+                            "lastLogin": {
+                                "type": "string"
+                            },
+                            "createdAt": {
+                                "type": "string"
+                            },
+                            "updatedAt": {
+                                "type": "string"
+                            },
+                            "id": {
+                                "type": "number"
+                            },
+                            "accountNonExpired": {
+                                "type": "boolean"
+                            },
+                            "accountNonLocked": {
+                                "type": "boolean"
+                            },
+                            "credentialsNonExpired": {
+                                "type": "boolean"
+                            },
+                            "authorities": {
+                                "type": "array",
+                                "items": {
+                                    "type":"object",
+                                    "properties":{
+                                        "authority": {
+                                            "type":"string"
+                                        }
+                                    }
+                                }
+                            },
+                            "enabled": {
+                                "type": "boolean"
+                            },
+                            "employees": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/EmployeeDetails"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
             "Employee": {
                 "allOf": [
                     {
@@ -239,6 +280,56 @@
                             },
                             "userType": {
                                 "type": "string"
+                            }
+                        }
+                    }
+                ]
+            },
+            "EmployeeDetails": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "userType": {
+                                "type": "string"
+                            },
+                            "lastLogin": {
+                                "type": "string"
+                            },
+                            "createdAt": {
+                                "type": "string"
+                            },
+                            "updatedAt": {
+                                "type": "string"
+                            },
+                            "id": {
+                                "type": "number"
+                            },
+                            "accountNonExpired": {
+                                "type": "boolean"
+                            },
+                            "accountNonLocked": {
+                                "type": "boolean"
+                            },
+                            "credentialsNonExpired": {
+                                "type": "boolean"
+                            },
+                            "authorities": {
+                                "type": "array",
+                                "items": {
+                                    "type":"object",
+                                    "properties":{
+                                        "authority": {
+                                            "type":"string"
+                                        }
+                                    }
+                                }
+                            },
+                            "enabled": {
+                                "type": "boolean"
                             }
                         }
                     }
@@ -278,6 +369,12 @@
                     "description": {
                         "type": "string",
                         "example": "A gym is a club, building, or large room, usually containing special equipment, where people go to do physical exercise and get fit."
+                    },
+                    "company":{
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CompanyDetails"
+                        }
                     }
                 }
             },
