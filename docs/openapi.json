@@ -295,41 +295,6 @@
                         "properties": {
                             "userType": {
                                 "type": "string"
-                            },
-                            "lastLogin": {
-                                "type": "string"
-                            },
-                            "createdAt": {
-                                "type": "string"
-                            },
-                            "updatedAt": {
-                                "type": "string"
-                            },
-                            "id": {
-                                "type": "number"
-                            },
-                            "accountNonExpired": {
-                                "type": "boolean"
-                            },
-                            "accountNonLocked": {
-                                "type": "boolean"
-                            },
-                            "credentialsNonExpired": {
-                                "type": "boolean"
-                            },
-                            "authorities": {
-                                "type": "array",
-                                "items": {
-                                    "type":"object",
-                                    "properties":{
-                                        "authority": {
-                                            "type":"string"
-                                        }
-                                    }
-                                }
-                            },
-                            "enabled": {
-                                "type": "boolean"
                             }
                         }
                     }
