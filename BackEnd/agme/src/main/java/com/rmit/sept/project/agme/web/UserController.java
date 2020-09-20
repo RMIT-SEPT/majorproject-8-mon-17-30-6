@@ -3,6 +3,7 @@ package com.rmit.sept.project.agme.web;
 import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.services.BookingService;
+import com.rmit.sept.project.agme.services.ServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,11 @@ public class UserController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    public UserController(BookingService bookingService, JwtUtil jwtUtil) {
+    @Autowired
+    private ServiceTypeService serviceTypeService;
+
+    public UserController(BookingService bookingService, ServiceTypeService serviceTypeService, JwtUtil jwtUtil) {
+        this.serviceTypeService = serviceTypeService;
         this.bookingService = bookingService;
         this.jwtUtil = jwtUtil;
     }
@@ -52,5 +57,22 @@ public class UserController {
 
         }
         return new ResponseEntity<>(bookingsForUser, HttpStatus.OK);
+    }
+
+    @GetMapping("/allservices")
+        //returns all services
+    ResponseEntity<?> getAllServices(@RequestHeader("Authorisation") String authorisationHeader) {
+        String username = "";
+        String role = "";
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
+            String jwt = authorisationHeader.substring(7);
+            username = jwtUtil.extractUsername(jwt);
+        }
+        if (serviceTypeService.getAllServices().size() == 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        } else {
+            return new ResponseEntity<>(serviceTypeService.getAllServices(),HttpStatus.OK);
+        }
     }
 }
