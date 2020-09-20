@@ -74,4 +74,7 @@ public class BookingService {
         return list;
     }
 
+    public void deleteById(Long bookingId){
+        bookingRepository.deleteById(bookingId);
+    }
 }
