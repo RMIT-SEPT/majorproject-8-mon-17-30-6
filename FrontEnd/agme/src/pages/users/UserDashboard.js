@@ -58,7 +58,9 @@ export default class UserDashboard extends React.Component{
         const name = e.target.name;
         const value = e.target.value;
         if (name === "employee"){
-            {this.handleTimeValue()}
+            var index = e.nativeEvent.target.selectedIndex;
+
+            {this.handleTimeValue(index)}
 
         }
         this.setState({[name]:value})
@@ -76,28 +78,23 @@ export default class UserDashboard extends React.Component{
 
             functions.getAvailabilityForService("mark",dateT).then(response=>{
                 var employeesVal = [];
-                var ar = [];
+                var employeeAvailability = [];
                 employeesVal.push(<option key={0} value=""  disabled defaultValue>Employee</option>);
+                // maps employee names
                 this.serviceType = response.body.map((serviceType) =>
-                employeesVal.push(<option key={i} value={serviceType}>{serviceType.name}</option>),
-                this.setState({employees:employeesVal,isCallingServer:false, calledTime:true}),
-                i++,
+                    employeesVal.push(<option key={i} value={serviceType}>{serviceType.name}</option>),
+                    this.setState({employees:employeesVal,isCallingServer:false, calledTime:true}),
+                    i++,
                 );
-                this.serviceType = response.body.map((serviceType) =>
-                ar.push(serviceType.availability),
-                this.setState({array:ar})
 
+                // array of employee availablilty
+                this.serviceType = response.body.map((serviceType) =>
+                    employeeAvailability.push(serviceType.availability),
+                    this.setState({array:employeeAvailability})
                 );
             }
             )
-            var slot = [];
-
-            slot.push(<option key={0} value=""  disabled defaultValue>Time</option>)
-            // this.setState({timeSlots: slot});
-        
-
     }
-
         return <React.Fragment>
             <select className="form-control" name={"employee"} value={this.state.employee}  onChange={this.handleInputChange}>{this.state.employees}</select> 
             <br></br>     
@@ -107,27 +104,15 @@ export default class UserDashboard extends React.Component{
         </React.Fragment>
     }
 
-    handleTimeValue(){
-        console.log(this.state.employee.t)
+    handleTimeValue(index){
+        console.log(index)
+        var options = [];
+        console.log(this.state.array)
+        for (var i =0; i<5;i++){
+            options.push(<option key={i} value={this.state.array[index-1][i]}>{this.state.array[index-1][i]}</option>);
+        }
+        this.setState({timeSlots:options});
 
-        for (var i = 0; i< this.state.employee; i++){
-            if (this.state.employee === this.state.employees[i]){
-                console.log(this.state.employee)
-                this.setState({selected:i})
-            }
-        }
-        let availabilityArray = [];
-        availabilityArray.push(<option key={0} value=""  disabled defaultValue>Time</option>)
-        for(var x = 0, l = 8; x < l; x++){
-            availabilityArray.push(<option key={x} value={this.state.array[0][x]}>{this.state.array[0][x]}</option>);
-            console.log(this.state.array[0][x])
-        }
-        console.log(availabilityArray)
-        if (this.state.calledSlot){
-        this.setState({timeSlots: availabilityArray, calledSlot:false});
-        }
-
-        
     }
     showDaysToBook(){
         if (!this.state.calledDays){
