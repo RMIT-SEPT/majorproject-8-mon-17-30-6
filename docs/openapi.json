@@ -97,6 +97,47 @@
                     "Service Types"
                 ]
             }
+        },
+        "/user/new-booking": {
+            "post": {
+                "operationId": "getBooking",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/NewBookingRequestBody"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfull post",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BookingResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Service Types"
+                ]
+            },
+            "get": {
+                "operationId": "createBooking",
+                "responses": {
+                    "200": {
+                        "description": "Successfull get",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetBookingResponse"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tags": [
+                    "Service Types"
+                ]
+            }
         }
     },
     "components": {
@@ -295,6 +336,41 @@
                         "properties": {
                             "userType": {
                                 "type": "string"
+                            },
+                            "lastLogin": {
+                                "type": "string"
+                            },
+                            "createdAt": {
+                                "type": "string"
+                            },
+                            "updatedAt": {
+                                "type": "string"
+                            },
+                            "id": {
+                                "type": "number"
+                            },
+                            "accountNonExpired": {
+                                "type": "boolean"
+                            },
+                            "accountNonLocked": {
+                                "type": "boolean"
+                            },
+                            "credentialsNonExpired": {
+                                "type": "boolean"
+                            },
+                            "authorities": {
+                                "type": "array",
+                                "items": {
+                                    "type":"object",
+                                    "properties":{
+                                        "authority": {
+                                            "type":"string"
+                                        }
+                                    }
+                                }
+                            },
+                            "enabled": {
+                                "type": "boolean"
                             }
                         }
                     }
