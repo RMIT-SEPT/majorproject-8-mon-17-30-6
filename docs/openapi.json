@@ -76,7 +76,7 @@
                     }
                 },
                 "tags": [
-                    "Service Types"
+                    "SERVICES"
                 ]
             },
             "get": {
@@ -94,7 +94,7 @@
                     }
                 },
                 "tags": [
-                    "Service Types"
+                    "SERVICES"
                 ]
             }
         },
@@ -122,6 +122,9 @@
             },
             "get": {
                 "operationId": "createBooking",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/NewBookingGetRequestBody"
+                },
                 "responses": {
                     "200": {
                         "description": "Successfull get",
@@ -147,6 +150,15 @@
                     "application/json": {
                         "schema": {
                             "$ref": "#/components/schemas/NewBookingPostRequest"
+                        }
+                    }
+                }
+            },
+            "NewBookingGetRequestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/NewBookingGetRequest"
                         }
                     }
                 }
@@ -221,6 +233,17 @@
                         "type": "string"
                     },
                     "duration": {
+                        "type": "string"
+                    },
+                    "serviceType": {
+                        "type": "string"
+                    }
+                }
+            },
+            "NewBookingGetRequest": {
+                "type": "object",
+                "properties": {
+                    "date": {
                         "type": "string"
                     },
                     "serviceType": {
