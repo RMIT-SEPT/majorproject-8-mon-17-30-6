@@ -102,7 +102,7 @@
             "post": {
                 "operationId": "getBooking",
                 "requestBody": {
-                    "$ref": "#/components/requestBodies/NewBookingRequestBody"
+                    "$ref": "#/components/requestBodies/NewBookingPostRequestBody"
                 },
                 "responses": {
                     "200": {
@@ -117,7 +117,7 @@
                     }
                 },
                 "tags": [
-                    "Service Types"
+                    "BOOKINGS"
                 ]
             },
             "get": {
@@ -135,18 +135,18 @@
                     }
                 },
                 "tags": [
-                    "Service Types"
+                    "BOOKINGS"
                 ]
             }
         }
     },
     "components": {
         "requestBodies": {
-            "NewBookingRequestBody": {
+            "NewBookingPostRequestBody": {
                 "content": {
                     "application/json": {
                         "schema": {
-                            "$ref": "#/components/schemas/Booking"
+                            "$ref": "#/components/schemas/NewBookingPostRequest"
                         }
                     }
                 }
@@ -210,6 +210,23 @@
             },
             "NewEmployeeRequest": {
                 "$ref": "#/components/schemas/Employee"
+            },
+            "NewBookingPostRequest": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string"
+                    },
+                    "companyUsername": {
+                        "type": "string"
+                    },
+                    "duration": {
+                        "type": "string"
+                    },
+                    "serviceType": {
+                        "type": "string"
+                    }
+                }
             },
             "User": {
                 "type": "object",
