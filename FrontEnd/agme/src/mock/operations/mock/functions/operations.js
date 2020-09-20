@@ -115,7 +115,7 @@ const getAllServicesForUser = async ()=>{
     const response = await apiCall(url,uri,options);
    return response;
 }
-const getAvailabilityForService = async (serviceName, date)=>{
+const getAvailabilityForService = async (serviceName, date, duration)=>{
     const url = config.api.url;
     const uri = "user/availability"
     const options = {
@@ -129,7 +129,8 @@ const getAvailabilityForService = async (serviceName, date)=>{
         },
         body: JSON.stringify({
             "serviceName": serviceName,
-            "date": date
+            "date": date,
+            "duration": duration
         }),
 
     }
@@ -137,6 +138,30 @@ const getAvailabilityForService = async (serviceName, date)=>{
     const response = await apiCall(url,uri,options);
    return response;
 }
+const handleBookingRequest = async (serviceType, duration, employeeUsername, date)=>{
+    const url = config.api.url;
+    const uri = "user/new-booking"
+    const options = {
+        method: "POST",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+        body: JSON.stringify({
+            "serviceType": serviceType,
+            "date": date,
+            "duration": duration,
+            "employeeUsername": employeeUsername
+        }),
+
+    }
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
 
 
 const getDecodedJwtFromLocalStorage = () =>{
@@ -148,4 +173,4 @@ const getDecodedJwtFromLocalStorage = () =>{
     return JSON.parse(buff.toString('ascii'));
 
 }
-export default {getAvailabilityForService, authenticate, getAllServicesProvider, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage, getAllServicesForUser}
+export default {handleBookingRequest, getAvailabilityForService, authenticate, getAllServicesProvider, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage, getAllServicesForUser}

@@ -6,5 +6,6 @@ module.exports = {
     signupNewUser: functions.signupNewUser,
     getCompaniesFromAPI: functions.getCompaniesFromAPI,
     getAllServicesForUser: functions.getAllServicesForUser,
-    getAvailabilityForService: functions.getAvailabilityForService
+    getAvailabilityForService: functions.getAvailabilityForService,
+    handleBookingRequest: functions.handleBookingRequest
 }

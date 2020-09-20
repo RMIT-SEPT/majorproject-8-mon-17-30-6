@@ -1,4 +1,4 @@
-const {getAllServicesProvider,getAvailabilityForService,authenticate, getAllServicesForUser, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage} = require('./mock/functions/operations').default
+const {handleBookingRequest, getAllServicesProvider,getAvailabilityForService,authenticate, getAllServicesForUser, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage} = require('./mock/functions/operations').default
 module.exports = {
     authenticate: authenticate,
     signupNewUser: signupNewUser,
@@ -6,5 +6,6 @@ module.exports = {
       getDecodedJwtFromLocalStorage: getDecodedJwtFromLocalStorage,
       getAllServicesProvider:getAllServicesProvider,
       getAllServicesForUser: getAllServicesForUser,
-      getAvailabilityForService: getAvailabilityForService
+      getAvailabilityForService: getAvailabilityForService,
+      handleBookingRequest: handleBookingRequest
 }

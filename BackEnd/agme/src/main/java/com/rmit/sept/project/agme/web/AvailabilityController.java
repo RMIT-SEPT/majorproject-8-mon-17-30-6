@@ -47,11 +47,11 @@ public class AvailabilityController
                 HashMap<String, Object> map = new HashMap<>();
 
                 map.put("name", employee.getName());
-                map.put("availability", availabilityService.getAvailabilityForService(employee.getUsername(), availabilityRequest.getDate()));
+                map.put("username", employee.getUsername());
+                map.put("availability", availabilityService.getAvailabilityForService(employee.getUsername(), availabilityRequest.getDate(), Integer.parseInt(availabilityRequest.getDuration())));
                 maps.add(map);
             }
         }
-
         return new ResponseEntity<>(maps, HttpStatus.OK);
 
     }

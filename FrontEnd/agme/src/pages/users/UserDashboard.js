@@ -1,6 +1,5 @@
 import '../css/userDash.css';
 import React from 'react';
-import { array } from 'prop-types';
 const functions = require('../../apiOperations')
 
 export default class UserDashboard extends React.Component{
@@ -8,28 +7,22 @@ export default class UserDashboard extends React.Component{
         super(props);
         this.state = {
             isCallingServer: false,
-            failed: false,
-            serviceTypeName: "",
             options: [],
             called: false,
             calledTime: false,
             calledDays: false,
             employees: [],
             days: [],
-            dayToBook: "",
             employee: "",
-            timeToBook: "",
-            name: "",
-            selected: "",
             array: [],
             timeSlots: [],
-            calledSlot: false,
-            calledAl: false,
             chosen: "",
-            duration: ""
-
+            duration: "1",
+            serviceName: "",
+            dateBooked: ""
         };
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleBookingRequestForUser = this.handleBookingRequestForUser.bind(this);
     }
 
     // Show available services
@@ -38,6 +31,8 @@ export default class UserDashboard extends React.Component{
         if (!this.state.called){
             // get all services
             functions.getAllServicesForUser().then(response=>{
+                if(response.statusCode===200){
+                    this.setState({isCallingServer:false});
             var servicetypes = [];
             var i = 1;
             //  add default to array
@@ -45,48 +40,71 @@ export default class UserDashboard extends React.Component{
 
             // loops through services and adds them
             this.serviceType = response.body.map((serviceType) =>
-                servicetypes.push(<option key={i} value={serviceType.name}>{serviceType.name}</option>),
+                servicetypes.push(<option key={serviceType.name} value={serviceType.name}>{serviceType.name}</option>),
                 i++);
             this.setState({options:servicetypes,isCallingServer:false, called:true});
+                }else{
+                    this.setState({isCallingServer:false,called:true});
+                }
             }
         )
+        
     }
     return <React.Fragment>
-                <select className="form-control" name={"serviceName"} value={this.state.serviceName}  onChange={this.handleInputChange}>{this.state.options}</select>      
-          </React.Fragment>
+    <label>Service</label>
+    <select className="form-control" name={"serviceName"} value={this.state.serviceName}  onChange={this.handleInputChange}>{this.state.options}</select>      
+</React.Fragment>
+ 
 }
+
+// Handle input change
     handleInputChange(e){
         e.preventDefault();
         const name = e.target.name;
         const value = e.target.value;
-        this.setState({[name]:value})
+        this.setState({[name]:value});
+
         if (name === "employee"){
             var index = e.nativeEvent.target.selectedIndex;
-
-            {this.handleTimeValue(index)}
+            this.handleTimeValue(index)
 
         }
 
     }
+    
+
+    // Makes a request to get employees and display the availability.
     showAvailableTimes(){
         console.log(this.state.serviceName)
-        if (!this.state.calledTime && this.state.serviceName != "" && this.state.dayToBook != "" ){
+        if (!this.state.calledTime && this.state.serviceName !== "" && this.state.dateBooked !== "" ){
+            // gets todays date
             var today = new Date();
-            var day = today.getDay();
-            var diff = this.state.dayToBook-day;
-            today = new Date(diff);
+            var day = today.getDate();
+            var d = this.state.dateBooked.substr(0,2);
+            var diff = d-day;
 
-            var dateT = today.getDay() + "-" + today.getMonth() + "-" + today.getFullYear().toString().substr(-2) + " " + today.getHours() + ":00:00"
+            // sets the date according the one selected
+            today.setDate(today.getDate() + diff);
+
+            // javascript counts 00 as a month
+            var month = today.getMonth();
+            month = month +1;
+
+            // date in correct formatting
+            var dateT = today.getDate() + "-" + month + "-" + today.getFullYear().toString().substr(-2) + " " + today.getHours() + ":00:00"
             var i = 1;
 
-            functions.getAvailabilityForService(this.state.serviceName,dateT).then(response=>{
+            functions.getAvailabilityForService(this.state.serviceName,dateT, this.state.duration).then(response=>{
+                if(response.statusCode===200){
+                    this.setState({isCallingServer:false});
+
+                this.setState({dateBooked:dateT})
                 var employeesVal = [];
                 var employeeAvailability = [];
-                console.log(response.body)
-                employeesVal.push(<option key={0} value=""   defaultValue>Please select an employee</option>);
+                employeesVal.push(<option key={0} value="" >Please select an employee</option>);
                 // maps employee names
                 this.serviceType = response.body.map((serviceType) =>
-                    employeesVal.push(<option key={i} value={serviceType}>{serviceType.name}</option>),
+                    employeesVal.push(<option key={serviceType.name} value={serviceType.username}>{serviceType.name}</option>),
                     this.setState({employees:employeesVal,isCallingServer:false, calledTime:true}),
                     i++,
                 );
@@ -96,58 +114,87 @@ export default class UserDashboard extends React.Component{
                     employeeAvailability.push(serviceType.availability),
                     this.setState({array:employeeAvailability})
                 );
+            }else{
+                this.setState({isCallingServer:false})
             }
+            }
+            
             )
     }
-    if (this.state.serviceName != "" && this.state.dayToBook != ""){
+    // render select bo for employees and timeslots
+    if (this.state.serviceName !== "" && this.state.dateBooked !== ""){
         return <React.Fragment>
-            <select className="form-control" name={"employee"} onChange={this.handleInputChange}>{this.state.employees}</select> 
-            <br></br>     
-            <label>Duration</label>
-            <select className="form-control" name={"duration"} value={this.state.duration}  onChange={this.handleInputChange}>
-            <option defaultValue value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            </select>     <br></br> 
-
+        <label>Employee</label>
+            <select className="form-control" name={"employee"} onChange={this.handleInputChange}>{this.state.employees}</select> <br></br>
+            <label>Time</label>
             <select className="form-control" name={"chosen"} value={this.state.chosen}  onChange={this.handleInputChange}>{this.state.timeSlots}</select>      
-
-
         </React.Fragment>
     }
     }
 
     handleTimeValue(index){
-        console.log(index)
         var options = [];
-        console.log(this.state.array)
-        for (var i =0; i<9;i++){
-            options.push(<option key={i} value={this.state.array[index-1][i]}>{this.state.array[index-1][i]}</option>);
+        for (var i =0; i<this.state.array[index-1].length ;i++){
+                options.push(<option key={i} value={this.state.array[index-1][i]}>{this.state.array[index-1][i]}</option>);
         }
         this.setState({timeSlots:options});
 
     }
-    showDaysToBook(){
-        if (!this.state.calledDays){
-        var today = new Date(2);
-        var day = today.getDay();
-        var arr = [];
-        arr.push(<option key={0} value=""  disabled defaultValue>Choose a Day</option>);
 
-        for (var i = 0; i<30; i++){
-            if (day !== 30 && day < 31){
-            arr.push(<option key={i} value={day}>{day}</option>);
-        }
-            day++;
+    
+    // displays the days that can be booked
+    showDaysToBook(){
+        if (!this.state.calledDays && this.state.serviceName !== ""){
+        var today = new Date();
+        var day = today.getDate() +2;
+        var arr = [];
+        console.log(day)
+        arr.push(<option key={0} value="" disabled defaultValue>Choose a Day</option>);
+        today.setDate(today.getDate() + 2);
+
+        for (var i = 0; i<29; i++){
+            arr.push(<option key={today.getDate()} value={today.getDate()}>{today.toString().slice(0, -25)}</option>);
+            today.setDate(today.getDate() + 1);
         }
         this.setState({days:arr,isCallingServer:false, calledDays:true});
     }
+
+    if (this.state.serviceName !== ""){
         return <React.Fragment>
-        <select className="form-control" name={"dayToBook"} value={this.state.dayToBook}  onChange={this.handleInputChange}>{this.state.days}</select>      
+  
+        <label>Duration</label>
+        <select className="form-control" name={"duration"} value={this.state.duration}  onChange={this.handleInputChange}>
+        <option defaultValue value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        </select><br></br>  
+        <label>Day</label>
+        <select className="form-control" name={"dateBooked"} value={this.state.dateBooked}  onChange={this.handleInputChange}>{this.state.days}</select>   
+        <br></br>
         </React.Fragment>
     }
+    }
+    handleBookingRequestForUser(){
+        //mock for now
+        this.setState({isCallingServer:true});
+        functions.handleBookingRequest(this.state.serviceName,this.state.duration, this.state.employee, this.state.dateBooked.substr(0,8) + this.state.chosen + ":00:00").then(response=>{
+            if(response.statusCode===200){
+                this.setState({isCallingServer:false});
+                alert("booking successful");
+            }else{
+                this.setState({isCallingServer:false, failed:true,error:response})
+            }
+        })
+        
+    }
 
+    showAuthenticationButton(){
+        if (this.state.serviceName !== "" &&this.state.employee !== "" &&this.state.dateBooked !== "" &&this.state.chosen){
+            
+            return <button className="btn btn-success" onClick={this.handleBookingRequestForUser}>Submit</button>
+        }
+    }
     render(){
         return (
             <div className={"new-booking"}>
@@ -160,7 +207,8 @@ export default class UserDashboard extends React.Component{
                     <br></br>
 
                     {this.showAvailableTimes()}
-
+                    <br></br>
+                    {this.showAuthenticationButton()}
                     <br>
                     </br>
                 </div>
