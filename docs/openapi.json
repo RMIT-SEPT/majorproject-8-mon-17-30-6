@@ -106,11 +106,11 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successfull post",
+                        "description": "Successful post",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/BookingResponse"
+                                    "$ref": "#/components/requestBodies/NewBookingPostRequestBody"
                                 }
                             }
                         }
@@ -119,26 +119,25 @@
                 "tags": [
                     "BOOKINGS"
                 ]
-            },
+            }
+        },
+        "/user/availability": {
             "get": {
-                "operationId": "createBooking",
-                "requestBody": {
-                    "$ref": "#/components/requestBodies/NewBookingGetRequestBody"
-                },
+                "operationId": "getAvailability",
                 "responses": {
                     "200": {
-                        "description": "Successfull get",
+                        "description": "Successful post",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/GetBookingResponse"
+                                    "$ref": "#/components/schemas/GetAvailabilityResponse"
                                 }
                             }
                         }
                     }
                 },
                 "tags": [
-                    "BOOKINGS"
+                    "AVAILABILITY"
                 ]
             }
         }
@@ -201,6 +200,45 @@
             }
         },
         "schemas": {
+            "GetAvailabilityResponse":{
+                "type": "object",
+                "properties": {
+                    "meUsername": {
+                        "$ref": "#/components/schemas/MeUsername"
+                    },
+                    "sab": {
+                        "$ref": "#/components/schemas/Sab"
+                    }
+                }
+            },
+            "MeUsername":{
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "availability": {
+                        "type": "array",
+                        "items": {
+                            "type":"number"
+                        }
+                    }
+                }
+            },
+            "Sab":{
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "availability": {
+                        "type": "array",
+                        "items": {
+                            "type":"number"
+                        }
+                    }
+                }
+            },
             "Booking": {
                 "type": "object",
                 "properties": {
