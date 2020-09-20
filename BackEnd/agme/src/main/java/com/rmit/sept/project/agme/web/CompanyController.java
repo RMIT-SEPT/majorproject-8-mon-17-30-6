@@ -127,4 +127,23 @@ public class CompanyController
             return new ResponseEntity<>(employeesForCompany,HttpStatus.OK);
         }
     }
+
+
+    @DeleteMapping("/bookings")
+    public ResponseEntity<?> deleteBooking(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId){
+        String username = "";
+//        Gets username from the jwt topken
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
+            String jwt = authorisationHeader.substring(7);
+            username = jwtUtil.extractUsername(jwt);
+        }
+        try{
+            bookingService.deleteById(bookingId);
+            return new ResponseEntity<String>("resource deleted successfully", HttpStatus.valueOf(204));
+        }catch(Exception e){
+            return new ResponseEntity<String>("resource not found", HttpStatus.valueOf(404));
+        }
+
+    }
+
 }
