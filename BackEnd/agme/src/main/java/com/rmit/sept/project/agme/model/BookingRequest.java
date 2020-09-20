@@ -16,8 +16,11 @@ public class BookingRequest
     private String serviceType;
     private String  employeeUsername;
 
-    public BookingRequest(){
-
+    public BookingRequest(Date date, int duration, String serviceType, String employeeUsername){
+        this.date = date;
+        this.duration = duration;
+        this.serviceType = serviceType;
+        this.employeeUsername = employeeUsername;
     }
 
     public String getEmployeeUsername()

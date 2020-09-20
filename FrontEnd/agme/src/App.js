@@ -61,9 +61,7 @@ export default class App extends React.Component{
     handleContentChangeRequest(e, isComponent){
         try{
             e.preventDefault();
-        }catch(error){
-            console.log(error)
-        }
+        }catch(error){}
         let component = "";
 
         //to let each navbar to change component rendered directly
