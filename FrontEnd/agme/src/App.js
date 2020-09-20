@@ -59,8 +59,6 @@ export default class App extends React.Component{
 
     //To handle component change
     handleContentChangeRequest(e, isComponent){
-        console.log(e)
-        console.log(isComponent)
         try{
             e.preventDefault();
         }catch(error){}

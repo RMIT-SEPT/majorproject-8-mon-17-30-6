@@ -1,23 +1,23 @@
 import React from 'react';
-
+import {EmployeeAvailability} from './EmployeeAvailability';
 export class EmployeeSchedule extends React.Component{
     constructor(props){
         super(props);
+        this.handleSelectDate = this.handleSelectDate.bind(this)
         this.state = {
-            date: new Date()
+            date: ""
         }
-
     }
 
     handleSelectDate(e){
         e.preventDefault();
-        
+        const value = e.target.value.split("-");
+        this.setState({date: `${value[2]}-${value[1]}-${value[0]}`});
     }
 
     render(){
         if(this.props.employee.id){
             const bookings = this.props.employee.getBookings(this.props.bookings);
-            console.log(bookings);
             const bookingsDictionary = {}
             bookings.forEach(booking=>{
                 let date = booking.date.split(" ")[0];
@@ -28,13 +28,15 @@ export class EmployeeSchedule extends React.Component{
                 }
                 bookingsDictionary[date].times.add(booking.time)
             });
-            console.log(bookingsDictionary)
+            const times = bookingsDictionary[this.state.date] ? (bookingsDictionary[this.state.date].times) : new Set();
+            const availabilityComponent = this.state.date ? <EmployeeAvailability times={times}/> : "";
             return (
                 <div>
                     <div>
-                        <label for="date">Pick a date</label>
-                        <input name="date" type="date"/>
+                        <label htmlFor="date">Pick a date</label>
+                        <input name="date" type="date" onChange={this.handleSelectDate}/>
                     </div>
+                    {availabilityComponent}
                 </div>
             );
         }

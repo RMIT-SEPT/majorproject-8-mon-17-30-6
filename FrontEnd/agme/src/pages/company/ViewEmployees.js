@@ -1,8 +1,11 @@
 import React from 'react';
 import Employee from '../../model/Employee';
-import Booking from '../../model/Booking';
 import { EmployeeSchedule } from './EmployeeSchedule';
-const {getCompanyEmployees, getCompanyBookings} = require('../../mock/operations');
+import './viewEmployees.css'
+const {getCompanyEmployees} = require('../../mock/operations');
+//uncomment when integrating with API
+//const {getCompanyBookings} = require('../../mock/operations');
+
 export class ViewEmployees extends React.Component{
     constructor(props){
         super(props);
@@ -32,7 +35,6 @@ export class ViewEmployees extends React.Component{
 
     handleSelectEmployee(e){
         e.preventDefault();
-        console.log(new Employee(JSON.parse(e.target.value)))
         this.setState({[e.target.name]: new Employee(JSON.parse(e.target.value))})
     }
 
@@ -43,7 +45,7 @@ export class ViewEmployees extends React.Component{
             });
 
             return (
-                <div>
+                <div className="viewEmployee">
                     <h5>Select an employee</h5>
                     <select name="selectedEmployee" defaultValue={'DEFAULT'} onChange={this.handleSelectEmployee}>
                         <option value={'DEFAULT'} disabled>Select an employee</option>
@@ -53,7 +55,6 @@ export class ViewEmployees extends React.Component{
                 </div>
             )
         }
-        console.log(this.state)
         return (
             <div>
                 <h5>Select an Employee</h5>

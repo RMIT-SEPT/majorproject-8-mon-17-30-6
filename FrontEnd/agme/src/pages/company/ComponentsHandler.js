@@ -2,7 +2,7 @@ import React from 'react';
 import {AgmeServices} from './AgmeServices';
 import {CompanyServices} from './CompanyServices';
 import {AddExistingService} from './AddExistingService';
-import {ViewEmployees, viewEmployees} from './ViewEmployees';
+import {ViewEmployees} from './ViewEmployees';
 /**
  * A simple component to map to other components - avoid use of switch statements
  * **/
