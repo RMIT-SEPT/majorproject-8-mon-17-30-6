@@ -5,5 +5,6 @@ module.exports = {
     authenticate: functions.authenticate,
     signupNewUser: functions.signupNewUser,
     getCompaniesFromAPI: functions.getCompaniesFromAPI,
-    getAllServicesForUser: functions.getAllServicesForUser
+    getAllServicesForUser: functions.getAllServicesForUser,
+    getAvailabilityForService: functions.getAvailabilityForService
 }

@@ -115,6 +115,29 @@ const getAllServicesForUser = async ()=>{
     const response = await apiCall(url,uri,options);
    return response;
 }
+const getAvailabilityForService = async (serviceName, date)=>{
+    const url = config.api.url;
+    const uri = "user/availability"
+    const options = {
+        method: "POST",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+        body: JSON.stringify({
+            "serviceName": serviceName,
+            "date": date
+        }),
+
+    }
+    
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
 
 const getDecodedJwtFromLocalStorage = () =>{
     // Get JWT Header, Payload and Signature
@@ -125,4 +148,4 @@ const getDecodedJwtFromLocalStorage = () =>{
     return JSON.parse(buff.toString('ascii'));
 
 }
-export default {authenticate, getAllServicesProvider, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage, getAllServicesForUser}
+export default {getAvailabilityForService, authenticate, getAllServicesProvider, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage, getAllServicesForUser}
