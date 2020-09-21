@@ -38,7 +38,7 @@ const useRowStyles = makeStyles({
 });
 
 //This component returns upcoming bookings for a user
-    //TODO Backend getBookings for customerID
+    //TODO Backend getBookings for customerID (Please Ensure that bookingID is returned in response)
 /* *
   "date": "string",
   "companyUsername": "string",
@@ -101,6 +101,9 @@ function Row(props) {
                     <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
                         {open ? <KeyboardArrowUpIcon/> : <KeyboardArrowDownIcon/>}
                     </IconButton>
+                </TableCell>
+                <TableCell component="th" scope="row">
+                    {row.bookingID}
                 </TableCell>
                 <TableCell align="right">{row.date}</TableCell>
                 <TableCell align="right">{row.companyUsername}</TableCell>
