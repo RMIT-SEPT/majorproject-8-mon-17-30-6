@@ -45,6 +45,8 @@ const useRowStyles = makeStyles({
   "companyUsername": "string",
   "duration": "string",
   "serviceType": "string"
+  "bookingID": "string"
+  "employeeName": "string"
 * */
 
 export default class BookingTimes extends React.Component {
