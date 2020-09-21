@@ -116,7 +116,8 @@ export default class UserDashboard extends React.Component{
 
     showDates(){
         if(this.state.booking.duration){
-            let initial = (this.getNextDate(new Date()));
+            let initial = new Date();
+            console.log(initial.toDateString())
             const dates = []
             for(let i = 0 ; i < 30; i++){
                 dates.push(
@@ -124,7 +125,7 @@ export default class UserDashboard extends React.Component{
                         {initial.toDateString()}
                     </option>
                 )
-                initial = this.getNextDate(initial)
+                initial.setDate(initial.getDate() + 1)
             }
             return (
                 <React.Fragment>

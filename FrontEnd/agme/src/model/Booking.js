@@ -38,7 +38,10 @@ export default class Booking extends Entity{
             const day = date.getDate() < 10 ? "0"+date.getDate() : date.getDate();
             const month = (date.getMonth()+1) < 10 ? "0"+(date.getMonth()+1) : (date.getMonth()+1);
             const year = date.getFullYear().toString()[2]+date.getFullYear().toString()[3];
-            return `${day}-${month}-${year}`;
+            const fullDate = "20"+year + "-" + month + "-" + day+'T';
+            
+
+            return fullDate;
         }
     }
 
@@ -47,7 +50,7 @@ export default class Booking extends Entity{
             return ""
         }
         const hour = new Date(this.date).getHours()
-        return `${this.getDDYYMMYY()} ${hour}:00:00`
+        return `${this.getDDYYMMYY()}${hour}:00:00`
     }
 
     async handleBookingRequest(){
