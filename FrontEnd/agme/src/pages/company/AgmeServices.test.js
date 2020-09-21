@@ -3,11 +3,11 @@ import { configure } from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
 import React from "react";
 import { mount, shallow } from "enzyme";
-import Services from "./Services";
+import AgmeServices from "./AgmeServices";
 const adapter = new Adapter();
 const services = require('./mock/services.json')
 configure({ adapter });
-
+const component = shallow(<AgmeServices services={services}/>)
 /***
 * Example: Providing services.json as data, then component should render
 * 
@@ -30,19 +30,23 @@ configure({ adapter });
 
 describe("Services", () => {
 
-  it("It should display description for all services", () => {     
-    const component = shallow(<Services services={services}/>)
+  it("1 - It should display description for all services", () => {     
+    
+    expect(component.find('div').find('h5').text()).toEqual("These are all services registered in AGME") 
+  });
+
+
+  it("2 - It should display description for all services", () => {     
     services.forEach((service,i)=>{
         expect(component.find('.card').find('._'+i).find('.container').find('p').text()).toEqual(service.description)
     })  
   });
 
-  it("It should display name for all services", () => {  
-    const component = shallow(<Services services={services}/>)
+  it("3 - It should display name for all services", () => {  
+    const component = shallow(<AgmeServices services={services}/>)
     services.forEach((service,i)=>{
         expect(component.find('.card').find('._'+i).find('.header').find('p').text()).toEqual(service.name)
-    })
-    
+    }) 
   });
 
 });

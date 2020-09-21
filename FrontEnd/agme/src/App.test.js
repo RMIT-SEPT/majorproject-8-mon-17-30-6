@@ -16,7 +16,7 @@ describe("App", () => {
     component = mount(<App handleClick={handleClickStub}/>);
   });
 
-  it("It should show a login box telling the user is not authenticated", () => {
+  it("1 - It should show a login box telling the user is not authenticated", () => {
     //get the content from the App component - simply the LandingPage
     const landingPage = mount(component.state().content); 
     //Get the content from LandingPage - should be login page when starting
@@ -26,7 +26,7 @@ describe("App", () => {
   });
 
 
-  it("It should allow an unregistered user to click on sign up", () => {
+  it("2 - It should allow an unregistered user to click on sign up", () => {
     //simulate click om signup component
     component.find(".signup_info").last().simulate('click');
     //The App content should match with Signup
