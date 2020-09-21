@@ -5,17 +5,19 @@ import './services.css'
 //const services = require('./mock/services.json');
 const {getAllServicesProvider} = require('../../mock/operations');
 //To view list of services
-export class AgmeServices extends React.Component{
+export default class AgmeServices extends React.Component{
     constructor(props){
         super(props)
-        this.state = {services: []}
-        getAllServicesProvider().then(response=>{
-            if(response.statusCode === 200){
-                this.setState({
-                    services: response.body
-                })
-            }
-        })
+        this.state = {services: this.props.services}
+        if(!this.props.services){
+            getAllServicesProvider().then(response=>{
+                if(response.statusCode === 200){
+                    this.setState({
+                        services: response.body
+                    })
+                }
+            })
+        }
     }
 
 
@@ -37,7 +39,7 @@ export class AgmeServices extends React.Component{
         }
         return (
             <div>
-                <h5>These are all services registed in AGME</h5>
+                <h5>These are all services registered in AGME</h5>
                 {servicesComponents}
             </div>
         )
