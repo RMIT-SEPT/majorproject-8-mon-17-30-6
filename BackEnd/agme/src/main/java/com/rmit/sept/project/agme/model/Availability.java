@@ -1,10 +1,9 @@
 package com.rmit.sept.project.agme.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
+//Class to give availability for a worker on a given day
 @Entity
 public class Availability {
     @Id

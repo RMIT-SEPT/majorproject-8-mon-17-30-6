@@ -2,6 +2,7 @@ package com.rmit.sept.project.agme.model;
 
 import java.util.Date;
 
+//Class to create a booking
 public class BookingRequest
 {
     private Date date;

@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/employee")
+@CrossOrigin(origins = "*")
 public class EmployeeController
 {
 
@@ -23,7 +24,7 @@ public class EmployeeController
     private BookingService bookingService;
 
     @Autowired
-    JwtUtil jwtUtil;
+    private JwtUtil jwtUtil;
 
     @Autowired
     public EmployeeController(EmployeeService employeeService)
@@ -40,10 +41,14 @@ public class EmployeeController
             String jwt = authorisationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
         }
+//        Returns bookings for the user if they belong to the user
         List<Booking> bookings = bookingService.getAllBookings();
         List<Booking> bookingsForCompany = new ArrayList<>();
         for (Booking next : bookings) {
             if (next.getEmployee().getUsername().equals(username)) {
+//                Removes unnecesary info for response
+                next.getCompany().setEmployees(null);
+                next.getServiceType().setCompany(null);
                 bookingsForCompany.add(next);
             }
         }

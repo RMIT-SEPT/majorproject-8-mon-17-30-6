@@ -27,20 +27,23 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
     }
 
     protected void configure(HttpSecurity http) throws Exception {
+//        Allows access to db
 //        sets restriction on api endpoints for user type
         http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
         http.headers().frameOptions().sameOrigin();
+//        Ensures correct authority for each api
         http.authorizeRequests().antMatchers("/company").hasAnyAuthority("COMPANY");
         http.authorizeRequests().antMatchers("/employee").hasAnyAuthority("EMPLOYEE");
         http.authorizeRequests().antMatchers("/user").hasAnyAuthority("USER");
         http.authorizeRequests().antMatchers("/admin").hasAnyAuthority("ADMIN");
 //        removes restriction on access to sign and login
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/login", "/signup", "/h2-console")
+                .authorizeRequests().antMatchers("/login", "/signup", "/h2-console", "/healthcheck")
                 .permitAll().anyRequest().authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+//        Ensures correct user ttype is accessing the api
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 

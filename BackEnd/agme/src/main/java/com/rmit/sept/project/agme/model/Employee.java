@@ -9,7 +9,6 @@ import java.util.*;
 
 @Entity
 public class Employee extends AbstractUser implements UserDetails {
-    private String userType;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,9 +20,9 @@ public class Employee extends AbstractUser implements UserDetails {
     private List<Booking> list = new ArrayList<Booking>();
 
     public Employee() {}
-
-    public Employee(String username, String name,String password, String confirmPassword,
-                   String address, String phone, Role role, Company company, String userType) {
+//  Constructor to create an employee
+    public Employee(String username, String name, String password, String confirmPassword,
+                    String address, String phone, Role role, Company company) {
         setUsername(username);
         setName(name);
         setPassword(password);
@@ -32,11 +31,9 @@ public class Employee extends AbstractUser implements UserDetails {
         setPhone(phone);
         setRole(role);
         this.company = company;
-        this.userType = userType;
     }
-    public Employee(String username, String userType, Company company) {
+    public Employee(String username, Company company) {
         this.setUsername(username);
-        this.userType = userType;
         this.company = company;
     }
 
@@ -73,15 +70,6 @@ public class Employee extends AbstractUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return false;
-    }
-
-
-    public String getUserType() {
-        return userType;
-    }
-
-    public void setUserType(String userType) {
-        this.userType = userType;
     }
 
 

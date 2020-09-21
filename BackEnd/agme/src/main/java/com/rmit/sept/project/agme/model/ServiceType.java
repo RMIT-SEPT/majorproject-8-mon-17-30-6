@@ -1,17 +1,10 @@
 package com.rmit.sept.project.agme.model;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 
+// Entity for the services offered
 @Entity
 public class ServiceType {
     @Id
@@ -19,6 +12,7 @@ public class ServiceType {
     private Long id;
     private String name;
     private String description;
+//    Companies that offer this service
     @ManyToMany
     private List<Company> company = new ArrayList<>();
 

@@ -17,23 +17,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/company")
+@CrossOrigin(origins = "*")
 public class CompanyController
 {
     @Autowired
-    JwtUtil jwtUtil;
+    private JwtUtil jwtUtil;
 
     @Autowired
-    CompanyService companyService;
+    private CompanyService companyService;
 
     @Autowired
-    CompanyRepository companyRepository;
+    private CompanyRepository companyRepository;
 
     @Autowired
-    ServiceTypeService serviceTypeService;
+    private ServiceTypeService serviceTypeService;
 
     @Autowired
-    BookingService bookingService;
+    private BookingService bookingService;
 
+//    Creates a new service for a company
     @PostMapping("/new-service")
     public ResponseEntity<?> newService(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody ServiceType serviceType){
         String username = "";
@@ -41,6 +43,7 @@ public class CompanyController
             String jwt = authorisationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
         }
+//        If service exists add teh company as one that offers it, if not then create the service and add the company
         Company company = companyService.loadUserByUsername(username);
         ServiceType service = serviceTypeService.loadServiceByName(serviceType.getName());
         serviceType.addCompany(company);
@@ -55,16 +58,18 @@ public class CompanyController
 
     }
 
-
+//  Gets all bookings for logged in company
         @GetMapping("/bookings")
     public ResponseEntity<?> getBookings(@RequestHeader("Authorisation") String authorisationHeader){
         String username = "";
+//        Gets username from the jwt topken
         if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
             String jwt = authorisationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
         }
         List<Booking> bookings = bookingService.getAllBookings();
         List<Booking> bookingsForCompany = new ArrayList<>();
+//        Loops through bookings and retrieve the one needed for the company
         for (Booking next:bookings){
             if (next.getCompany().getUsername().equals(username)){
                 next.getCompany().setEmployees(null);

@@ -1,11 +1,10 @@
-package com.rmit.sept.project.agme.service;
+package com.rmit.sept.project.agme.services;
 
 import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.security.JwtUtil;
-import com.rmit.sept.project.agme.services.*;
 import com.rmit.sept.project.agme.web.BookingController;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

@@ -77,7 +77,7 @@ const signupNewUser = async (entity)=>{
    return response;
 }
 const getCompaniesFromAPI = async ()=>{
-    const endpoint = "http://localhost:8080/";
+    const endpoint = config.api.endpoint;
     const uri = "signup"
     const options = {
         method: "GET",

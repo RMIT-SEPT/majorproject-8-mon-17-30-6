@@ -1,6 +1,5 @@
 package com.rmit.sept.project.agme.services;
 
-import com.rmit.sept.project.agme.model.User;
 import com.rmit.sept.project.agme.repositories.EmployeeRepository;
 import com.rmit.sept.project.agme.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +36,8 @@ public class EmployeeService implements UserInterface {
     }
 
     @Override
-    public UserDetails saveOrUpdate(UserDetails user) {
-        return employeeRepository.save((Employee) user);
+    public void saveOrUpdate(UserDetails user) {
+        employeeRepository.save((Employee) user);
     }
 
     @Override

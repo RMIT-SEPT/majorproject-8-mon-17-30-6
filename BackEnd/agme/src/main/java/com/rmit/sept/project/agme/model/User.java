@@ -4,14 +4,15 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Collection;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+//Entity for a basic user
 @Entity
 public class User extends AbstractUser implements UserDetails {
     public User() {
@@ -26,7 +27,6 @@ public class User extends AbstractUser implements UserDetails {
         setAddress(address);
         setPhone(phone);
         setRole(role);
-
     }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
