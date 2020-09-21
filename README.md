@@ -13,7 +13,8 @@
 
 * Github repository : https://github.com/RMIT-SEPT/majorproject-8-mon-17-30-6/
 * Trello : https://trello.com/b/p5sOQFs1/sept-group-6
-
+* Web application: http://bit.ly/group6_agme
+* Server status: http://54.234.81.129:8080/healthcheck
 ## Code documentation
 
 [Documentation List](/docs/README.md) in `docs` folder
