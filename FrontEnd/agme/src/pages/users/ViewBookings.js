@@ -38,16 +38,6 @@ const useRowStyles = makeStyles({
 });
 
 //This component returns upcoming bookings for a user
-    //TODO Backend getBookings for logged in customerID
-        // (Please Ensure that bookingID,WorkerName is returned in response)
-/* *
-  "date": "string",
-  "companyUsername": "string",
-  "duration": "string",
-  "serviceType": "string"
-  "bookingID": "string"
-  "employeeName": "string"
-* */
 
 export default class BookingTimes extends React.Component {
     render() {
@@ -68,7 +58,7 @@ export default class BookingTimes extends React.Component {
                     </TableHead>
                     <TableBody>
                         {bookingsData.map((booking) => (
-                            <Row key={booking.bookingID} row={booking}/>
+                            <Row key={booking.id} row={booking}/>
                         ))}
                     </TableBody>
                 </Table>
@@ -90,12 +80,14 @@ function Row(props) {
     const bookingLockoutTime = 24 * 60 * 60 * 1000;
     const bookingChangeAllowed = (currentDateTime - bookingDateTime < bookingLockoutTime)
 
-    const credentials = localStorage.getItem('credentials')&&(JSON.parse(localStorage.getItem('credentials')))
+    const credentials = localStorage.getItem('credentials') && (JSON.parse(localStorage.getItem('credentials')))
     const authDetails = utils.decodeJwt(JSON.parse(credentials).jwt)
     const customerID = authDetails.customerID
 
-    buttonCancel = (row.customerID===customerID && bookingChangeAllowed)
-        ? <Button onClick={() => { alert('clicked') }}> Cancel Booking </Button>//Update DB and change button state
+    buttonCancel = (row.user.id === customerID && bookingChangeAllowed)
+        ? <Button onClick={() => {
+            alert('clicked')
+        }}> Cancel Booking </Button>//Update DB and change button state
         : <Button variant="contained" disabled> Cancel Booking</Button>
 
     return (
@@ -107,13 +99,13 @@ function Row(props) {
                     </IconButton>
                 </TableCell>
                 <TableCell component="th" scope="row">
-                    {row.bookingID}
+                    {row.id}
                 </TableCell>
-                <TableCell align="right">{row.date}</TableCell>
-                <TableCell align="right">{row.companyUsername}</TableCell>
+                <TableCell align="right">{row.startDateTime}</TableCell>
+                <TableCell align="right">{row.company.name}</TableCell>
                 <TableCell align="right">{row.duration}</TableCell>
-                <TableCell align="right">{row.serviceType}</TableCell>
-                <TableCell align="right">{row.employeeName}</TableCell>
+                <TableCell align="right">{row.serviceType.name}</TableCell>
+                <TableCell align="right">{row.employee.name}</TableCell>
                 <TableCell align="right">{bookingChangeAllowed ? MoodIcon : MoodBadIcon}</TableCell>
             </TableRow>
             <TableRow>
@@ -123,7 +115,7 @@ function Row(props) {
                             <Typography variant="h6" gutterBottom component="div">
                                 Cancel your booking
                             </Typography>
-                           {buttonCancel}
+                            {buttonCancel}
                         </Box>
                     </Collapse>
                 </TableCell>
@@ -134,11 +126,79 @@ function Row(props) {
 
 Row.propTypes = {
     row: PropTypes.shape({
-        bookingID: PropTypes.string.isRequired,
-        serviceType: PropTypes.string.isRequired,
-        date: PropTypes.string.isRequired,
+        id: PropTypes.string.isRequired,
         duration: PropTypes.number.isRequired,
-        companyUsername: PropTypes.string,
-        employeeName: PropTypes.string,
+        visible: PropTypes.number.isRequired,
+        startDateTime: PropTypes.string.isRequired,
+        employee: PropTypes.shape({
+            username: PropTypes.string,
+            name: PropTypes.string.isRequired,
+            password: PropTypes.string,
+            confirmPassword: PropTypes.string,
+            address: PropTypes.string,
+            phone: PropTypes.string,
+            lastLogin: PropTypes.string,
+            createdAt: PropTypes.string,
+            updatedAt: PropTypes.string,
+            role: PropTypes.string,
+            id: PropTypes.number.isRequired,
+            company: PropTypes.string,
+            companyUsername: PropTypes.string,
+            accountNonExpired: PropTypes.bool,
+            accountNonLocked: PropTypes.bool,
+            credentialsNonExpired: PropTypes.bool,
+            enabled: PropTypes.bool,
+            authorities: PropTypes.arrayOf(
+                PropTypes.shape({
+                    authority: PropTypes.string,
+                })
+            )
+        }),
+        company: PropTypes.shape({
+            username: PropTypes.string,
+            name: PropTypes.string.isRequired,
+            password: PropTypes.string,
+            confirmPassword: PropTypes.string,
+            address: PropTypes.string,
+            phone: PropTypes.string,
+            lastLogin: PropTypes.string,
+            createdAt: PropTypes.string,
+            updatedAt: PropTypes.string,
+            role: PropTypes.string,
+            id: PropTypes.number.isRequired,
+            companyName: PropTypes.string,
+            enabled: PropTypes.bool,
+            authorities: PropTypes.arrayOf(
+                PropTypes.shape({
+                    authority: PropTypes.string,
+                })
+            )
+        }),
+        user: PropTypes.shape({
+            username: PropTypes.string,
+            name: PropTypes.string.isRequired,
+            password: PropTypes.string,
+            confirmPassword: PropTypes.string,
+            address: PropTypes.string,
+            phone: PropTypes.string,
+            lastLogin: PropTypes.string,
+            createdAt: PropTypes.string,
+            updatedAt: PropTypes.string,
+            role: PropTypes.string,
+            id: PropTypes.number.isRequired,
+            accountNonExpired: PropTypes.bool,
+            accountNonLocked: PropTypes.bool,
+            credentialsNonExpired: PropTypes.bool,
+            authorities: PropTypes.arrayOf(
+                PropTypes.shape({
+                    authority: PropTypes.string,
+                })
+            )
+        }),
+        serviceType: PropTypes.shape({
+            id: PropTypes.number.isRequired,
+            name: PropTypes.string.isRequired,
+            description: PropTypes.string,
+        })
     }).isRequired,
 };
