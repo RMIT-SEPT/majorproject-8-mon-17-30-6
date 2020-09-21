@@ -59,6 +59,7 @@ export default class BookingTimes extends React.Component {
                             <TableCell align="right">Company&nbsp;Name</TableCell>
                             <TableCell align="right">Duration&nbsp;(mins)</TableCell>
                             <TableCell align="right">Type&nbsp;of&nbsp;Service</TableCell>
+                            <TableCell align="right">Attending&nbsp;Team&nbsp;Member</TableCell>
                             <TableCell align="right">Cancellable</TableCell>
                         </TableRow>
                     </TableHead>
@@ -109,6 +110,7 @@ function Row(props) {
                 <TableCell align="right">{row.companyUsername}</TableCell>
                 <TableCell align="right">{row.duration}</TableCell>
                 <TableCell align="right">{row.serviceType}</TableCell>
+                <TableCell align="right">{row.employeeName}</TableCell>
                 <TableCell align="right">{bookingChangeAllowed ? MoodIcon : MoodBadIcon}</TableCell>
             </TableRow>
             <TableRow>
@@ -134,5 +136,6 @@ Row.propTypes = {
         date: PropTypes.string.isRequired,
         duration: PropTypes.number.isRequired,
         companyUsername: PropTypes.string,
+        employeeName: PropTypes.string,
     }).isRequired,
 };
