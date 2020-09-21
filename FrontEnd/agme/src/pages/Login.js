@@ -71,7 +71,7 @@ export default class Login extends React.Component{
                 <br/><br/>
                 <input type="text" name={"username"} value={this.state.username} placeholder="Username" className="form-control" onChange={this.handleInputChange}/>
                 <br/>
-                <input type="text" name={"password"} value={this.state.password} className="form-control" placeholder="Password" onChange={this.handleInputChange}/>
+                <input type="password" name={"password"} value={this.state.password} className="form-control" placeholder="Password" onChange={this.handleInputChange}/>
                 <br/>
                 <select className="form-control" name={"role"} value={this.state.role} required placeholder="role" onChange={this.handleInputChange}>
                 <option value="" disabled defaultValue>Choose a role</option>
