@@ -38,7 +38,8 @@ const useRowStyles = makeStyles({
 });
 
 //This component returns upcoming bookings for a user
-    //TODO Backend getBookings for customerID (Please Ensure that bookingID is returned in response)
+    //TODO Backend getBookings for logged in customerID
+        // (Please Ensure that bookingID,WorkerName is returned in response)
 /* *
   "date": "string",
   "companyUsername": "string",
