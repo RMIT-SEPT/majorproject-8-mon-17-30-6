@@ -236,5 +236,6 @@ export default {
     getCompanyBookings,
     deleteBooking,
     handleBookingRequest,
-    getAvailabilityForService
+    getAvailabilityForService,
+    getAllServicesForUser
 }

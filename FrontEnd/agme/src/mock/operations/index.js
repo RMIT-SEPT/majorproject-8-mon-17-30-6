@@ -8,7 +8,7 @@ const {
   getCompaniesFromAPI, 
   getDecodedJwtFromLocalStorage,
   getCompanyBookings,
-  deleteBooking
+  deleteBooking,
 } = require('./mock/functions/operations').default
 module.exports = {
     authenticate: authenticate,
