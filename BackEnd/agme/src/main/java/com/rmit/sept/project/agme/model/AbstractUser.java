@@ -1,5 +1,6 @@
 package com.rmit.sept.project.agme.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.MappedSuperclass;
@@ -8,6 +9,8 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 // Abstract class for common methods and variable for all user types
@@ -26,8 +29,11 @@ public abstract class AbstractUser {
     private String address;
     @NotBlank(message = "phone cannot be blank")
     private String phone;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy HH:mm:ss")
     private Date lastLogin;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy HH:mm:ss")
     private Date createdAt;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy HH:mm:ss")
     private Date updatedAt;
     Role role;
     String salt;

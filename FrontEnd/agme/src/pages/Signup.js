@@ -34,7 +34,7 @@ export default class Signup extends React.Component{
             if(response.statusCode===200){
                 this.setState({isCallingServer:false});
                 alert("Signup succesful. Please login");
-                this.props.handleContentChangeRequestSignup('login');
+                this.props.handleContentChangeRequest('login');
                 }else{
                     this.setState({
                         isCallingServer:false,
@@ -59,7 +59,7 @@ export default class Signup extends React.Component{
             return <Button variant={"secondary"}>processing</Button>
         }
         if(this.state.entity.isComplete()&&(!this.state.isCallingServer)){
-            return <Button className="btn btn-success form-control" onClick={this.handleSignupRequest}>Signup</Button>
+            return <React.Fragment><br></br><Button className="btn btn-success form-control" onClick={this.handleSignupRequest}>Signup</Button></React.Fragment>
         }
     }
 
@@ -74,7 +74,6 @@ export default class Signup extends React.Component{
     showFieldsBasedOnRole(){
         const fields ={
             COMPANY: ['companyName'],
-            EMPLOYEE: ['userType']
         }
         if(fields[this.state.entity.role]){
             return   <React.Fragment>
@@ -86,12 +85,13 @@ export default class Signup extends React.Component{
  
     showCompanyInput(){
         if (!this.state.called && (this.state.entity.role==='EMPLOYEE')){
+
         functions.getCompaniesFromAPI().then(response=>{
             var arr = [];
             var i = 0;
             arr.push(<option key={i} value=""  disabled defaultValue>Choose a Company</option>);
             for(var key in response.body){
-                arr.push(<option key={i} value={key}>{response.body[key]}</option>);
+                arr.push(<option key={i+1} value={key}>{response.body[key]}</option>);
                 i++;
               }
               this.setState({options:arr,isCallingServer:false, called:true});
@@ -99,8 +99,8 @@ export default class Signup extends React.Component{
         )
     }
     if (this.state.entity.role === 'EMPLOYEE'){
-    return <React.Fragment>
-        <select className="form-control" name={"companyUsername"} value={this.state.entity.companyUsername} placeholder="role" onChange={this.handleInputChange}>{this.state.options}</select>      
+    return <React.Fragment><br></br>
+        <select className="form-control" name={"companyUsername"} value={this.state.entity.companyUsername||""} placeholder="role" onChange={this.handleInputChange}>{this.state.options}</select>      
         <label className= "errorLabel">{this.showError('companyUsername')}</label>
 
     </React.Fragment>

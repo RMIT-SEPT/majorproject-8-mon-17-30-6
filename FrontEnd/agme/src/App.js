@@ -3,7 +3,6 @@ import './pages/css/App.css';
 import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import Services from "./pages/services/Services";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {getDecodedJwtFromLocalStorage}  from "./mock/operations/mock/functions/utils";//Add decode func
 import ViewProviders from './pages/users/ViewProviders';
@@ -12,13 +11,13 @@ import CustomisedError from "./miscelaneous/CustomisedError";
 const utils = require('./mock/operations/mock/functions/utils')
 /**
  * Basic Flow
- *
+ * 
  * 1. If User has an active token stored (has been authenticated), show relevant content
  *  The token will tell what type of content to show
  *  - Administrators
  *  - Providers
  *  - Basic users
- *
+ * 
  * **/
 export default class App extends React.Component{
 
@@ -46,9 +45,9 @@ export default class App extends React.Component{
 
     componentDidMount(){
         this.setState({
-            content:<LandingPage
-                authenticated={this.state&&this.state.authenticated}
-                handleAuthentication={this.handleAuthentication}
+            content:<LandingPage 
+                authenticated={this.state&&this.state.authenticated} 
+                handleAuthentication={this.handleAuthentication} 
                 handleContentChangeRequest={this.handleContentChangeRequest}
                 handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}
                 type={this.state&&this.state.type}
@@ -62,9 +61,7 @@ export default class App extends React.Component{
     handleContentChangeRequest(e, isComponent){
         try{
             e.preventDefault();
-        }catch(error){
-            console.log(error)
-        }
+        }catch(error){}
         let component = "";
 
         //to let each navbar to change component rendered directly
@@ -79,20 +76,17 @@ export default class App extends React.Component{
                 case "providers":
                     component = <ViewProviders/>
                     break;
-                case "services":
-                        component = <Services/>
-                        break;
                 case "login":
-                    component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>
+                    component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup} handleAuthentication={this.handleAuthentication}/>
                     break;
                 default:
                     console.log("no content available?");
-            }
+            }  
         }
         this.setState({content:component})
     }
     handleContentChangeRequestSignup(componentName){
-
+ 
         const contentString = componentName;
         let component = "";
         switch(contentString){
@@ -105,12 +99,9 @@ export default class App extends React.Component{
             case "login":
                 component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleAuthentication={this.handleAuthentication}/>
                 break;
-            case "services":
-                component = <Services handleContentChangeRequest={this.handleContentChangeRequest} handleAuthentication={this.handleAuthentication}/>
-                break;
             default:
                 console.log("no content available?");
-        }
+        }  
         this.setState({content:component})
     }
 
@@ -124,10 +115,10 @@ export default class App extends React.Component{
         this.setState({
             token:authDetails.jwt,
             authenticated:true,
-            role: authDetails.role,
-            content:<LandingPage
-                authenticated={true}
-                handleAuthentication={this.handleAuthentication}
+            role: authDetails.role, 
+            content:<LandingPage 
+                authenticated={true} 
+                handleAuthentication={this.handleAuthentication} 
                 handleContentChangeRequest={this.handleContentChangeRequest}
                 type={role}
                 token={authDetails.jwt}

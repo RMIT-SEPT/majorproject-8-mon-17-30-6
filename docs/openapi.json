@@ -13,7 +13,6 @@
     "paths": {
         "/signup": {
             "post": {
-              "description": "This is API is open for the general public to sign either as a basic user, company (provider) or an employee for registered companies",
                 "operationId": "createdNewUser",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/SignupRequestBody"
@@ -31,13 +30,12 @@
                     }
                 },
                 "tags": [
-                    "Signup"
+                    "SIGNUP"
                 ]
             }
         },
         "/login": {
             "post": {
-              "description": "This API is to be consumed for authenticating companies, users and employees",
                 "operationId": "createAuthenticationRequest",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/LoginRequestBody"
@@ -55,17 +53,15 @@
                     }
                 },
                 "tags": [
-                    "Login"
+                    "LOGIN"
                 ]
             }
         },
-        "/user/availability":{
-          "post": {
-            "summary": "API for retrieval of a company's employee availability",
-            "description": "Retrieve times available for a particular employee at a particular date",
-                "operationId": "retrieveServiceAvailability",
+        "/user/services": {
+            "post": {
+                "operationId": "createServiceType",
                 "requestBody": {
-                    "$ref": "#/components/requestBodies/retrieveServiceAvailabilityRequestBody"
+                    "$ref": "#/components/requestBodies/ServiceTypeRequestBody"
                 },
                 "responses": {
                     "200": {
@@ -80,34 +76,10 @@
                     }
                 },
                 "tags": [
-                    "User"
+                    "SERVICES"
                 ]
-          },
-          "get": {
-            "summary": "API for retrieval of a service availability",
-            "description": "This API returns all available times (1 hour slot) for a particular service",
-                "operationId": "getServiceAvailability",
-                "responses": {
-                    "200": {
-                        "description": "Successfull login",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/GetServiceAvailabilityResponse"
-                                }
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "User"
-                ]
-            }
-        },
-        "/user/services": {
+            },
             "get": {
-              "summary": "Returns a list of services and each company that offers them",
-              "description": "Returns a list of services and each company that offers them",
                 "operationId": "getServices",
                 "responses": {
                     "200": {
@@ -122,227 +94,70 @@
                     }
                 },
                 "tags": [
-                    "User"
+                    "SERVICES"
                 ]
             }
         },
         "/user/new-booking": {
             "post": {
-              "summary": "Creates a new booking",
-              "description": "Calls the API and creates a booking in the system",              
-                "operationId": "createNewBooking",
+                "operationId": "getBooking",
                 "requestBody": {
-                    "$ref": "#/components/requestBodies/NewUserBookingRequestBody"
+                    "$ref": "#/components/requestBodies/NewBookingPostRequestBody"
                 },
                 "responses": {
                     "200": {
-                        "description": "Successfull login",
+                        "description": "Successful post",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/NewBookingResponseBody"
+                                    "$ref": "#/components/requestBodies/NewBookingPostRequestBody"
                                 }
                             }
                         }
                     }
                 },
                 "tags": [
-                    "User"
+                    "BOOKINGS"
                 ]
             }
         },
-        "/company/new-service":{
-          "description": "This will create a new service, if the service already exists, then the company creating it will just add be added to the service",
-            "post": {
-                "operationId": "createNewService",
-                "requestBody": {
-                    "$ref": "#/components/requestBodies/CreateNewServiceRequestBody"
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successfull",
-                        "content": {
-                            "application/json": {
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Company"
-                ]
-            }          
-        },
-        "/company/bookings":{
-          "description": "Retrieves all bookings from a company",
+        "/user/availability": {
             "get": {
-                "operationId": "retrieveCompanyBookings",
+                "operationId": "getAvailability",
                 "responses": {
                     "200": {
-                        "description": "Successfull",
+                        "description": "Successful post",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/CompanyBookings"
+                                    "$ref": "#/components/schemas/GetAvailabilityResponse"
                                 }
                             }
                         }
                     }
                 },
                 "tags": [
-                    "Company"
-                ]
-            }          
-        },
-        "/employee/bookings":{
-          "description": "Retrieves all bookings from an employee",
-            "get": {
-                "operationId": "retrieveEmployeeBookings",
-                "responses": {
-                    "200": {
-                        "description": "Successfull",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/CompanyBookings"
-                                }
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Employee"
-                ]
-            }          
-        },             
-        "/api/employee/employees": {
-            "post": {
-                "operationId": "newEmployee",
-                "requestBody": {
-                    "$ref": "#/components/requestBodies/NewEmployeeRequestBody"
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successfull signup",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/NewEmployeeResponse"
-                                }
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Employee"
-                ]
-            },
-            "get": {
-                "operationId": "getEmployees",
-                "responses": {
-                    "200": {
-                        "description": "Successfull signup",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/GetEmployeesResponse"
-                                }
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Employee"
-                ]
-            }
-        },
-        "/api/booking/bookings": {
-            "post": {
-                "operationId": "newBooking",
-                "requestBody": {
-                    "$ref": "#/components/requestBodies/NewBookingRequestBody"
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successfull booking",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Booking"
-                                }
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Bookings"
-                ]
-            },
-            "get": {
-                "operationId": "getBookings",
-                "responses": {
-                    "200": {
-                        "description": "Success",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/GetBookingsResponse"
-                                }
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Bookings"
+                    "AVAILABILITY"
                 ]
             }
         }
     },
     "components": {
         "requestBodies": {
-          "CreateNewServiceRequestBody":{
+            "NewBookingPostRequestBody": {
                 "content": {
                     "application/json": {
                         "schema": {
-                            "type": "object",
-                            "properties":{
-                              "name": {
-                                "type": "string",
-                                "description": "Name of the new service",
-                                "example": "GYM"
-                              },
-                              "description": {
-                                "type": "string",
-                                "description": "The description for the new service",
-                                "example": "Gym equipment maintenance and installation"
-                              }
-                            }
+                            "$ref": "#/components/schemas/NewBookingPostRequest"
                         }
                     }
-                }   
-          },
-          "retrieveServiceAvailabilityRequestBody":{
-                  "content": {
-                    "application/json": {
-                        "schema": {
-                            "$ref": "#/components/schemas/retrieveServiceAvailabilityRequestBody"
-                        }
-                    }
-                }          
-          },
-          "NewUserBookingRequestBody":{
+                }
+            },
+            "NewBookingGetRequestBody": {
                 "content": {
                     "application/json": {
                         "schema": {
-                            "$ref": "#/components/schemas/NewUserBookingRequest"
-                        }
-                    }
-                }            
-          },
-            "NewBookingRequestBody": {
-                "content": {
-                    "application/json": {
-                        "schema": {
-                            "$ref": "#/components/schemas/Booking"
+                            "$ref": "#/components/schemas/NewBookingGetRequest"
                         }
                     }
                 }
@@ -385,123 +200,45 @@
             }
         },
         "schemas": {
-          "CompanyBooking":{
-            "type": "object",
-            "properties":{
-              "date":{
-                "type": "string",
-                "description": "A date in format YYYY-MM-DD",
-                "example": "2020-10-05"
-              },
-              "bookings":{
-                "type": "array",
-                "items":{
-                  "type": "object",
-                  "properties":{
-                    "serviceType": {
-                      "type": "string",
-                      "description": "The type of service",
-                      "example": "GYM"
+            "GetAvailabilityResponse":{
+                "type": "object",
+                "properties": {
+                    "meUsername": {
+                        "$ref": "#/components/schemas/MeUsername"
                     },
-                    "employee":{
-                      "type": "object",
-                      "description": "Details of the employee providing the service",
-                      "example":{"$ref": "#/components/schemas/Employee/example"}
-                    },
-                    "times": {
-                      "type": "array",
-                      "items":{
-                        "type": "integer",
-                        "minimum": 0,
-                        "maximum": 23
-                      },
-                      "example": [8,9,10]
+                    "sab": {
+                        "$ref": "#/components/schemas/Sab"
                     }
-                  }
                 }
-              }
-            }
-          },
-          "CompanyBookings":{
-            "type": "array",
-            "items":{"$ref": "#/components/schemas/CompanyBooking"}
-          },
-          "NewBookingResponseBody":{
-            "type": "string",
-            "example": "Booking created"
-          },
-          "NewUserBookingRequest":{
-            "type": "object",
-            "properties":{
-              "date": {
-                "type": "string",
-                "description": "Date of the booking in format YYYY-MM-DD",
-                "example": "2020-10-05"
-              },
-              "companyUsername": {
-                "type": "string",
-                "description": "The company username that uniquely identifies it",
-                "example": "fitnessfirst"
-              },
-              "times": {
-                "type": "array",
-                "items":{
-                  "type": "integer",
-                  "minimum": 0,
-                  "maximum": 23
-                },
-                "example": [8, 9, 10]
-              },
-              "serviceType": {
-                "type": "string",
-                "description": "The type of service",
-                "example": "GYM"
-              }
-            }
-          },
-          "GetServiceAvailabilityResponse":{
-            "type": "object",
-            "properties":{
-              "id":{
-                "type": "number",
-                "example": "1",
-                "description": "The unique ID of the company"
-              },
-              "name": {
-                "type": "string",
-                "description": "Name of the service",
-                "example": "GYM"
-              },
-              "description": {
-                "type": "string",
-                "description": "A description of the service",
-                "example": "Install equipment"
-              },
-              "companies":{
-                "type": "array",
-                "items": {"$ref": "#/components/schemas/Company"}
-              }
-            }
-          },
-          "retrieveServiceAvailabilityRequestBody":{
-            "type": "object",
-            "properties":{
-              "date": {
-                "type": "string",
-                "example": "2020-09-20"
-              },
-              "companyUsername":{
-                "type": "string",
-                "description": "User name of the company to be queried",
-                "example": "fitnessfirst"
-              },
-              "employeeUsername":{
-                "type": "string",
-                "description": "User name of the employee",
-                "example": "josh"
-              }
-            }
-          },
+            },
+            "MeUsername":{
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "availability": {
+                        "type": "array",
+                        "items": {
+                            "type":"number"
+                        }
+                    }
+                }
+            },
+            "Sab":{
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "availability": {
+                        "type": "array",
+                        "items": {
+                            "type":"number"
+                        }
+                    }
+                }
+            },
             "Booking": {
                 "type": "object",
                 "properties": {
@@ -521,23 +258,36 @@
                     }
                 }
             },
-            "GetBookingsResponse": {
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/Booking"
-                }
-            },
-            "GetEmployeesResponse": {
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/Employee"
-                }
-            },
             "NewEmployeeRequest": {
                 "$ref": "#/components/schemas/Employee"
             },
-            "NewEmployeeResponse": {
-                "$ref": "#/components/schemas/Employee"
+            "NewBookingPostRequest": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string"
+                    },
+                    "companyUsername": {
+                        "type": "string"
+                    },
+                    "duration": {
+                        "type": "string"
+                    },
+                    "serviceType": {
+                        "type": "string"
+                    }
+                }
+            },
+            "NewBookingGetRequest": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string"
+                    },
+                    "serviceType": {
+                        "type": "string"
+                    }
+                }
             },
             "User": {
                 "type": "object",
@@ -577,43 +327,66 @@
                                 "type": "string"
                             }
                         }
+                    }
+                ]
+            },
+            "CompanyDetails": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/User"
                     },
                     {
                         "type": "object",
-                        "properties":{
-                          "employees":{
-                          "type": "array",
-                          "items":{"$ref": "#/components/schemas/Employee"}
-                        }
+                        "properties": {
+                            "companyName": {
+                                "type": "string"
+                            },
+                            "lastLogin": {
+                                "type": "string"
+                            },
+                            "createdAt": {
+                                "type": "string"
+                            },
+                            "updatedAt": {
+                                "type": "string"
+                            },
+                            "id": {
+                                "type": "number"
+                            },
+                            "accountNonExpired": {
+                                "type": "boolean"
+                            },
+                            "accountNonLocked": {
+                                "type": "boolean"
+                            },
+                            "credentialsNonExpired": {
+                                "type": "boolean"
+                            },
+                            "authorities": {
+                                "type": "array",
+                                "items": {
+                                    "type":"object",
+                                    "properties":{
+                                        "authority": {
+                                            "type":"string"
+                                        }
+                                    }
+                                }
+                            },
+                            "enabled": {
+                                "type": "boolean"
+                            },
+                            "employees": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/EmployeeDetails"
+                                }
+                            }
                         }
                     }
                 ]
             },
             "Employee": {
-              "example":{
-                        "username": "b",
-                        "name": "mark",
-                        "password": "$2a$10$.Zsum4sGX5ma9uKI.",
-                        "confirmPassword": null,
-                        "address": "address",
-                        "phone": "foobar",
-                        "lastLogin": "2020-09-16T13:40:57.158+00:00",
-                        "createdAt": "2020-09-16T13:40:57.158+00:00",
-                        "updatedAt": "2020-09-16T13:40:57.158+00:00",
-                        "role": "EMPLOYEE",
-                        "userType": "Plumber",
-                        "id": 1,
-                        "company": null,
-                        "enabled": false,
-                        "authorities": [
-                            {
-                                "authority": "EMPLOYEE"
-                            }                ],
-                "accountNonExpired": false,
-                "accountNonLocked": false,
-                "credentialsNonExpired": false
-            },
-
                 "allOf": [
                     {
                         "$ref": "#/components/schemas/User"
@@ -626,6 +399,56 @@
                             },
                             "userType": {
                                 "type": "string"
+                            }
+                        }
+                    }
+                ]
+            },
+            "EmployeeDetails": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "userType": {
+                                "type": "string"
+                            },
+                            "lastLogin": {
+                                "type": "string"
+                            },
+                            "createdAt": {
+                                "type": "string"
+                            },
+                            "updatedAt": {
+                                "type": "string"
+                            },
+                            "id": {
+                                "type": "number"
+                            },
+                            "accountNonExpired": {
+                                "type": "boolean"
+                            },
+                            "accountNonLocked": {
+                                "type": "boolean"
+                            },
+                            "credentialsNonExpired": {
+                                "type": "boolean"
+                            },
+                            "authorities": {
+                                "type": "array",
+                                "items": {
+                                    "type":"object",
+                                    "properties":{
+                                        "authority": {
+                                            "type":"string"
+                                        }
+                                    }
+                                }
+                            },
+                            "enabled": {
+                                "type": "boolean"
                             }
                         }
                     }
@@ -665,6 +488,12 @@
                     "description": {
                         "type": "string",
                         "example": "A gym is a club, building, or large room, usually containing special equipment, where people go to do physical exercise and get fit."
+                    },
+                    "company":{
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CompanyDetails"
+                        }
                     }
                 }
             },

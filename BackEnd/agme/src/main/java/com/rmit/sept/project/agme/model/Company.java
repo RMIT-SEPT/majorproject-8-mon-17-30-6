@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -38,6 +40,7 @@ public class Company extends AbstractUser implements UserDetails {
     public Company() {
 
     }
+
     public void addEmployee(Employee employee){
         employees.add(employee);
     }

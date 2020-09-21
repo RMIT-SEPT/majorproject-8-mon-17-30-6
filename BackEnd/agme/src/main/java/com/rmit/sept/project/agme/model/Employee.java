@@ -16,13 +16,14 @@ public class Employee extends AbstractUser implements UserDetails {
     @ManyToOne
     private Company company;
 
+    private String companyUsername;
     @OneToMany
     private List<Booking> list = new ArrayList<Booking>();
 
     public Employee() {}
 //  Constructor to create an employee
     public Employee(String username, String name, String password, String confirmPassword,
-                    String address, String phone, Role role, Company company) {
+                    String address, String phone, Role role, Company company, String companyUsername) {
         setUsername(username);
         setName(name);
         setPassword(password);
@@ -30,6 +31,7 @@ public class Employee extends AbstractUser implements UserDetails {
         setAddress(address);
         setPhone(phone);
         setRole(role);
+        this.companyUsername = companyUsername;
         this.company = company;
     }
     public Employee(String username, Company company) {
@@ -43,6 +45,10 @@ public class Employee extends AbstractUser implements UserDetails {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getCompanyUsername() {
+        return companyUsername;
     }
 
     @Override
@@ -75,5 +81,6 @@ public class Employee extends AbstractUser implements UserDetails {
 
     public Company getCompany() { return null; }
 
-    public void setCompany(Company company) { this.company = company; }
+    public void setCompany(Company company) {
+        this.company = company; }
 }

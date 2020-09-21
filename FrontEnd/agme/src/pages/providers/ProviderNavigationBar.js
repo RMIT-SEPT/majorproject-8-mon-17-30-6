@@ -5,20 +5,11 @@ import NavDropdown from "../../../node_modules/react-bootstrap/NavDropdown";
 import '../css/navigationbar.css'
 import { GrLogout } from "react-icons/gr";
 import {getDecodedJwtFromLocalStorage}  from "../../mock/operations/mock/functions/utils";//Add decode func
-import ComponentsHandler from './ComponentsHandler';
+
 /***
  * This class should handle the Navigation bar so that the appropriate menu's are displayed
  * ****/
-export default class UserNavigationBar extends React.Component{
-    constructor(props){
-        super(props);
-        this.handleSelectNavBar = this.handleSelectNavBar.bind(this);
-    }
-
-    handleSelectNavBar(e){
-        e.preventDefault();
-        this.props.handleSelectNavBar(<ComponentsHandler component={e.target.name}/>, true);
-    }
+export default class ProviderNavigationBar extends React.Component{
 
     render(){
         const decodedJwtPayload = getDecodedJwtFromLocalStorage();
@@ -34,14 +25,14 @@ export default class UserNavigationBar extends React.Component{
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
+                            <Nav.Link href="#home">Home</Nav.Link>
+                            <Nav.Link href="#link">Link</Nav.Link>
                             <NavDropdown title="Services" id="basic-nav-dropdown">
-                                <NavDropdown.Item name="providers" onClick={this.handleSelectNavBar}>Providers</NavDropdown.Item>
+                                <NavDropdown.Item name="providers" onClick={this.props.handleSelectNavBar}>Providers</NavDropdown.Item>
+                                <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+                                <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item name="userServices" onClick={this.handleSelectNavBar}>View Services</NavDropdown.Item>
-                            </NavDropdown>
-                            <NavDropdown title="Manage Appointments" id="basic-nav-dropdown">
-                                <NavDropdown.Item name="upcomingAppointments" onClick={this.handleSelectNavBar}>View my appointments</NavDropdown.Item>
-                              
+                                <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
                         

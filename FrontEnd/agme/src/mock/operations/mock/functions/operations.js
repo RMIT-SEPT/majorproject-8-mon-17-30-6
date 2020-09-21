@@ -4,7 +4,6 @@ const config = require('../../../../config.json')
  * ***/
 const apiCall = async(endpoint,uri,options)=>{
     const response = await fetch(endpoint+uri,options);
-    console.log(response)
     return testResponse(response)
 }
 
@@ -48,13 +47,9 @@ const authenticate = async (username, password, role)=>{
                 })
     }
     const response = await apiCall(url,uri,options);
-    console.log(response);
     if(response.statusCode===200){
 
-        console.log('response 200')
-        console.log('setting local storage credentials')
         localStorage.setItem('credentials', JSON.stringify(response.body));
-        console.log(localStorage.getItem('credentials'))
     }else{
         localStorage.removeItem('credentials')
     }
@@ -77,18 +72,133 @@ const signupNewUser = async (entity)=>{
    return response;
 }
 const getCompaniesFromAPI = async ()=>{
-    const endpoint = config.api.endpoint;
+    const url = config.api.url;
     const uri = "signup"
     const options = {
         method: "GET",
         mode: "cors"
     }
-    const response = await apiCall(endpoint,uri,options);
-    console.log(response)
+    const response = await apiCall(url,uri,options);
    return response;
 }
 
-const getDecodedJwtFromLocalStorage = async() =>{
+const getAllServicesProvider = async ()=>{
+    const url = config.api.url;
+    const uri = "company/allservices"
+    const options = {
+        method: "GET",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+    }
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
+const getAllServicesForUser = async ()=>{
+    const url = config.api.url;
+    const uri = "user/services"
+    const options = {
+        method: "GET",
+        mode:"cors",
+      headers: {
+        "Content-Type": "application/JSON",
+        Accept: "application/JSON",
+        'Access-Control-Allow-Origin': '*',
+        Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+      },
+  }
+  const response = await apiCall(url,uri,options);
+  return response;
+ }
+      
+const deleteBooking = async (bookingId)=>{
+    const url = config.api.url;
+    const uri = config.api.uri.company.deleteBooking
+    const options = {
+        method: "DELETE",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+        body: bookingId
+    }
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+const getAvailabilityForService = async (serviceName, date, duration)=>{
+    const url = config.api.url;
+    const uri = "user/availability"
+    const options = {
+        method: "POST",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+        body: JSON.stringify({
+            "serviceName": serviceName,
+            "date": date,
+            "duration": duration
+        }),
+
+    }
+    
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
+const handleBookingRequest = async (serviceType, duration, employeeUsername, date, chosen)=>{
+    const url = config.api.url;
+    const uri = "user/new-booking"
+    const options = {
+        method: "POST",
+        mode:"cors",
+        headers: {
+           "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+           'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+              body: JSON.stringify({
+            "serviceType": serviceType,
+            "date": `${date} ${chosen}:00:00`,
+            "duration": duration,
+            "employeeUsername": employeeUsername
+        }),
+          }
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
+
+const getCompanyEmployees = async ()=>{
+    const url = config.api.url;
+    const uri = config.api.uri.company.getEmployees
+    const options = {
+        method: "GET",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+    }
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
+const getDecodedJwtFromLocalStorage = () =>{
     // Get JWT Header, Payload and Signature
     const stringifiedJwtPayload = localStorage.getItem('credentials').split('.')[1];
     //decode payload
@@ -97,4 +207,35 @@ const getDecodedJwtFromLocalStorage = async() =>{
     return JSON.parse(buff.toString('ascii'));
 
 }
-export default {authenticate, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage}
+
+
+const getCompanyBookings = async ()=>{
+    const url = config.api.url;
+    const uri = config.api.uri.company.getBookings
+    const options = {
+        method: "GET",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+    }
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
+export default {
+    authenticate, 
+    getAllServicesProvider, 
+    signupNewUser, 
+    getCompaniesFromAPI, 
+    getDecodedJwtFromLocalStorage,
+    getCompanyEmployees,
+    getCompanyBookings,
+    deleteBooking,
+    handleBookingRequest,
+    getAvailabilityForService,
+    getAllServicesForUser
+}
