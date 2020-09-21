@@ -105,12 +105,30 @@ const getAllServicesForUser = async ()=>{
     const options = {
         method: "GET",
         mode:"cors",
+      headers: {
+        "Content-Type": "application/JSON",
+        Accept: "application/JSON",
+        'Access-Control-Allow-Origin': '*',
+        Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+      },
+  }
+  const response = await apiCall(url,uri,options);
+  return response;
+ }
+      
+const deleteBooking = async (bookingId)=>{
+    const url = config.api.url;
+    const uri = config.api.uri.company.deleteBooking
+    const options = {
+        method: "DELETE",
+        mode:"cors",
         headers: {
             "Content-Type": "application/JSON",
             Accept: "application/JSON",
             'Access-Control-Allow-Origin': '*',
             Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
         },
+        body: bookingId
     }
     const response = await apiCall(url,uri,options);
    return response;
@@ -146,24 +164,39 @@ const handleBookingRequest = async (serviceType, duration, employeeUsername, dat
         method: "POST",
         mode:"cors",
         headers: {
-            "Content-Type": "application/JSON",
+           "Content-Type": "application/JSON",
             Accept: "application/JSON",
-            'Access-Control-Allow-Origin': '*',
+           'Access-Control-Allow-Origin': '*',
             Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
         },
-        body: JSON.stringify({
+              body: JSON.stringify({
             "serviceType": serviceType,
             "date": `${date} ${chosen}:00:00`,
             "duration": duration,
             "employeeUsername": employeeUsername
         }),
-
-    }
+          }
     const response = await apiCall(url,uri,options);
    return response;
 }
 
 
+const getCompanyEmployees = async ()=>{
+    const url = config.api.url;
+    const uri = config.api.uri.company.getEmployees
+    const options = {
+        method: "GET",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+    }
+    const response = await apiCall(url,uri,options);
+   return response;
+}
 
 const getDecodedJwtFromLocalStorage = () =>{
     // Get JWT Header, Payload and Signature
@@ -174,4 +207,35 @@ const getDecodedJwtFromLocalStorage = () =>{
     return JSON.parse(buff.toString('ascii'));
 
 }
-export default {handleBookingRequest, getAvailabilityForService, authenticate, getAllServicesProvider, signupNewUser, getCompaniesFromAPI, getDecodedJwtFromLocalStorage, getAllServicesForUser}
+
+
+const getCompanyBookings = async ()=>{
+    const url = config.api.url;
+    const uri = config.api.uri.company.getBookings
+    const options = {
+        method: "GET",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+    }
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
+export default {
+    authenticate, 
+    getAllServicesProvider, 
+    signupNewUser, 
+    getCompaniesFromAPI, 
+    getDecodedJwtFromLocalStorage,
+    getCompanyEmployees,
+    getCompanyBookings,
+    deleteBooking,
+    handleBookingRequest,
+    getAvailabilityForService,
+    getAllServicesForUser
+}

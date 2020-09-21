@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Entity from './Entity';
 const functions = require('../apiOperations');
 
@@ -55,4 +56,12 @@ export default class Booking extends Entity{
         })
     }
     
+=======
+import Entity from './Entity'
+export default class Booking extends Entity{
+    constructor(data){
+        super(data)
+    }
+
+>>>>>>> development
 }

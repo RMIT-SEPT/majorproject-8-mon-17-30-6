@@ -2,11 +2,13 @@ package com.rmit.sept.project.agme.web;
 
 import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.model.Company;
+import com.rmit.sept.project.agme.model.Employee;
 import com.rmit.sept.project.agme.model.ServiceType;
 import com.rmit.sept.project.agme.repositories.CompanyRepository;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.services.BookingService;
 import com.rmit.sept.project.agme.services.CompanyService;
+import com.rmit.sept.project.agme.services.EmployeeService;
 import com.rmit.sept.project.agme.services.ServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -20,7 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/company")
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class CompanyController
 {
     @Autowired
@@ -37,6 +39,9 @@ public class CompanyController
 
     @Autowired
     private BookingService bookingService;
+
+    @Autowired
+    private EmployeeService employeeService;
 
 //    Creates a new service for a company
     @PostMapping("/new-service")
@@ -99,4 +104,46 @@ public class CompanyController
             return new ResponseEntity<>(serviceTypeService.getAllServices(),HttpStatus.OK);
         }
     }
+
+    @GetMapping("/employees")
+    ResponseEntity<?> getEmployees(@RequestHeader("Authorisation") String authorisationHeader) {
+        String username = "";
+        String role = "";
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
+            String jwt = authorisationHeader.substring(7);
+            username = jwtUtil.extractUsername(jwt);
+        }
+        if (employeeService.getAllEmployees().size() == 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        } else {
+            List<Employee> employees = employeeService.getAllEmployees();
+            List<Employee> employeesForCompany = new ArrayList<>();
+            for (Employee next : employees) {
+                if (next.getCompanyUsername().equals(username)) {
+                    employeesForCompany.add(next);
+                }
+            }
+            return new ResponseEntity<>(employeesForCompany,HttpStatus.OK);
+        }
+    }
+
+
+    @DeleteMapping("/bookings")
+    public ResponseEntity<?> deleteBooking(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId){
+        String username = "";
+//        Gets username from the jwt topken
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
+            String jwt = authorisationHeader.substring(7);
+            username = jwtUtil.extractUsername(jwt);
+        }
+        try{
+            bookingService.deleteById(bookingId);
+            return new ResponseEntity<String>("resource deleted successfully", HttpStatus.valueOf(204));
+        }catch(Exception e){
+            return new ResponseEntity<String>("resource not found", HttpStatus.valueOf(404));
+        }
+
+    }
+
 }
