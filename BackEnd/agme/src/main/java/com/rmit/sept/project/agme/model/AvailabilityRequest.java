@@ -7,7 +7,6 @@ import java.util.Date;
 // Request for availability
 public class AvailabilityRequest
 {
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy HH:mm:ss")
     private Date date;
     private String companyUsername;
     private String employeeUsername;

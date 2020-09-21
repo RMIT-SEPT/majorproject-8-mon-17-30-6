@@ -157,9 +157,9 @@ const getAvailabilityForService = async (serviceName, date, duration)=>{
    return response;
 }
 
-const handleBookingRequest = async (serviceType, duration, employeeUsername, date, chosen)=>{
+const handleBookingRequest = async (serviceType, date, duration, employeeUsername)=>{
     const url = config.api.url;
-    const uri = "user/new-booking"
+    const uri = "user/new-booking";
     const options = {
         method: "POST",
         mode:"cors",
@@ -171,7 +171,7 @@ const handleBookingRequest = async (serviceType, duration, employeeUsername, dat
         },
               body: JSON.stringify({
             "serviceType": serviceType,
-            "date": `${date} ${chosen}:00:00`,
+            "date": date,
             "duration": duration,
             "employeeUsername": employeeUsername
         }),

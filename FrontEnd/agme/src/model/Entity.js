@@ -9,8 +9,5 @@ export default class Entity{
         this[key] = value;
     }
 
-    isComplete(){
-        const complete = this.password&&this.username&&this.name&&this.phone&&this.address&&this.role
-        return complete;
-    }
+
 }

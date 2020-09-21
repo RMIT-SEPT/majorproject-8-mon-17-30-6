@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from "react-bootstrap/Button";
 import './css/signup.css';
-import Entity from '../model/Entity';
+import User from '../model/User';
 import FormFields from '../miscelaneous/FormFields';
 import SelectOptions from '../miscelaneous/SelectOptions'
 
@@ -17,7 +17,7 @@ export default class Signup extends React.Component{
             error: "",
             options: [],
             called: false,
-            entity: new Entity(),
+            entity: new User(),
             errors: new Set()
         };
         

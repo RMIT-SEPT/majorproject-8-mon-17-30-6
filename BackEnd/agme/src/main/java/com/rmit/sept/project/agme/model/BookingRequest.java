@@ -9,7 +9,6 @@ import java.util.Date;
 //Class to create a booking
 public class BookingRequest
 {
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy HH:mm:ss")
     private Date date;
 //    private String  companyUsername;
     private int duration;

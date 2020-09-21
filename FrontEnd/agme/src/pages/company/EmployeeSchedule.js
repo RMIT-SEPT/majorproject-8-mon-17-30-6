@@ -15,6 +15,7 @@ export class EmployeeSchedule extends React.Component{
     handleSelectDate(e){
         e.preventDefault();
         const value = e.target.value.split("-");
+        console.log(value)
         this.setState({date: `${value[2]}-${value[1]}-${value[0]}`});
     }
 
@@ -24,16 +25,20 @@ export class EmployeeSchedule extends React.Component{
             const bookings = this.props.employee.getBookings(this.props.bookings);
             const bookingsDictionary = {}
             bookings.forEach(booking=>{
-                let date = booking.date.split(" ")[0];
+                let date = booking.startDateTime.split(" ")[0].slice(0,8);
+                console.log(date)
                 if(!bookingsDictionary[date]){
                     bookingsDictionary[date] = {
                         times: new Set()
                     }
                 }
-                bookingsDictionary[date].times.add(booking.time)
+                const time = (booking.startDateTime.split(" ")[1].split(":00:")[0])
+                bookingsDictionary[date].times.add(time)
             });
-            const times = bookingsDictionary[this.state.date] ? (bookingsDictionary[this.state.date].times) : new Set();
-            const availabilityComponent = this.state.date ? <EmployeeAvailability date={this.state.date} times={times} bookings={bookings} deleteBooking={this.props.deleteBooking}/> : "";
+            console.log(this.state.date.slice(0,8))
+            const times = bookingsDictionary[this.state.date.slice(0,8)] ? (bookingsDictionary[this.state.date.slice(0,8)].times) : new Set();
+            console.log(times)
+            const availabilityComponent = this.state.date ? <EmployeeAvailability date={this.state.date.slice(0,8)} times={times} bookings={bookings} deleteBooking={this.props.deleteBooking}/> : "";
             return (
                 <div>
                     <div>
