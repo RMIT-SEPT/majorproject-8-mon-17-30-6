@@ -99,6 +99,23 @@ const getAllServicesProvider = async ()=>{
    return response;
 }
 
+const getAllServicesForUser = async ()=>{
+    const url = config.api.url;
+    const uri = "user/services"
+    const options = {
+        method: "GET",
+        mode:"cors",
+      headers: {
+        "Content-Type": "application/JSON",
+        Accept: "application/JSON",
+        'Access-Control-Allow-Origin': '*',
+        Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+      },
+  }
+  const response = await apiCall(url,uri,options);
+  return response;
+ }
+      
 const deleteBooking = async (bookingId)=>{
     const url = config.api.url;
     const uri = config.api.uri.company.deleteBooking
@@ -116,6 +133,53 @@ const deleteBooking = async (bookingId)=>{
     const response = await apiCall(url,uri,options);
    return response;
 }
+const getAvailabilityForService = async (serviceName, date, duration)=>{
+    const url = config.api.url;
+    const uri = "user/availability"
+    const options = {
+        method: "POST",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+        body: JSON.stringify({
+            "serviceName": serviceName,
+            "date": date,
+            "duration": duration
+        }),
+
+    }
+    
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
+const handleBookingRequest = async (serviceType, duration, employeeUsername, date, chosen)=>{
+    const url = config.api.url;
+    const uri = "user/new-booking"
+    const options = {
+        method: "POST",
+        mode:"cors",
+        headers: {
+           "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+           'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+              body: JSON.stringify({
+            "serviceType": serviceType,
+            "date": `${date} ${chosen}:00:00`,
+            "duration": duration,
+            "employeeUsername": employeeUsername
+        }),
+          }
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
 
 const getCompanyEmployees = async ()=>{
     const url = config.api.url;
@@ -144,6 +208,7 @@ const getDecodedJwtFromLocalStorage = () =>{
 
 }
 
+
 const getCompanyBookings = async ()=>{
     const url = config.api.url;
     const uri = config.api.uri.company.getBookings
@@ -169,5 +234,8 @@ export default {
     getDecodedJwtFromLocalStorage,
     getCompanyEmployees,
     getCompanyBookings,
-    deleteBooking
+    deleteBooking,
+    handleBookingRequest,
+    getAvailabilityForService,
+    getAllServicesForUser
 }

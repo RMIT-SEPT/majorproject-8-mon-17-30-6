@@ -4,6 +4,8 @@ import com.rmit.sept.project.agme.model.*;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,7 +38,7 @@ public class BookingController {
 
 //    Creates a new booking for a user based on the jwt token
     @PostMapping("/new-booking")
-    Booking newBooking(@RequestBody BookingRequest booking, @RequestHeader("Authorisation") String authorisationHeader) {
+    public ResponseEntity<?> newBooking(@RequestBody BookingRequest booking, @RequestHeader("Authorisation") String authorisationHeader) {
 //        Gets username from the jwt token
         String username = "";
         if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
@@ -51,7 +53,7 @@ public class BookingController {
 //      Creates a new booking
         Booking newBooking = new Booking(booking.getDate(), booking.getDuration(), employee, company, user, serviceType);
 //        Returns the booking
-        return bookingService.addBooking(newBooking);
+        return new ResponseEntity<>(bookingService.addBooking(newBooking), HttpStatus.OK);
     }
 
 
