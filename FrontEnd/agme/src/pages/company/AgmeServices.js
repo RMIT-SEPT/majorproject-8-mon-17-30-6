@@ -1,8 +1,5 @@
 import React from 'react';
-//import Button from "react-bootstrap/Button";
 import './services.css'
-//mocked services
-//const services = require('./mock/services.json');
 const {getAllServicesProvider} = require('../../mock/operations');
 //To view list of services
 export default class AgmeServices extends React.Component{
