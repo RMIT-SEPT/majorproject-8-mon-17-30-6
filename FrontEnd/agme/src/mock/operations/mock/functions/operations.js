@@ -138,7 +138,8 @@ const getAvailabilityForService = async (serviceName, date, duration)=>{
     const response = await apiCall(url,uri,options);
    return response;
 }
-const handleBookingRequest = async (serviceType, duration, employeeUsername, date)=>{
+
+const handleBookingRequest = async (serviceType, duration, employeeUsername, date, chosen)=>{
     const url = config.api.url;
     const uri = "user/new-booking"
     const options = {
@@ -152,7 +153,7 @@ const handleBookingRequest = async (serviceType, duration, employeeUsername, dat
         },
         body: JSON.stringify({
             "serviceType": serviceType,
-            "date": date,
+            "date": `${date} ${chosen}:00:00`,
             "duration": duration,
             "employeeUsername": employeeUsername
         }),
