@@ -129,6 +129,7 @@ function Row(props) {
 
 Row.propTypes = {
     row: PropTypes.shape({
+        bookingID: PropTypes.string.isRequired,
         serviceType: PropTypes.string.isRequired,
         date: PropTypes.string.isRequired,
         duration: PropTypes.number.isRequired,
