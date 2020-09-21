@@ -12,9 +12,20 @@ public class AvailabilityRequest
     private String companyUsername;
     private String employeeUsername;
     private String serviceName;
+    private String duration;
 
     public AvailabilityRequest(){
 
+    }
+
+    public String getDuration()
+    {
+        return duration;
+    }
+
+    public void setDuration(String duration)
+    {
+        this.duration = duration;
     }
 
     public String getServiceName() {

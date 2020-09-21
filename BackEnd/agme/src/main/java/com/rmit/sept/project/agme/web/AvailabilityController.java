@@ -25,20 +25,20 @@ public class AvailabilityController
     @Autowired
     private AvailabilityService availabilityService;
 
-    @PostMapping("/availability")
-    public ResponseEntity<?> getAvailableDays(@RequestBody AvailabilityRequest availabilityRequest){
-        List<Integer> availablility = availabilityService.getAvailabilityForService(availabilityRequest.getEmployeeUsername(), availabilityRequest.getDate());
-//        Return list of available times
-        return new ResponseEntity<>(availablility, HttpStatus.OK);
-    }
+//    @("/availability")
+//    public ResponseEntity<?> getAvailableDays(@RequestBody AvailabilityRequest availabilityRequest){
+//        List<Integer> availablility = availabilityService.getAvailabilityForService(availabilityRequest.getEmployeeUsername(), availabilityRequest.getDate());
+////        Return list of available times
+//        return new ResponseEntity<>(availablility, HttpStatus.OK);
+//    }
 
     @Autowired
     ServiceTypeService serviceTypeService;
 //    Returns the required data for the above post method
-    @GetMapping("/availability")
+    @PostMapping("/availability")
     public ResponseEntity<?> getAvailableDaysPerService(@RequestBody AvailabilityRequest availabilityRequest){
         ServiceType service = serviceTypeService.loadServiceByName(availabilityRequest.getServiceName());
-        HashMap<String, Object> maps = new HashMap<>();
+        List<Object> maps = new ArrayList<>();
 
         for (Company next: service.getCompany())
         {
@@ -47,11 +47,11 @@ public class AvailabilityController
                 HashMap<String, Object> map = new HashMap<>();
 
                 map.put("name", employee.getName());
-                map.put("availability", availabilityService.getAvailabilityForService(employee.getUsername(), availabilityRequest.getDate()));
-                maps.put(employee.getUsername(), map);
+                map.put("username", employee.getUsername());
+                map.put("availability", availabilityService.getAvailabilityForService(employee.getUsername(), availabilityRequest.getDate(), Integer.parseInt(availabilityRequest.getDuration())));
+                maps.add(map);
             }
         }
-
         return new ResponseEntity<>(maps, HttpStatus.OK);
 
     }
