@@ -30,19 +30,19 @@ const component = shallow(<AgmeServices services={services}/>)
 
 describe("Services", () => {
 
-  it("It should display description for all services", () => {     
+  it("1 - It should display description for all services", () => {     
     
     expect(component.find('div').find('h5').text()).toEqual("These are all services registered in AGME") 
   });
 
 
-  it("It should display description for all services", () => {     
+  it("2 - It should display description for all services", () => {     
     services.forEach((service,i)=>{
         expect(component.find('.card').find('._'+i).find('.container').find('p').text()).toEqual(service.description)
     })  
   });
 
-  it("It should display name for all services", () => {  
+  it("3 - It should display name for all services", () => {  
     const component = shallow(<AgmeServices services={services}/>)
     services.forEach((service,i)=>{
         expect(component.find('.card').find('._'+i).find('.header').find('p').text()).toEqual(service.name)
