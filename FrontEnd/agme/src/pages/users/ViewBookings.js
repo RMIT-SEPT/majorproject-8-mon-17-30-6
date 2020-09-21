@@ -102,9 +102,6 @@ function Row(props) {
                         {open ? <KeyboardArrowUpIcon/> : <KeyboardArrowDownIcon/>}
                     </IconButton>
                 </TableCell>
-                <TableCell component="th" scope="row">
-                    {row.bookingID}
-                </TableCell>
                 <TableCell align="right">{row.date}</TableCell>
                 <TableCell align="right">{row.companyUsername}</TableCell>
                 <TableCell align="right">{row.duration}</TableCell>
