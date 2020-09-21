@@ -76,7 +76,7 @@
                     }
                 },
                 "tags": [
-                    "Service Types"
+                    "SERVICES"
                 ]
             },
             "get": {
@@ -94,100 +94,70 @@
                     }
                 },
                 "tags": [
-                    "Service Types"
+                    "SERVICES"
                 ]
             }
         },
-        "/api/employee/employees": {
+        "/user/new-booking": {
             "post": {
-                "operationId": "newEmployee",
+                "operationId": "getBooking",
                 "requestBody": {
-                    "$ref": "#/components/requestBodies/NewEmployeeRequestBody"
+                    "$ref": "#/components/requestBodies/NewBookingPostRequestBody"
                 },
                 "responses": {
                     "200": {
-                        "description": "Successfull signup",
+                        "description": "Successful post",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/NewEmployeeResponse"
+                                    "$ref": "#/components/requestBodies/NewBookingPostRequestBody"
                                 }
                             }
                         }
                     }
                 },
                 "tags": [
-                    "Employee"
-                ]
-            },
-            "get": {
-                "operationId": "getEmployees",
-                "responses": {
-                    "200": {
-                        "description": "Successfull signup",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/GetEmployeesResponse"
-                                }
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Employee"
+                    "BOOKINGS"
                 ]
             }
         },
-        "/api/booking/bookings": {
-            "post": {
-                "operationId": "newBooking",
-                "requestBody": {
-                    "$ref": "#/components/requestBodies/NewBookingRequestBody"
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successfull booking",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/Booking"
-                                }
-                            }
-                        }
-                    }
-                },
-                "tags": [
-                    "Bookings"
-                ]
-            },
+        "/user/availability": {
             "get": {
-                "operationId": "getBookings",
+                "operationId": "getAvailability",
                 "responses": {
                     "200": {
-                        "description": "Success",
+                        "description": "Successful post",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/GetBookingsResponse"
+                                    "$ref": "#/components/schemas/GetAvailabilityResponse"
                                 }
                             }
                         }
                     }
                 },
                 "tags": [
-                    "Bookings"
+                    "AVAILABILITY"
                 ]
             }
         }
     },
     "components": {
         "requestBodies": {
-            "NewBookingRequestBody": {
+            "NewBookingPostRequestBody": {
                 "content": {
                     "application/json": {
                         "schema": {
-                            "$ref": "#/components/schemas/Booking"
+                            "$ref": "#/components/schemas/NewBookingPostRequest"
+                        }
+                    }
+                }
+            },
+            "NewBookingGetRequestBody": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "$ref": "#/components/schemas/NewBookingGetRequest"
                         }
                     }
                 }
@@ -230,6 +200,45 @@
             }
         },
         "schemas": {
+            "GetAvailabilityResponse":{
+                "type": "object",
+                "properties": {
+                    "meUsername": {
+                        "$ref": "#/components/schemas/MeUsername"
+                    },
+                    "sab": {
+                        "$ref": "#/components/schemas/Sab"
+                    }
+                }
+            },
+            "MeUsername":{
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "availability": {
+                        "type": "array",
+                        "items": {
+                            "type":"number"
+                        }
+                    }
+                }
+            },
+            "Sab":{
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "availability": {
+                        "type": "array",
+                        "items": {
+                            "type":"number"
+                        }
+                    }
+                }
+            },
             "Booking": {
                 "type": "object",
                 "properties": {
@@ -249,23 +258,36 @@
                     }
                 }
             },
-            "GetBookingsResponse": {
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/Booking"
-                }
-            },
-            "GetEmployeesResponse": {
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/Employee"
-                }
-            },
             "NewEmployeeRequest": {
                 "$ref": "#/components/schemas/Employee"
             },
-            "NewEmployeeResponse": {
-                "$ref": "#/components/schemas/Employee"
+            "NewBookingPostRequest": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string"
+                    },
+                    "companyUsername": {
+                        "type": "string"
+                    },
+                    "duration": {
+                        "type": "string"
+                    },
+                    "serviceType": {
+                        "type": "string"
+                    }
+                }
+            },
+            "NewBookingGetRequest": {
+                "type": "object",
+                "properties": {
+                    "date": {
+                        "type": "string"
+                    },
+                    "serviceType": {
+                        "type": "string"
+                    }
+                }
             },
             "User": {
                 "type": "object",
@@ -308,6 +330,62 @@
                     }
                 ]
             },
+            "CompanyDetails": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "companyName": {
+                                "type": "string"
+                            },
+                            "lastLogin": {
+                                "type": "string"
+                            },
+                            "createdAt": {
+                                "type": "string"
+                            },
+                            "updatedAt": {
+                                "type": "string"
+                            },
+                            "id": {
+                                "type": "number"
+                            },
+                            "accountNonExpired": {
+                                "type": "boolean"
+                            },
+                            "accountNonLocked": {
+                                "type": "boolean"
+                            },
+                            "credentialsNonExpired": {
+                                "type": "boolean"
+                            },
+                            "authorities": {
+                                "type": "array",
+                                "items": {
+                                    "type":"object",
+                                    "properties":{
+                                        "authority": {
+                                            "type":"string"
+                                        }
+                                    }
+                                }
+                            },
+                            "enabled": {
+                                "type": "boolean"
+                            },
+                            "employees": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/EmployeeDetails"
+                                }
+                            }
+                        }
+                    }
+                ]
+            },
             "Employee": {
                 "allOf": [
                     {
@@ -321,6 +399,56 @@
                             },
                             "userType": {
                                 "type": "string"
+                            }
+                        }
+                    }
+                ]
+            },
+            "EmployeeDetails": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "userType": {
+                                "type": "string"
+                            },
+                            "lastLogin": {
+                                "type": "string"
+                            },
+                            "createdAt": {
+                                "type": "string"
+                            },
+                            "updatedAt": {
+                                "type": "string"
+                            },
+                            "id": {
+                                "type": "number"
+                            },
+                            "accountNonExpired": {
+                                "type": "boolean"
+                            },
+                            "accountNonLocked": {
+                                "type": "boolean"
+                            },
+                            "credentialsNonExpired": {
+                                "type": "boolean"
+                            },
+                            "authorities": {
+                                "type": "array",
+                                "items": {
+                                    "type":"object",
+                                    "properties":{
+                                        "authority": {
+                                            "type":"string"
+                                        }
+                                    }
+                                }
+                            },
+                            "enabled": {
+                                "type": "boolean"
                             }
                         }
                     }
@@ -360,6 +488,12 @@
                     "description": {
                         "type": "string",
                         "example": "A gym is a club, building, or large room, usually containing special equipment, where people go to do physical exercise and get fit."
+                    },
+                    "company":{
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CompanyDetails"
+                        }
                     }
                 }
             },

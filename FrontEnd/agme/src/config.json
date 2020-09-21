@@ -3,7 +3,12 @@
     "url":"http://localhost:8080/",
     "uri": {
       "signup": "signup",
-      "login": "login"
+      "login": "login",
+      "company":{
+        "getEmployees": "company/employees",
+        "getBookings": "company/bookings",
+        "deleteBooking": "company/bookings"
+      }
     }
   }
 }

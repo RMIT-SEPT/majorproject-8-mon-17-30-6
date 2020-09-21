@@ -61,9 +61,7 @@ export default class App extends React.Component{
     handleContentChangeRequest(e, isComponent){
         try{
             e.preventDefault();
-        }catch(error){
-            console.log(error)
-        }
+        }catch(error){}
         let component = "";
 
         //to let each navbar to change component rendered directly
@@ -79,7 +77,7 @@ export default class App extends React.Component{
                     component = <ViewProviders/>
                     break;
                 case "login":
-                    component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}/>
+                    component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup} handleAuthentication={this.handleAuthentication}/>
                     break;
                 default:
                     console.log("no content available?");
