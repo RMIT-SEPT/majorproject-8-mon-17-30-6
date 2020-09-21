@@ -1,28 +1,29 @@
 import '../css/userDash.css';
 import React from 'react';
+import Booking from '../../model/Booking';
 const functions = require('../../apiOperations')
 
 export default class UserDashboard extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            booking: new Booking({}),
             isCallingServer: false,
             options: [],
             called: false,
             calledTime: false,
             calledDays: false,
             employees: [],
-            days: [],
+            dates: [],
             employee: "",
             array: [],
-            timeSlots: [],
-            chosen: "",
-            duration: "1",
-            serviceName: "",
-            dateBooked: ""
+            timeSlots: []
         };
+        this.handleBookingChange = this.handleBookingChange.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleBookingRequestForUser = this.handleBookingRequestForUser.bind(this);
+        this.showAvailableServices = this.showAvailableServices.bind(this);
+        this.showAvailableTimes = this.showAvailableTimes.bind(this);
     }
 
     // Show available services
@@ -36,10 +37,10 @@ export default class UserDashboard extends React.Component{
             var servicetypes = [];
             var i = 1;
             //  add default to array
-            servicetypes.push(<option key={0} value="" disabled  defaultValue>Choose a Service</option>);
+            servicetypes.push(<option key={0} value={"DEFAULT"} disabled>Choose a Service</option>);
 
             // loops through services and adds them
-            this.serviceType = response.body.map((serviceType) =>
+            response.body.forEach((serviceType) =>
                 servicetypes.push(<option key={serviceType.name} value={serviceType.name}>{serviceType.name}</option>),
                 i++);
             this.setState({options:servicetypes,isCallingServer:false, called:true});
@@ -52,7 +53,7 @@ export default class UserDashboard extends React.Component{
     }
     return <React.Fragment>
     <label>Service</label>
-    <select className="form-control" name={"serviceName"} value={this.state.serviceName}  onChange={this.handleInputChange}>{this.state.options}</select>      
+    <select value={this.state.booking.serviceType||"DEFAULT"} className="form-control" name={"serviceType"} onChange={this.handleBookingChange}>{this.state.options}</select>      
 </React.Fragment>
  
 }
@@ -68,66 +69,32 @@ export default class UserDashboard extends React.Component{
             this.handleTimeValue(index)
 
         }
+    }
 
+    handleBookingChange(e){
+        e.preventDefault();
+        const key = e.target.name;
+        const value = e.target.value;
+        let booking = new Booking(this.state.booking);
+        booking.setField(key,value)
+        this.setState({booking:booking});
+        console.log(this.state.booking)
     }
     
 
     // Makes a request to get employees and display the availability.
     showAvailableTimes(){
-        if (!this.state.calledTime && this.state.serviceName !== "" && this.state.dateBooked !== "" ){
-            // gets todays date
-            var today = new Date();
-            var day = today.getDate();
-            var d = this.state.dateBooked.substr(0,2);
-            var diff = d-day;
-
-            // sets the date according the one selected
-            today.setDate(today.getDate() + diff);
-
-            // javascript counts 00 as a month
-            var month = today.getMonth();
-            month = month +1;
-
-            // date in correct formatting
-            var dateT = today.getDate() + "-" + month + "-" + today.getFullYear().toString().substr(-2) + " " + today.getHours() + ":00:00"
-            var i = 1;
-
-            functions.getAvailabilityForService(this.state.serviceName,dateT, this.state.duration).then(response=>{
-                if(response.statusCode===200){
-                    this.setState({isCallingServer:false});
-                console.log('setting date to ', dateT)
-                this.setState({dateBooked:dateT})
-                var employeesVal = [];
-                var employeeAvailability = [];
-                employeesVal.push(<option key={0} value=""  disabled  defaultValue>Please select an employee</option>);
-                // maps employee names
-                this.serviceType = response.body.map((serviceType) =>
-                    employeesVal.push(<option key={serviceType} value={serviceType.username}>{serviceType.name}</option>),
-                    this.setState({employees:employeesVal,isCallingServer:false, calledTime:true}),
-                    i++,
-                );
-
-                // array of employee availablilty
-                this.serviceType = response.body.map((serviceType) =>
-                    employeeAvailability.push(serviceType.availability),
-                    this.setState({array:employeeAvailability})
-                );
-            }else{
-                this.setState({isCallingServer:false})
-            }
-            }
-            
-            )
-    }
-    // render select bo for employees and timeslots
-    if (this.state.serviceName !== "" && this.state.dateBooked !== ""){
-        return <React.Fragment>
-        <label>Employee</label>
-            <select className="form-control" name={"employee"} value={this.state.employee} onChange={this.handleInputChange}>{this.state.employees}</select> <br></br>
-            <label>Time</label>
-            <select className="form-control" name={"chosen"} value={this.state.chosen}  onChange={this.handleInputChange}>{this.state.timeSlots}</select>      
-        </React.Fragment>
-    }
+        if(!this.state.calledTime){
+            this.state.booking.getAvailability()
+            .then(response=>{
+                if(response){
+                    this.setState({isCallingServer:false, booking: new Booking(this.state.booking)})
+                }
+            })
+        }
+        if(this.state.booking.available){
+            return "available"
+        }
     }
 
     handleTimeValue(index){
@@ -158,39 +125,51 @@ export default class UserDashboard extends React.Component{
         return new Date(date.getTime()+2*24*60*60*1000);
     }
     // displays the days that can be booked
-    showDaysToBook(){
-        if (!this.state.calledDays && this.state.serviceName !== ""){
-        let today = new Date();
-        // first day is 2 days ahead
-        let initialDate = this.getNextDate(this.getNextDate(today));
-        let currentDate = initialDate; //to keep track of which date to add to options
-        var arr = [];
-        arr.push(<option key={0} value="" disabled defaultValue>Choose a Day</option>);
-        today.setDate(today.getDate() + 2);
-
-        for (var i = 0; i<29; i++){
-            arr.push(<option key={i+1} value={this.formatDateToDayMonthYear(currentDate)}>{this.formatDateToDayMonthYear(currentDate)}</option>);
-            currentDate = this.getNextDate(currentDate);
+    showDuration(){
+        if (this.state.booking.serviceType !== ""){
+            return (
+            <React.Fragment>
+                <label>Duration</label>
+                <select 
+                    defaultValue="DEFAULT"
+                    className="form-control" 
+                    name={"duration"} 
+                    onChange={this.handleBookingChange}
+                >
+                    <option key={0} value={"DEFAULT"} disabled>Choose a duration</option>
+                    {[1,2,3,4].map((d)=>{return <option key={d} value={d}>{d} hour(s)</option>})}
+                </select> 
+                <br></br>  
+                <br></br>
+            </React.Fragment>
+            )
         }
-        this.setState({days:arr,isCallingServer:false, calledDays:true});
     }
 
-    if (this.state.serviceName !== ""){
-        return <React.Fragment>
-  
-        <label>Duration</label>
-        <select className="form-control" name={"duration"} value={this.state.duration}  onChange={this.handleInputChange}>
-        <option defaultValue value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        </select><br></br>  
-        <label>Day</label>
-        <select className="form-control" name={"dateBooked"} value={this.state.dateBooked}  onChange={this.handleInputChange}>{this.state.days}</select>   
-        <br></br>
-        </React.Fragment>
+    showDates(){
+        if(this.state.booking.duration){
+            let initial = (this.getNextDate(new Date()));
+            const dates = []
+            for(let i = 0 ; i < 30; i++){
+                dates.push(
+                    <option key={i+1} value={initial}>
+                        {initial.toDateString()}
+                    </option>
+                )
+                initial = this.getNextDate(initial)
+            }
+            return (
+                <React.Fragment>
+                    <label>Date</label>
+                    <select value={this.state.booking.date||"DEFAULT"} className="form-control" name={"date"} onChange={this.handleBookingChange}>
+                        <option key={0} value={"DEFAULT"} disabled>Choose a date</option>
+                        {dates}
+                    </select>      
+                </React.Fragment>
+            )
+        }
     }
-    }
+
     handleBookingRequestForUser(){
         //mock for now
         this.setState({isCallingServer:true});
@@ -213,6 +192,7 @@ export default class UserDashboard extends React.Component{
         }
     }
     render(){
+        
         return (
             <div className={"new-booking"}>
                 <h3 className="title">New Booking</h3>
@@ -220,9 +200,9 @@ export default class UserDashboard extends React.Component{
                     <br/>
                     {this.showAvailableServices()}
                     <br></br>
-                    {this.showDaysToBook()}
+                    {this.showDuration()}
                     <br></br>
-
+                    {this.showDates()}
                     {this.showAvailableTimes()}
                     <br></br>
                     {this.showAuthenticationButton()}
