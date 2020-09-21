@@ -37,6 +37,25 @@ const generateSaltAndHash=(userpassword)=> {
     return passwordData
 }
 
+const decodeJwt = (jwt)=>{
+    var base64Url = jwt.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload)
+}
+const getDecodedJwtFromLocalStorage =() =>{
+    // Get JWT Header, Payload and Signature
+    const credentials = JSON.parse(localStorage.getItem('credentials'));
+    if(!credentials){
+        return null;
+    }
+    const stringifiedJwtPayload = credentials.jwt.split('.')[1];
+    //decode payload
+    let data = stringifiedJwtPayload;
+    let buff = new Buffer(data, 'base64');
+    return JSON.parse(buff.toString('ascii'));
 
-
-module.exports = {generateSaltAndHash, sha512}
+}
+module.exports = {generateSaltAndHash, sha512, decodeJwt, getDecodedJwtFromLocalStorage}

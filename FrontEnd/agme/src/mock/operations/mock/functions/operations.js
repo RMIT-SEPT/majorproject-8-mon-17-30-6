@@ -1,52 +1,173 @@
-const tables = {
-    users: require('../../../data/Users.json')
+const config = require('../../../../config.json')
+/***
+ * Generic function to call apis
+ * ***/
+const apiCall = async(endpoint,uri,options)=>{
+    const response = await fetch(endpoint+uri,options);
+    return testResponse(response)
 }
 
-const {sha512} = require('./utils')
-
-
-const queryDatabase = (table, key, value) => new Promise(res => {
-    setTimeout(_ => {
-        const rows = tables[table].filter(row=>{
-            return row[key]===value})
-        res(rows) //Return it here!
-    }, 2000);
-})
-
-const authenticate = async (username, password)=>{
-    if(username&&password){
-        const dbData = await queryDatabase("users", "username", username);
-        if(dbData){
-            console.log(dbData)
-            if(dbData.length!==1){
-                return {
-                statusCode: 401,
-                body: "Unauthorised"
-            }}
-            const salt = dbData[0].salt;
-            const passwordData = sha512(password,salt);
-            if(passwordData.passwordHash ===dbData[0].hash){
-                console.log('all good')
-                return {
-                    statusCode:200,
-                    body: {
-                        token: "1qazxcft6543wsdfghjio9876trfghjko09876trewsdfvgbhjui876tredsawq234567uikmnbvcfde4567ui",
-                        expiry: new Date().setHours(new Date().getHours()+4)
-                    }
-                }
-            }else{
-                return {
-                    statusCode: 401,
-                    body: "Unauthorised"
-                }
+/***
+ * Internal function to test and format response from api
+ * **/
+const testResponse = async (response)=>{
+    try{
+        if(RegExp('^2[0-9]{2}$').test(response.status)){
+            return {
+                statusCode: response.status,
+                body: await response.json()
             }
+        }else{
+            throw response;
         }
-    }else{
+       
+    }catch(error){
+        console.log(error)
         return {
-            statusCode: 401,
-            body: "Unauthorised"
+            statusCode: error.status,
+            body: await error.text()
         }
     }
 }
 
-module.exports = {authenticate}
+const authenticate = async (username, password, role)=>{
+    const url = config.api.url;
+    const uri = config.api.uri.login;
+    const options = {
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            accept: "application/JSON",
+        },
+        body: JSON.stringify({
+                    "username": username,
+                    "password": password,
+                    "role": role
+                })
+    }
+    const response = await apiCall(url,uri,options);
+    if(response.statusCode===200){
+
+        localStorage.setItem('credentials', JSON.stringify(response.body));
+    }else{
+        localStorage.removeItem('credentials')
+    }
+   return response;
+}
+
+const signupNewUser = async (entity)=>{
+    const endpoint = config.api.url;
+    const uri = config.api.uri.signup;
+    const options = {
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            accept: "application/JSON",
+        },
+        body: JSON.stringify(entity)
+    }
+    const response = await apiCall(endpoint,uri,options);
+   return response;
+}
+const getCompaniesFromAPI = async ()=>{
+    const url = config.api.url;
+    const uri = "signup"
+    const options = {
+        method: "GET",
+        mode: "cors"
+    }
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
+const getAllServicesProvider = async ()=>{
+    const url = config.api.url;
+    const uri = "company/allservices"
+    const options = {
+        method: "GET",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+    }
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
+const deleteBooking = async (bookingId)=>{
+    const url = config.api.url;
+    const uri = config.api.uri.company.deleteBooking
+    const options = {
+        method: "DELETE",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+        body: bookingId
+    }
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
+const getCompanyEmployees = async ()=>{
+    const url = config.api.url;
+    const uri = config.api.uri.company.getEmployees
+    const options = {
+        method: "GET",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+    }
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
+const getDecodedJwtFromLocalStorage = () =>{
+    // Get JWT Header, Payload and Signature
+    const stringifiedJwtPayload = localStorage.getItem('credentials').split('.')[1];
+    //decode payload
+    let data = stringifiedJwtPayload;
+    let buff = new Buffer(data, 'base64');
+    return JSON.parse(buff.toString('ascii'));
+
+}
+
+const getCompanyBookings = async ()=>{
+    const url = config.api.url;
+    const uri = config.api.uri.company.getBookings
+    const options = {
+        method: "GET",
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+        },
+    }
+    const response = await apiCall(url,uri,options);
+   return response;
+}
+
+export default {
+    authenticate, 
+    getAllServicesProvider, 
+    signupNewUser, 
+    getCompaniesFromAPI, 
+    getDecodedJwtFromLocalStorage,
+    getCompanyEmployees,
+    getCompanyBookings,
+    deleteBooking
+}

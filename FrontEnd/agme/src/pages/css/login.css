@@ -1,20 +1,18 @@
 .login{
     border: 1px solid grey;
-    width:50vw;
+    width:30vw;
     height:40vh;
+    display: table;
     border-radius:1vw;
-    margin:10vh 25vw;
     padding:10vh;
+    text-align: center;
+    margin: auto;
+    margin-top:10vh;
+
 }
 
-.login button{
-    margin:2vh;
-    padding:1vh;
-}
 
-.signup_info{
-    
-}
+
 
 .signup_info:hover{
     cursor:pointer;
@@ -25,4 +23,15 @@
     margin:0;
     padding:0;
     color:red;
+}
+.form-container{
+    width: 40vh;
+    margin: auto;
+}
+.form-group label{
+    float: left;
+}
+.errorLabel{
+    color: red;
+    float: left;
 }
