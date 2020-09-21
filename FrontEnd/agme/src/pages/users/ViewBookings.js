@@ -38,7 +38,7 @@ const useRowStyles = makeStyles({
 });
 
 //This component returns upcoming bookings for a user
-
+    //TODO Backend getBookings for customerID
 /* *
   "date": "string",
   "companyUsername": "string",
@@ -59,6 +59,7 @@ export default class BookingTimes extends React.Component {
                             <TableCell align="right">Company&nbsp;Name</TableCell>
                             <TableCell align="right">Duration&nbsp;(mins)</TableCell>
                             <TableCell align="right">Type&nbsp;of&nbsp;Service</TableCell>
+                            <TableCell align="right">Cancellable</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -85,7 +86,6 @@ function Row(props) {
     const bookingLockoutTime = 24 * 60 * 60 * 1000;
     const bookingChangeAllowed = (currentDateTime - bookingDateTime < bookingLockoutTime)
 
-    //TODO check to see if jwt is passing customer identifier
     const credentials = localStorage.getItem('credentials')&&(JSON.parse(localStorage.getItem('credentials')))
     const authDetails = utils.decodeJwt(JSON.parse(credentials).jwt)
     const customerID = authDetails.customerID
@@ -109,7 +109,7 @@ function Row(props) {
                 <TableCell align="right">{row.companyUsername}</TableCell>
                 <TableCell align="right">{row.duration}</TableCell>
                 <TableCell align="right">{row.serviceType}</TableCell>
-                <TableCell align="right">{row.customerID ? MoodBadIcon : MoodIcon}</TableCell>
+                <TableCell align="right">{bookingChangeAllowed ? MoodIcon : MoodBadIcon}</TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={6}>
