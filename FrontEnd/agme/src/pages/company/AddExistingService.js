@@ -29,7 +29,7 @@ export class AddExistingService extends React.Component{
                 const available = response.body.filter(c=>{
                     return !company.has(c.name)
                 })
-                
+
                 this.setState({
                     allServices: response.body,
                     companyServices: companyServices,

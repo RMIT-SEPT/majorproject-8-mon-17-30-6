@@ -1,10 +1,9 @@
 import React from 'react';
 import Employee from '../../model/Employee';
 import { EmployeeSchedule } from './EmployeeSchedule';
+import Booking from '../../model/Booking';
 import './viewEmployees.css'
-const {getCompanyEmployees, deleteBooking} = require('../../mock/operations');
-//uncomment when integrating with API
-//const {getCompanyBookings} = require('../../mock/operations');
+const {getCompanyEmployees, getCompanyBookings, deleteBooking} = require('../../mock/operations');
 
 export class ViewEmployees extends React.Component{
     constructor(props){
@@ -12,10 +11,8 @@ export class ViewEmployees extends React.Component{
         this.state = {
             employees: [],
             selectedEmployee: null,
-            bookings:require('./mock/bookings.json')
+            bookings:[]
         }
-
-
 
         getCompanyEmployees().then(response=>{
             if(response.statusCode===200){
@@ -24,20 +21,18 @@ export class ViewEmployees extends React.Component{
             }
         });
 
-        //TODO - uncomment these lines once we can have bookings coming from API
-        // getCompanyBookings().then(response=>{
-        //     if(response.statusCode===200){
-        //         const bookings = response.body.map(booking=>{return new Booking(booking)});
-        //         this.setState({bookings:bookings})
-        //     }
-        // });
+        getCompanyBookings().then(response=>{
+            if(response.statusCode===200){
+                this.setState({bookings:response.body})
+            }
+        });
 
-        this.deleteBooking = this.deleteBooking.bind(this);
+        this.callDeleteBooking = this.callDeleteBooking.bind(this);
         this.handleSelectEmployee = this.handleSelectEmployee.bind(this);
     }
 
     //need to delete here, otherwise children components wont re-render properly
-    deleteBooking(e){
+    callDeleteBooking(e){
         e.preventDefault();
         const bookingId = e.currentTarget.value;
         deleteBooking(bookingId).then(response=>{
@@ -69,7 +64,7 @@ export class ViewEmployees extends React.Component{
                         <option value={'DEFAULT'} disabled>Select an employee</option>
                         {options}
                     </select>
-                    <EmployeeSchedule deleteBooking={this.deleteBooking} employee={new Employee(this.state.selectedEmployee)} bookings={this.state.bookings}/>
+                    <EmployeeSchedule deleteBooking={this.callDeleteBooking} employee={new Employee(this.state.selectedEmployee)} bookings={this.state.bookings}/>
                 </div>
             )
         }

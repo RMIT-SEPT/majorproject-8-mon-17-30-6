@@ -20,7 +20,7 @@ const testResponse = async (response)=>{
         }else{
             throw response;
         }
-       
+
     }catch(error){
         console.log(error)
         return {
@@ -115,7 +115,7 @@ const getAllServicesForUser = async ()=>{
   const response = await apiCall(url,uri,options);
   return response;
  }
-      
+
 const deleteBooking = async (bookingId)=>{
     const url = config.api.url;
     const uri = config.api.uri.company.deleteBooking
@@ -152,14 +152,14 @@ const getAvailabilityForService = async (serviceName, date, duration)=>{
         }),
 
     }
-    
+
     const response = await apiCall(url,uri,options);
    return response;
 }
 
-const handleBookingRequest = async (serviceType, duration, employeeUsername, date, chosen)=>{
+const handleBookingRequest = async (serviceType, date, duration, employeeUsername)=>{
     const url = config.api.url;
-    const uri = "user/new-booking"
+    const uri = "user/new-booking";
     const options = {
         method: "POST",
         mode:"cors",
@@ -171,11 +171,12 @@ const handleBookingRequest = async (serviceType, duration, employeeUsername, dat
         },
               body: JSON.stringify({
             "serviceType": serviceType,
-            "date": `${date} ${chosen}:00:00`,
+            "date": date,
             "duration": duration,
             "employeeUsername": employeeUsername
         }),
           }
+      console.log(date);
     const response = await apiCall(url,uri,options);
    return response;
 }
@@ -227,10 +228,10 @@ const getCompanyBookings = async ()=>{
 }
 
 export default {
-    authenticate, 
-    getAllServicesProvider, 
-    signupNewUser, 
-    getCompaniesFromAPI, 
+    authenticate,
+    getAllServicesProvider,
+    signupNewUser,
+    getCompaniesFromAPI,
     getDecodedJwtFromLocalStorage,
     getCompanyEmployees,
     getCompanyBookings,
