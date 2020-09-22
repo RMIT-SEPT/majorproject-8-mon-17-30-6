@@ -26,5 +26,5 @@ Username and passwords are all the same
 - Company: therealcompany
 - Employee: therealemployee
 
-##Latest releases:
+## Latest releases:
 https://github.com/RMIT-SEPT/majorproject-8-mon-17-30-6/releases
