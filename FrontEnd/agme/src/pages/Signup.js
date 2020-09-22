@@ -59,7 +59,7 @@ export default class Signup extends React.Component{
             return <Button variant={"secondary"}>processing</Button>
         }
         if(this.state.entity.isComplete()&&(!this.state.isCallingServer)){
-            return <Button className="btn btn-success form-control" onClick={this.handleSignupRequest}>Signup</Button>
+            return <React.Fragment><br></br><Button className="btn btn-success form-control" onClick={this.handleSignupRequest}>Signup</Button></React.Fragment>
         }
     }
 
@@ -74,7 +74,6 @@ export default class Signup extends React.Component{
     showFieldsBasedOnRole(){
         const fields ={
             COMPANY: ['companyName'],
-            EMPLOYEE: ['userType']
         }
         if(fields[this.state.entity.role]){
             return   <React.Fragment>
@@ -86,6 +85,7 @@ export default class Signup extends React.Component{
  
     showCompanyInput(){
         if (!this.state.called && (this.state.entity.role==='EMPLOYEE')){
+
         functions.getCompaniesFromAPI().then(response=>{
             var arr = [];
             var i = 0;
@@ -99,7 +99,7 @@ export default class Signup extends React.Component{
         )
     }
     if (this.state.entity.role === 'EMPLOYEE'){
-    return <React.Fragment>
+    return <React.Fragment><br></br>
         <select className="form-control" name={"companyUsername"} value={this.state.entity.companyUsername||""} placeholder="role" onChange={this.handleInputChange}>{this.state.options}</select>      
         <label className= "errorLabel">{this.showError('companyUsername')}</label>
 

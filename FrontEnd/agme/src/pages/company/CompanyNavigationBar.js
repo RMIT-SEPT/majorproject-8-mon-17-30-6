@@ -45,9 +45,12 @@ export default class CompanyNavigationBar extends React.Component{
                             <NavDropdown title="Employees" id="basic-nav-dropdown">
                                 <NavDropdown.Item name="viewEmployees" onClick={this.handleSelectNavBar}>View Employees</NavDropdown.Item>
                             </NavDropdown>
+                            <NavDropdown title="Bookings" id="basic-nav-dropdown">
+                                <NavDropdown.Item name="viewBookings" onClick={this.handleSelectNavBar}>View and Search Bookings</NavDropdown.Item>
+                            </NavDropdown>
                         </Nav>
                     </Navbar.Collapse>
-                    {logoutButton()}      
+                    {logoutButton()}
                 </Navbar>
         )
     }
