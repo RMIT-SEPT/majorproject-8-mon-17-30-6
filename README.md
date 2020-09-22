@@ -15,6 +15,13 @@
 * Trello : https://trello.com/b/p5sOQFs1/sept-group-6
 * Web application: http://bit.ly/group6_agme
 * Server status: http://54.234.81.129:8080/healthcheck
-## Code documentation
 
+## Code documentation
 [Documentation List](/docs/README.md) in `docs` folder
+
+## Login for Test Account
+Username and passwords are all the same
+
+User: therealuser
+Company: therealcompany
+Employee: therealemployee
