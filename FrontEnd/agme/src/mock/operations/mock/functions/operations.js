@@ -176,6 +176,7 @@ const handleBookingRequest = async (serviceType, duration, employeeUsername, dat
             "employeeUsername": employeeUsername
         }),
           }
+      console.log(date);
     const response = await apiCall(url,uri,options);
    return response;
 }
