@@ -20,7 +20,7 @@ const testResponse = async (response)=>{
         }else{
             throw response;
         }
-       
+
     }catch(error){
         console.log(error)
         return {
@@ -115,7 +115,7 @@ const getAllServicesForUser = async ()=>{
   const response = await apiCall(url,uri,options);
   return response;
  }
-      
+
 const deleteBooking = async (bookingId)=>{
     const url = config.api.url;
     const uri = config.api.uri.company.deleteBooking
@@ -152,7 +152,7 @@ const getAvailabilityForService = async (serviceName, date, duration)=>{
         }),
 
     }
-    
+
     const response = await apiCall(url,uri,options);
    return response;
 }
@@ -227,10 +227,10 @@ const getCompanyBookings = async ()=>{
 }
 
 export default {
-    authenticate, 
-    getAllServicesProvider, 
-    signupNewUser, 
-    getCompaniesFromAPI, 
+    authenticate,
+    getAllServicesProvider,
+    signupNewUser,
+    getCompaniesFromAPI,
     getDecodedJwtFromLocalStorage,
     getCompanyEmployees,
     getCompanyBookings,
