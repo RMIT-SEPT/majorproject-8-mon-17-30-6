@@ -22,9 +22,9 @@
 ## Login for Test Account
 Username and passwords are all the same
 
-User: therealuser
-Company: therealcompany
-Employee: therealemployee
+- User: therealuser
+- Company: therealcompany
+- Employee: therealemployee
 
 ##Latest releases:
 https://github.com/RMIT-SEPT/majorproject-8-mon-17-30-6/releases
