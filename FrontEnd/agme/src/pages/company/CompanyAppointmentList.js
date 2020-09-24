@@ -12,6 +12,7 @@ export class CompanyAppointmentList extends React.Component{
     constructor(props){
         super(props);
         this.state ={
+            error: false,
             haveSearchDate: false,
             haveSearchName: false,
             haveSearchServiceType: false,
@@ -32,13 +33,20 @@ export class CompanyAppointmentList extends React.Component{
     componentDidMount() {
       functions.getCompanyBookings().then(response=>{
           appointments = response.body;
-          for (var i = 0; i < appointments.length; i++) {
-            var time = appointments[i].startDateTime.replace(' ','T');
-            var time2 = "20" + time.substr(6,2) + "-" + time.substr(3,2) + "-" + time.substr(0,2) + time.substr(8,9);
-            appointments[i].startDateTime = time2;
+          console.log(appointments);
+          console.log(response);
+          if (response.statusCode === 200) {
+            for (var i = 0; i < appointments.length; i++) {
+              var time = appointments[i].startDateTime.replace(' ','T');
+              var time2 = "20" + time.substr(6,2) + "-" + time.substr(3,2) + "-" + time.substr(0,2) + time.substr(8,9);
+              appointments[i].startDateTime = time2;
+            }
+            this.setState({"haveDataFromServer":true});
           }
-          this.setState({"haveDataFromServer":true})
-          this.render();
+          else {
+            this.setState({"error":response.statusCode});
+          }
+          this.render()
       });
 
     }
@@ -114,6 +122,11 @@ export class CompanyAppointmentList extends React.Component{
       else if (appointments.length === 0) {
         return <Card>
           <h2>No Current Bookings.</h2>
+        </Card>;
+      }
+      else if (this.state.error !== false) {
+        return <Card>
+          <h2>Error Number {this.state.error} recieved. Please try again later.</h2>
         </Card>;
       }
       else {
