@@ -60,7 +60,12 @@ export default class Booking extends Entity{
         if((!this.serviceType)||(!this.date)||(!this.duration)){
             return null;
         }
-        return functions.getAvailabilityForService(this.serviceType, this.getDDYYMMYY, this.duration).then(response=>{
+        const payload = {
+            "serviceName": this.serviceType,
+            "date": this.getDDYYMMYY(),
+            "duration": this.duration
+        }
+        return functions.postCall('user','availability', payload).then(response=>{
             if(response.statusCode===200){
                 this.availabilities = response.body;
             }
