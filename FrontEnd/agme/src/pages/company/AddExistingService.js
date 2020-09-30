@@ -4,7 +4,7 @@ import {getDecodedJwtFromLocalStorage}  from "../../mock/operations/mock/functio
 import './services.css'
 //mocked services
 //const services = require('./mock/services.json');
-const {getAllServicesProvider} = require('../../mock/operations');
+const {getCall} = require('../../mock/operations');
 //To view list of services
 export class AddExistingService extends React.Component{
     constructor(props){
@@ -13,7 +13,7 @@ export class AddExistingService extends React.Component{
             services:[],
             serviceName: ""
         }
-        getAllServicesProvider().then(response=>{
+        getCall('company','getAllServices').then(response=>{
             const username = getDecodedJwtFromLocalStorage().sub;
             if(response.statusCode === 200){
                 let all = new Set();

@@ -1,9 +1,8 @@
 import React from 'react';
 import Employee from '../../model/Employee';
 import { EmployeeSchedule } from './EmployeeSchedule';
-import Booking from '../../model/Booking';
 import './viewEmployees.css'
-const {getCompanyEmployees, getCompanyBookings, deleteBooking} = require('../../mock/operations');
+const {getCall, deleteBooking} = require('../../mock/operations');
 
 export class ViewEmployees extends React.Component{
     constructor(props){
@@ -14,14 +13,14 @@ export class ViewEmployees extends React.Component{
             bookings:[]
         }
 
-        getCompanyEmployees().then(response=>{
+        getCall('company', 'getEmployees' ).then(response=>{
             if(response.statusCode===200){
                 const employees = response.body.map(employee=>{return new Employee(employee)});
                 this.setState({employees:employees})
             }
         });
 
-        getCompanyBookings().then(response=>{
+        getCall('company', 'getBookings').then(response=>{
             if(response.statusCode===200){
                 this.setState({bookings:response.body})
             }

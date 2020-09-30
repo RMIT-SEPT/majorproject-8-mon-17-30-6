@@ -1,6 +1,5 @@
 import React from 'react';
 import {EmployeeAvailability} from './EmployeeAvailability';
-const {deleteBooking} = require('../../mock/operations');
 
 export class EmployeeSchedule extends React.Component{
     constructor(props){

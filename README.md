@@ -13,7 +13,10 @@
 
 * Github repository : https://github.com/RMIT-SEPT/majorproject-8-mon-17-30-6/
 * Trello : https://trello.com/b/p5sOQFs1/sept-group-6
-* Web application: http://bit.ly/group6_agme
+
+## Live application
+- The front end is hosted in S3 and backend deployed using docker container
+* Frontend: http://bit.ly/group6_agme
 * Server status: http://54.234.81.129:8080/healthcheck
 
 ## Code documentation
@@ -22,6 +25,9 @@
 ## Login for Test Account
 Username and passwords are all the same
 
-User: therealuser
-Company: therealcompany
-Employee: therealemployee
+- User: therealuser
+- Company: therealcompany
+- Employee: therealemployee
+
+## Latest releases:
+https://github.com/RMIT-SEPT/majorproject-8-mon-17-30-6/releases

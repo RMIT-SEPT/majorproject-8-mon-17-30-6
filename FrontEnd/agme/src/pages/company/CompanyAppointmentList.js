@@ -30,7 +30,7 @@ export class CompanyAppointmentList extends React.Component{
     }
 
     componentDidMount() {
-      functions.getCompanyBookings().then(response=>{
+      functions.getCall('company', 'getBookings').then(response=>{
           appointments = response.body;
           for (var i = 0; i < appointments.length; i++) {
             var time = appointments[i].startDateTime.replace(' ','T');

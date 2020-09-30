@@ -30,92 +30,6 @@ const testResponse = async (response)=>{
     }
 }
 
-const authenticate = async (username, password, role)=>{
-    const url = config.api.url;
-    const uri = config.api.uri.login;
-    const options = {
-        method: "POST",
-        mode: "cors",
-        headers: {
-            "Content-Type": "application/JSON",
-            accept: "application/JSON",
-        },
-        body: JSON.stringify({
-                    "username": username,
-                    "password": password,
-                    "role": role
-                })
-    }
-    const response = await apiCall(url,uri,options);
-    if(response.statusCode===200){
-
-        localStorage.setItem('credentials', JSON.stringify(response.body));
-    }else{
-        localStorage.removeItem('credentials')
-    }
-   return response;
-}
-
-const signupNewUser = async (entity)=>{
-    const endpoint = config.api.url;
-    const uri = config.api.uri.signup;
-    const options = {
-        method: "POST",
-        mode: "cors",
-        headers: {
-            "Content-Type": "application/JSON",
-            accept: "application/JSON",
-        },
-        body: JSON.stringify(entity)
-    }
-    const response = await apiCall(endpoint,uri,options);
-   return response;
-}
-const getCompaniesFromAPI = async ()=>{
-    const url = config.api.url;
-    const uri = "signup"
-    const options = {
-        method: "GET",
-        mode: "cors"
-    }
-    const response = await apiCall(url,uri,options);
-   return response;
-}
-
-const getAllServicesProvider = async ()=>{
-    const url = config.api.url;
-    const uri = "company/allservices"
-    const options = {
-        method: "GET",
-        mode:"cors",
-        headers: {
-            "Content-Type": "application/JSON",
-            Accept: "application/JSON",
-            'Access-Control-Allow-Origin': '*',
-            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
-        },
-    }
-    const response = await apiCall(url,uri,options);
-   return response;
-}
-
-const getAllServicesForUser = async ()=>{
-    const url = config.api.url;
-    const uri = "user/services"
-    const options = {
-        method: "GET",
-        mode:"cors",
-      headers: {
-        "Content-Type": "application/JSON",
-        Accept: "application/JSON",
-        'Access-Control-Allow-Origin': '*',
-        Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
-      },
-  }
-  const response = await apiCall(url,uri,options);
-  return response;
- }
-
 const deleteBooking = async (bookingId)=>{
     const url = config.api.url;
     const uri = config.api.uri.company.deleteBooking
@@ -133,30 +47,6 @@ const deleteBooking = async (bookingId)=>{
     const response = await apiCall(url,uri,options);
    return response;
 }
-const getAvailabilityForService = async (serviceName, date, duration)=>{
-    const url = config.api.url;
-    const uri = "user/availability"
-    const options = {
-        method: "POST",
-        mode:"cors",
-        headers: {
-            "Content-Type": "application/JSON",
-            Accept: "application/JSON",
-            'Access-Control-Allow-Origin': '*',
-            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
-        },
-        body: JSON.stringify({
-            "serviceName": serviceName,
-            "date": date,
-            "duration": duration
-        }),
-
-    }
-
-    const response = await apiCall(url,uri,options);
-   return response;
-}
-
 const handleBookingRequest = async (serviceType, date, duration, employeeUsername)=>{
     const url = config.api.url;
     const uri = "user/new-booking";
@@ -181,7 +71,6 @@ const handleBookingRequest = async (serviceType, date, duration, employeeUsernam
    return response;
 }
 
-
 const getCompanyEmployees = async ()=>{
     const url = config.api.url;
     const uri = config.api.uri.company.getEmployees
@@ -199,6 +88,14 @@ const getCompanyEmployees = async ()=>{
    return response;
 }
 
+//used internally for api calls
+const getJwt = ()=>{
+    try{
+        return "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+    }catch(e){
+        return ""
+    }
+}
 const getDecodedJwtFromLocalStorage = () =>{
     // Get JWT Header, Payload and Signature
     const stringifiedJwtPayload = localStorage.getItem('credentials').split('.')[1];
@@ -209,34 +106,61 @@ const getDecodedJwtFromLocalStorage = () =>{
 
 }
 
-
-const getCompanyBookings = async ()=>{
+const postCall = async (userType, service, payload) =>{
+    console.log(userType, " ",service)
     const url = config.api.url;
-    const uri = config.api.uri.company.getBookings
-    const options = {
-        method: "GET",
+    const uri = config.api.uri[userType][service]
+    let options = {
+        method: "POST",
         mode:"cors",
         headers: {
             "Content-Type": "application/JSON",
             Accept: "application/JSON",
             'Access-Control-Allow-Origin': '*',
-            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
         },
+        body: JSON.stringify(payload),
     }
+    try{
+        const token = "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt;
+        options.headers.Authorisation = token;
+
+    }catch(e){
+
+    }
+
     const response = await apiCall(url,uri,options);
-   return response;
+   return response;  
+}
+const getCall = async (userType, service) =>{
+    try{
+        const url = config.api.url;
+        const uri = config.api.uri[userType.toLowerCase()][service];
+        const options = {
+            method: "GET",
+            mode:"cors",
+            headers: {
+                "Content-Type": "application/JSON",
+                Accept: "application/JSON",
+                'Access-Control-Allow-Origin': '*'   
+            }
+        }
+        getJwt()&&(options.Authorisation = getJwt())
+        const response = await apiCall(url,uri,options);
+       return response;
+    }catch(e){
+        return {
+            statusCode: 501,
+            errorId: "FRONT_END",
+            message: "Unkown error"
+        }
+    }
 }
 
 export default {
-    authenticate,
-    getAllServicesProvider,
-    signupNewUser,
-    getCompaniesFromAPI,
     getDecodedJwtFromLocalStorage,
     getCompanyEmployees,
-    getCompanyBookings,
     deleteBooking,
     handleBookingRequest,
-    getAvailabilityForService,
-    getAllServicesForUser
+    getCall,
+    postCall
 }

@@ -35,7 +35,7 @@ export default class UserDashboard extends React.Component{
         // if the command hasnt been executed
         if (!this.state.called){
             // get all services
-            functions.getAllServicesForUser().then(response=>{
+            functions.getCall('user', 'getAllServices').then(response=>{
                 if(response.statusCode===200){
                     this.setState({isCallingServer:false});
             var servicetypes = [];
