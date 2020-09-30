@@ -1,11 +1,9 @@
 import React from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
-
-
 var appointments = [];
 
-const functions = require('../../apiOperations.js');
+const {apiCall} = require('../../mock/operations/mock/functions/operations');
 
 export class CompanyAppointmentList extends React.Component{
 
@@ -30,7 +28,7 @@ export class CompanyAppointmentList extends React.Component{
     }
 
     componentDidMount() {
-      functions.getCall('company', 'getBookings').then(response=>{
+      apiCall('company', 'getBookings', null, 'get').then(response=>{
           appointments = response.body;
           for (var i = 0; i < appointments.length; i++) {
             var time = appointments[i].startDateTime.replace(' ','T');

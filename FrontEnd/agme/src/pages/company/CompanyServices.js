@@ -1,10 +1,7 @@
 import React from 'react';
-//mport Button from "react-bootstrap/Button";
 import {getDecodedJwtFromLocalStorage}  from "../../mock/operations/mock/functions/utils";//Add decode func
 import './services.css'
-//mocked services
-//const services = require('./mock/services.json');
-const {getCall} = require('../../mock/operations');
+const {getCall} = require('../../mock/operations/mock/functions/operations');
 //To view list of services
 export class CompanyServices extends React.Component{
     constructor(props){

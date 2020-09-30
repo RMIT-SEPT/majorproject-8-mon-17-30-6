@@ -1,6 +1,6 @@
 import React from 'react';
 import './services.css'
-const {getCall} = require('../../mock/operations');
+const {getCall} = require('../../mock/operations/mock/functions/operations');
 //To view list of services
 export default class AgmeServices extends React.Component{
     constructor(props){

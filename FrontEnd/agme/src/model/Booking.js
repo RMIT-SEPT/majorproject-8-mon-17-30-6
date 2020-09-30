@@ -1,5 +1,5 @@
 import Entity from './Entity';
-const functions = require('../apiOperations');
+const {handleBookingRequest, apiCall} = require('../mock/operations/mock/functions/operations');
 
 export default class Booking extends Entity{
     constructor(data){
@@ -54,7 +54,7 @@ export default class Booking extends Entity{
     }
 
     async handleBookingRequest(){
-        return functions.handleBookingRequest(this.serviceType, this.getDDYYMMYYHH(), this.duration, this.employeeUsername)
+        return handleBookingRequest(this.serviceType, this.getDDYYMMYYHH(), this.duration, this.employeeUsername)
     }
     async getAvailability(){
         if((!this.serviceType)||(!this.date)||(!this.duration)){
@@ -65,7 +65,7 @@ export default class Booking extends Entity{
             "date": this.getDDYYMMYY(),
             "duration": this.duration
         }
-        return functions.postCall('user','availability', payload).then(response=>{
+        return apiCall('user','availability', payload, 'post').then(response=>{
             if(response.statusCode===200){
                 this.availabilities = response.body;
             }

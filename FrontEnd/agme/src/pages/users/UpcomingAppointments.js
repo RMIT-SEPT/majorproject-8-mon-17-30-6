@@ -3,7 +3,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import './upcomingevent.css';
 import Spinner from 'react-bootstrap/Spinner'
-const functions = require('../../apiOperations')
+const {apiCall} = require('../../mock/operations/mock/functions/operations')
 export default class UpcomingAppointments extends React.Component{
     
     constructor(props){
@@ -14,9 +14,8 @@ export default class UpcomingAppointments extends React.Component{
     }
 
     componentDidMount(){
-        functions.getCall('user', 'getBookings').then(r=>{
+        apiCall('user', 'getBookings',null,'get').then(r=>{
             if(r.statusCode===200){
-                console.log(r.body)
                 this.setState({appointments:r.body, failed: false, called: true})
             }else{
                 this.setState({failed: true, called: true})

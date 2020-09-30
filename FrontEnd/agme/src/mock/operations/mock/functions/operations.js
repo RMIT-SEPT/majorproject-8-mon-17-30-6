@@ -2,32 +2,31 @@ const config = require('../../../../config.json')
 /***
  * Generic function to call apis
  * ***/
-const apiCall = async(endpoint,uri,options)=>{
-    const response = await fetch(endpoint+uri,options);
-    return testResponse(response)
-}
-
-/***
- * Internal function to test and format response from api
- * **/
-const testResponse = async (response)=>{
-    try{
-        if(RegExp('^2[0-9]{2}$').test(response.status)){
-            return {
-                statusCode: response.status,
-                body: await response.json()
+const fetchFromApi = async(endpoint,uri,options)=>{
+    /***
+     * Internal function to test and format response from api
+     * **/
+    const testResponse = async (response)=>{
+        try{
+            if(RegExp('^2[0-9]{2}$').test(response.status)){
+                return {
+                    statusCode: response.status,
+                    body: await response.json()
+                }
+            }else{
+                throw response;
             }
-        }else{
-            throw response;
-        }
 
-    }catch(error){
-        console.log(error)
-        return {
-            statusCode: error.status,
-            body: await error.text()
+        }catch(error){
+            console.log(error)
+            return {
+                statusCode: error.status,
+                body: await error.text()
+            }
         }
     }
+    const response = await fetch(endpoint+uri,options);
+    return testResponse(response)
 }
 
 const deleteBooking = async (bookingId)=>{
@@ -44,7 +43,7 @@ const deleteBooking = async (bookingId)=>{
         },
         body: bookingId
     }
-    const response = await apiCall(url,uri,options);
+    const response = await fetchFromApi(url,uri,options);
    return response;
 }
 const handleBookingRequest = async (serviceType, date, duration, employeeUsername)=>{
@@ -67,24 +66,7 @@ const handleBookingRequest = async (serviceType, date, duration, employeeUsernam
         }),
           }
       console.log(date);
-    const response = await apiCall(url,uri,options);
-   return response;
-}
-
-const getCompanyEmployees = async ()=>{
-    const url = config.api.url;
-    const uri = config.api.uri.company.getEmployees
-    const options = {
-        method: "GET",
-        mode:"cors",
-        headers: {
-            "Content-Type": "application/JSON",
-            Accept: "application/JSON",
-            'Access-Control-Allow-Origin': '*',
-            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
-        },
-    }
-    const response = await apiCall(url,uri,options);
+    const response = await fetchFromApi(url,uri,options);
    return response;
 }
 
@@ -106,8 +88,35 @@ const getDecodedJwtFromLocalStorage = () =>{
 
 }
 
+/**
+ * Generic API call
+ ***/
+const apiCall = async(userType, service, payload, type)=>{
+    const url = config.api.url;
+    const uri = config.api.uri[userType][service]
+    let options = {
+        method: type,
+        mode:"cors",
+        headers: {
+            "Content-Type": "application/JSON",
+            Accept: "application/JSON",
+            'Access-Control-Allow-Origin': '*',
+        }
+    }
+    payload&&(options.body =JSON.stringify(payload));
+    try{
+        const token = "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt;
+        options.headers.Authorisation = token;
+
+    }catch(e){
+
+    }
+
+    const response = await fetchFromApi(url,uri,options);
+   return response;  
+}
+
 const postCall = async (userType, service, payload) =>{
-    console.log(userType, " ",service)
     const url = config.api.url;
     const uri = config.api.uri[userType][service]
     let options = {
@@ -128,7 +137,7 @@ const postCall = async (userType, service, payload) =>{
 
     }
 
-    const response = await apiCall(url,uri,options);
+    const response = await fetchFromApi(url,uri,options);
    return response;  
 }
 const getCall = async (userType, service) =>{
@@ -145,7 +154,7 @@ const getCall = async (userType, service) =>{
             }
         }
         getJwt()&&(options.Authorisation = getJwt())
-        const response = await apiCall(url,uri,options);
+        const response = await fetchFromApi(url,uri,options);
        return response;
     }catch(e){
         return {
@@ -156,11 +165,9 @@ const getCall = async (userType, service) =>{
     }
 }
 
-export default {
+module.exports = {
     getDecodedJwtFromLocalStorage,
-    getCompanyEmployees,
-    deleteBooking,
     handleBookingRequest,
-    getCall,
-    postCall
+    deleteBooking,
+    apiCall
 }
