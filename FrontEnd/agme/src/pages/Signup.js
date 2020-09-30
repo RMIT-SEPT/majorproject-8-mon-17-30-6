@@ -85,16 +85,17 @@ export default class Signup extends React.Component{
  
     showCompanyInput(){
         if (!this.state.called && (this.state.entity.role==='EMPLOYEE')){
-
         functions.getCall('user', 'getCompanies').then(response=>{
-            var arr = [];
-            var i = 0;
-            arr.push(<option key={i} value=""  disabled defaultValue>Choose a Company</option>);
-            for(var key in response.body){
-                arr.push(<option key={i+1} value={key}>{response.body[key]}</option>);
-                i++;
-              }
-              this.setState({options:arr,isCallingServer:false, called:true});
+            if(response.statusCode===200){
+                var arr = [];
+                var i = 0;
+                arr.push(<option key={i} value=""  disabled defaultValue>Choose a Company</option>);
+                for(var key in response.body){
+                    arr.push(<option key={i+1} value={key}>{response.body[key]}</option>);
+                    i++;
+                  }
+                  this.setState({options:arr,isCallingServer:false, called:true});
+            }
         }
         )
     }

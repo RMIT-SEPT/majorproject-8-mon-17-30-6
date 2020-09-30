@@ -30,32 +30,6 @@ const testResponse = async (response)=>{
     }
 }
 
-const authenticate = async (username, password, role)=>{
-    const url = config.api.url;
-    const uri = config.api.uri.login;
-    const options = {
-        method: "POST",
-        mode: "cors",
-        headers: {
-            "Content-Type": "application/JSON",
-            accept: "application/JSON",
-        },
-        body: JSON.stringify({
-                    "username": username,
-                    "password": password,
-                    "role": role
-                })
-    }
-    const response = await apiCall(url,uri,options);
-    if(response.statusCode===200){
-
-        localStorage.setItem('credentials', JSON.stringify(response.body));
-    }else{
-        localStorage.removeItem('credentials')
-    }
-   return response;
-}
-
 const deleteBooking = async (bookingId)=>{
     const url = config.api.url;
     const uri = config.api.uri.company.deleteBooking
