@@ -88,6 +88,14 @@ const getCompanyEmployees = async ()=>{
    return response;
 }
 
+//used internally for api calls
+const getJwt = ()=>{
+    try{
+        return "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+    }catch(e){
+        return ""
+    }
+}
 const getDecodedJwtFromLocalStorage = () =>{
     // Get JWT Header, Payload and Signature
     const stringifiedJwtPayload = localStorage.getItem('credentials').split('.')[1];
@@ -123,22 +131,29 @@ const postCall = async (userType, service, payload) =>{
     const response = await apiCall(url,uri,options);
    return response;  
 }
-
 const getCall = async (userType, service) =>{
-    const url = config.api.url;
-    const uri = config.api.uri[userType.toLowerCase()][service];
-    const options = {
-        method: "GET",
-        mode:"cors",
-        headers: {
-            "Content-Type": "application/JSON",
-            Accept: "application/JSON",
-            'Access-Control-Allow-Origin': '*',
-            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
-        },
+    try{
+        const url = config.api.url;
+        const uri = config.api.uri[userType.toLowerCase()][service];
+        const options = {
+            method: "GET",
+            mode:"cors",
+            headers: {
+                "Content-Type": "application/JSON",
+                Accept: "application/JSON",
+                'Access-Control-Allow-Origin': '*'   
+            }
+        }
+        getJwt()&&(options.Authorisation = getJwt())
+        const response = await apiCall(url,uri,options);
+       return response;
+    }catch(e){
+        return {
+            statusCode: 501,
+            errorId: "FRONT_END",
+            message: "Unkown error"
+        }
     }
-    const response = await apiCall(url,uri,options);
-   return response;
 }
 
 export default {
