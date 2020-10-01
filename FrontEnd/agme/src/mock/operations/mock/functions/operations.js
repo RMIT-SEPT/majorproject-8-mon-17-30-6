@@ -86,7 +86,7 @@ const apiCall = async(userType, service, payload, type)=>{
             'Access-Control-Allow-Origin': '*',
         }
     }
-    payload&&(options.body =payload.toString());
+    payload&&(options.body =JSON.stringify(payload));
     getJwt() && (options.headers.Authorisation = getJwt());
     const response = await fetchFromApi(url,uri,options);
     return response;  
