@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import './css/login.css';
 import Spinner from 'react-bootstrap/Spinner'
 
-const {postCall} = require('../apiOperations')
+const {apiCall} = require('../mock/operations/mock/functions/operations')
 
 /***
  * Basic flow: This component should simply handle authentication.
@@ -33,8 +33,7 @@ export default class Login extends React.Component{
             password: this.state.password,
             role: this.state.role
         }
-        postCall('common','login',payload).then(response=>{
-            console.log(response)
+        apiCall('common','login',payload, 'post').then(response=>{
             if(response.statusCode===200){
                 localStorage.setItem('credentials', JSON.stringify(response.body));
                 this.setState({isCallingServer:false});

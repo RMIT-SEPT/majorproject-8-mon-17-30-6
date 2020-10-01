@@ -4,8 +4,7 @@ import './css/signup.css';
 import User from '../model/User';
 import FormFields from '../miscelaneous/FormFields';
 import SelectOptions from '../miscelaneous/SelectOptions'
-
-const functions = require('../apiOperations');
+const functions = require('../mock/operations/mock/functions/operations.js');
 const errorMessages = require('../model/errorMessages.json').signup;
 
 export default class Signup extends React.Component{

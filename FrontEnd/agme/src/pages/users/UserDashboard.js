@@ -2,7 +2,7 @@ import '../css/userDash.css';
 import React from 'react';
 import Booking from '../../model/Booking';
 import EmplpoyeeAvailability from './EmployeeAvailability'
-const functions = require('../../apiOperations')
+const {apiCall} = require('../../mock/operations/mock/functions/operations')
 
 export default class UserDashboard extends React.Component{
     constructor(props){
@@ -35,7 +35,7 @@ export default class UserDashboard extends React.Component{
         // if the command hasnt been executed
         if (!this.state.called){
             // get all services
-            functions.getCall('user', 'getAllServices').then(response=>{
+            apiCall('user', 'getAllServices', null,'get').then(response=>{
                 if(response.statusCode===200){
                     this.setState({isCallingServer:false});
             var servicetypes = [];
@@ -117,7 +117,6 @@ export default class UserDashboard extends React.Component{
     showDates(){
         if(this.state.booking.duration){
             let initial = new Date();
-            console.log(initial.toDateString())
             const dates = []
             for(let i = 0 ; i < 30; i++){
                 dates.push(

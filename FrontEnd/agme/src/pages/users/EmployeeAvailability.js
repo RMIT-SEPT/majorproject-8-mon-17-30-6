@@ -12,7 +12,6 @@ export default class EmmployeeAvailability extends React.Component{
     }
     render(){
         if(this.props.availabilities&&(this.props.availabilities.length>0)){
-            console.log(this.props)
             const employeeOptions = this.props.availabilities.map((availability,i)=>{
                 return (
                     <option key={i+1} value={availability.username}>{availability.name}</option>
