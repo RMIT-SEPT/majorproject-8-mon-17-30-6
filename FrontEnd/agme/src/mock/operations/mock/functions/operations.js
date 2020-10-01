@@ -39,10 +39,10 @@ const deleteBooking = async (bookingId)=>{
             "Content-Type": "application/JSON",
             Accept: "application/JSON",
             'Access-Control-Allow-Origin': '*',
-            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
         },
         body: bookingId
     }
+    getJwt() && (options.headers.Authorisation = getJwt());
     const response = await fetchFromApi(url,uri,options);
    return response;
 }
@@ -55,8 +55,7 @@ const handleBookingRequest = async (serviceType, date, duration, employeeUsernam
         headers: {
            "Content-Type": "application/JSON",
             Accept: "application/JSON",
-           'Access-Control-Allow-Origin': '*',
-            Authorisation: "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
+           'Access-Control-Allow-Origin': '*'
         },
               body: JSON.stringify({
             "serviceType": serviceType,
@@ -65,7 +64,7 @@ const handleBookingRequest = async (serviceType, date, duration, employeeUsernam
             "employeeUsername": employeeUsername
         }),
           }
-      console.log(date);
+    getJwt() && (options.headers.Authorisation = getJwt());
     const response = await fetchFromApi(url,uri,options);
    return response;
 }
@@ -75,7 +74,7 @@ const getJwt = ()=>{
     try{
         return "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
     }catch(e){
-        return ""
+        return null;
     }
 }
 const getDecodedJwtFromLocalStorage = () =>{
@@ -104,65 +103,9 @@ const apiCall = async(userType, service, payload, type)=>{
         }
     }
     payload&&(options.body =JSON.stringify(payload));
-    try{
-        const token = "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt;
-        options.headers.Authorisation = token;
-
-    }catch(e){
-
-    }
-
+    getJwt() && (options.headers.Authorisation = getJwt());
     const response = await fetchFromApi(url,uri,options);
-   return response;  
-}
-
-const postCall = async (userType, service, payload) =>{
-    const url = config.api.url;
-    const uri = config.api.uri[userType][service]
-    let options = {
-        method: "POST",
-        mode:"cors",
-        headers: {
-            "Content-Type": "application/JSON",
-            Accept: "application/JSON",
-            'Access-Control-Allow-Origin': '*',
-        },
-        body: JSON.stringify(payload),
-    }
-    try{
-        const token = "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt;
-        options.headers.Authorisation = token;
-
-    }catch(e){
-
-    }
-
-    const response = await fetchFromApi(url,uri,options);
-   return response;  
-}
-const getCall = async (userType, service) =>{
-    try{
-        const url = config.api.url;
-        const uri = config.api.uri[userType.toLowerCase()][service];
-        const options = {
-            method: "GET",
-            mode:"cors",
-            headers: {
-                "Content-Type": "application/JSON",
-                Accept: "application/JSON",
-                'Access-Control-Allow-Origin': '*'   
-            }
-        }
-        getJwt()&&(options.Authorisation = getJwt())
-        const response = await fetchFromApi(url,uri,options);
-       return response;
-    }catch(e){
-        return {
-            statusCode: 501,
-            errorId: "FRONT_END",
-            message: "Unkown error"
-        }
-    }
+    return response;  
 }
 
 module.exports = {
