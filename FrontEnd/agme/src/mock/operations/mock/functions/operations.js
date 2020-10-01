@@ -28,24 +28,6 @@ const fetchFromApi = async(endpoint,uri,options)=>{
     const response = await fetch(endpoint+uri,options);
     return testResponse(response)
 }
-
-const deleteBooking = async (bookingId)=>{
-    const url = config.api.url;
-    const uri = config.api.uri.company.deleteBooking
-    const options = {
-        method: "DELETE",
-        mode:"cors",
-        headers: {
-            "Content-Type": "application/JSON",
-            Accept: "application/JSON",
-            'Access-Control-Allow-Origin': '*',
-        },
-        body: bookingId
-    }
-    getJwt() && (options.headers.Authorisation = getJwt());
-    const response = await fetchFromApi(url,uri,options);
-   return response;
-}
 const handleBookingRequest = async (serviceType, date, duration, employeeUsername)=>{
     const url = config.api.url;
     const uri = "user/new-booking";
@@ -104,7 +86,7 @@ const apiCall = async(userType, service, payload, type)=>{
             'Access-Control-Allow-Origin': '*',
         }
     }
-    payload&&(options.body =JSON.stringify(payload));
+    payload&&(options.body =payload.toString());
     getJwt() && (options.headers.Authorisation = getJwt());
     const response = await fetchFromApi(url,uri,options);
     return response;  
@@ -113,6 +95,5 @@ const apiCall = async(userType, service, payload, type)=>{
 module.exports = {
     getDecodedJwtFromLocalStorage,
     handleBookingRequest,
-    deleteBooking,
     apiCall
 }
