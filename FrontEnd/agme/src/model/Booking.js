@@ -1,10 +1,9 @@
 import Entity from './Entity';
-const {handleBookingRequest, apiCall} = require('../mock/operations/mock/functions/operations');
+const {apiCall} = require('../mock/operations/mock/functions/operations');
 
 export default class Booking extends Entity{
     constructor(data){
         super(data);
-        console.log(data)
         const fields = ["serviceType","duration"]
         fields.forEach(field=>{
             if(!this[field]){
@@ -18,7 +17,11 @@ export default class Booking extends Entity{
     }
 
     setTime(time){
-        this.date = new Date(this.date).setHours(time)
+        console.log('setting time')
+        console.log(time)
+        this.date = new Date(this.date)
+        this.date.setHours(time)
+        this.date = this.date.toISOString();
     }
 
     setField(key,value){
@@ -43,7 +46,7 @@ export default class Booking extends Entity{
             const day = date.getDate() < 10 ? "0"+date.getDate() : date.getDate();
             const month = (date.getMonth()+1) < 10 ? "0"+(date.getMonth()+1) : (date.getMonth()+1);
             const year = date.getFullYear();
-            const fullDate = year + "-" + month + "-" + day+'T';
+            const fullDate = year + "-" + month + "-" + day;
             return fullDate;
         }
     }
@@ -63,11 +66,17 @@ export default class Booking extends Entity{
             return ""
         }
         const hour = new Date(this.date).getHours()
-        return `${this.getDDYYMMYY()}${hour}:00:00`
+        return `${this.getDDYYMMYY()} ${hour}:00:00`
     }
 
     async handleBookingRequest(){
-        return handleBookingRequest(this.serviceType, this.getDDYYMMYYHH(), this.duration, this.employeeUsername)
+        const payload = {
+            "serviceType": this.serviceType,
+            "date": this.date,
+            "duration": this.duration,
+            "employeeUsername": this.employeeUsername
+        }
+        return apiCall('user', 'newBooking', payload, 'post')
     }
     async getAvailability(){
         if((!this.serviceType)||(!this.date)||(!this.duration)){
@@ -78,7 +87,7 @@ export default class Booking extends Entity{
             "date": this.getDDYYMMYY(),
             "duration": this.duration
         }
-        return apiCall('user','availability', payload, 'post').then(response=>{
+        return apiCall('user','getAvailability', payload, 'post').then(response=>{
             if(response.statusCode===200){
                 this.availabilities = response.body;
             }

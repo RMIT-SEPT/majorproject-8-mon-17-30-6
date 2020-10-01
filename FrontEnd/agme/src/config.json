@@ -18,7 +18,9 @@
         "getBookings": "user/bookings",
         "getAllServices": "user/services",
         "getCompanies": "signup",
-        "getAvailability":"user/availability"
+        "getAvailability":"user/availability",
+        "deleteBooking": "user/bookings",
+        "newBooking": "user/new-booking"
         
       }
     }
