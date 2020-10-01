@@ -67,9 +67,6 @@ export default class UserDashboard extends React.Component{
         const key = e.target.name;
         const value = e.target.value;
         const booking = new Booking(JSON.parse(JSON.stringify(this.state.booking)));
-        console.log('calling setting field for booking')
-        console.log(key)
-        console.log(value)
         booking.setField(key,value)
         this.setState({booking:booking, availabilities: null});
         if((key==='date')||(key==='duration')){
@@ -77,7 +74,6 @@ export default class UserDashboard extends React.Component{
                 if(response){
                     if(response.statusCode===200){
                         const booking = new Booking(JSON.parse(JSON.stringify(this.state.booking)));
-                        console.log(booking)
                         booking.availabilities = response.body
                         this.setState({booking:booking, isCallingServer:false, availabilities: response.body})
                     }
