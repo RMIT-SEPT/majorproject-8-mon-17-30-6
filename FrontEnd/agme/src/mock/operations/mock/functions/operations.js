@@ -9,16 +9,19 @@ const fetchFromApi = async(endpoint,uri,options)=>{
     const testResponse = async (response)=>{
         try{
             if(RegExp('^2[0-9]{2}$').test(response.status)){
-                return {
-                    statusCode: response.status,
-                    body: await response.json()
+                let r = {statusCode:response.status}
+                try{
+                    r.body = await response.json()
+                }catch(e){
+                    console.log(e)
+                    r.body = ""
                 }
+                return r
             }else{
                 throw response;
             }
 
         }catch(error){
-            console.log(error)
             return {
                 statusCode: error.status,
                 body: await error.text()
@@ -27,28 +30,6 @@ const fetchFromApi = async(endpoint,uri,options)=>{
     }
     const response = await fetch(endpoint+uri,options);
     return testResponse(response)
-}
-const handleBookingRequest = async (serviceType, date, duration, employeeUsername)=>{
-    const url = config.api.url;
-    const uri = "user/new-booking";
-    const options = {
-        method: "POST",
-        mode:"cors",
-        headers: {
-           "Content-Type": "application/JSON",
-            Accept: "application/JSON",
-           'Access-Control-Allow-Origin': '*'
-        },
-              body: JSON.stringify({
-            "serviceType": serviceType,
-            "date": date,
-            "duration": duration,
-            "employeeUsername": employeeUsername
-        }),
-          }
-    getJwt() && (options.headers.Authorisation = getJwt());
-    const response = await fetchFromApi(url,uri,options);
-   return response;
 }
 
 /****
@@ -94,6 +75,5 @@ const apiCall = async(userType, service, payload, type)=>{
 
 module.exports = {
     getDecodedJwtFromLocalStorage,
-    handleBookingRequest,
     apiCall
 }
