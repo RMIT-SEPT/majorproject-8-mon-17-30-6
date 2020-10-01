@@ -4,12 +4,17 @@ const {handleBookingRequest, apiCall} = require('../mock/operations/mock/functio
 export default class Booking extends Entity{
     constructor(data){
         super(data);
+        console.log(data)
         const fields = ["serviceType","duration"]
         fields.forEach(field=>{
             if(!this[field]){
                 this[field]= ""
             }
         });
+    }
+
+    getDateTime(){
+        return new Date(Number(2000+Number(this.startDateTime.split("-")[2].split(" ")[0])),this.startDateTime.split("-")[1]-1,this.startDateTime.split("-")[0],this.startDateTime.split(" ")[1].split(":")[0]);
     }
 
     setTime(time){
@@ -37,12 +42,20 @@ export default class Booking extends Entity{
             const date = new Date(this.date);
             const day = date.getDate() < 10 ? "0"+date.getDate() : date.getDate();
             const month = (date.getMonth()+1) < 10 ? "0"+(date.getMonth()+1) : (date.getMonth()+1);
-            const year = date.getFullYear().toString()[2]+date.getFullYear().toString()[3];
-            const fullDate = "20"+year + "-" + month + "-" + day+'T';
-            
-
+            const year = date.getFullYear();
+            const fullDate = year + "-" + month + "-" + day+'T';
             return fullDate;
         }
+    }
+
+    getDateString(){
+        const dateTime = this.getDateTime();
+        const year = dateTime.getFullYear();
+        const month = (dateTime.getMonth()+1) < 10 ? "0"+(dateTime.getMonth()+1) : dateTime.getMonth()+1;
+        const date = (dateTime.getDate()) < 10 ? "0"+(dateTime.getDate()) : dateTime.getDate();
+        const hours = dateTime.getHours();
+        const minutes = dateTime.getMinutes() < 10 ? "0"+dateTime.getMinutes() : dateTime.getMinutes();
+        return date+"/"+month+"/"+year+" - "+hours+":"+minutes;
     }
 
     getDDYYMMYYHH(){

@@ -2,8 +2,11 @@ import React from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import './upcomingevent.css';
-import Spinner from 'react-bootstrap/Spinner'
-const {apiCall} = require('../../mock/operations/mock/functions/operations')
+import Spinner from 'react-bootstrap/Spinner';
+import { BsTrash } from "react-icons/bs"; 
+import Button from "react-bootstrap/Button";
+import Booking from '../../model/Booking'
+const {apiCall} = require('../../mock/operations/mock/functions/operations');
 export default class UpcomingAppointments extends React.Component{
     
     constructor(props){
@@ -40,16 +43,10 @@ export default class UpcomingAppointments extends React.Component{
                 return <div>Ooops. Something went wrong, we could not retrieve your bookings</div>
             }else{
                 const cards = this.state.appointments.map((appointment,key)=>{
-                    const time = appointment.startDateTime;
-                    const dateTime = new Date(Number(2000+time.split("-")[2].split(" ")[0]),time.split("-")[1]-1,time.split("-")[0],time.split(" ")[1].split(":")[0]);
-                    const year = dateTime.getFullYear();
-                    const month = (dateTime.getMonth()+1) < 10 ? "0"+(dateTime.getMonth()+1) : dateTime.getMonth()+1;
-                    const date = (dateTime.getDate()) < 10 ? "0"+(dateTime.getDate()) : dateTime.getDate();
-                    const hours = dateTime.getHours();
-                    const minutes = dateTime.getMinutes() < 10 ? "0"+dateTime.getMinutes() : dateTime.getMinutes();
+                    const booking = new Booking(appointment);
                     return <Card key={key}>
                         <Card.Header>
-                            {date+"/"+month+"/"+year+" - "+hours+":"+minutes}
+                            {booking.getDateString()}
                         </Card.Header>
                         <Accordion.Collapse eventKey="0">
                             <Card.Body>
@@ -62,6 +59,9 @@ export default class UpcomingAppointments extends React.Component{
                                     </p>
                                     <p>Service: {appointment.serviceType.name}</p>
                                     <p>Duration: {appointment.duration} hours</p>
+                                    <Button variant="danger">
+                                        <BsTrash/> Delete Booking id {appointment.id}
+                                    </Button>
                                 </div>
                                 </Card.Body>
                         </Accordion.Collapse>
