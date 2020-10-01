@@ -69,7 +69,9 @@ const handleBookingRequest = async (serviceType, date, duration, employeeUsernam
    return response;
 }
 
-//used internally for api calls
+/****
+ *  Returns a JWT token from localStorage or null if there is not one
+ * ***/
 const getJwt = ()=>{
     try{
         return "Bearer "+JSON.parse(localStorage.getItem('credentials')).jwt
