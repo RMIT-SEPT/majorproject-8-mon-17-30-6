@@ -28,6 +28,8 @@ const fetchFromApi = async(endpoint,uri,options)=>{
             }
         }
     }
+    console.log('calling api: ',endpoint+uri);
+    console.log(options)
     const response = await fetch(endpoint+uri,options);
     return testResponse(response)
 }
