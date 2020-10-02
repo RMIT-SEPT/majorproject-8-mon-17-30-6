@@ -1,6 +1,6 @@
 import React from 'react';
 import Login from "./Login";
-import UserDashboard from './users/UserDashboard';
+import UserNewAppointment from './users/UserNewAppointment';
 import Provider from './providers/Provider';
 import Administrator from './administrators/Administrator';
 import CompanyDashboard from './company/CompanyDashboard';
@@ -26,15 +26,15 @@ export default class LandingPage extends React.Component{
         if(this.props.authenticated){
             switch(this.props.type.toUpperCase()){
                 case "EMPLOYEE":
-                    return <EmployeeDashboard token={this.props.token} expiry={this.props.expiry}/>;
+                    return <EmployeeDashboard/>;
                 case "USER":
-                    return <UserDashboard token={this.props.token} expiry={this.props.expiry}/>;
+                    return <UserNewAppointment/>;
                 case "COMPANY":
-                    return <CompanyDashboard token={this.props.token} expiry={this.props.expiry}/>;
+                    return <CompanyDashboard />;
                 case "ADMIN":
-                    return <Administrator token={this.props.token} expiry={this.props.expiry}/>;
+                    return <Administrator/>;
                 case "PROVIDER":
-                    return <Provider token={this.props.token} expiry={this.props.expiry}/>;
+                    return <Provider/>;
                 default:
                     return <div>Cannot load your content</div>;            
             }
