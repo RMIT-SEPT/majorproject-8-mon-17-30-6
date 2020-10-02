@@ -68,18 +68,20 @@ export default class UserDashboard extends React.Component{
         const value = e.target.value;
         const booking = new Booking(JSON.parse(JSON.stringify(this.state.booking)));
         booking.setField(key,value)
-        this.setState({booking:booking, availabilities: null});
-        if((key==='date')||(key==='duration')){
-            this.state.booking.getAvailability().then(response=>{
-                if(response){
-                    if(response.statusCode===200){
-                        const booking = new Booking(JSON.parse(JSON.stringify(this.state.booking)));
-                        booking.availabilities = response.body
-                        this.setState({booking:booking, isCallingServer:false, availabilities: response.body})
+        this.setState({booking:booking, availabilities: null}, function (){
+            if((key==='date')||(key==='duration')){
+                this.state.booking.getAvailability().then(response=>{
+                    if(response){
+                        if(response.statusCode===200){
+                            const booking = new Booking(JSON.parse(JSON.stringify(this.state.booking)));
+                            booking.availabilities = response.body
+                            this.setState({booking:booking, isCallingServer:false, availabilities: response.body})
+                        }
                     }
-                }
-            })
-        }
+                })
+            }
+        });
+  
     }
 
     handleTimeValue(index){
