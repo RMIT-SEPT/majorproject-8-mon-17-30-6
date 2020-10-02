@@ -87,6 +87,8 @@ export default class Booking extends Entity{
     }
     async getAvailability(){
         if((!this.serviceType)||(!this.date)||(!this.duration)){
+            console.log("ddddd", this.date);
+
             return null;
         }
         const payload = {
