@@ -41,7 +41,7 @@ export default class UserNavigationBar extends React.Component{
                             </NavDropdown>
                             <NavDropdown title="My Services" id="basic-nav-dropdown">
                                 <NavDropdown.Item name="userNewAppointment" onClick={this.handleSelectNavBar}>New appointment</NavDropdown.Item>
-                                <NavDropdown.Item name="upcomingAppointments" onClick={this.handleSelectNavBar}>View my appointments</NavDropdown.Item>
+                                <NavDropdown.Item name="upcomingAppointments" onClick={this.handleSelectNavBar}>Manage my appointments (view/delete)</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
                         
