@@ -47,6 +47,9 @@ export default class Booking extends Entity{
             const month = (date.getMonth()+1) < 10 ? "0"+(date.getMonth()+1) : (date.getMonth()+1);
             const year = date.getFullYear();
             const fullDate = year + "-" + month + "-" + day;
+            console.log(year);
+            console.log(month);
+            console.log(fullDate);
             return fullDate;
         }
     }
@@ -66,13 +69,17 @@ export default class Booking extends Entity{
             return ""
         }
         const hour = new Date(this.date).getHours()
-        return `${this.getDDYYMMYY()} ${hour}:00:00`
+        console.log(hour);
+        const finalDateTime = this.getDDYYMMYY() + 'T' + hour + ':00:00'
+        console.log(finalDateTime);
+
+        return finalDateTime;
     }
 
     async handleBookingRequest(){
         const payload = {
             "serviceType": this.serviceType,
-            "date": this.date,
+            "date": this.getDDYYMMYYHH(),
             "duration": this.duration,
             "employeeUsername": this.employeeUsername
         }
