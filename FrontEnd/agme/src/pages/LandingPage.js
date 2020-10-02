@@ -1,6 +1,6 @@
 import React from 'react';
 import Login from "./Login";
-import UserDashboard from './users/UserDashboard';
+import UserNewAppointment from './users/UserNewAppointment';
 import Provider from './providers/Provider';
 import Administrator from './administrators/Administrator';
 import CompanyDashboard from './company/CompanyDashboard';
@@ -28,7 +28,7 @@ export default class LandingPage extends React.Component{
                 case "EMPLOYEE":
                     return <EmployeeDashboard token={this.props.token} expiry={this.props.expiry}/>;
                 case "USER":
-                    return <UserDashboard token={this.props.token} expiry={this.props.expiry}/>;
+                    return <UserNewAppointment token={this.props.token} expiry={this.props.expiry}/>;
                 case "COMPANY":
                     return <CompanyDashboard token={this.props.token} expiry={this.props.expiry}/>;
                 case "ADMIN":

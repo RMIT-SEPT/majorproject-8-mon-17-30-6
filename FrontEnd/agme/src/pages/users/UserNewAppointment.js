@@ -5,7 +5,7 @@ import EmplpoyeeAvailability from './EmployeeAvailability';
 import Spinner from 'react-bootstrap/Spinner';
 const {apiCall} = require('../../mock/operations/mock/functions/operations')
 
-export default class UserDashboard extends React.Component{
+export default class UserNewAppointment extends React.Component{
     constructor(props){
         super(props);
         this.state = {
