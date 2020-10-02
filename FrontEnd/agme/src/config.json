@@ -22,6 +22,9 @@
         "deleteBooking": "user/bookings",
         "newBooking": "user/new-booking"
         
+      },
+      "employee":{
+        "getBookings": "employee/bookings"
       }
     }
   }
