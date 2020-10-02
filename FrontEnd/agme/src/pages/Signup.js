@@ -29,7 +29,7 @@ export default class Signup extends React.Component{
         //mock for now
         this.setState({isCallingServer:true});
 
-        functions.postCall('common', 'signup',this.state.entity).then(response=>{
+        functions.apiCall('common', 'signup',this.state.entity, 'post').then(response=>{
             if(response.statusCode===200){
                 this.setState({isCallingServer:false});
                 alert("Signup succesful. Please login");
@@ -84,7 +84,7 @@ export default class Signup extends React.Component{
  
     showCompanyInput(){
         if (!this.state.called && (this.state.entity.role==='EMPLOYEE')){
-        functions.getCall('user', 'getCompanies').then(response=>{
+        functions.apiCall('user', 'getCompanies',null, 'get').then(response=>{
             if(response.statusCode===200){
                 var arr = [];
                 var i = 0;
