@@ -1,24 +1,69 @@
 import React from 'react';
-const {apiCall} = require('../../mock/operations/mock/functions/operations');
+import EmployeeAvailabilityManager from '../../model/EmployeeAvailabilityManager';
+import Spinner from 'react-bootstrap/Spinner';
+import DailySchedule from './DailySchedule';
 
-/**
- * Employee Upcoming Appointments
- * **/
-export class AppointsManagement extends React.Component{
+export default class AppointsManagement extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            appointments:[]
+            date: ""
+        }
+        this.updateComponent = this.updateComponent.bind(this);
+    }
+
+    /**
+     * To make sure the EmployeeAvailabilityManager is called only after
+     * the component has mounted
+     * **/
+    componentDidMount(){
+        new EmployeeAvailabilityManager(this.state,this.updateComponent)
+    }
+
+    updateComponent(employeeAvailabilityManager, dummyUserStatus,appointmentsStatus){
+        if(dummyUserStatus){
+            this.setState({
+                employeeAvailabilityManager:employeeAvailabilityManager,
+                dummyUserStatus:dummyUserStatus
+            });
+        }else{
+            this.setState({
+                employeeAvailabilityManager:employeeAvailabilityManager,
+                appointmentsStatus:appointmentsStatus
+            });          
         }
     }
+
     render(){
-        apiCall('employee', 'getBookings', null, 'get').then(response=>{
-            console.log(response)
-        })
-        return (
+        if(this.state.dummyUserStatus&&this.state.appointmentsStatus){
+            if((this.state.dummyUserStatus===200)&&(this.state.appointmentsStatus===200)){
+                return (
+                    <div>
+                        <input type="date" name="date" onChange={e=>{
+                            e.preventDefault();
+                            this.state.employeeAvailabilityManager.setDate(e.target.value);
+                            this.setState({date:e.target.value}) //to force re-render child component
+
+                            }}
+                        />
+                        <DailySchedule date={this.state.date} employeeAvailabilityManager={this.state.employeeAvailabilityManager}/>
+                    </div>
+                );
+            }else{
+                return (
+                    <div>Oooops, sorry we cannot fulfill your request now.</div>
+                );
+            }
+        }else{
+            return (
             <div>
-                Upcoming appointments...
-            </div>
-        )
+                <Spinner animation="border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </Spinner>
+                <p>Please wait while we take care of a few things before you can manage your schedule.</p>
+                <p>This may take a while.</p>
+            </div>                  
+            );
+        }
     }
 }
