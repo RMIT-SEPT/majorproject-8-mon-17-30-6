@@ -37,6 +37,8 @@ export default class EmployeeNavigationBar extends React.Component{
                         <NavDropdown.Item>{decodedJwtPayload.sub}</NavDropdown.Item>
                             <NavDropdown title="Services" id="basic-nav-dropdown">
                                 <NavDropdown.Item name="appointsManagement" onClick={this.handleSelectNavBar}>Manage my appointments</NavDropdown.Item>
+                                <NavDropdown.Item name="employeeDashboard" onClick={this.handleSelectNavBar}>My Dashboard</NavDropdown.Item>
+
                             </NavDropdown>
                         </Nav>
                     </Navbar.Collapse>
