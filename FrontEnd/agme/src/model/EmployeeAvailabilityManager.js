@@ -118,7 +118,7 @@ export default class EmployeeAvailabilityManager{
             //inform component this is ready
             this.callback(this, response.statusCode);
         });
-        //not guaranteed whith call will finish first
+        //not guaranteed which call will finish first
         apiCall('employee', 'getBookings', null, 'get').then(response=>{
             if(response.statusCode===200){
                 this.appointments = response.body
