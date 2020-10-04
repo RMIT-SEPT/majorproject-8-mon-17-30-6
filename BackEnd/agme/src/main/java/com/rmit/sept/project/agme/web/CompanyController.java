@@ -128,16 +128,7 @@ public class CompanyController
 
     // Assign booking to employee
     @PostMapping("/bookings/employee")
-    public ResponseEntity<?> assignBookingEmployee(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId, @RequestBody Long employeeId) {
-
-        // Authentication stuff
-        String username = "";
-
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) {
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
-        }
-
+    public ResponseEntity<?> assignBookingEmployee(@RequestBody Long bookingId, @RequestBody Long employeeId) {
         try {
             Booking tempBooking = bookingService.getBookingById(bookingId);
             Employee tempEmployee = employeeService.getEmployeeById(employeeId);
@@ -151,16 +142,7 @@ public class CompanyController
 
     // Set employee to null
     @DeleteMapping("/bookings/employee")
-    public ResponseEntity<?> removeBookingEmployee(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId) {
-
-        // Authentication stuff
-        String username = "";
-
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) {
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
-        }
-
+    public ResponseEntity<?> removeBookingEmployee(@RequestBody Long bookingId) {
         try {
             Booking tempBooking = bookingService.getBookingById(bookingId);
             tempBooking.setEmployee(null);
@@ -173,16 +155,7 @@ public class CompanyController
 
     // Change assigned employee
     @PutMapping("/bookings/employee")
-    public ResponseEntity<?> editBookingEmployee(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId, @RequestBody Long newEmployeeId) {
-
-        // Authentication stuff
-        String username = "";
-
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) {
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
-        }
-
+    public ResponseEntity<?> editBookingEmployee(@RequestBody Long bookingId, @RequestBody Long newEmployeeId) {
         try {
             Booking tempBooking = bookingService.getBookingById(bookingId);
             Employee tempEmployee = employeeService.getEmployeeById(newEmployeeId);
@@ -195,13 +168,7 @@ public class CompanyController
     }
 
     @DeleteMapping("/bookings")
-    public ResponseEntity<?> deleteBooking(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId){
-        String username = "";
-//        Gets username from the jwt token
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
-        }
+    public ResponseEntity<?> deleteBooking(@RequestBody Long bookingId){
         try{
             bookingService.deleteById(bookingId);
             return new ResponseEntity<String>("resource deleted successfully", HttpStatus.valueOf(204));
