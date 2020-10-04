@@ -129,7 +129,7 @@ public class CompanyController
     }
 
     // Assign booking to employee
-    @PostMapping("/bookings/assign")
+    @PostMapping("/bookings/employee")
     public ResponseEntity<?> assignBookingEmployee(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId, @RequestBody Long employeeId) {
 
         // Authentication stuff
@@ -152,7 +152,7 @@ public class CompanyController
     }
 
     // Set employee to null
-    @DeleteMapping("/bookings/assign")
+    @DeleteMapping("/bookings/employee")
     public ResponseEntity<?> removeBookingEmployee(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId) {
 
         // Authentication stuff
@@ -167,7 +167,8 @@ public class CompanyController
         }
     }
 
-    @PutMapping("/bookings/assign")
+    // Change assigned employee
+    @PutMapping("/bookings/employee")
     public ResponseEntity<?> editBookingEmployee(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId, @RequestBody Long newEmployeeId) {
 
         // Authentication stuff
