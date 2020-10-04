@@ -1,55 +1,87 @@
 import React from 'react';
-import ProviderCard from './ProviderCard';
-import Form from "../../../node_modules/react-bootstrap/Form";
-import FormControl from "../../../node_modules/react-bootstrap/FormControl";
+import Accordion from 'react-bootstrap/Accordion';
+import Card from 'react-bootstrap/Card';
+import './upcomingevent.css';
+import Spinner from 'react-bootstrap/Spinner';
 import Button from "../../../node_modules/react-bootstrap/Button";
-//array of providers - need to replace by an api call that returns an array
-const mockData = [
-    {
-        "name": "Some provider name",
-        "services": "The services offered by this provider includes a range of useful services that you may need and this description says it all."
-    },
-    {
-        "name": "Another provider name",
-        "services": "The services offered by this provider includes a range of useful services that you may need and this description says it all."
-    },
-    {
-        "name": "Alternative provider name",
-        "services": "The services offered by this provider includes a range of useful services that you may need and this description says it all."
-    }
-]
+const {apiCall} = require('../../mock/operations/mock/functions/operations');
 export default class ViewProviders extends React.Component{
-
     constructor(props){
         super(props)
-        const cards = mockData.map(provider=>{
-            return <ProviderCard data={provider}/>
-        })
         this.state = {
-            query: "",
-            cards: cards
+            called: false,
+            showModal: false,
         }
-
-        this.handleInputChange = this.handleInputChange.bind(this);
+        this.closeModal = this.closeModal.bind(this);
     }
-
-    handleInputChange(e){
+    closeModal(e){
         e.preventDefault();
-        const cards = mockData.filter(row=>{return row.name.includes(e.target.value)}).map(provider=>{
-            return <ProviderCard data={provider}/>
-        });
-        this.setState({cards:cards})
+        this.setState({showModal: false});
     }
-    render(){
+    componentDidMount(){
+        let a = "user";
 
-        return (
-            <div>
-                <Form inline>
-                            <FormControl type="text" placeholder="Search provider" className="mr-sm-2" onChange={this.handleInputChange}/>
-                            <Button variant="outline-success">Search</Button>
-                        </Form>
-                {this.state.cards}
-            </div>
-        )
+        apiCall('user', 'companies',null,'get').then(r=>{
+            console.log(r)
+            if(r.statusCode===200){
+                this.setState({providers:r.body, failed: false, called: true})
+            }else{
+                this.setState({failed: true, called: true})
+            }
+        });
     }
+
+
+
+    render(){
+        if(!this.state.called){
+        return <div className="calling">
+            <div className="spinnerOutter">
+            <Spinner animation="border" role="status">
+                <span className="sr-only">Loading...</span>
+            </Spinner>
+            </div>
+            <br/>
+            <p>Please wait while we retrieve the available providers.</p>
+            
+        </div>
+    }else{
+        if(this.state.failed){
+            return <div>Ooops. Something went wrong, we could not retrieve the available providers</div>
+        }else{
+            const cards = this.state.providers.map((providers,key)=>{
+                return <Card key={key}>
+                    <Accordion.Collapse eventKey="0">
+                        <Card.Body>
+                            <div className="upcoming_event_company">
+                                <p>
+                                    Company: {providers.name}
+                                </p>
+                                <p>
+                                Contact Number: {providers.phone}
+                            </p>
+                            
+                                <Button variant="danger" onClick={e=>{
+                                    e.preventDefault();
+                                }}>
+                                </Button>
+                            </div>
+                            </Card.Body>
+                    </Accordion.Collapse>
+                </Card>
+            })
+    
+            return (
+                <div>
+                    <h3>Your upcoming events</h3>
+                    <Accordion defaultActiveKey="0">
+                        {cards}
+                    </Accordion>
+                </div>
+            )
+        }
+    }
+
+
+}
 }

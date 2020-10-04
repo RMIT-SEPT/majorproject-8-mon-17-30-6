@@ -3,6 +3,7 @@ package com.rmit.sept.project.agme.web;
 import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.services.BookingService;
+import com.rmit.sept.project.agme.services.CompanyService;
 import com.rmit.sept.project.agme.services.ServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,8 @@ public class UserController {
 
     @Autowired
     private JwtUtil jwtUtil;
-
+    @Autowired
+    private CompanyService companyService;
     @Autowired
     private ServiceTypeService serviceTypeService;
 
@@ -73,6 +75,17 @@ public class UserController {
 
         } else {
             return new ResponseEntity<>(serviceTypeService.getAllServices(),HttpStatus.OK);
+        }
+    }
+    @GetMapping("/companies")
+        //returns all services
+    ResponseEntity<?> getAllCompanies() {
+        companyService.getAll();
+        if (companyService.getAll().size() == 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        } else {
+            return new ResponseEntity<>(companyService.getAll(),HttpStatus.OK);
         }
     }
 
