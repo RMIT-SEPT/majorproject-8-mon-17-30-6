@@ -96,15 +96,7 @@ public class UserController {
     }
 
     @PutMapping("/bookings")
-    public ResponseEntity<?> rescheduleBooking(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId, Date newTime) {
-
-        // Authentication stuff
-        String username = "";
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
-        }
-
+    public ResponseEntity<?> rescheduleBooking(@RequestBody Long bookingId, Date newTime) {
         try {
             Booking tempBooking = bookingService.getBookingById(bookingId);
             tempBooking.setStartDateTime(newTime);
