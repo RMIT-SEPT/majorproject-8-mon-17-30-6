@@ -13,7 +13,6 @@ const fetchFromApi = async(endpoint,uri,options)=>{
                 try{
                     r.body = await response.json()
                 }catch(e){
-                    console.log(e)
                     r.body = ""
                 }
                 return r
@@ -58,7 +57,6 @@ const getDecodedJwtFromLocalStorage = () =>{
 const apiCall = async(userType, service, payload, type)=>{
     const url = config.api.url;
     const uri = config.api.uri[userType][service]
-    console.log(service)
     let options = {
         method: type,
         mode:"cors",
@@ -68,13 +66,11 @@ const apiCall = async(userType, service, payload, type)=>{
             'Access-Control-Allow-Origin': '*',
         }
     }
-    console.log(uri);
-    console.log(url);
+   
 
     payload&&(options.body =JSON.stringify(payload));
     getJwt() && (options.headers.Authorisation = getJwt());
     const response = await fetchFromApi(url,uri,options);
-    console.log(response);
 
     return response;  
 }
