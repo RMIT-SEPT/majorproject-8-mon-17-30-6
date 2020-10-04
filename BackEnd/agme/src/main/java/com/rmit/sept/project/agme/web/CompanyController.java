@@ -156,6 +156,12 @@ public class CompanyController
     public ResponseEntity<?> removeBookingEmployee(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId) {
 
         // Authentication stuff
+        String username = "";
+
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) { // Gets username from jwt token
+            String jwt = authorisationHeader.substring(7);
+            username = jwtUtil.extractUsername(jwt);
+        }
 
         try {
             Booking tempBooking = bookingService.getBookingById(bookingId);
@@ -172,6 +178,12 @@ public class CompanyController
     public ResponseEntity<?> editBookingEmployee(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId, @RequestBody Long newEmployeeId) {
 
         // Authentication stuff
+        String username = "";
+
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) { // Gets username from jwt token
+            String jwt = authorisationHeader.substring(7);
+            username = jwtUtil.extractUsername(jwt);
+        }
 
         try {
             Booking tempBooking = bookingService.getBookingById(bookingId);
