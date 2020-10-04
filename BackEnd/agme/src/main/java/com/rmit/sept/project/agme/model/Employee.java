@@ -23,7 +23,7 @@ public class Employee extends AbstractUser implements UserDetails {
     public Employee() {}
 //  Constructor to create an employee
     public Employee(String username, String name, String password, String confirmPassword,
-                    String address, String phone, Role role, Company company, String companyUsername) {
+                    String address, String phone, Role role, Company company, String companyUsername,String email) {
         setUsername(username);
         setName(name);
         setPassword(password);

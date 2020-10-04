@@ -115,17 +115,17 @@ public class LoginSignupController {
 //                Creates a user depending on the type
                 if (user.getRole() == Role.COMPANY){
                     Company user1 = new Company(user.getUsername(), user.getName(), user.getPassword()
-                            ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(), user.getCompanyName());
+                            ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(), user.getCompanyName(), user.getEmail());
                     companyService.saveOrUpdate(user1);
                 }else if (user.getRole() == Role.USER){
                     User user1 = new User(user.getUsername(), user.getName(), user.getPassword()
-                            ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole());
+                            ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(), user.getEmail());
                     userService.saveOrUpdateUser(user1);
 
                 }else if (user.getRole() == EMPLOYEE){
                     Employee user1 = new Employee(user.getUsername(), user.getName(), user.getPassword()
                             ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(),
-                            companyService.loadUserByUsername(user.getCompanyUsername()), user.getCompanyUsername());
+                            companyService.loadUserByUsername(user.getCompanyUsername()), user.getCompanyUsername(), user.getEmail());
                     employeeService.addEmployee(user1);
                     Company comp = companyService.loadUserByUsername(user.getCompanyUsername());
                     if (comp != null) {
