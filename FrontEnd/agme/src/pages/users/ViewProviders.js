@@ -3,7 +3,6 @@ import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import './upcomingevent.css';
 import Spinner from 'react-bootstrap/Spinner';
-import Button from "../../../node_modules/react-bootstrap/Button";
 const {apiCall} = require('../../mock/operations/mock/functions/operations');
 export default class ViewProviders extends React.Component{
     constructor(props){
@@ -19,8 +18,6 @@ export default class ViewProviders extends React.Component{
         this.setState({showModal: false});
     }
     componentDidMount(){
-        let a = "user";
-
         apiCall('user', 'companies',null,'get').then(r=>{
             console.log(r)
             if(r.statusCode===200){
@@ -49,8 +46,12 @@ export default class ViewProviders extends React.Component{
         if(this.state.failed){
             return <div>Ooops. Something went wrong, we could not retrieve the available providers</div>
         }else{
+            console.log(this.state.providers);
             const cards = this.state.providers.map((providers,key)=>{
                 return <Card key={key}>
+                <Card.Header>
+                {providers.name}
+                </Card.Header>
                     <Accordion.Collapse eventKey="0">
                         <Card.Body>
                             <div className="upcoming_event_company">
@@ -58,15 +59,19 @@ export default class ViewProviders extends React.Component{
                                     Company: {providers.name}
                                 </p>
                                 <p>
-                                Contact Number: {providers.phone}
-                            </p>
-                            
-                                <Button variant="danger" onClick={e=>{
-                                    e.preventDefault();
-                                }}>
-                                </Button>
+                                    Contact Number: {providers.phone}
+                                </p>
+                                <p>
+                                    Address: {providers.address}
+                                </p>
+                                <div className="employees">
+                                    <p className="employeeTitle">Employees</p>
+                                    { providers.employees.map((message, index) => (
+                                        <p className="employeeName">{message.name}</p>
+                                    ))}
+                                </div> 
                             </div>
-                            </Card.Body>
+                        </Card.Body>
                     </Accordion.Collapse>
                 </Card>
             })
