@@ -8,6 +8,7 @@
         "confirmPassword": "Passwords do not match", 
         "companyName": "Company name cannot be blank",
         "userType": "User type cannot be blank",
+        "email": "Email cannot be blank",
         "companyUserName": "Please select a company"
     }
 }
