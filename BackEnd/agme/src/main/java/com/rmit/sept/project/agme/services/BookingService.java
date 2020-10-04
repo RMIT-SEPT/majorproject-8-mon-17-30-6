@@ -40,9 +40,7 @@ public class BookingService {
 
     // Assumes unique id for each booking
     public Booking getBookingById(Long id) {
-
         Optional<Booking> temp = bookingRepository.findById(id);
-
         return temp.orElse(null);
     }
 
