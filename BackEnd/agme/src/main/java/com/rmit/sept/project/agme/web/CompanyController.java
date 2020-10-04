@@ -133,7 +133,7 @@ public class CompanyController
         // Authentication stuff
         String username = "";
 
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) { // Gets username from jwt token
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) {
             String jwt = authorisationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
         }
@@ -156,7 +156,7 @@ public class CompanyController
         // Authentication stuff
         String username = "";
 
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) { // Gets username from jwt token
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) {
             String jwt = authorisationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
         }
@@ -178,7 +178,7 @@ public class CompanyController
         // Authentication stuff
         String username = "";
 
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) { // Gets username from jwt token
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) {
             String jwt = authorisationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
         }
