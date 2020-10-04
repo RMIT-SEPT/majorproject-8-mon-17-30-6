@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -92,5 +93,25 @@ public class UserController {
             return new ResponseEntity<String>("resource not found", HttpStatus.valueOf(404));
         }
 
+    }
+
+    @PutMapping("/bookings")
+    public ResponseEntity<?> rescheduleBooking(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId, Date newTime) {
+
+        // Authentication stuff
+        String username = "";
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
+            String jwt = authorisationHeader.substring(7);
+            username = jwtUtil.extractUsername(jwt);
+        }
+
+        try {
+            Booking tempBooking = bookingService.getBookingById(bookingId);
+            tempBooking.setStartDateTime(newTime);
+            return new ResponseEntity<>("booking successfully moved", HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>("resource not found", HttpStatus.valueOf(404));
+        }
     }
 }
