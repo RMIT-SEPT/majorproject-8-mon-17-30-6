@@ -1,5 +1,6 @@
 package com.rmit.sept.project.agme.services;
 
+import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,6 +21,8 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    BookingService bookingService;
     public UserService() {
 
     }
@@ -66,5 +70,27 @@ public class UserService implements UserDetailsService {
             }
         }
         return returnVal;
+    }
+    @Autowired
+    EmailServiceImpl emailService;
+
+    public void sendReminderEmails()
+    {
+        List<Booking> bookings = bookingService.getAllBookings();
+        Date today = new Date();
+        long currentDateMilliSec = today.getTime();
+        long updateDateMilliSec;
+        long diffDays;
+        for (Booking next:bookings){
+             updateDateMilliSec = next.getStartDateTime().getTime();
+             diffDays = (updateDateMilliSec-currentDateMilliSec) / (24 * 60 * 60 * 1000);
+            if ((diffDays <= 1)&&(!next.isReminderSent())&&next.getUser().getEmail() !=null){
+                emailService.sendSimpleMessage(next.getUser().getEmail(), "Upcoming booking", "Just a reminder, you have an upcoming " +
+                        "booking on " + next.getStartDateTime() + '.');
+                next.setReminderSent(true);
+                bookingService.addBooking(next);
+            }
+
+        }
     }
 }

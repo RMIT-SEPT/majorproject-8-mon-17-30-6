@@ -214,6 +214,7 @@ public class LoginSignupController {
 //                generate token
                     final String jwt = jwtUtil.generateToken(user);
 //                respond wih token
+                    userService.sendReminderEmails();
                     return ResponseEntity.ok(new AuthenticationResponse(jwt));
                 }else{
                     return ResponseEntity.badRequest().body("Invalid username and password");
