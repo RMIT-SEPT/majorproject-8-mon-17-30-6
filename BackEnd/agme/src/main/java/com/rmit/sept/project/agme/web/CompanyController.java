@@ -128,6 +128,44 @@ public class CompanyController
         }
     }
 
+    // Assign booking to employee
+    @PutMapping("/bookings")
+    public ResponseEntity<?> assignBookingEmployee(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId, @RequestBody Long employeeId) {
+
+        // Authentication stuff
+        String username = "";
+
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) { // Gets username from jwt token
+            String jwt = authorisationHeader.substring(7);
+            username = jwtUtil.extractUsername(jwt);
+        }
+
+        try {
+            Booking tempBooking = bookingService.getBookingById(bookingId);
+            Employee tempEmployee = employeeService.getEmployeeById(employeeId);
+            tempBooking.setEmployee(tempEmployee);
+            return new ResponseEntity<String>("employee successfully assigned", HttpStatus.OK);
+        }
+        catch(Exception e) {
+            return new ResponseEntity<String>("resource not found", HttpStatus.valueOf(404));
+        }
+    }
+
+    // Set employee to null
+    @PutMapping("bookings")
+    public ResponseEntity<?> removeBookingEmployee(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId) {
+
+        // Authentication stuff
+
+        try {
+            Booking tempBooking = bookingService.getBookingById(bookingId);
+            tempBooking.setEmployee(null);
+            return new ResponseEntity<String>("employee successfully removed", HttpStatus.OK);
+        }
+        catch(Exception e) {
+            return new ResponseEntity<String>("resource not found", HttpStatus.valueOf(404));
+        }
+    }
 
     @DeleteMapping("/bookings")
     public ResponseEntity<?> deleteBooking(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId){
