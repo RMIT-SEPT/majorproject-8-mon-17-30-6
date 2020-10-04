@@ -11,10 +11,8 @@ import com.rmit.sept.project.agme.services.CompanyService;
 import com.rmit.sept.project.agme.services.EmployeeService;
 import com.rmit.sept.project.agme.services.ServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -70,7 +68,7 @@ public class CompanyController
         @GetMapping("/bookings")
     public ResponseEntity<?> getBookings(@RequestHeader("Authorisation") String authorisationHeader){
         String username = "";
-//        Gets username from the jwt topken
+//        Gets username from the jwt token
         if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
             String jwt = authorisationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
@@ -199,7 +197,7 @@ public class CompanyController
     @DeleteMapping("/bookings")
     public ResponseEntity<?> deleteBooking(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId){
         String username = "";
-//        Gets username from the jwt topken
+//        Gets username from the jwt token
         if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
             String jwt = authorisationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
