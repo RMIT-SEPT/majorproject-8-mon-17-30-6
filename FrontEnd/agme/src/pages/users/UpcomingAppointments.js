@@ -193,7 +193,10 @@ export default class UpcomingAppointments extends React.Component{
                                         Company: {appointment.company.name}
                                     </p>
                                     <p>
-                                        {appointment.employee.userType}: {appointment.employee.name}
+                                    Contact Number: {appointment.company.phone}
+                                </p>
+                                    <p>
+                                        Worker Name: {appointment.employee.name}
                                     </p>
                                     <p>Service: {appointment.serviceType.name}</p>
                                     <p>Duration: {appointment.duration} hours</p>

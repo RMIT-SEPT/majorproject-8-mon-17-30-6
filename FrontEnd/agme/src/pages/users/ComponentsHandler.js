@@ -1,6 +1,7 @@
 import React from 'react';
 import UpcomingAppointments from './UpcomingAppointments';
 import UserServices from './UserServices';
+import ViewProviders from './ViewProviders';
 import UserNewAppointment from './UserNewAppointment';
 
 /**
@@ -11,7 +12,8 @@ export default class ComponentsHandler extends React.Component{
         const mapper = {
             userNewAppointment: <UserNewAppointment/>,
             upcomingAppointments: <UpcomingAppointments/>,
-            userServices: <UserServices/>
+            userServices: <UserServices/>,
+            viewProviders: <ViewProviders/>
         }
         return mapper[this.props.component]
     }

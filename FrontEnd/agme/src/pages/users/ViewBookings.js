@@ -50,6 +50,7 @@ export default class BookingTimes extends React.Component {
                             <TableCell/>
                             <TableCell>Booking&nbsp;Time</TableCell>
                             <TableCell align="right">Company&nbsp;Name</TableCell>
+                            <TableCell align="right">Contact&nbsp;Us</TableCell>
                             <TableCell align="right">Duration&nbsp;(mins)</TableCell>
                             <TableCell align="right">Type&nbsp;of&nbsp;Service</TableCell>
                             <TableCell align="right">Attending&nbsp;Team&nbsp;Member</TableCell>
@@ -103,6 +104,7 @@ function Row(props) {
                 </TableCell>
                 <TableCell align="right">{row.startDateTime}</TableCell>
                 <TableCell align="right">{row.company.name}</TableCell>
+                <TableCell align="right">{row.company.phone}</TableCell>
                 <TableCell align="right">{row.duration}</TableCell>
                 <TableCell align="right">{row.serviceType.name}</TableCell>
                 <TableCell align="right">{row.employee.name}</TableCell>

@@ -13,7 +13,6 @@ const fetchFromApi = async(endpoint,uri,options)=>{
                 try{
                     r.body = await response.json()
                 }catch(e){
-                    console.log(e)
                     r.body = ""
                 }
                 return r
@@ -67,9 +66,12 @@ const apiCall = async(userType, service, payload, type)=>{
             'Access-Control-Allow-Origin': '*',
         }
     }
+   
+
     payload&&(options.body =JSON.stringify(payload));
     getJwt() && (options.headers.Authorisation = getJwt());
     const response = await fetchFromApi(url,uri,options);
+
     return response;  
 }
 
