@@ -129,7 +129,7 @@ public class CompanyController
     }
 
     // Assign booking to employee
-    @PutMapping("/bookings")
+    @PostMapping("/bookings/assign")
     public ResponseEntity<?> assignBookingEmployee(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId, @RequestBody Long employeeId) {
 
         // Authentication stuff
@@ -144,15 +144,15 @@ public class CompanyController
             Booking tempBooking = bookingService.getBookingById(bookingId);
             Employee tempEmployee = employeeService.getEmployeeById(employeeId);
             tempBooking.setEmployee(tempEmployee);
-            return new ResponseEntity<String>("employee successfully assigned", HttpStatus.OK);
+            return new ResponseEntity<>("employee successfully assigned", HttpStatus.OK);
         }
-        catch(Exception e) {
-            return new ResponseEntity<String>("resource not found", HttpStatus.valueOf(404));
+        catch (Exception e) {
+            return new ResponseEntity<>("resource not found", HttpStatus.valueOf(404));
         }
     }
 
     // Set employee to null
-    @PutMapping("bookings")
+    @DeleteMapping("/bookings/assign")
     public ResponseEntity<?> removeBookingEmployee(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId) {
 
         // Authentication stuff
@@ -160,10 +160,26 @@ public class CompanyController
         try {
             Booking tempBooking = bookingService.getBookingById(bookingId);
             tempBooking.setEmployee(null);
-            return new ResponseEntity<String>("employee successfully removed", HttpStatus.OK);
+            return new ResponseEntity<>("employee successfully removed", HttpStatus.OK);
         }
-        catch(Exception e) {
-            return new ResponseEntity<String>("resource not found", HttpStatus.valueOf(404));
+        catch (Exception e) {
+            return new ResponseEntity<>("resource not found", HttpStatus.valueOf(404));
+        }
+    }
+
+    @PutMapping("/bookings/assign")
+    public ResponseEntity<?> editBookingEmployee(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId, @RequestBody Long newEmployeeId) {
+
+        // Authentication stuff
+
+        try {
+            Booking tempBooking = bookingService.getBookingById(bookingId);
+            Employee tempEmployee = employeeService.getEmployeeById(newEmployeeId);
+            tempBooking.setEmployee(tempEmployee);
+            return new ResponseEntity<>("employee successfully changed", HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>("resource not found", HttpStatus.valueOf(404));
         }
     }
 
