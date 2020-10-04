@@ -1,17 +1,19 @@
 import '../css/userDash.css';
 import React from 'react';
 import Booking from '../../model/Booking';
-import EmplpoyeeAvailability from './EmployeeAvailability'
+import EmplpoyeeAvailability from './EmployeeAvailability';
+import Spinner from 'react-bootstrap/Spinner';
 const {apiCall} = require('../../mock/operations/mock/functions/operations')
 
-export default class UserDashboard extends React.Component{
+export default class UserNewAppointment extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             booking: new Booking({}),
-            isCallingServer: false,
+            isCallingServer: true,
             options: [],
             called: false,
+            getServicesStatus: null,
             calledTime: false,
             calledDays: false,
             employees: [],
@@ -21,7 +23,7 @@ export default class UserDashboard extends React.Component{
         };
         this.handleBookingChange = this.handleBookingChange.bind(this);
         this.handleBookingRequestForUser = this.handleBookingRequestForUser.bind(this);
-        this.showAvailableServices = this.showAvailableServices.bind(this);
+        this.getAllServices = this.getAllServices.bind(this);
         this.updateBooking = this.updateBooking.bind(this)
     }
 
@@ -30,37 +32,30 @@ export default class UserDashboard extends React.Component{
         const booking = new Booking(JSON.parse(JSON.stringify(this.state.booking)));
         this.setState({booking:booking})
     }
-    // Show available services
-    showAvailableServices(){
-        // if the command hasnt been executed
-        if (!this.state.called){
-            // get all services
+    //Calls getService API and populates service options
+    getAllServices(){
+        //only call api if it hasnt been called yet
+        //only call it is there is no state.httpStatusCode
+        if(!this.state.getServicesStatus){
             apiCall('user', 'getAllServices', null,'get').then(response=>{
+                let options = this.state.options;
                 if(response.statusCode===200){
                     this.setState({isCallingServer:false});
-            var servicetypes = [];
-            var i = 1;
-            //  add default to array
-            servicetypes.push(<option key={0} value={"DEFAULT"} disabled>Choose a Service</option>);
-
-            // loops through services and adds them
-            response.body.forEach((serviceType) =>
-                servicetypes.push(<option key={serviceType.name} value={serviceType.name}>{serviceType.name}</option>),
-                i++);
-            this.setState({options:servicetypes,isCallingServer:false, called:true});
-                }else{
-                    this.setState({isCallingServer:false,called:true});
+                    var servicetypes = [];
+                    var i = 1;
+                    servicetypes.push(<option key={0} value={"DEFAULT"} disabled>Choose a Service</option>);
+                    response.body.forEach((serviceType) =>
+                    servicetypes.push(<option key={serviceType.name} value={serviceType.name}>{serviceType.name}</option>),i++);
+                    options = servicetypes;
                 }
-            }
-        )
-        
+                this.setState({
+                    getServicesStatus: response.statusCode,
+                    options:options
+                })
+                }
+            )
+        }
     }
-    return <React.Fragment>
-    <label>Service</label>
-    <select value={this.state.booking.serviceType||"DEFAULT"} className="form-control" name={"serviceType"} onChange={this.handleBookingChange}>{this.state.options}</select>      
-</React.Fragment>
- 
-}
 
     handleBookingChange(e){
         e.preventDefault();
@@ -155,24 +150,55 @@ export default class UserDashboard extends React.Component{
     }
 
     render(){
-        
-        return (
-            <div className={"new-booking"}>
-                <h3 className="title">New Booking</h3>
+        this.getAllServices();
+        if(this.state.getServicesStatus){
+            if(this.state.getServicesStatus===200){
+                return (
+                    <div className={"new-booking"}>
+                        <h3 className="title">New Booking</h3>
+                        <div className="form-container">
+                            <br/>
+                            <React.Fragment>
+                                <label>Service</label>
+                                <select value={this.state.booking.serviceType||"DEFAULT"} className="form-control" name={"serviceType"} onChange={this.handleBookingChange}>{this.state.options}</select>      
+                            </React.Fragment>
+                            <br></br>
+                            {this.showDuration()}
+                            <br></br>
+                            {this.showDates()}
+                            <EmplpoyeeAvailability updateBooking={this.updateBooking} booking={this.state.booking} availabilities={this.state.availabilities}/>
+                            <br></br>
+                            {this.state.booking.isComplete() &&<button className="btn btn-success" onClick={this.handleBookingRequestForUser}>Submit</button>}
+                            <br>
+                            </br>
+                        </div>
+                    </div>
+                )
+            }else{
+                //getServices called but API failed?
+                return (
+                    <div className={"new-booking"}>
+                    <h3 className="title">New Booking</h3>
+                    <div className="form-container">
+                        <p>Unfortunately we could not load available services at this time.</p>
+                    </div>
+                    </div>
+                );
+            }
+        }else{
+            //hasnt even completed that call yet
+            return (
+                <div className={"new-booking"}>
+                <h3 className="title">Retrieving services</h3>
                 <div className="form-container">
-                    <br/>
-                    {this.showAvailableServices()}
-                    <br></br>
-                    {this.showDuration()}
-                    <br></br>
-                    {this.showDates()}
-                    <EmplpoyeeAvailability updateBooking={this.updateBooking} booking={this.state.booking} availabilities={this.state.availabilities}/>
-                    <br></br>
-                    {this.state.booking.isComplete() &&<button className="btn btn-success" onClick={this.handleBookingRequestForUser}>Submit</button>}
-                    <br>
-                    </br>
+                <Spinner animation="border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </Spinner>
+                    <p>Please wait while we figure out what services are available to you.</p>
                 </div>
-            </div>
-        )
+                </div>
+            );
+        }
+
     }
 }

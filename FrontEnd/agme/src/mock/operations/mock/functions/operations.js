@@ -81,5 +81,6 @@ const apiCall = async(userType, service, payload, type)=>{
 
 module.exports = {
     getDecodedJwtFromLocalStorage,
+    fetchFromApi,
     apiCall
 }
