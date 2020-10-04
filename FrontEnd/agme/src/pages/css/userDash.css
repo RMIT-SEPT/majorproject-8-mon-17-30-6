@@ -7,5 +7,35 @@
     padding:10vh;
     text-align: center;
     margin: auto;
-    margin-top:10vh;
+    margin-top:10px;
+  }
+  .upcomingApt{
+    width: 100%;
+    display: table;
+    text-align: center;
+    margin-top:15px;
+    display: none;
+  }
+  .noClass{
+    width: 100%;
+    display: table;
+    text-align: center;
+    margin-top:15px;  
+  }
+  .showUpcomming{
+    width: 200px;
+    height: 70px;
+    margin-left:auto;
+    margin-right: auto;
+
+  }
+  .btnWrapper{
+    width: 100%;
+    height: 80px;;
+    text-align: center;
+  }
+
+  .accordion{
+    width: 100%;
+    display: table;
   }

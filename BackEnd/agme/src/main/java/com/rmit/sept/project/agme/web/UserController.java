@@ -59,7 +59,7 @@ public class UserController {
         }
         return new ResponseEntity<>(bookingsForUser, HttpStatus.OK);
     }
-    @GetMapping("/upcoming-booking")
+    @GetMapping("/upcoming-bookings")
     public ResponseEntity<?> getUpcomingBookings(@RequestHeader("Authorisation") String authorisationHeader){
         String username = "";
 //        Gets username from the jwt token
