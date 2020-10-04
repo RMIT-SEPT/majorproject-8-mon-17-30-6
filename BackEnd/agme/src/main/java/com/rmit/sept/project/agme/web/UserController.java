@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -50,6 +51,38 @@ public class UserController {
                 next.getCompany().setEmployees(null);
                 next.getServiceType().setCompany(null);
                 bookingsForUser.add(next);
+            }
+        }
+        if (bookingsForUser.size() == 0){
+            return new ResponseEntity<>(bookingsForUser, HttpStatus.BAD_REQUEST);
+
+        }
+        return new ResponseEntity<>(bookingsForUser, HttpStatus.OK);
+    }
+    @GetMapping("/upcoming-booking")
+    public ResponseEntity<?> getUpcomingBookings(@RequestHeader("Authorisation") String authorisationHeader){
+        String username = "";
+//        Gets username from the jwt token
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
+            String jwt = authorisationHeader.substring(7);
+            username = jwtUtil.extractUsername(jwt);
+        }
+        List<Booking> bookings = bookingService.getAllBookings();
+        List<Booking> bookingsForUser = new ArrayList<>();
+//        Loops through bookings and retrieve the one needed for the user
+        Date today = new Date();
+        long currentDateMilliSec = today.getTime();
+        long updateDateMilliSec;
+        long diffDays;
+        for (Booking next:bookings){
+            if (next.getUser().getUsername().equals(username)){
+                next.getCompany().setEmployees(null);
+                next.getServiceType().setCompany(null);
+                updateDateMilliSec = next.getStartDateTime().getTime();
+                diffDays = (updateDateMilliSec-currentDateMilliSec) / (24 * 60 * 60 * 1000);
+                if (diffDays <= 1) {
+                    bookingsForUser.add(next);
+                }
             }
         }
         if (bookingsForUser.size() == 0){
