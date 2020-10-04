@@ -35,7 +35,7 @@ export default class UserNavigationBar extends React.Component{
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
                             <NavDropdown title="Services" id="basic-nav-dropdown">
-                                <NavDropdown.Item name="providers" onClick={this.handleSelectNavBar}>Providers</NavDropdown.Item>
+                                <NavDropdown.Item name="viewProviders" onClick={this.handleSelectNavBar}>Providers</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item name="userServices" onClick={this.handleSelectNavBar}>View Services</NavDropdown.Item>
                             </NavDropdown>
