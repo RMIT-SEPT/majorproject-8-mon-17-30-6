@@ -3,6 +3,7 @@ package com.rmit.sept.project.agme.web;
 import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.services.BookingService;
+import com.rmit.sept.project.agme.services.CompanyService;
 import com.rmit.sept.project.agme.services.ServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,7 +24,8 @@ public class UserController {
 
     @Autowired
     private JwtUtil jwtUtil;
-
+    @Autowired
+    private CompanyService companyService;
     @Autowired
     private ServiceTypeService serviceTypeService;
 
@@ -74,5 +76,34 @@ public class UserController {
         } else {
             return new ResponseEntity<>(serviceTypeService.getAllServices(),HttpStatus.OK);
         }
+    }
+    @GetMapping("/companies")
+        //returns all services
+    ResponseEntity<?> getAllCompanies() {
+        companyService.getAll();
+        if (companyService.getAll().size() == 0) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
+        } else {
+            return new ResponseEntity<>(companyService.getAll(),HttpStatus.OK);
+        }
+    }
+
+    //insecure but works
+    @DeleteMapping("/bookings")
+    public ResponseEntity<?> deleteBooking(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId){
+        String username = "";
+//        Gets username from the jwt topken
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
+            String jwt = authorisationHeader.substring(7);
+            username = jwtUtil.extractUsername(jwt);
+        }
+        try{
+            bookingService.deleteById(bookingId);
+            return new ResponseEntity<String>("resource deleted successfully", HttpStatus.valueOf(200));
+        }catch(Exception e){
+            return new ResponseEntity<String>("resource not found", HttpStatus.valueOf(404));
+        }
+
     }
 }

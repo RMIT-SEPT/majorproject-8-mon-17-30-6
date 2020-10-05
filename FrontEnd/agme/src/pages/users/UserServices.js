@@ -1,5 +1,5 @@
 import React from 'react';
-const {getAllServicesProvider} = require('../../mock/operations');
+const {apiCall} = require('../../mock/operations/mock/functions/operations');
 /***
  * Component for user to view available services. It might look dupplicate from the
  * AgmeServices component, but this is to be used when user is authenticated as 
@@ -10,7 +10,7 @@ export default class UserServices extends React.Component{
     constructor(props){
         super(props)
         this.state = {services: []}
-        getAllServicesProvider().then(response=>{
+        apiCall('company', 'getAllServices',null,'get').then(response=>{
             if(response.statusCode === 200){
                 this.setState({
                     services: response.body

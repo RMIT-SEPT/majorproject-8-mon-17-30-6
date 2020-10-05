@@ -35,13 +35,13 @@ export default class UserNavigationBar extends React.Component{
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
                             <NavDropdown title="Services" id="basic-nav-dropdown">
-                                <NavDropdown.Item name="providers" onClick={this.handleSelectNavBar}>Providers</NavDropdown.Item>
+                                <NavDropdown.Item name="viewProviders" onClick={this.handleSelectNavBar}>Providers</NavDropdown.Item>
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item name="userServices" onClick={this.handleSelectNavBar}>View Services</NavDropdown.Item>
                             </NavDropdown>
-                            <NavDropdown title="Manage Appointments" id="basic-nav-dropdown">
-                                <NavDropdown.Item name="upcomingAppointments" onClick={this.handleSelectNavBar}>View my appointments</NavDropdown.Item>
-                              
+                            <NavDropdown title="My Services" id="basic-nav-dropdown">
+                                <NavDropdown.Item name="userNewAppointment" onClick={this.handleSelectNavBar}>New appointment</NavDropdown.Item>
+                                <NavDropdown.Item name="upcomingAppointments" onClick={this.handleSelectNavBar}>Manage my appointments (view/delete)</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
                         

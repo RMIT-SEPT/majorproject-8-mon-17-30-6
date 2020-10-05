@@ -1,8 +1,9 @@
 import React from 'react';
 import Button from "react-bootstrap/Button";
 import './css/login.css';
+import Spinner from 'react-bootstrap/Spinner'
 
-const functions = require('../apiOperations')
+const {apiCall} = require('../mock/operations/mock/functions/operations')
 
 /***
  * Basic flow: This component should simply handle authentication.
@@ -27,12 +28,18 @@ export default class Login extends React.Component{
     handleAuthenticateRequest(){
         //mock for now
         this.setState({isCallingServer:true});
-
-        functions.authenticate(this.state.username,this.state.password, this.state.role).then(response=>{
+        const payload = {
+            username:this.state.username,
+            password: this.state.password,
+            role: this.state.role
+        }
+        apiCall('common','login',payload, 'post').then(response=>{
             if(response.statusCode===200){
+                localStorage.setItem('credentials', JSON.stringify(response.body));
                 this.setState({isCallingServer:false});
                 this.props.handleAuthentication(); //propagate response with token
             }else{
+                localStorage.removeItem('credentials')
                 this.setState({isCallingServer:false, failed:true,error:response})
             }
         })
@@ -41,7 +48,8 @@ export default class Login extends React.Component{
 
     showAuthenticateButton(){
         if(this.state.isCallingServer){
-            return <Button variant={"secondary"}>Authenticating</Button>
+            return <Button variant={"secondary"}><Spinner animation="border" role="status">
+          </Spinner> Authenticating...</Button>
         }
         if(this.state.password&&this.state.username&&this.state.role&&(!this.state.isCallingServer)){
             return <Button className="form-control btn btn-success" onClick={this.handleAuthenticateRequest}>Authenticate</Button>

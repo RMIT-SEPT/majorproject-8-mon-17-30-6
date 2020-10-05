@@ -4,8 +4,7 @@ import './css/signup.css';
 import User from '../model/User';
 import FormFields from '../miscelaneous/FormFields';
 import SelectOptions from '../miscelaneous/SelectOptions'
-
-const functions = require('../apiOperations');
+const functions = require('../mock/operations/mock/functions/operations.js');
 const errorMessages = require('../model/errorMessages.json').signup;
 
 export default class Signup extends React.Component{
@@ -30,7 +29,7 @@ export default class Signup extends React.Component{
         //mock for now
         this.setState({isCallingServer:true});
 
-        functions.signupNewUser(this.state.entity).then(response=>{
+        functions.apiCall('common', 'signup',this.state.entity, 'post').then(response=>{
             if(response.statusCode===200){
                 this.setState({isCallingServer:false});
                 alert("Signup succesful. Please login");
@@ -85,16 +84,17 @@ export default class Signup extends React.Component{
  
     showCompanyInput(){
         if (!this.state.called && (this.state.entity.role==='EMPLOYEE')){
-
-        functions.getCompaniesFromAPI().then(response=>{
-            var arr = [];
-            var i = 0;
-            arr.push(<option key={i} value=""  disabled defaultValue>Choose a Company</option>);
-            for(var key in response.body){
-                arr.push(<option key={i+1} value={key}>{response.body[key]}</option>);
-                i++;
-              }
-              this.setState({options:arr,isCallingServer:false, called:true});
+        functions.apiCall('user', 'getCompanies',null, 'get').then(response=>{
+            if(response.statusCode===200){
+                var arr = [];
+                var i = 0;
+                arr.push(<option key={i} value=""  disabled defaultValue>Choose a Company</option>);
+                for(var key in response.body){
+                    arr.push(<option key={i+1} value={key}>{response.body[key]}</option>);
+                    i++;
+                  }
+                  this.setState({options:arr,isCallingServer:false, called:true});
+            }
         }
         )
     }

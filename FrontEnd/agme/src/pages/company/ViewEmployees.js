@@ -1,9 +1,8 @@
 import React from 'react';
 import Employee from '../../model/Employee';
 import { EmployeeSchedule } from './EmployeeSchedule';
-import Booking from '../../model/Booking';
 import './viewEmployees.css'
-const {getCompanyEmployees, getCompanyBookings, deleteBooking} = require('../../mock/operations');
+const {apiCall} = require('../../mock/operations/mock/functions/operations');
 
 export class ViewEmployees extends React.Component{
     constructor(props){
@@ -14,14 +13,14 @@ export class ViewEmployees extends React.Component{
             bookings:[]
         }
 
-        getCompanyEmployees().then(response=>{
+        apiCall('company', 'getEmployees', null, "get" ).then(response=>{
             if(response.statusCode===200){
                 const employees = response.body.map(employee=>{return new Employee(employee)});
                 this.setState({employees:employees})
             }
         });
 
-        getCompanyBookings().then(response=>{
+        apiCall('company', 'getBookings', null, "get").then(response=>{
             if(response.statusCode===200){
                 this.setState({bookings:response.body})
             }
@@ -35,7 +34,7 @@ export class ViewEmployees extends React.Component{
     callDeleteBooking(e){
         e.preventDefault();
         const bookingId = e.currentTarget.value;
-        deleteBooking(bookingId).then(response=>{
+        apiCall('company', 'deleteBooking', bookingId, 'delete').then(response=>{
             if(response.statusCode===204){
                 const bookings = this.state.bookings.filter(booking=>{
                     return Number(booking.id)!==Number(bookingId);

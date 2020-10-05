@@ -1,5 +1,5 @@
 import Entity from './Entity';
-const functions = require('../apiOperations');
+const {apiCall} = require('../mock/operations/mock/functions/operations');
 
 export default class Booking extends Entity{
     constructor(data){
@@ -12,8 +12,16 @@ export default class Booking extends Entity{
         });
     }
 
+    getDateTime(){
+        return new Date(Number(2000+Number(this.startDateTime.split("-")[2].split(" ")[0])),this.startDateTime.split("-")[1]-1,this.startDateTime.split("-")[0],this.startDateTime.split(" ")[1].split(":")[0]);
+    }
+
     setTime(time){
-        this.date = new Date(this.date).setHours(time)
+        console.log('setting time')
+        console.log(time)
+        this.date = new Date(this.date)
+        this.date.setHours(time)
+        this.date = this.date.toISOString();
     }
 
     setField(key,value){
@@ -37,12 +45,23 @@ export default class Booking extends Entity{
             const date = new Date(this.date);
             const day = date.getDate() < 10 ? "0"+date.getDate() : date.getDate();
             const month = (date.getMonth()+1) < 10 ? "0"+(date.getMonth()+1) : (date.getMonth()+1);
-            const year = date.getFullYear().toString()[2]+date.getFullYear().toString()[3];
-            const fullDate = "20"+year + "-" + month + "-" + day+'T';
-            
-
+            const year = date.getFullYear();
+            const fullDate = year + "-" + month + "-" + day;
+            console.log(year);
+            console.log(month);
+            console.log(fullDate);
             return fullDate;
         }
+    }
+
+    getDateString(){
+        const dateTime = this.getDateTime();
+        const year = dateTime.getFullYear();
+        const month = (dateTime.getMonth()+1) < 10 ? "0"+(dateTime.getMonth()+1) : dateTime.getMonth()+1;
+        const date = (dateTime.getDate()) < 10 ? "0"+(dateTime.getDate()) : dateTime.getDate();
+        const hours = dateTime.getHours();
+        const minutes = dateTime.getMinutes() < 10 ? "0"+dateTime.getMinutes() : dateTime.getMinutes();
+        return date+"/"+month+"/"+year+" - "+hours+":"+minutes;
     }
 
     getDDYYMMYYHH(){
@@ -50,17 +69,34 @@ export default class Booking extends Entity{
             return ""
         }
         const hour = new Date(this.date).getHours()
-        return `${this.getDDYYMMYY()}${hour}:00:00`
+        console.log(hour);
+        const finalDateTime = this.getDDYYMMYY() + 'T' + hour + ':00:00'
+        console.log(finalDateTime);
+
+        return finalDateTime;
     }
 
     async handleBookingRequest(){
-        return functions.handleBookingRequest(this.serviceType, this.getDDYYMMYYHH(), this.duration, this.employeeUsername)
+        const payload = {
+            "serviceType": this.serviceType,
+            "date": this.getDDYYMMYYHH(),
+            "duration": this.duration,
+            "employeeUsername": this.employeeUsername
+        }
+        return apiCall('user', 'newBooking', payload, 'post')
     }
     async getAvailability(){
         if((!this.serviceType)||(!this.date)||(!this.duration)){
+            console.log("ddddd", this.date);
+
             return null;
         }
-        return functions.getAvailabilityForService(this.serviceType, this.getDDYYMMYY, this.duration).then(response=>{
+        const payload = {
+            "serviceName": this.serviceType,
+            "date": this.getDDYYMMYY(),
+            "duration": this.duration
+        }
+        return apiCall('user','getAvailability', payload, 'post').then(response=>{
             if(response.statusCode===200){
                 this.availabilities = response.body;
             }
