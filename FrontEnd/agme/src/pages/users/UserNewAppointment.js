@@ -196,7 +196,13 @@ export default class UserNewAppointment extends React.Component{
                                     Company: {appointment.company.name}
                                 </p>
                                 <p>
-                                    {appointment.employee.userType}: {appointment.employee.name}
+                                    Name: {appointment.employee.name}
+                                </p>
+                                <p>
+                                Contact Number: {appointment.company.phone}
+                                </p>
+                                <p>
+                                    Address: {appointment.company.address}
                                 </p>
                                 <p>Service: {appointment.serviceType.name}</p>
                                 <p>Duration: {appointment.duration} hours</p>
