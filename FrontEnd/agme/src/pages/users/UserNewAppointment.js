@@ -5,8 +5,6 @@ import EmplpoyeeAvailability from './EmployeeAvailability';
 import Spinner from 'react-bootstrap/Spinner';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
-import { BsTrash } from "react-icons/bs"; 
-import Button from "react-bootstrap/Button";
 const {apiCall} = require('../../mock/operations/mock/functions/operations')
 
 export default class UserNewAppointment extends React.Component{
@@ -202,12 +200,6 @@ export default class UserNewAppointment extends React.Component{
                                 </p>
                                 <p>Service: {appointment.serviceType.name}</p>
                                 <p>Duration: {appointment.duration} hours</p>
-                                <Button variant="danger" onClick={e=>{
-                                    e.preventDefault();
-                                    this.setState({booking:booking,showModal:true})
-                                }}>
-                                    <BsTrash/> Delete Booking id {appointment.id}
-                                </Button>
                             </div>
                             </Card.Body>
                     </Accordion.Collapse>
@@ -217,10 +209,9 @@ export default class UserNewAppointment extends React.Component{
             return (
                 <React.Fragment>
                 <div className="btnWrapper">
-                <button onClick={this.changeClass} className=" btn-danger btn showUpcomming">Upcoming Bookings {upcBookings}</button>
+                <button onClick={this.changeClass} className=" btn-danger btn showUpcomming">You have {upcBookings} upcoming bookings</button>
                 </div>
                 <div className={this.state.classname}>
-                    <h3>Your upcoming events</h3>
                     <Accordion defaultActiveKey="0">
                         {cards}
                     </Accordion>

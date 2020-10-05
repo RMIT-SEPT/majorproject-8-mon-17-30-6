@@ -23,7 +23,7 @@
     margin-top:15px;  
   }
   .showUpcomming{
-    width: 200px;
+    width: 350px;
     height: 70px;
     margin-left:auto;
     margin-right: auto;
@@ -33,6 +33,7 @@
     width: 100%;
     height: 80px;;
     text-align: center;
+    margin-top: 20px;;
   }
 
   .accordion{
