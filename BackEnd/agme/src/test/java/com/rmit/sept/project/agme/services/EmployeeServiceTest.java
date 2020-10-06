@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -55,6 +56,12 @@ public class EmployeeServiceTest {
     @MockBean
     LoginSignupService loginSignupService;
 
+    @Test
+    public void createEmployeeTest() {
+        Employee employee = new Employee();
+
+        given(employeeService.addEmployee(employee)).willReturn(employee);
+    }
 
     @Test
     public void getEmployeesTest() {
@@ -71,5 +78,33 @@ public class EmployeeServiceTest {
         employeeService.addEmployee(otherEmployee);
 
         given(employeeService.getAll()).willReturn(employeeList);
+    }
+
+    @Test
+    public void loadUserByUsernameTest() {
+
+        Employee employee = new Employee();
+        String username = "test";
+
+        employee.setUsername(username);
+        employeeService.addEmployee(employee);
+
+        given(employeeService.loadUserByUsername(username)).willReturn(employee);
+    }
+
+    @Test
+    public void getEmployeeByIdTest() {
+
+        Employee employee = new Employee();
+        Long id = 50L;
+        employee.setId(id);
+
+        Employee otherEmployee = new Employee();
+        Long otherId = 60L;
+        otherEmployee.setId(otherId);
+
+        employeeService.addEmployee(employee);
+
+        given(employeeService.getEmployeeById(id)).willReturn(employee);
     }
 }
