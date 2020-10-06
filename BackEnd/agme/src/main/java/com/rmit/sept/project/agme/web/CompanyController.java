@@ -140,6 +140,19 @@ public class CompanyController
         }
     }
 
+    // Read current assigned Employee
+    @GetMapping("/bookings/employee")
+    public ResponseEntity<?> getBookingEmployee(@RequestBody Long bookingId, @RequestBody Long employeeId) {
+        try {
+            Booking tempBooking = bookingService.getBookingById(bookingId);
+            Employee employee = tempBooking.getEmployee();
+            return new ResponseEntity<>(employee, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>("resource not found", HttpStatus.valueOf(404));
+        }
+    }
+
     // Set employee to null
     @DeleteMapping("/bookings/employee")
     public ResponseEntity<?> removeBookingEmployee(@RequestBody Long bookingId) {
