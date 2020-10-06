@@ -1,4 +1,4 @@
-package com.rmit.sept.project.agme.service;
+package com.rmit.sept.project.agme.services;
 
 import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.model.Company;
@@ -51,15 +51,7 @@ public class BookingServiceTest {
         Booking testBooking = new Booking();
         Booking result;
 
-        try {
-            result = bookingService.addBooking(testBooking);
-        }
-        catch (NullPointerException e)
-        {
-            result = null;
-        }
-
-        assertNotEquals(testBooking, result);
+        given(bookingService.addBooking(testBooking)).willReturn(testBooking);
     }
 
     @Test
