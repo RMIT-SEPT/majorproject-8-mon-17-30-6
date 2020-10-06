@@ -179,7 +179,7 @@ public class CompanyController
             Booking tempBooking = bookingService.getBookingById(bookingId);
 
             if (tempBooking.getEmployee() == null) {
-                return new ResponseEntity<>("resource not found", HttpStatus.valueOf(204));
+                return new ResponseEntity<>("no existing employee", HttpStatus.valueOf(204));
             }
 
             Employee tempEmployee = employeeService.getEmployeeById(newEmployeeId);
@@ -195,9 +195,9 @@ public class CompanyController
     public ResponseEntity<?> deleteBooking(@RequestBody Long bookingId){
         try{
             bookingService.deleteById(bookingId);
-            return new ResponseEntity<String>("resource deleted successfully", HttpStatus.OK);
+            return new ResponseEntity<>("resource deleted successfully", HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity<String>("resource not found", HttpStatus.valueOf(404));
+            return new ResponseEntity<>("resource not found", HttpStatus.valueOf(404));
         }
 
     }

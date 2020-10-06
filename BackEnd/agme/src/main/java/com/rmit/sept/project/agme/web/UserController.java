@@ -101,9 +101,9 @@ public class UserController {
         }
         try{
             bookingService.deleteById(bookingId);
-            return new ResponseEntity<String>("resource deleted successfully", HttpStatus.valueOf(200));
+            return new ResponseEntity<>("resource deleted successfully", HttpStatus.valueOf(200));
         }catch(Exception e){
-            return new ResponseEntity<String>("resource not found", HttpStatus.valueOf(404));
+            return new ResponseEntity<>("resource not found", HttpStatus.valueOf(404));
         }
 
     }
@@ -112,6 +112,10 @@ public class UserController {
     public ResponseEntity<?> rescheduleBooking(@RequestBody Long bookingId, Date newTime) {
         try {
             Booking tempBooking = bookingService.getBookingById(bookingId);
+            if (tempBooking.getStartDateTime() == null)
+            {
+                return new ResponseEntity<>("no existing time", HttpStatus.valueOf(204));
+            }
             tempBooking.setStartDateTime(newTime);
             return new ResponseEntity<>("booking successfully moved", HttpStatus.OK);
         }
