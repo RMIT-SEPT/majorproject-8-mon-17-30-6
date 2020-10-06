@@ -131,8 +131,14 @@ public class CompanyController
     public ResponseEntity<?> assignBookingEmployee(@RequestBody Long bookingId, @RequestBody Long employeeId) {
         try {
             Booking tempBooking = bookingService.getBookingById(bookingId);
+
+            if (tempBooking.getEmployee() != null) {
+                return new ResponseEntity<>("resource already exists", HttpStatus.valueOf(409));
+            }
+
             Employee tempEmployee = employeeService.getEmployeeById(employeeId);
             tempBooking.setEmployee(tempEmployee);
+
             return new ResponseEntity<>("employee successfully assigned", HttpStatus.OK);
         }
         catch (Exception e) {
@@ -171,6 +177,11 @@ public class CompanyController
     public ResponseEntity<?> editBookingEmployee(@RequestBody Long bookingId, @RequestBody Long newEmployeeId) {
         try {
             Booking tempBooking = bookingService.getBookingById(bookingId);
+
+            if (tempBooking.getEmployee() == null) {
+                return new ResponseEntity<>("resource not found", HttpStatus.valueOf(204));
+            }
+
             Employee tempEmployee = employeeService.getEmployeeById(newEmployeeId);
             tempBooking.setEmployee(tempEmployee);
             return new ResponseEntity<>("employee successfully changed", HttpStatus.OK);
@@ -184,7 +195,7 @@ public class CompanyController
     public ResponseEntity<?> deleteBooking(@RequestBody Long bookingId){
         try{
             bookingService.deleteById(bookingId);
-            return new ResponseEntity<String>("resource deleted successfully", HttpStatus.valueOf(204));
+            return new ResponseEntity<String>("resource deleted successfully", HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<String>("resource not found", HttpStatus.valueOf(404));
         }
