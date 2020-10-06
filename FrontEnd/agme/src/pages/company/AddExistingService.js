@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from "react-bootstrap/Button";
 import './services.css'
-const {getCall, getDecodedJwtFromLocalStorage} = require('../../mock/operations/mock/functions/operations');
+const {apiCall, getDecodedJwtFromLocalStorage} = require('../../mock/operations/mock/functions/operations');
 //To view list of services
 export class AddExistingService extends React.Component{
     constructor(props){
@@ -10,7 +10,7 @@ export class AddExistingService extends React.Component{
             services:[],
             serviceName: ""
         }
-        getCall('company','getAllServices').then(response=>{
+        apiCall('company','getAllServices', '', 'GET').then(response=>{
             const username = getDecodedJwtFromLocalStorage().sub;
             if(response.statusCode === 200){
                 let all = new Set();
