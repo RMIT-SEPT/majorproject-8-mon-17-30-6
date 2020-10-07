@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -100,10 +101,26 @@ public class UserController {
         }
         try{
             bookingService.deleteById(bookingId);
-            return new ResponseEntity<String>("resource deleted successfully", HttpStatus.valueOf(200));
+            return new ResponseEntity<>("resource deleted successfully", HttpStatus.valueOf(200));
         }catch(Exception e){
-            return new ResponseEntity<String>("resource not found", HttpStatus.valueOf(404));
+            return new ResponseEntity<>("resource not found", HttpStatus.valueOf(404));
         }
 
+    }
+
+    @PutMapping("/bookings")
+    public ResponseEntity<?> rescheduleBooking(@RequestBody Long bookingId, Date newTime) {
+        try {
+            Booking tempBooking = bookingService.getBookingById(bookingId);
+            if (tempBooking.getStartDateTime() == null)
+            {
+                return new ResponseEntity<>("no existing time", HttpStatus.valueOf(204));
+            }
+            tempBooking.setStartDateTime(newTime);
+            return new ResponseEntity<>("booking successfully moved", HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>("resource not found", HttpStatus.valueOf(404));
+        }
     }
 }

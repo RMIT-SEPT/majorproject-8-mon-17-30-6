@@ -11,10 +11,8 @@ import com.rmit.sept.project.agme.services.CompanyService;
 import com.rmit.sept.project.agme.services.EmployeeService;
 import com.rmit.sept.project.agme.services.ServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -70,7 +68,7 @@ public class CompanyController
         @GetMapping("/bookings")
     public ResponseEntity<?> getBookings(@RequestHeader("Authorisation") String authorisationHeader){
         String username = "";
-//        Gets username from the jwt topken
+//        Gets username from the jwt token
         if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
             String jwt = authorisationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
@@ -128,20 +126,78 @@ public class CompanyController
         }
     }
 
+    // Assign booking to employee
+    @PostMapping("/bookings/employee")
+    public ResponseEntity<?> assignBookingEmployee(@RequestBody Long bookingId, @RequestBody Long employeeId) {
+        try {
+            Booking tempBooking = bookingService.getBookingById(bookingId);
+
+            if (tempBooking.getEmployee() != null) {
+                return new ResponseEntity<>("resource already exists", HttpStatus.valueOf(409));
+            }
+
+            Employee tempEmployee = employeeService.getEmployeeById(employeeId);
+            tempBooking.setEmployee(tempEmployee);
+
+            return new ResponseEntity<>("employee successfully assigned", HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>("resource not found", HttpStatus.valueOf(404));
+        }
+    }
+
+    // Read current assigned Employee
+    @GetMapping("/bookings/employee")
+    public ResponseEntity<?> getBookingEmployee(@RequestBody Long bookingId, @RequestBody Long employeeId) {
+        try {
+            Booking tempBooking = bookingService.getBookingById(bookingId);
+            Employee employee = tempBooking.getEmployee();
+            return new ResponseEntity<>(employee, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>("resource not found", HttpStatus.valueOf(404));
+        }
+    }
+
+    // Set employee to null
+    @DeleteMapping("/bookings/employee")
+    public ResponseEntity<?> removeBookingEmployee(@RequestBody Long bookingId) {
+        try {
+            Booking tempBooking = bookingService.getBookingById(bookingId);
+            tempBooking.setEmployee(null);
+            return new ResponseEntity<>("employee successfully removed", HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>("resource not found", HttpStatus.valueOf(404));
+        }
+    }
+
+    // Change assigned employee
+    @PutMapping("/bookings/employee")
+    public ResponseEntity<?> editBookingEmployee(@RequestBody Long bookingId, @RequestBody Long newEmployeeId) {
+        try {
+            Booking tempBooking = bookingService.getBookingById(bookingId);
+
+            if (tempBooking.getEmployee() == null) {
+                return new ResponseEntity<>("no existing employee", HttpStatus.valueOf(204));
+            }
+
+            Employee tempEmployee = employeeService.getEmployeeById(newEmployeeId);
+            tempBooking.setEmployee(tempEmployee);
+            return new ResponseEntity<>("employee successfully changed", HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>("resource not found", HttpStatus.valueOf(404));
+        }
+    }
 
     @DeleteMapping("/bookings")
-    public ResponseEntity<?> deleteBooking(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId){
-        String username = "";
-//        Gets username from the jwt topken
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
-        }
+    public ResponseEntity<?> deleteBooking(@RequestBody Long bookingId){
         try{
             bookingService.deleteById(bookingId);
-            return new ResponseEntity<String>("resource deleted successfully", HttpStatus.valueOf(204));
+            return new ResponseEntity<>("resource deleted successfully", HttpStatus.OK);
         }catch(Exception e){
-            return new ResponseEntity<String>("resource not found", HttpStatus.valueOf(404));
+            return new ResponseEntity<>("resource not found", HttpStatus.valueOf(404));
         }
 
     }

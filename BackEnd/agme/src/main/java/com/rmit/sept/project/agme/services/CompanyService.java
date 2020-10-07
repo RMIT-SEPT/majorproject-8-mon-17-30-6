@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletionException;
+
 @Service
 public class CompanyService implements UserInterface {
     @Autowired
@@ -18,7 +20,8 @@ public class CompanyService implements UserInterface {
         companyRepository.save((Company) user);
     }
 
-    @Override
+    public Company addCompany(Company company) { return companyRepository.save(company); }
+
     public List<Company> getAll() {
         List<Company> company = new ArrayList<>();
         Iterable<Company> aa = companyRepository.findAll();
