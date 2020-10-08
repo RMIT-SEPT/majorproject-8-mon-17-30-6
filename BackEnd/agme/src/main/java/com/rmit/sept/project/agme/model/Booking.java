@@ -26,6 +26,7 @@ public class Booking {
     @ManyToOne
     private User user;
 
+    boolean reminderSent = false;
 //    the service that has been chosen
     @ManyToOne
     private ServiceType serviceType;
@@ -49,6 +50,16 @@ public class Booking {
 //    {
 //    }
 
+
+    public boolean isReminderSent()
+    {
+        return reminderSent;
+    }
+
+    public void setReminderSent(boolean reminderSent)
+    {
+        this.reminderSent = reminderSent;
+    }
 
     public Long getId() {
         return id;

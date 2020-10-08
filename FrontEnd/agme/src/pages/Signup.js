@@ -125,6 +125,7 @@ export default class Signup extends React.Component{
                     <FormFields showError={this.showError} fields={['username', 'name']} entity={this.state.entity} onChange={this.handleInputChange}/>
                     {this.showFieldsBasedOnRole()}
                     {this.showCompanyInput()}
+                    <FormFields showError={this.showError} fields={['email']} entity={this.state.entity} onChange={this.handleInputChange}/>
                     <FormFields showError={this.showError} fields={['phone', 'address']} entity={this.state.entity} onChange={this.handleInputChange}/>
                     <FormFields showError={this.showError} fields={['password', 'confirmPassword']} type='password' entity={this.state.entity} onChange={this.handleInputChange}/>
                     {this.showSignupButtonButton()}

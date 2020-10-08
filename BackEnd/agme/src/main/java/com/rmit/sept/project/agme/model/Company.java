@@ -27,7 +27,7 @@ public class Company extends AbstractUser implements UserDetails {
     List<Employee> employees = new ArrayList<>();
 // Constructor for a company
     public Company(String username, String name,String password, String confirmPassword,
-                  String address, String phone, Role role, String companyName) {
+                  String address, String phone, Role role, String companyName,String email) {
         setUsername(username);
         setName(name);
         setPassword(password);

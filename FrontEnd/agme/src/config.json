@@ -21,7 +21,9 @@
         "getAvailability":"user/availability",
         "companies":"user/companies",
         "deleteBooking": "user/bookings",
-        "newBooking": "user/new-booking"
+        "newBooking": "user/new-booking",
+        "upcomingBookings": "user/upcoming-bookings"
+
         
       },
       "employee":{

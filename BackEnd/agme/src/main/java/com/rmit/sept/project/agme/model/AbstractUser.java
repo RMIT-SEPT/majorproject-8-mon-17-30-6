@@ -29,6 +29,8 @@ public abstract class AbstractUser {
     private String address;
     @NotBlank(message = "phone cannot be blank")
     private String phone;
+    @NotBlank(message = "email cannot be blank")
+    private String email;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy HH:mm:ss")
     private Date lastLogin;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yy HH:mm:ss")
@@ -39,6 +41,15 @@ public abstract class AbstractUser {
     String salt;
 
 
+    public String getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
 
     public Role getRole() {
         return role;

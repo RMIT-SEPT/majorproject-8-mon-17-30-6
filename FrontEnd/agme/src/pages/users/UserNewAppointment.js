@@ -3,6 +3,8 @@ import React from 'react';
 import Booking from '../../model/Booking';
 import EmplpoyeeAvailability from './EmployeeAvailability';
 import Spinner from 'react-bootstrap/Spinner';
+import Accordion from 'react-bootstrap/Accordion';
+import Card from 'react-bootstrap/Card';
 const {apiCall} = require('../../mock/operations/mock/functions/operations')
 
 export default class UserNewAppointment extends React.Component{
@@ -13,20 +15,33 @@ export default class UserNewAppointment extends React.Component{
             isCallingServer: true,
             options: [],
             called: false,
+            newCall: false,
             getServicesStatus: null,
             calledTime: false,
             calledDays: false,
             employees: [],
             employee: "",
             array: [],
-            timeSlots: []
+            timeSlots: [],
+            classname: "upcomingApt",
+            upcBookings: 0
         };
         this.handleBookingChange = this.handleBookingChange.bind(this);
         this.handleBookingRequestForUser = this.handleBookingRequestForUser.bind(this);
         this.getAllServices = this.getAllServices.bind(this);
         this.updateBooking = this.updateBooking.bind(this)
+        this.changeClass = this.changeClass.bind(this)
     }
-
+    componentDidMount(){
+        apiCall('user', 'upcomingBookings',null,'get').then(r=>{
+            console.log(r)
+            if(r.statusCode===200){
+                this.setState({appointments:r.body, failed: false, newCall: true}, function() {})
+            }else{
+                this.setState({failed: true, newCall: true})
+            }
+        });
+    }
     updateBooking(e){
         e&&e.preventDefault();
         const booking = new Booking(JSON.parse(JSON.stringify(this.state.booking)));
@@ -149,11 +164,86 @@ export default class UserNewAppointment extends React.Component{
         })      
     }
 
+
+    showUpcoming(){
+        if(!this.state.newCall){
+            return <div className="calling">
+                <div className="spinnerOutter">
+                <Spinner animation="border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </Spinner>
+                </div>
+                <br/>
+                <p>Please wait while we retrieve your bookings.</p>
+                
+            </div>
+        }else{
+            if(this.state.failed){
+                return <div>Ooops. Something went wrong, we could not retrieve your bookings</div>
+            }else{
+                let upcBookings = 0;
+            const cards = this.state.appointments.map((appointment,key)=>{
+                const booking = new Booking(appointment);
+                return <Card key={key}>
+                {upcBookings++}
+                    <Card.Header>
+                        {booking.getDateString()}
+                    </Card.Header>
+                    <Accordion.Collapse eventKey="0">
+                        <Card.Body>
+                            <div className="upcoming_event_company">
+                                <p>
+                                    Company: {appointment.company.name}
+                                </p>
+                                <p>
+                                    Name: {appointment.employee.name}
+                                </p>
+                                <p>
+                                Contact Number: {appointment.company.phone}
+                                </p>
+                                <p>
+                                    Address: {appointment.company.address}
+                                </p>
+                                <p>Service: {appointment.serviceType.name}</p>
+                                <p>Duration: {appointment.duration} hours</p>
+                            </div>
+                            </Card.Body>
+                    </Accordion.Collapse>
+                </Card>
+            })
+    
+            return (
+                <React.Fragment>
+                <div className="btnWrapper">
+                <button onClick={this.changeClass} className=" btn-danger btn showUpcomming">You have {upcBookings} upcoming bookings</button>
+                </div>
+                <div className={this.state.classname}>
+                    <Accordion defaultActiveKey="0">
+                        {cards}
+                    </Accordion>
+                </div>
+                </React.Fragment>
+
+            )
+            }
+        }
+    }
+    changeClass(){
+        if (this.state.classname === "upcomingApt"){
+            this.setState({classname:"noClass"});
+        }else{
+            this.setState({classname:"upcomingApt"});
+
+        }
+       
+    }
     render(){
         this.getAllServices();
         if(this.state.getServicesStatus){
             if(this.state.getServicesStatus===200){
                 return (
+                    <React.Fragment>
+                    {this.showUpcoming()}
                     <div className={"new-booking"}>
                         <h3 className="title">New Booking</h3>
                         <div className="form-container">
@@ -173,6 +263,7 @@ export default class UserNewAppointment extends React.Component{
                             </br>
                         </div>
                     </div>
+                    </React.Fragment>
                 )
             }else{
                 //getServices called but API failed?
