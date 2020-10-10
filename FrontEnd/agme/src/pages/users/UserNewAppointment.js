@@ -135,7 +135,7 @@ export default class UserNewAppointment extends React.Component{
                     <option key={i+1} value={initial.toString()}>
                         {initial.toDateString()}
                     </option>
-                )
+                  )
                 initial.setDate(initial.getDate() + 1)
             }
             return (
@@ -179,7 +179,7 @@ export default class UserNewAppointment extends React.Component{
             </div>
         }else{
             if(this.state.failed){
-                return <div>No bookings returned from server.</div>
+                return "";
             }else{
             let upcBookings = this.state.appointments.length;
             const cards = this.state.appointments.map((appointment,key)=>{
