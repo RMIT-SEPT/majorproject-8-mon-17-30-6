@@ -40,45 +40,57 @@ export default class ViewProviders extends React.Component{
             </div>
             <br/>
             <p>Please wait while we retrieve the available providers.</p>
-            
+
         </div>
     }else{
         if(this.state.failed){
             return <div>Ooops. Something went wrong, we could not retrieve the available providers</div>
         }else{
             console.log(this.state.providers);
-            const cards = this.state.providers.map((providers,key)=>{
+            const cards = this.state.providers.map((provider,key)=>{
+              var warning = "";
+              if (provider.employees.length === 0) {
+
+                warning = "No employees registered";
+              }
+              else {
+                console.log(provider.employees);
+              }
+
+
+
                 return <Card key={key}>
                 <Card.Header>
-                {providers.name}
+                {provider.name}
                 </Card.Header>
                     <Accordion.Collapse eventKey="0">
                         <Card.Body>
                             <div className="upcoming_event_company">
                                 <p>
-                                    Company: {providers.name}
+                                    Company: {provider.name}
                                 </p>
                                 <p>
-                                    Contact Number: {providers.phone}
+                                    Contact Number: {provider.phone}
                                 </p>
                                 <p>
-                                    Address: {providers.address}
+                                    Address: {provider.address}
                                 </p>
                                 <div className="employees">
-                                    <p className="employeeTitle">Employees</p>
-                                    { providers.employees.map((message, index) => (
-                                        <p className="employeeName">{message.name}</p>
-                                    ))}
-                                </div> 
+                                  <p className="employeeTitle">Employees:</p>
+                                  {provider.employees.map((message, index) => (
+                                      <p className="employeeName">{message.name}</p>
+                                  ))}
+                                  {warning}
+                                </div>
                             </div>
                         </Card.Body>
                     </Accordion.Collapse>
                 </Card>
             })
-    
+
             return (
                 <div>
-                    <h3>Your upcoming events</h3>
+                    <h3>Providers Using Our System</h3>
                     <Accordion defaultActiveKey="0">
                         {cards}
                     </Accordion>

@@ -122,4 +122,15 @@ public class Booking {
     public void setUser(User user) {
         this.user = user;
     }
+    
+    public String toString() {
+    	
+    	if (startDateTime != null && serviceType != null && employee != null && company != null && user != null) {
+    		return startDateTime.toString() + " " + serviceType.getName() + " " +  employee.getName() + " " +  company.getName() + " " +  user.getName();
+    	}
+    	else {
+    		return "Something's null!";
+    	}
+    	
+    }
 }

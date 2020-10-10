@@ -4,6 +4,7 @@ import {CompanyServices} from './CompanyServices';
 import {AddExistingService} from './AddExistingService';
 import {ViewEmployees} from './ViewEmployees';
 import {CompanyAppointmentList} from './CompanyAppointmentList';
+
 /**
  * A simple component to map to other components - avoid use of switch statements
  * **/

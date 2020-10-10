@@ -30,11 +30,11 @@ export default class CompanyNavigationBar extends React.Component{
         }
         return (
             <Navbar bg="light" expand="lg">
-                    <Navbar.Brand href="#home">AGME</Navbar.Brand>
+                    <Navbar.Brand>AGME</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                        <NavDropdown.Item>{decodedJwtPayload.sub}</NavDropdown.Item>
+                        <NavDropdown.Item name="viewBookings" onClick={this.handleSelectNavBar}>{decodedJwtPayload.sub}</NavDropdown.Item>
                             <NavDropdown title="Services" id="basic-nav-dropdown">
                                 <NavDropdown.Item name="providers" onClick={this.props.handleSelectNavBar}>Providers</NavDropdown.Item>
                                 <NavDropdown.Divider />

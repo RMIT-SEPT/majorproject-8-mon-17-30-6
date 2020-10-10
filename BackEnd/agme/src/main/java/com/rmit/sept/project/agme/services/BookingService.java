@@ -14,65 +14,70 @@ import java.util.Optional;
 @Service
 public class BookingService {
 
-    private BookingRepository bookingRepository;
+	private BookingRepository bookingRepository;
 
-    @Autowired
-    public BookingService(BookingRepository bookingRepository) {
-        this.bookingRepository = bookingRepository;
-    }
+	@Autowired
+	public BookingService(BookingRepository bookingRepository) {
+		this.bookingRepository = bookingRepository;
+	}
 
-    public BookingService(){
+	public BookingService() {
 
-    }
-    // Get arraylist of all users
-    public List<Booking> getAllBookings() {
-        Iterable<Booking> it = bookingRepository.findAll();
-        List<Booking> bookings = new ArrayList<>();
+	}
 
-        it.forEach(bookings::add);
+	// Get arraylist of all users
+	public List<Booking> getAllBookings() {
+		Iterable<Booking> it = bookingRepository.findAll();
+		List<Booking> bookings = new ArrayList<>();
 
-        return bookings;
-    }
+		it.forEach(bookings::add);
 
-    public Booking addBooking(Booking booking) { return bookingRepository.save(booking); }
+		return bookings;
+	}
 
-    public Long count() {return bookingRepository.count();}
+	public Booking addBooking(Booking booking) {
+		return bookingRepository.save(booking);
+	}
 
-    // Assumes unique id for each booking
-    public Booking getBookingById(Long id) {
-        Optional<Booking> temp = bookingRepository.findById(id);
-        return temp.orElse(null);
-    }
+	public Long count() {
+		return bookingRepository.count();
+	}
 
-    public List<Booking> getBookingsByCompany(Company company) {
+	// Assumes unique id for each booking
+	public Booking getBookingById(Long id) {
+		Optional<Booking> temp = bookingRepository.findById(id);
+		return temp.orElse(null);
+	}
 
-        Iterable<Booking> it = bookingRepository.findAll();
-        List<Booking> list = new ArrayList<>();
+	public List<Booking> getBookingsByCompany(Company company) {
 
-        it.forEach( book -> {
-            if (book.getCompany() == company) {
-                list.add(book);
-            }
-        });
+		Iterable<Booking> it = bookingRepository.findAll();
+		List<Booking> list = new ArrayList<>();
 
-        return list;
-    }
+		it.forEach(book -> {
+			if (book.getCompany() == company) {
+				list.add(book);
+			}
+		});
 
-    public List<Booking> getBookingsByEmployee(Employee employee) {
+		return list;
+	}
 
-        Iterable<Booking> it = bookingRepository.findAll();
-        List<Booking> list = new ArrayList<>();
+	public List<Booking> getBookingsByEmployee(Employee employee) {
 
-        it.forEach( book -> {
-            if (book.getEmployee() == employee) {
-                list.add(book);
-            }
-        });
+		Iterable<Booking> it = bookingRepository.findAll();
+		List<Booking> list = new ArrayList<>();
 
-        return list;
-    }
+		it.forEach(book -> {
+			if (book.getEmployee() == employee) {
+				list.add(book);
+			}
+		});
 
-    public void deleteById(Long bookingId){
-        bookingRepository.deleteById(bookingId);
-    }
+		return list;
+	}
+
+	public void deleteById(Long bookingId) {
+		bookingRepository.deleteById(bookingId);
+	}
 }

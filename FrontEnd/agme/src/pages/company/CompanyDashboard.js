@@ -1,11 +1,10 @@
 import React from 'react';
+import {CompanyAppointmentList} from './CompanyAppointmentList';
 
 export default class CompanyDashboard extends React.Component{
     render(){
         return (
-            <div>
-                Company dashsboard goes here...
-            </div>
+            <CompanyAppointmentList/>
         )
     }
 }

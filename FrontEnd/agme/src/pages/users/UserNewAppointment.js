@@ -91,7 +91,7 @@ export default class UserNewAppointment extends React.Component{
                 })
             }
         });
-  
+
     }
 
     handleTimeValue(index){
@@ -106,21 +106,21 @@ export default class UserNewAppointment extends React.Component{
     getNextDate(date){
         return new Date(date.getTime()+1*24*60*60*1000);
     }
-    // displays the days that can be booked
+    //displays the days that can be booked
     showDuration(){
         if (this.state.booking.serviceType !== ""){
             return (
             <React.Fragment>
                 <label>Duration</label>
-                <select 
+                <select
                     defaultValue="DEFAULT"
-                    className="form-control" 
-                    name={"duration"} 
+                    className="form-control"
+                    name={"duration"}
                     onChange={this.handleBookingChange}
                 >
                     <option key={0} value={"DEFAULT"} disabled>Choose a duration</option>
                     {[1,2,3,4].map((d)=>{return <option key={d} value={d}>{d} hour(s)</option>})}
-                </select> 
+                </select>
             </React.Fragment>
             )
         }
@@ -135,7 +135,7 @@ export default class UserNewAppointment extends React.Component{
                     <option key={i+1} value={initial.toString()}>
                         {initial.toDateString()}
                     </option>
-                )
+                  )
                 initial.setDate(initial.getDate() + 1)
             }
             return (
@@ -144,7 +144,7 @@ export default class UserNewAppointment extends React.Component{
                     <select defaultValue="DEFAULT" className="form-control" name={"date"} onChange={this.handleBookingChange}>
                         <option key={0} value={"DEFAULT"} disabled>Choose a date</option>
                         {dates}
-                    </select>      
+                    </select>
                 </React.Fragment>
             )
         }
@@ -161,7 +161,7 @@ export default class UserNewAppointment extends React.Component{
             }else{
                 this.setState({isCallingServer:false, failed:true,error:response})
             }
-        })      
+        })
     }
 
 
@@ -175,56 +175,58 @@ export default class UserNewAppointment extends React.Component{
                 </div>
                 <br/>
                 <p>Please wait while we retrieve your bookings.</p>
-                
+
             </div>
         }else{
             if(this.state.failed){
-                return <div>Ooops. Something went wrong, we could not retrieve your bookings</div>
+                return "";
             }else{
-                let upcBookings = 0;
+            let upcBookings = this.state.appointments.length;
             const cards = this.state.appointments.map((appointment,key)=>{
                 const booking = new Booking(appointment);
                 return <Card key={key}>
-                {upcBookings++}
-                    <Card.Header>
-                        {booking.getDateString()}
-                    </Card.Header>
-                    <Accordion.Collapse eventKey="0">
-                        <Card.Body>
-                            <div className="upcoming_event_company">
-                                <p>
-                                    Company: {appointment.company.name}
-                                </p>
-                                <p>
-                                    Name: {appointment.employee.name}
-                                </p>
-                                <p>
-                                Contact Number: {appointment.company.phone}
-                                </p>
-                                <p>
-                                    Address: {appointment.company.address}
-                                </p>
-                                <p>Service: {appointment.serviceType.name}</p>
-                                <p>Duration: {appointment.duration} hours</p>
-                            </div>
-                            </Card.Body>
-                    </Accordion.Collapse>
-                </Card>
+                          <Card.Header>
+                              {booking.getDateString()} Test
+                          </Card.Header>
+                          <Accordion.Collapse eventKey="0">
+                              <Card.Body>
+                                  <div className="upcoming_event_company">
+                                      <p>
+                                          Company: {appointment.company.name}
+                                      </p>
+                                      <p>
+                                          Name: {appointment.employee.name}
+                                      </p>
+                                      <p>
+                                          Contact Number: {appointment.company.phone}
+                                      </p>
+                                      <p>
+                                          Address: {appointment.company.address}
+                                      </p>
+                                      <p>
+                                          Service: {appointment.serviceType.name}
+                                      </p>
+                                      <p>
+                                          Duration: {appointment.duration} hours
+                                      </p>
+                                  </div>
+                              </Card.Body>
+                          </Accordion.Collapse>
+                      </Card>
             })
-    
+
             return (
                 <React.Fragment>
-                <div className="btnWrapper">
-                <button onClick={this.changeClass} className=" btn-danger btn showUpcomming">You have {upcBookings} upcoming bookings</button>
-                </div>
-                <div className={this.state.classname}>
-                    <Accordion defaultActiveKey="0">
-                        {cards}
-                    </Accordion>
-                </div>
+                  <div className="btnWrapper">
+                    <button onClick={this.changeClass} className=" btn-danger btn showUpcomming">You have {upcBookings} bookings in the next 48 hours</button>
+                  </div>
+                  <div className={this.state.classname}>
+                      <Accordion defaultActiveKey="0">
+                          {cards}
+                      </Accordion>
+                  </div>
                 </React.Fragment>
-
-            )
+              )
             }
         }
     }
@@ -235,7 +237,7 @@ export default class UserNewAppointment extends React.Component{
             this.setState({classname:"upcomingApt"});
 
         }
-       
+
     }
     render(){
         this.getAllServices();
@@ -243,26 +245,25 @@ export default class UserNewAppointment extends React.Component{
             if(this.state.getServicesStatus===200){
                 return (
                     <React.Fragment>
-                    {this.showUpcoming()}
-                    <div className={"new-booking"}>
-                        <h3 className="title">New Booking</h3>
-                        <div className="form-container">
-                            <br/>
-                            <React.Fragment>
-                                <label>Service</label>
-                                <select value={this.state.booking.serviceType||"DEFAULT"} className="form-control" name={"serviceType"} onChange={this.handleBookingChange}>{this.state.options}</select>      
-                            </React.Fragment>
-                            <br></br>
-                            {this.showDuration()}
-                            <br></br>
-                            {this.showDates()}
-                            <EmplpoyeeAvailability updateBooking={this.updateBooking} booking={this.state.booking} availabilities={this.state.availabilities}/>
-                            <br></br>
-                            {this.state.booking.isComplete() &&<button className="btn btn-success" onClick={this.handleBookingRequestForUser}>Submit</button>}
-                            <br>
-                            </br>
-                        </div>
-                    </div>
+                      {this.showUpcoming()}
+                      <div className={"new-booking"}>
+                          <h3 className="title">New Booking</h3>
+                          <div className="form-container">
+                              <br/>
+                              <React.Fragment>
+                                  <label>Service</label>
+                                  <select value={this.state.booking.serviceType||"DEFAULT"} className="form-control" name={"serviceType"} onChange={this.handleBookingChange}>{this.state.options}</select>
+                              </React.Fragment>
+                              <br/>
+                              {this.showDuration()}
+                              <br/>
+                              {this.showDates()}
+                              <EmplpoyeeAvailability updateBooking={this.updateBooking} booking={this.state.booking} availabilities={this.state.availabilities}/>
+                              <br/>
+                              {this.state.booking.isComplete() &&<button className="btn btn-success" onClick={this.handleBookingRequestForUser}>Submit</button>}
+                              <br/>
+                          </div>
+                      </div>
                     </React.Fragment>
                 )
             }else{
