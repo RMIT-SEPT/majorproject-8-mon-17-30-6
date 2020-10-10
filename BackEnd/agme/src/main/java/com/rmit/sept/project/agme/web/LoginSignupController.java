@@ -159,7 +159,7 @@ public class LoginSignupController {
         }
     }
 
-    
+
     @Autowired
     JwtUtil jwtUtil;
     @PostMapping(value = "/login")
@@ -205,7 +205,7 @@ public class LoginSignupController {
                 }
             }else if (authenticationRequest.getRole() == ADMIN) {
                 if (adminService.authenticateUser(authenticationRequest.getUsername(), authenticationRequest.getPassword())) {
-                    final UserDetails user = companyService.loadUserByUsername(
+                    final UserDetails user = adminService.loadUserByUsername(
                             authenticationRequest.getUsername());
 //                generate token
                     final String jwt = jwtUtil.generateToken(user);

@@ -15,8 +15,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class AdminService implements UserDetailsService
+public class AdminService implements UserInterface
 {
+    @Override
+    public void saveOrUpdate(UserDetails user)
+    {
+        return;
+
+    }
+
+    @Override
+    public List<?> getAll()
+    {
+        return null;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException
     {

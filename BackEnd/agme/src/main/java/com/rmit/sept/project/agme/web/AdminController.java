@@ -29,11 +29,11 @@ public class AdminController
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/close-company")
-    public ResponseEntity<?> getCompanies(@RequestBody String username){
+    public ResponseEntity<?> getCompanies(){
         List<Company> companies = companyService.getAll();
         List<Company> companies2 = new ArrayList<>();
         for (Company next:companies){
-            if (next.isActive()){
+            if (next.isActive() != true){
                 companies2.add(next);
             }
         }
