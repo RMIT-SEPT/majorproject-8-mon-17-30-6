@@ -2,10 +2,7 @@ package com.rmit.sept.project.agme.web;
 
 import com.rmit.sept.project.agme.model.*;
 import com.rmit.sept.project.agme.security.JwtUtil;
-import com.rmit.sept.project.agme.services.CompanyService;
-import com.rmit.sept.project.agme.services.EmployeeService;
-import com.rmit.sept.project.agme.services.LoginSignupService;
-import com.rmit.sept.project.agme.services.UserService;
+import com.rmit.sept.project.agme.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +35,8 @@ public class LoginSignupController {
     @Autowired
     private EmployeeService employeeService;
 
-
+    @Autowired
+    AdminService adminService;
     @GetMapping("/signup")
     public ResponseEntity<?> getCompanies() {
         List<Company> companies = new ArrayList<>();
@@ -215,6 +213,17 @@ public class LoginSignupController {
                     final String jwt = jwtUtil.generateToken(user);
 //                respond wih token
                     userService.sendReminderEmails();
+                    return ResponseEntity.ok(new AuthenticationResponse(jwt));
+                }else{
+                    return ResponseEntity.badRequest().body("Invalid username and password");
+                }
+            }else if (authenticationRequest.getRole() == ADMIN) {
+                if (adminService.authenticateUser(authenticationRequest.getUsername(), authenticationRequest.getPassword())) {
+                    final UserDetails user = companyService.loadUserByUsername(
+                            authenticationRequest.getUsername());
+//                generate token
+                    final String jwt = jwtUtil.generateToken(user);
+//                respond wih token
                     return ResponseEntity.ok(new AuthenticationResponse(jwt));
                 }else{
                     return ResponseEntity.badRequest().body("Invalid username and password");
