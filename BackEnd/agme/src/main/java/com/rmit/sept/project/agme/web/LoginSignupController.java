@@ -120,6 +120,11 @@ public class LoginSignupController {
                             ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(), user.getEmail());
                     userService.saveOrUpdateUser(user1);
 
+                }else if (user.getRole() == Role.ADMIN){
+                    Admin user1 = new Admin(user.getUsername(), user.getName(), user.getPassword()
+                            ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(), user.getEmail());
+                    adminService.saveOrUpdateUser(user1);
+
                 }else if (user.getRole() == EMPLOYEE){
                     Employee user1 = new Employee(user.getUsername(), user.getName(), user.getPassword()
                             ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(),
@@ -154,26 +159,7 @@ public class LoginSignupController {
         }
     }
 
-
-//    retrieve form params
-//    @PostMapping(value = "/login")
-//    public ResponseEntity<?> authenticateUser(@RequestBody User user) {
-////        ensures
-//        if (user.getUsername() != null && user.getPassword() != null) {
-//            if (userService.authenticateUser(user.getUsername(), user.getPassword())) {
-//                User user1 = userService.getAuthenticatedUser(user.getUsername());
-//                return new ResponseEntity<User>(user1, HttpStatus.OK);
-//            } else {
-//                return new ResponseEntity<Boolean>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
-//            }
-//
-//        }
-//        return new ResponseEntity<Boolean>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
-//
-//    }
-
-
-
+    
     @Autowired
     JwtUtil jwtUtil;
     @PostMapping(value = "/login")

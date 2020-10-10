@@ -1,5 +1,6 @@
 package com.rmit.sept.project.agme.model;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +23,7 @@ public class Company extends AbstractUser implements UserDetails {
 
     @NotBlank
     private String companyName;
+    private boolean isActive;
 
     @OneToMany
     List<Employee> employees = new ArrayList<>();
@@ -39,6 +41,16 @@ public class Company extends AbstractUser implements UserDetails {
     }
     public Company() {
 
+    }
+
+    public boolean isActive()
+    {
+        return isActive;
+    }
+
+    public void setActive(boolean active)
+    {
+        isActive = active;
     }
 
     public void addEmployee(Employee employee){
