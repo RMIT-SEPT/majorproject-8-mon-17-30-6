@@ -86,6 +86,8 @@ export default class Login extends React.Component{
                 <option value="USER">User</option>
                 <option value="COMPANY">Company</option>
                 <option value="EMPLOYEE">Employee</option>
+                <option value="ADMIN">Admin</option>
+
             </select>
             <br/>
                 {this.showError()}

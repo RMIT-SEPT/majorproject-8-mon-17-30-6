@@ -23,6 +23,8 @@ public class LoginSignupService {
     @Autowired
     CompanyService companyService;
 
+    @Autowired
+    AdminService adminService;
     public UserDetails loadUserByUsername(String username){
         UserDetails user = null;
         if (userService.loadUserByUsername(username) != null){
@@ -33,6 +35,8 @@ public class LoginSignupService {
             user = companyService.loadUserByUsername(username);
         }else if (companyService.loadUserByUsername(username) != null){
             user = companyService.loadUserByUsername(username);
+        }else if (adminService.loadUserByUsername(username) != null){
+            user = adminService.loadUserByUsername(username);
         }
         return user;
 

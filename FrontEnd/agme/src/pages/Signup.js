@@ -117,7 +117,8 @@ export default class Signup extends React.Component{
                         className="form-control"
                         name="role"
                         entity={this.state.entity}
-                        placeholder="role"
+
+                        placeholder="Role"
                         onChange={this.handleInputChange}
                         options={[{value:"USER",label: "User"},{value:"COMPANY",label: "Company"},{value:"EMPLOYEE",label: "Employee"}]}
                         defaultValue={{value: "", label: "Choose a role"}}
