@@ -59,7 +59,6 @@ export default class UpcomingAppointments extends React.Component{
 
     componentDidMount(){
         apiCall('user', 'getBookings',null,'get').then(r=>{
-            console.log(r)
             if(r.statusCode===200){
                 this.setState({appointments:r.body, failed: false, called: true})
             }else{
@@ -199,12 +198,12 @@ export default class UpcomingAppointments extends React.Component{
                                     </p>
                                     <p>Service: {appointment.serviceType.name}</p>
                                     <p>Duration: {appointment.duration} hours</p>
-                                    <Button variant="danger" onClick={e=>{
+                                    {(!booking.isOldBooking())&&<Button variant="danger" onClick={e=>{
                                         e.preventDefault();
                                         this.setState({booking:booking,showModal:true})
                                     }}>
                                         <BsTrash/> Delete Booking id {appointment.id}
-                                    </Button>
+                                    </Button>}
                                 </div>
                                 </Card.Body>
                         </Accordion.Collapse>
