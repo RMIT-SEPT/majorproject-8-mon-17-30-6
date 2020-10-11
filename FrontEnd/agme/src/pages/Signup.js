@@ -30,7 +30,7 @@ export default class Signup extends React.Component{
         this._isMounted = false;
     }
 
-    componentWillMount(){
+    componentDidMount(){
         this._isMounted = true;
     }
     
@@ -127,10 +127,15 @@ export default class Signup extends React.Component{
                         name="role"
                         entity={this.state.entity}
 <<<<<<< HEAD
+<<<<<<< HEAD
                         placeholder="Role"
 =======
                         placeholder="role"
 >>>>>>> 65f05a0ee2553dbd4e6368f42abff0dcbf4c5c03
+=======
+
+                        placeholder="Role"
+>>>>>>> development
                         onChange={this.handleInputChange}
                         options={[{value:"USER",label: "User"},{value:"COMPANY",label: "Company"},{value:"EMPLOYEE",label: "Employee"}]}
                         defaultValue={{value: "", label: "Choose a role"}}
