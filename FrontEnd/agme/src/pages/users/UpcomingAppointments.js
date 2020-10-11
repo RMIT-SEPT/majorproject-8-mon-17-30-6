@@ -59,7 +59,6 @@ export default class UpcomingAppointments extends React.Component{
 
     componentDidMount(){
         apiCall('user', 'getBookings',null,'get').then(r=>{
-            console.log(r)
             if(r.statusCode===200){
                 this.setState({appointments:r.body, failed: false, called: true})
             }else{
@@ -180,7 +179,6 @@ export default class UpcomingAppointments extends React.Component{
                 return <div>Ooops. Something went wrong, we could not retrieve your bookings</div>
             }else{
                 const cards = this.state.appointments.map((appointment,key)=>{
-                    console.log(appointment)
                     const booking = new Booking(appointment);
                     return <Card key={key}>
                         <Card.Header>
