@@ -19,7 +19,6 @@ export class CompanyServices extends React.Component{
                 const services = response.body.filter(service=>{
                     return service.company.filter(company=>{return company.username===username}).length>0
                 });
-                console.log(services)
                 this._isMounted &&this.setState({
                     done:true,
                     services: services
@@ -28,6 +27,9 @@ export class CompanyServices extends React.Component{
         });
     }
 
+    componentDidMount(){
+        this._isMounted = true;
+    }
     componentWillUnmount(){
         this._isMounted = false;
     }
