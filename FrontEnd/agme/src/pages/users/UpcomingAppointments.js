@@ -174,7 +174,6 @@ export default class UpcomingAppointments extends React.Component{
                 </div>
                 <br/>
                 <p>Please wait while we retrieve your bookings.</p>
-                
             </div>
         }else{
             if(this.state.failed){
