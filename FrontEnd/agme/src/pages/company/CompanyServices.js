@@ -1,12 +1,16 @@
 import React from 'react';
 import {getDecodedJwtFromLocalStorage}  from "../../mock/operations/mock/functions/utils";//Add decode func
 import './services.css'
+import Spinner from 'react-bootstrap/Spinner';
+
 const {apiCall} = require('../../mock/operations/mock/functions/operations');
 //To view list of services
 export class CompanyServices extends React.Component{
     constructor(props){
         super(props)
-        this.state = {services: []}
+    
+        this.state = {services: [],
+        done: false}
         apiCall('company', 'getAllServices','','GET').then(response=>{
             const username = getDecodedJwtFromLocalStorage().sub;
             if(response.statusCode === 200){
@@ -15,6 +19,7 @@ export class CompanyServices extends React.Component{
                 });
 
                 this.setState({
+                    done:true,
                     services: services
                 })
             }
@@ -23,6 +28,17 @@ export class CompanyServices extends React.Component{
 
 
     render(){
+        if(!this.state.done){
+            return <div className="calling">
+            <div className="spinnerOutter">
+            <Spinner animation="border" role="status">
+                <span className="sr-only">Loading...</span>
+            </Spinner>
+            </div>
+            <br/>
+            <p>Please wait while we retrieve the services.</p>
+        </div>
+        }else{
         let servicesComponents = (this.state.services)
             &&(this.state.services.length>0)
             &&this.state.services.map((service,i)=>{
@@ -45,4 +61,5 @@ export class CompanyServices extends React.Component{
             </div>
         )
     }
+}
 }

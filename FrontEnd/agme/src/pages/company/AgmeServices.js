@@ -1,5 +1,7 @@
 import React from 'react';
-import './services.css'
+import './services.css';
+import Spinner from 'react-bootstrap/Spinner';
+
 const {apiCall} = require('../../mock/operations/mock/functions/operations');
 //To view list of services
 export default class AgmeServices extends React.Component{
@@ -19,6 +21,17 @@ export default class AgmeServices extends React.Component{
 
 
     render(){
+        if(!this.state.services){
+            return <div className="calling">
+            <div className="spinnerOutter">
+            <Spinner animation="border" role="status">
+                <span className="sr-only">Loading...</span>
+            </Spinner>
+            </div>
+            <br/>
+            <p>Please wait while we retrieve the services.</p>
+        </div>
+        }else{
         let servicesComponents = (this.state.services)
             &&(this.state.services.length>0)
             &&this.state.services.map((service,i)=>{
@@ -40,5 +53,5 @@ export default class AgmeServices extends React.Component{
                 {servicesComponents}
             </div>
         )
-    }
+    }}
 }
