@@ -23,6 +23,8 @@ public class Company extends AbstractUser implements UserDetails {
     @NotBlank
     private String companyName;
 
+    private boolean isActive = false;
+
     @OneToMany
     List<Employee> employees = new ArrayList<>();
 // Constructor for a company
@@ -40,6 +42,16 @@ public class Company extends AbstractUser implements UserDetails {
     }
     public Company() {
 
+    }
+
+    public boolean isActive()
+    {
+        return isActive;
+    }
+
+    public void setActive(boolean active)
+    {
+        isActive = active;
     }
 
     public void addEmployee(Employee employee){

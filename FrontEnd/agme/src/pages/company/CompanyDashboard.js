@@ -45,7 +45,8 @@ export default class CompanyDashboard extends React.Component{
     }
     render(){
         return (
-            <CompanyAppointmentList/>,
+            <React.Fragment>
+            <CompanyAppointmentList/>
             <div className="newService">
             <h1>Add a new service</h1>
             <br/><br/>
@@ -55,6 +56,7 @@ export default class CompanyDashboard extends React.Component{
             <br/>
             <button onClick={(e) => {this.addNewSubmit()}}>add new</button>
             </div>
+            </React.Fragment>
         )
     }
 }

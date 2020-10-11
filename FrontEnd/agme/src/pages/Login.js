@@ -34,6 +34,7 @@ export default class Login extends React.Component{
             role: this.state.role
         }
         apiCall('common','login',payload, 'post').then(response=>{
+            console.log(response)
             if(response.statusCode===200){
                 localStorage.setItem('credentials', JSON.stringify(response.body));
                 this.setState({isCallingServer:false});
