@@ -8,10 +8,11 @@ const {apiCall} = require('../../mock/operations/mock/functions/operations');
 export class CompanyServices extends React.Component{
     constructor(props){
         super(props)
-    
-        this.state = {services: [],
-        done: false,
-        this._isMounted = false;}
+        this.state = {
+            services: [],
+            done: false
+        }
+        this._isMounted = false;
         
     }
 
@@ -23,9 +24,8 @@ export class CompanyServices extends React.Component{
                 const services = response.body.filter(service=>{
                     return service.company.filter(company=>{return company.username===username}).length>0
                 });
-                this.setState({
-                    done:true,
                 this._isMounted &&this.setState({
+                    done:true,
                     services: services
                 })
             }
