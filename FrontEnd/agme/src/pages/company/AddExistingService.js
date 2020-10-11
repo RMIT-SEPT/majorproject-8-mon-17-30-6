@@ -10,7 +10,7 @@ export class AddExistingService extends React.Component{
             services:[],
             serviceName: ""
         }
-        apiCall('company','getAllServices', '', 'GET').then(response=>{
+        apiCall('company','getAllServices', null, 'GET').then(response=>{
             const username = getDecodedJwtFromLocalStorage().sub;
             if(response.statusCode === 200){
                 let all = new Set();
