@@ -40,7 +40,7 @@ export default class CompanyNavigationBar extends React.Component{
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item name="agmeServices" onClick={this.handleSelectNavBar}>Agme Services</NavDropdown.Item>
                                 <NavDropdown.Item name="companyServices" onClick={this.handleSelectNavBar}>My Services</NavDropdown.Item>
-                                <NavDropdown.Item name="addExistingServices" onClick={this.handleSelectNavBar}>Add an existing service</NavDropdown.Item>
+                                <NavDropdown.Item name="addExistingServices" onClick={this.handleSelectNavBar}>Add a new service</NavDropdown.Item>
                             </NavDropdown>
                             <NavDropdown title="Employees" id="basic-nav-dropdown">
                                 <NavDropdown.Item name="viewEmployees" onClick={this.handleSelectNavBar}>View Employees</NavDropdown.Item>

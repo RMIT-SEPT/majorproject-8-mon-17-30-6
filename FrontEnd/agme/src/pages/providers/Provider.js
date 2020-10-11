@@ -18,7 +18,7 @@ export default class Provider extends React.Component{
     }
     addNewSubmit(){
         apiCall('company', 'newService',this.state.entity,'post').then(r=>{
-            if (r.statusCode == 200){
+            if (r.statusCode === 200){
                 alert("New service has been added");
             }
         }
