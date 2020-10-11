@@ -12,7 +12,8 @@
         "getEmployees": "company/employees",
         "getBookings": "company/bookings",
         "deleteBooking": "company/bookings",
-        "getAllServices": "company/allservices"
+        "getAllServices": "company/allservices",
+        "newService": "company/new-service"
       },
       "user":{
         "getBookings": "user/bookings",
