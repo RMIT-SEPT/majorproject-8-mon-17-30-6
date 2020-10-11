@@ -8,17 +8,25 @@ export default class AgmeServices extends React.Component{
     constructor(props){
         super(props)
         this.state = {services: this.props.services}
+        this._isMounted = false;
+    }
+
+    componentWillUnmount(){
+        this._isMounted = false;
+    }
+
+    componentDidMount(){
+        this._isMounted = true;
         if(!this.props.services){
             apiCall('company', 'getAllServices','','GET').then(response=>{
                 if(response.statusCode === 200){
-                    this.setState({
+                    this._isMounted&&this.setState({
                         services: response.body
                     })
                 }
             })
         }
     }
-
 
     render(){
         if(!this.state.services){

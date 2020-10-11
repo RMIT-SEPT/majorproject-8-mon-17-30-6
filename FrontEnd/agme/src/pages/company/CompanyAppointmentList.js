@@ -23,11 +23,15 @@ export class CompanyAppointmentList extends React.Component{
             searchDataOldBookings: false,
             haveDataFromServer: false
         }
-
+        this._isMounted = true;
         this.handleFilter = this.handleFilter.bind(this);
     }
 
+    componentWillUnmount(){
+      this._isMounted = false;
+    }
     componentDidMount() {
+      this._isMounted = true;
       apiCall('company', 'getBookings', null, 'get').then(response=>{
           appointments = response.body;
           for (var i = 0; i < appointments.length; i++) {
@@ -35,7 +39,7 @@ export class CompanyAppointmentList extends React.Component{
             var time2 = "20" + time.substr(6,2) + "-" + time.substr(3,2) + "-" + time.substr(0,2) + time.substr(8,9);
             appointments[i].startDateTime = time2;
           }
-          this.setState({"haveDataFromServer":true})
+          this._isMounted&&this.setState({"haveDataFromServer":true})
           this.render();
       });
 

@@ -17,8 +17,8 @@ export class AddExistingService extends React.Component{
             description: "",
             name: "",
             entity: new Entity()
-        }
-
+        }this._isMounted = false;
+        
         this.handleInputChange = this.handleInputChange.bind(this);
         this.addNewSubmit = this.addNewSubmit.bind(this);
     }
@@ -39,6 +39,14 @@ export class AddExistingService extends React.Component{
             })
         }
         
+     
+    }
+
+    componentWillUnmount(){
+        this._isMounted = false;
+    }
+    componentDidMount(){
+        this._isMounted = true;
         apiCall('company','getAllServices', null, 'GET').then(response=>{
             const username = getDecodedJwtFromLocalStorage().sub;
             if(response.statusCode === 200){
@@ -56,14 +64,13 @@ export class AddExistingService extends React.Component{
                     return !company.has(c.name)
                 })
 
-                this.setState({
+                this._isMounted&&this.setState({
                     allServices: response.body,
                     companyServices: companyServices,
                     available: available
                 });
             }
         })
-        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
     handleInputChange(e){

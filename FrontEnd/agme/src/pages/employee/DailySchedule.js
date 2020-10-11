@@ -13,15 +13,21 @@ export default class DailySchedule extends React.Component{
             showModal : false,
             isUpdatingAvailability:false
         }
-
         this.callback = this.callback.bind(this);
+        this._isMounted = false;
     }
 
+    componentDidMount(){
+        this._isMounted = true;
+    }
+    componentWillUnmount(){
+        this._isMounted = false;
+    }
     /**
      * A callback function to pass to EmployeeAvailabilityManager
      * **/
     callback(isUpdatingAvailability, error){
-        this.setState({isUpdatingAvailability:isUpdatingAvailability,showModal:isUpdatingAvailability, error:error});
+        this._isMounted&&this.setState({isUpdatingAvailability:isUpdatingAvailability,showModal:isUpdatingAvailability, error:error});
     }
 
     modalTitle(){
@@ -173,10 +179,10 @@ export default class DailySchedule extends React.Component{
                             </span>
                         </div>
                         )
+                    }else{
+                        return "";
                     }
-
                 }
-                
             });
             return (
                 <div>
