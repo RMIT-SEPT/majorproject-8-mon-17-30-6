@@ -33,7 +33,6 @@ export default class CompanyDashboard extends React.Component{
         this.state.entity.setField("description",this.state.description);
         apiCall('company', 'newService' , this.state.entity ,'post').then(r=>{
             if(r.statusCode === 200){
-                console.log(r);
                 if (r.statusCode === 200){
                     alert("New service has been added");
                 }
