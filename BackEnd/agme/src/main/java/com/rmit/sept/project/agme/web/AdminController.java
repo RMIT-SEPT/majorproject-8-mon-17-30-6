@@ -30,7 +30,7 @@ public class AdminController
         List<Company> companies = companyService.getAll();
         List<Company> companies2 = new ArrayList<>();
         for (Company next:companies){
-            if (next.isActive() != true){
+            if (next.isActive() == true){
                 companies2.add(next);
             }
         }
