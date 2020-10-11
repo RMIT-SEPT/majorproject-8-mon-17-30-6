@@ -10,7 +10,6 @@ export class EmployeeSchedule extends React.Component{
         }
     }
 
-
     handleSelectDate(e){
         e.preventDefault();
         const value = e.target.value.split("-");

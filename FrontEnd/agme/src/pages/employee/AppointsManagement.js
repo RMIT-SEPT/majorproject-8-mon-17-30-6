@@ -10,6 +10,7 @@ export default class AppointsManagement extends React.Component{
             date: ""
         }
         this.updateComponent = this.updateComponent.bind(this);
+        this._isMounted = false;
     }
 
     /**
@@ -17,17 +18,22 @@ export default class AppointsManagement extends React.Component{
      * the component has mounted
      * **/
     componentDidMount(){
+        this._isMounted = true;
         new EmployeeAvailabilityManager(this.state,this.updateComponent)
+    }
+
+    componentWillUnmount(){
+        this._isMounted = false;
     }
 
     updateComponent(employeeAvailabilityManager, dummyUserStatus,appointmentsStatus){
         if(dummyUserStatus){
-            this.setState({
+            this._isMounted &&this.setState({
                 employeeAvailabilityManager:employeeAvailabilityManager,
                 dummyUserStatus:dummyUserStatus
             });
         }else{
-            this.setState({
+            this._isMounted &&this.setState({
                 employeeAvailabilityManager:employeeAvailabilityManager,
                 appointmentsStatus:appointmentsStatus
             });          

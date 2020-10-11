@@ -7,6 +7,11 @@ export class CompanyServices extends React.Component{
     constructor(props){
         super(props)
         this.state = {services: []}
+        this._isMounted = false;
+    }
+
+    componentWillMount(){
+        this._isMounted = true;
         apiCall('company', 'getAllServices','','GET').then(response=>{
             const username = getDecodedJwtFromLocalStorage().sub;
             if(response.statusCode === 200){
@@ -14,13 +19,16 @@ export class CompanyServices extends React.Component{
                     return service.company.filter(company=>{return company.username===username}).length>0
                 });
 
-                this.setState({
+                this._isMounted &&this.setState({
                     services: services
                 })
             }
-        })
+        });
     }
 
+    componentWillUnmount(){
+        this._isMounted = false;
+    }
 
     render(){
         let servicesComponents = (this.state.services)
