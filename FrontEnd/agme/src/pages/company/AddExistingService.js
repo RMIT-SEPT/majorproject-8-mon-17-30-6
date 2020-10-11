@@ -17,12 +17,12 @@ export class AddExistingService extends React.Component{
             description: "",
             name: "",
             entity: new Entity()
-        }this._isMounted = false;
-        
+        }
+        this._isMounted = false;
         this.handleInputChange = this.handleInputChange.bind(this);
         this.addNewSubmit = this.addNewSubmit.bind(this);
     }
-        addNewSubmit(){
+    addNewSubmit(){
             if (!this.state.isCallingServer){
                 this.setState({isCallingServer:true})
             this.state.entity.setField("name",this.state.name);
