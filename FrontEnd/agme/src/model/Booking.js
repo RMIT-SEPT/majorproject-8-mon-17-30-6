@@ -16,6 +16,10 @@ export default class Booking extends Entity{
         return new Date(Number(2000+Number(this.startDateTime.split("-")[2].split(" ")[0])),this.startDateTime.split("-")[1]-1,this.startDateTime.split("-")[0],this.startDateTime.split(" ")[1].split(":")[0]);
     }
 
+    isOldBooking(){
+        return this.getDateTime().getTime()<(new Date().getTime())
+    }
+
     setTime(time){
         console.log('setting time')
         console.log(time)

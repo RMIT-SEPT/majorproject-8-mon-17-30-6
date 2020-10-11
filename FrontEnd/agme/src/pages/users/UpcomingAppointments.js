@@ -180,6 +180,7 @@ export default class UpcomingAppointments extends React.Component{
                 return <div>Ooops. Something went wrong, we could not retrieve your bookings</div>
             }else{
                 const cards = this.state.appointments.map((appointment,key)=>{
+                    console.log(appointment)
                     const booking = new Booking(appointment);
                     return <Card key={key}>
                         <Card.Header>
@@ -199,12 +200,12 @@ export default class UpcomingAppointments extends React.Component{
                                     </p>
                                     <p>Service: {appointment.serviceType.name}</p>
                                     <p>Duration: {appointment.duration} hours</p>
-                                    <Button variant="danger" onClick={e=>{
+                                    {(!booking.isOldBooking())&&<Button variant="danger" onClick={e=>{
                                         e.preventDefault();
                                         this.setState({booking:booking,showModal:true})
                                     }}>
                                         <BsTrash/> Delete Booking id {appointment.id}
-                                    </Button>
+                                    </Button>}
                                 </div>
                                 </Card.Body>
                         </Accordion.Collapse>
