@@ -11,19 +11,23 @@ export default class ViewProviders extends React.Component{
             called: false,
             showModal: false,
         }
+        this._isMounted = false;
         this.closeModal = this.closeModal.bind(this);
     }
     closeModal(e){
         e.preventDefault();
         this.setState({showModal: false});
     }
+    componentWillUnmount(){
+        this._isMounted = false;
+    }
     componentDidMount(){
+        this._isMounted = true;
         apiCall('user', 'companies',null,'get').then(r=>{
-            console.log(r)
             if(r.statusCode===200){
-                this.setState({providers:r.body, failed: false, called: true})
+                this._isMounted&&this.setState({providers:r.body, failed: false, called: true})
             }else{
-                this.setState({failed: true, called: true})
+                this._isMounted&&this.setState({failed: true, called: true})
             }
         });
     }
@@ -46,7 +50,6 @@ export default class ViewProviders extends React.Component{
         if(this.state.failed){
             return <div>Ooops. Something went wrong, we could not retrieve the available providers</div>
         }else{
-            console.log(this.state.providers);
             const cards = this.state.providers.map((provider,key)=>{
               var warning = "";
               if (provider.employees.length === 0) {

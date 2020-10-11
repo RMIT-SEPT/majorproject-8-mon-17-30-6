@@ -21,6 +21,11 @@ export default class UpcomingAppointments extends React.Component{
         }
         this.closeModal = this.closeModal.bind(this);
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
+        this._isMounted = false;
+    }
+
+    componentWillUnmount(){
+        this._isMounted = false;
     }
 
     closeModal(e){
@@ -58,11 +63,12 @@ export default class UpcomingAppointments extends React.Component{
     }
 
     componentDidMount(){
+        this._isMounted = true;
         apiCall('user', 'getBookings',null,'get').then(r=>{
             if(r.statusCode===200){
-                this.setState({appointments:r.body, failed: false, called: true})
+                this._isMounted&&this.setState({appointments:r.body, failed: false, called: true})
             }else{
-                this.setState({failed: true, called: true})
+                this._isMounted&&this.setState({failed: true, called: true})
             }
         });
     }

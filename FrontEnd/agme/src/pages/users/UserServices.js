@@ -10,15 +10,23 @@ export default class UserServices extends React.Component{
     constructor(props){
         super(props)
         this.state = {services: []}
+        this._isMounted = false;
+    }
+
+    componentWillUnmount(){
+        this._idMounted = false;
+    }
+
+    componentDidMount(){
+        this._isMounted = true;
         apiCall('company', 'getAllServices',null,'get').then(response=>{
             if(response.statusCode === 200){
-                this.setState({
+                this._idMounted &&this.setState({
                     services: response.body
                 })
             }
         })
     }
-
 
     render(){
         let servicesComponents = (this.state.services)
