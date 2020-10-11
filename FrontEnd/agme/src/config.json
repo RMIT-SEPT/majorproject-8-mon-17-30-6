@@ -28,6 +28,9 @@
       },
       "employee":{
         "getBookings": "employee/bookings"
+      },
+      "admin":{
+        "closeCompany": "admin/close-company"
       }
     }
   }

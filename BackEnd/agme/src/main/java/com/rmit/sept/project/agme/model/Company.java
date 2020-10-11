@@ -1,5 +1,7 @@
 package com.rmit.sept.project.agme.model;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +25,8 @@ public class Company extends AbstractUser implements UserDetails {
     @NotBlank
     private String companyName;
 
+    private boolean isActive = false;
+
     @OneToMany
     List<Employee> employees = new ArrayList<>();
 // Constructor for a company
@@ -35,10 +39,21 @@ public class Company extends AbstractUser implements UserDetails {
         setAddress(address);
         setPhone(phone);
         setRole(role);
+        setEmail(email);
         this.companyName = companyName;
     }
     public Company() {
 
+    }
+
+    public boolean isActive()
+    {
+        return isActive;
+    }
+
+    public void setActive(boolean active)
+    {
+        isActive = active;
     }
 
     public void addEmployee(Employee employee){
