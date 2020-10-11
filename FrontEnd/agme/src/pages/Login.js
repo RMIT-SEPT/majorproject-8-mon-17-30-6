@@ -23,6 +23,15 @@ export default class Login extends React.Component{
         };
         this.handleAuthenticateRequest = this.handleAuthenticateRequest.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this._isMounted = false;
+    }
+
+    componentDidMount(){
+        this._isMounted = true;
+    }
+
+    componentWillUnmount(){
+        this._isMounted = false;
     }
 
     handleAuthenticateRequest(){
@@ -36,11 +45,11 @@ export default class Login extends React.Component{
         apiCall('common','login',payload, 'post').then(response=>{
             if(response.statusCode===200){
                 localStorage.setItem('credentials', JSON.stringify(response.body));
-                this.setState({isCallingServer:false});
+                this._isMounted&&this.setState({isCallingServer:false});
                 this.props.handleAuthentication(); //propagate response with token
             }else{
                 localStorage.removeItem('credentials')
-                this.setState({isCallingServer:false, failed:true,error:response})
+                this._isMounted&&this.setState({isCallingServer:false, failed:true,error:response})
             }
         })
         

@@ -14,6 +14,14 @@ export default class EmployeeAvailabilityManager{
         if(!this.state.availabilityManagerIsReady){
             this.getDummyUser()
         }
+        this._isMounted = false;
+    }
+    componentWillUnmount(){
+        this._isMounted = false;
+    }
+
+    componentDidMount(){
+        this._isMounted = true;
     }
 
     setDate(date){

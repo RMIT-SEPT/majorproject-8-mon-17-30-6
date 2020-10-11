@@ -22,7 +22,16 @@ export default class Signup extends React.Component{
         
         this.handleSignupRequest = this.handleSignupRequest.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.showError = this.showError.bind(this)
+        this.showError = this.showError.bind(this);
+        this._isMounted = false;
+    }
+
+    componentWillUnmount(){
+        this._isMounted = false;
+    }
+
+    componentWillMount(){
+        this._isMounted = true;
     }
     
     handleSignupRequest(){
@@ -35,7 +44,7 @@ export default class Signup extends React.Component{
                 alert("Signup succesful. Please login");
                 this.props.handleContentChangeRequest('login');
                 }else{
-                    this.setState({
+                    this._isMounted&&this.setState({
                         isCallingServer:false,
                         errors: new Set(JSON.parse(response.body).errorDetails.missingFields)
                     });
@@ -93,7 +102,7 @@ export default class Signup extends React.Component{
                     arr.push(<option key={i+1} value={key}>{response.body[key]}</option>);
                     i++;
                   }
-                  this.setState({options:arr,isCallingServer:false, called:true});
+                  this._isMounted&& this.setState({options:arr,isCallingServer:false, called:true});
             }
         }
         )
