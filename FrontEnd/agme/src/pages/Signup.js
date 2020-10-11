@@ -74,16 +74,16 @@ export default class Signup extends React.Component{
         const fields ={
             COMPANY: ['companyName'],
         }
-        if(fields[this.state.entity.role]){
+        if(fields[this.state.entity.userType]){
             return   <React.Fragment>
-                    <FormFields showError={this.showError} fields={fields[this.state.entity.role]} entity={this.state.entity} onChange={this.handleInputChange}/>
+                    <FormFields showError={this.showError} fields={fields[this.state.entity.userType]} entity={this.state.entity} onChange={this.handleInputChange}/>
             </React.Fragment>
         }
         return ""
     }
  
     showCompanyInput(){
-        if (!this.state.called && (this.state.entity.role==='EMPLOYEE')){
+        if (!this.state.called && (this.state.entity.userType==='EMPLOYEE')){
         functions.apiCall('user', 'getCompanies',null, 'get').then(response=>{
             if(response.statusCode===200){
                 var arr = [];
@@ -98,7 +98,7 @@ export default class Signup extends React.Component{
         }
         )
     }
-    if (this.state.entity.role === 'EMPLOYEE'){
+    if (this.state.entity.userType === 'EMPLOYEE'){
     return <React.Fragment><br></br>
         <select className="form-control" name={"companyUsername"} value={this.state.entity.companyUsername||""} placeholder="role" onChange={this.handleInputChange}>{this.state.options}</select>      
         <label className= "errorLabel">{this.showError('companyUsername')}</label>
@@ -115,9 +115,9 @@ export default class Signup extends React.Component{
                 <div className="form-container">
                     <SelectOptions
                         className="form-control"
-                        name="role"
+                        name="userType"
                         entity={this.state.entity}
-                        placeholder="role"
+                        placeholder="userType"
                         onChange={this.handleInputChange}
                         options={[{value:"USER",label: "User"},{value:"COMPANY",label: "Company"},{value:"EMPLOYEE",label: "Employee"}]}
                         defaultValue={{value: "", label: "Choose a role"}}

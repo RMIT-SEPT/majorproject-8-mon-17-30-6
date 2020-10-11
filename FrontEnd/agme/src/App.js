@@ -34,7 +34,6 @@ export default class App extends React.Component{
             }
         }
 
-
         this.handleAuthentication = this.handleAuthentication.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.handleContentChangeRequest = this.handleContentChangeRequest.bind(this)
@@ -42,19 +41,24 @@ export default class App extends React.Component{
 
 
     }
+    componentWillUnmount(){
+        this._isMounted = false;
+    }
 
     componentDidMount(){
-        this.setState({
-            content:<LandingPage 
-                authenticated={this.state&&this.state.authenticated} 
-                handleAuthentication={this.handleAuthentication} 
-                handleContentChangeRequest={this.handleContentChangeRequest}
-                handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}
-                type={this.state&&this.state.type}
-                expiry={this.state&&this.state.expiry}
-                />
-            })
-
+        this._isMounted = true;
+        if(this._isMounted){
+            this.setState({
+                content:<LandingPage 
+                    authenticated={this.state&&this.state.authenticated} 
+                    handleAuthentication={this.handleAuthentication} 
+                    handleContentChangeRequest={this.handleContentChangeRequest}
+                    handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}
+                    type={this.state&&this.state.type}
+                    expiry={this.state&&this.state.expiry}
+                    />
+                })
+        }
     }
 
     //To handle component change
@@ -83,7 +87,7 @@ export default class App extends React.Component{
                     console.log("no content available?");
             }  
         }
-        this.setState({content:component})
+        this._isMounted&&this.setState({content:component})
     }
     handleContentChangeRequestSignup(componentName){
  
@@ -102,7 +106,7 @@ export default class App extends React.Component{
             default:
                 console.log("no content available?");
         }  
-        this.setState({content:component})
+        this._isMounted&&this.setState({content:component})
     }
 
     handleAuthentication(){
@@ -112,7 +116,7 @@ export default class App extends React.Component{
 
         const authDetails = utils.decodeJwt(JSON.parse(credentials).jwt);
         const role = authDetails.role
-        this.setState({
+        this._isMounted&&this.setState({
             token:authDetails.jwt,
             authenticated:true,
             role: authDetails.role, 

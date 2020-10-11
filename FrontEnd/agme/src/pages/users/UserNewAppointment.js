@@ -30,22 +30,31 @@ export default class UserNewAppointment extends React.Component{
         this.handleBookingRequestForUser = this.handleBookingRequestForUser.bind(this);
         this.getAllServices = this.getAllServices.bind(this);
         this.updateBooking = this.updateBooking.bind(this)
-        this.changeClass = this.changeClass.bind(this)
+        this.changeClass = this.changeClass.bind(this);
+        this._isMounted = false;
+    }
+
+    componentWillUnmount(){
+        this._isMounted = false;
     }
     componentDidMount(){
+        this._isMounted = true;
         apiCall('user', 'upcomingBookings',null,'get').then(r=>{
-            console.log(r)
             if(r.statusCode===200){
-                this.setState({appointments:r.body, failed: false, newCall: true}, function() {})
+                if(this._isMounted){
+                    this.setState({appointments:r.body, failed: false, newCall: true}, function() {})
+                }
             }else{
-                this.setState({failed: true, newCall: true})
+                if(this._isMounted){
+                    this.setState({failed: true, newCall: true})
+                } 
             }
         });
     }
     updateBooking(e){
         e&&e.preventDefault();
         const booking = new Booking(JSON.parse(JSON.stringify(this.state.booking)));
-        this.setState({booking:booking})
+        this._isMounted&&this.setState({booking:booking})
     }
     //Calls getService API and populates service options
     getAllServices(){
@@ -55,7 +64,7 @@ export default class UserNewAppointment extends React.Component{
             apiCall('user', 'getAllServices', null,'get').then(response=>{
                 let options = this.state.options;
                 if(response.statusCode===200){
-                    this.setState({isCallingServer:false});
+                    this._isMounted&&this.setState({isCallingServer:false});
                     var servicetypes = [];
                     var i = 1;
                     servicetypes.push(<option key={0} value={"DEFAULT"} disabled>Choose a Service</option>);
@@ -63,7 +72,7 @@ export default class UserNewAppointment extends React.Component{
                     servicetypes.push(<option key={serviceType.name} value={serviceType.name}>{serviceType.name}</option>),i++);
                     options = servicetypes;
                 }
-                this.setState({
+                this._isMounted&&this.setState({
                     getServicesStatus: response.statusCode,
                     options:options
                 })
@@ -78,14 +87,14 @@ export default class UserNewAppointment extends React.Component{
         const value = e.target.value;
         const booking = new Booking(JSON.parse(JSON.stringify(this.state.booking)));
         booking.setField(key,value)
-        this.setState({booking:booking, availabilities: null}, function (){
+        this._isMounted&&this.setState({booking:booking, availabilities: null}, function (){
             if((key==='date')||(key==='duration')){
                 this.state.booking.getAvailability().then(response=>{
                     if(response){
                         if(response.statusCode===200){
                             const booking = new Booking(JSON.parse(JSON.stringify(this.state.booking)));
                             booking.availabilities = response.body
-                            this.setState({booking:booking, isCallingServer:false, availabilities: response.body})
+                            this._isMounted&&this.setState({booking:booking, isCallingServer:false, availabilities: response.body})
                         }
                     }
                 })
@@ -99,7 +108,7 @@ export default class UserNewAppointment extends React.Component{
         for (var i =0; i<this.state.array[index-1].length ;i++){
                 options.push(<option key={i} value={this.state.array[index-1][i]}>{this.state.array[index-1][i]}</option>);
         }
-        this.setState({timeSlots:options});
+        this._isMounted&&this.setState({timeSlots:options});
 
     }
 
@@ -152,14 +161,14 @@ export default class UserNewAppointment extends React.Component{
 
     handleBookingRequestForUser(){
         //mock for now
-        this.setState({isCallingServer:true});
+        this._isMounted&&this.setState({isCallingServer:true});
         this.state.booking.handleBookingRequest()
         .then(response=>{
             if(response.statusCode===200){
-                this.setState({isCallingServer:false});
+                this._isMounted&&this.setState({isCallingServer:false});
                 alert("booking successful");
             }else{
-                this.setState({isCallingServer:false, failed:true,error:response})
+                this._isMounted&&this.setState({isCallingServer:false, failed:true,error:response})
             }
         })
     }
@@ -232,9 +241,9 @@ export default class UserNewAppointment extends React.Component{
     }
     changeClass(){
         if (this.state.classname === "upcomingApt"){
-            this.setState({classname:"noClass"});
+            this._isMounted&&this.setState({classname:"noClass"});
         }else{
-            this.setState({classname:"upcomingApt"});
+            this._isMounted&&this.setState({classname:"upcomingApt"});
 
         }
 
