@@ -1,9 +1,6 @@
 package com.rmit.sept.project.agme.web;
 
-import com.rmit.sept.project.agme.model.AvailabilityRequest;
-import com.rmit.sept.project.agme.model.Company;
-import com.rmit.sept.project.agme.model.Employee;
-import com.rmit.sept.project.agme.model.ServiceType;
+import com.rmit.sept.project.agme.model.*;
 import com.rmit.sept.project.agme.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,10 +19,10 @@ public class AdminController
     @Autowired
     CompanyService companyService;
     @PostMapping("/close-company")
-    public ResponseEntity<?> closeCompanies(@RequestBody String username){
-        Company company = companyService.loadUserByUsername(username);
-        company.setActive(false);
-        companyService.saveOrUpdate(company);
+    public ResponseEntity<?> closeCompanies(@RequestBody AuthenticationRequest company){
+        Company c = companyService.loadUserByUsername(company.getUsername());
+        c.setActive(false);
+        companyService.saveOrUpdate(c);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/close-company")

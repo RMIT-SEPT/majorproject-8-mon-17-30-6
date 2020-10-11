@@ -1,6 +1,8 @@
 import React from 'react';
 import '../css/admin.css';
 import Spinner from 'react-bootstrap/Spinner';
+import '../../model/Entity'
+import Entity from '../../model/Entity';
 const {apiCall} = require('../../mock/operations/mock/functions/operations')
 
 export default class Administrator extends React.Component{
@@ -11,18 +13,23 @@ export default class Administrator extends React.Component{
         options: [],
         isValid: false,
         called: false,
-        company:""
+        company:"",
+        entity: new Entity()
     };
     this.showCompanies = this.showCompanies.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.closeACompany = this.closeACompany.bind(this);
 
+    
 }
 
 handleInputChange(e){
     e.preventDefault();
     const name = e.target.name;
     const value = e.target.value;
-    if (name === "company"){
+    this.state.entity.setField(e.target.name,e.target.value);
+    console.log(value);
+    if (name === "username"){
         this.setState({isValid:true})
     }
     this.setState({[name]:value})
@@ -37,7 +44,7 @@ showCompanies(){
             company.push(<option key={0} value={"DEFAULT"} defaultValue disabled>Choose a Business</option>);
             // eslint-disable-next-line
             response.body.forEach((c) =>
-            company.push(<option key={c.username} value={c.name}>{c.name}</option>),i++);
+            company.push(<option key={c.username} value={c.username}>{c.name}</option>),i++);
             options = company;
         }    
         this.setState({
@@ -49,14 +56,26 @@ showCompanies(){
 }
 
 }
-
+closeACompany(){
+    this.refs.btn.setAttribute("disabled", "disabled");
+    apiCall('admin', 'closeCompany',this.state.entity,'post').then(response=>{
+        console.log(response)
+        if(response.statusCode===200){
+            alert("Cancellation successful")
+            this.refs.btn.removeAttribute("disabled");
+        }else{
+            alert("something went wrong")
+            this.refs.btn.removeAttribute("disabled");
+        }
+    })
+}
 displayCompanies(){
-    return <select defaultValue={"DEFAULT"} className="form-control" name={"company"} onChange={this.handleInputChange}> {this.state.options}</select>     
+    return <select defaultValue={"DEFAULT"} className="form-control" name={"username"} onChange={this.handleInputChange}> {this.state.options}</select>     
 
 }
 showCloseBusiness(){
     if (this.state.isValid){
-    return <button className="btn btn-danger form-control">close business</button>
+    return <button ref="btn" className="btn btn-danger form-control" onClick={this.closeACompany}>close business</button>
     }
 }
 
