@@ -37,6 +37,8 @@ public class Company extends AbstractUser implements UserDetails {
         setAddress(address);
         setPhone(phone);
         setRole(role);
+        setEmail(email);
+        this.isActive = true;
         this.companyName = companyName;
     }
     public Company() {
