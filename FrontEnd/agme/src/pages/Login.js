@@ -43,14 +43,19 @@ export default class Login extends React.Component{
             role: this.state.role
         }
         apiCall('common','login',payload, 'post').then(response=>{
-            if(response.statusCode===200){
-                localStorage.setItem('credentials', JSON.stringify(response.body));
-                this._isMounted&&this.setState({isCallingServer:false});
-                this.props.handleAuthentication(); //propagate response with token
+            if(response){
+                if(response.statusCode===200){
+                    localStorage.setItem('credentials', JSON.stringify(response.body));
+                    this._isMounted&&this.setState({isCallingServer:false});
+                    this.props.handleAuthentication(); //propagate response with token
+                }else{
+                    localStorage.removeItem('credentials')
+                    this._isMounted&&this.setState({isCallingServer:false, failed:true,error:response.body})
+                }
             }else{
-                localStorage.removeItem('credentials')
-                this._isMounted&&this.setState({isCallingServer:false, failed:true,error:response})
+                this._isMounted&&this.setState({isCallingServer:false, failed:true,error:"No response from the server. Either the server your internet connection is down."})
             }
+
         })
         
     }
@@ -74,7 +79,7 @@ export default class Login extends React.Component{
 
     showError(){
         if(this.state.error){
-            return <p className="errorInfo">Invalid Credentials supplied!</p>
+        return <p className="errorInfo">{this.state.error||"Invalid Credentials supplied!"}</p>
         }else{
             return <p></p>
         }

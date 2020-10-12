@@ -22,13 +22,21 @@ const fetchFromApi = async(endpoint,uri,options)=>{
 
         }catch(error){
             return {
-                statusCode: error.status,
+                statusCode: error.status||-1,
                 body: await error.text()
             }
         }
     }
-    const response = await fetch(endpoint+uri,options);
-    return testResponse(response)
+    try{
+        const response = await fetch(endpoint+uri,options);
+        return testResponse(response)
+    }catch(error){
+        return {
+            statusCode: -1,
+            body: "Could not reach the server. Please verify your internet connection."
+        }
+    }
+
 }
 
 /****

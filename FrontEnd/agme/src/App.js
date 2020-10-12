@@ -24,7 +24,7 @@ export default class App extends React.Component{
     constructor(){
         super();
         const authDetails = getDecodedJwtFromLocalStorage();
-        const expired = (authDetails.exp     - new Date().getTime()/1000)  < 0;
+        const expired = authDetails&&((authDetails.exp - new Date().getTime()/1000)  < 0);
         if(authDetails){
 
             this.state = {
@@ -113,7 +113,7 @@ export default class App extends React.Component{
     handleAuthentication(){
         //save to local storage to persist
         const credentials = localStorage.getItem('credentials');
-        const expired = (utils.decodeJwt(JSON.parse(credentials).exp) - new Date().getTime()/1000)  < 0
+        const expired = (utils.decodeJwt(JSON.parse(credentials)).exp - new Date().getTime()/1000)  < 0
 
         if((!credentials)||expired){return;}
 
