@@ -185,7 +185,10 @@ export default class DailySchedule extends React.Component{
                 }
             });
             return (
-                <div>
+                <div className="employee_schedule">
+                    <div>
+                        <h4>Daily Schedule</h4>
+                    </div>
                     <Modal show={this.state.showModal}>
                             <Modal.Dialog>
                                 <Modal.Header>

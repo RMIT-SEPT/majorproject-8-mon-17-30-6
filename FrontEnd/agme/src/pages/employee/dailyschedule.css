@@ -24,3 +24,9 @@
 .footer_buttons{
     margin:0 0 0 1vw;
 }
+
+.employee_schedule{
+    background:white;
+    opacity:0.9;
+    padding:1vh;
+}
