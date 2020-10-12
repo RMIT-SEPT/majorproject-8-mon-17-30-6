@@ -1,6 +1,4 @@
 import React from 'react';
-import Accordion from 'react-bootstrap/Accordion';
-import Card from 'react-bootstrap/Card';
 import './upcomingevent.css';
 import Spinner from 'react-bootstrap/Spinner';
 import Prodiver from '../../model/Provider';
@@ -86,47 +84,6 @@ export default class ViewProviders extends React.Component{
             const rows = this.state.providers.map(provider=>{
                 return new Prodiver(provider).formattedProvider()
             });
-
-            const cards = this.state.providers.map((provider,key)=>{
-              var warning = "";
-              if (provider.employees.length === 0) {
-
-                warning = "No employees registered";
-              }
-              else {
-                console.log(provider.employees);
-              }
-
-
-
-                return <Card key={key}>
-                <Card.Header>
-                {provider.name}
-                </Card.Header>
-                    <Accordion.Collapse eventKey="0">
-                        <Card.Body>
-                            <div className="upcoming_event_company">
-                                <p>
-                                    Company: {provider.name}
-                                </p>
-                                <p>
-                                    Contact Number: {provider.phone}
-                                </p>
-                                <p>
-                                    Address: {provider.address}
-                                </p>
-                                <div className="employees">
-                                  <p className="employeeTitle">Employees:</p>
-                                  {provider.employees.map((message, index) => (
-                                      <p className="employeeName">{message.name}</p>
-                                  ))}
-                                  {warning}
-                                </div>
-                            </div>
-                        </Card.Body>
-                    </Accordion.Collapse>
-                </Card>
-            })
             return (
                 <div>
                     <h3>Providers Using Our System</h3>
