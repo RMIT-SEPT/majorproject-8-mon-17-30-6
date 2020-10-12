@@ -177,7 +177,7 @@ export class CompanyAppointmentList extends React.Component{
           })
 
         return (
-          <div>
+          <div className="upcoming_events_outter">
               <h3>Your upcoming events</h3>
               View Old Bookings?  <input name="searchDataOldBookings" type="checkbox" value={this.state.allowOldBookings} onChange={this.handleFilter}/><br/>
               Date:               <input name="searchDataDate" type="date" placeholder="Date of Appointment" value={this.state.searchDataDate} onChange={this.handleFilter}/><br/>
