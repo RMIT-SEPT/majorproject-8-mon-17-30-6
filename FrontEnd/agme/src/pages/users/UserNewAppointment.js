@@ -4,10 +4,10 @@ import Booking from '../../model/Booking';
 import EmplpoyeeAvailability from './EmployeeAvailability';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
-import Accordion from 'react-bootstrap/Accordion';
-import Card from 'react-bootstrap/Card';
+import filterFactory, { textFilter, Comparator } from 'react-bootstrap-table2-filter';
 import { FcAlarmClock, FcDownload } from "react-icons/fc";
 import {AiFillSchedule} from "react-icons/ai";
+import BootstrapTable from 'react-bootstrap-table-next';
 const {apiCall} = require('../../mock/operations/mock/functions/operations')
 
 export default class UserNewAppointment extends React.Component{
@@ -196,38 +196,54 @@ export default class UserNewAppointment extends React.Component{
                 return "";
             }else{
             let upcBookings = this.state.appointments.length;
-            const cards = this.state.appointments.map((appointment,key)=>{
+
+            const data = this.state.appointments.map(appointment=>{
                 const booking = new Booking(appointment);
-                return <Card key={key}>
-                          <Card.Header>
-                              {booking.getDateString()} Test
-                          </Card.Header>
-                          <Accordion.Collapse eventKey="0">
-                              <Card.Body>
-                                  <div className="upcoming_event_company">
-                                      <p>
-                                          Company: {appointment.company.name}
-                                      </p>
-                                      <p>
-                                          Name: {appointment.employee.name}
-                                      </p>
-                                      <p>
-                                          Contact Number: {appointment.company.phone}
-                                      </p>
-                                      <p>
-                                          Address: {appointment.company.address}
-                                      </p>
-                                      <p>
-                                          Service: {appointment.serviceType.name}
-                                      </p>
-                                      <p>
-                                          Duration: {appointment.duration} hours
-                                      </p>
-                                  </div>
-                              </Card.Body>
-                          </Accordion.Collapse>
-                      </Card>
+                return {
+                    id: appointment.id,
+                    startDateTime: appointment.startDateTime,
+                    duration: appointment.duration,
+                    service: appointment.serviceType.name,
+                    companyName:appointment.company.name,
+                    contactNumber: appointment.company.phone,
+                    workerName: appointment.employee.name
+
+                }
             })
+            //table build
+            const columns = [{
+                dataField: 'id',
+                text: 'Booking id'
+              }, {
+                dataField: 'startDateTime',
+                text: 'Date / Time',
+                filter: textFilter({
+                  comparator: Comparator.LIKE
+                })
+              },  {
+                dataField: 'duration',
+                text: 'Duration (h)',
+                filter: textFilter({
+                  comparator: Comparator.LIKE
+                })
+              },{
+                dataField: 'service',
+                text: 'Service',
+                filter: textFilter()
+              }, {
+                dataField: 'companyName',
+                text: 'Company',
+                filter: textFilter()
+              }, {
+                dataField: 'contactNumber',
+                text: 'Telephone',
+                filter: textFilter()
+              }, {
+                dataField: 'workerName',
+                text: 'Provider name',
+                filter: textFilter()
+              }
+            ];
 
             return (
                 <div>
@@ -243,9 +259,9 @@ export default class UserNewAppointment extends React.Component{
                         </p>
                             <Button onClick={this.changeClass} variant={this.state.classname==='noClass' ? "danger" : "success"} className="showUpcomming">{this.state.classname==='noClass' ? "Hide" : "View"}</Button>
                         <div className={this.state.classname}>
-                            <Accordion defaultActiveKey="0">
-                                {cards}
-                            </Accordion>
+                        <div className="upcoming_appointments_table" >
+                            <BootstrapTable keyField='id' data={ data } columns={ columns } filter={ filterFactory() } />
+                        </div>
                         </div>
                         </div>
                 </div>
