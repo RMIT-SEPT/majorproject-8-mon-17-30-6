@@ -112,12 +112,12 @@ export default class App extends React.Component{
 
     handleAuthentication(){
         //save to local storage to persist
-        const credentials = localStorage.getItem('credentials');
-        const expired = (utils.decodeJwt(JSON.parse(credentials)).exp - new Date().getTime()/1000)  < 0
+        const credentials = JSON.parse(localStorage.getItem('credentials'));
+        const authDetails = getDecodedJwtFromLocalStorage();
+        const expired = authDetails&&((authDetails.exp - new Date().getTime()/1000)  < 0);
 
         if((!credentials)||expired){return;}
 
-        const authDetails = utils.decodeJwt(JSON.parse(credentials).jwt);
         const role = authDetails.role
         this._isMounted&&this.setState({
             token:authDetails.jwt,
