@@ -1,4 +1,6 @@
 import React from 'react';
+import BootstrapTable from 'react-bootstrap-table-next';
+import filterFactory, { textFilter, Comparator } from 'react-bootstrap-table2-filter';
 import {getDecodedJwtFromLocalStorage}  from "../../mock/operations/mock/functions/utils";//Add decode func
 import './services.css'
 import Spinner from 'react-bootstrap/Spinner';
@@ -46,21 +48,32 @@ export class CompanyServices extends React.Component{
             <p>Please wait while we retrieve the services.</p>
         </div>
         }else{
-        let servicesComponents = (this.state.services)
-            &&(this.state.services.length>0)
-            &&this.state.services.map((service,i)=>{
-            return <div key={i} className={"card"}>
-                <div className={"_"+i}>
-                    <div className="header"><p>{service.name}</p></div>
-                    <div className="container">
-                    <p>{service.description}</p>
-                    </div>
+            let servicesComponents;
+            if((!this.state.services)||(this.state.services.length===0)){
+                servicesComponents = "No services available";
+            }else{
+            const columns = [{
+                dataField: 'name',
+                text: 'Service',
+                filter: textFilter({
+                  comparator: Comparator.LIKE
+                })
+              }, {
+                dataField: 'description',
+                text: 'Description',
+                filter: textFilter({
+                  comparator: Comparator.LIKE
+                })
+              }
+            ];
+            const rows = this.state.services.map(service=>{return {name:service.name,description:service.description}})
+            console.log(this.state)
+            servicesComponents = (
+                <div className="upcoming_appointments_table" >
+                    <BootstrapTable keyField='id' data={ rows } columns={ columns } filter={ filterFactory() } />
                 </div>
-            </div>
-        });
-        if(!(servicesComponents&&(servicesComponents.length))){
-            servicesComponents = "No services available";
-        }
+            );
+            }
         return (
             <div>
                 <h5>These are my services</h5>

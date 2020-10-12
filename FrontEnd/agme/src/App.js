@@ -8,7 +8,6 @@ import {getDecodedJwtFromLocalStorage}  from "./mock/operations/mock/functions/u
 import ViewProviders from './pages/users/ViewProviders';
 import NavigationBar from './pages/NavigationBar';
 import CustomisedError from "./miscelaneous/CustomisedError";
-const utils = require('./mock/operations/mock/functions/utils')
 /**
  * Basic Flow
  * 

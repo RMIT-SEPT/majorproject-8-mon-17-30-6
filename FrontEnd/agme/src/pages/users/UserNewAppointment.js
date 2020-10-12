@@ -198,17 +198,7 @@ export default class UserNewAppointment extends React.Component{
             let upcBookings = this.state.appointments.length;
 
             const data = this.state.appointments.map(appointment=>{
-                const booking = new Booking(appointment);
-                return {
-                    id: appointment.id,
-                    startDateTime: appointment.startDateTime,
-                    duration: appointment.duration,
-                    service: appointment.serviceType.name,
-                    companyName:appointment.company.name,
-                    contactNumber: appointment.company.phone,
-                    workerName: appointment.employee.name
-
-                }
+                return new Booking(appointment).getBookingInfo();
             })
             //table build
             const columns = [{
