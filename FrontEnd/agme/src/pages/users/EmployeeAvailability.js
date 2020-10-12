@@ -20,7 +20,7 @@ export default class EmmployeeAvailability extends React.Component{
                         <span className="sr-only">Loading...</span>
                     </Spinner>
                 </div>
-                <p>Please wait while we retrieve availability</p>
+                <p>Please wait while we retrieve availability. Please select a date if you haven't done it already</p>
             </div>
         }
         if(this.props.availabilities){
