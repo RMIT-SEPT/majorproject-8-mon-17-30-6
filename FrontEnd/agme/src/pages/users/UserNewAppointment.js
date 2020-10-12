@@ -142,6 +142,7 @@ export default class UserNewAppointment extends React.Component{
     showDates(){
         if(this.state.booking.duration){
             let initial = new Date();
+            initial.setDate(initial.getDate() + 2);
             const dates = []
             for(let i = 0 ; i < 30; i++){
                 dates.push(
@@ -157,7 +158,7 @@ export default class UserNewAppointment extends React.Component{
                     <select defaultValue="DEFAULT" className="form-control" name={"date"} onChange={this.handleBookingChange}>
                         <option key={0} value={"DEFAULT"} disabled>Choose a date</option>
                         {dates}
-                    </select>
+                    </select><br></br>
                 </React.Fragment>
             )
         }
