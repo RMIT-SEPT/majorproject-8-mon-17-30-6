@@ -20,7 +20,7 @@ export default class ProviderNavigationBar extends React.Component{
             }
         }
         return (
-            <Navbar bg="light" expand="lg">
+            <Navbar className="userNavbar">
                     <Navbar.Brand href="#home">AGME</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">

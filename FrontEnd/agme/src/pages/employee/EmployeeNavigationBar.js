@@ -4,6 +4,7 @@ import Nav from "../../../node_modules/react-bootstrap/Nav";
 import NavDropdown from "../../../node_modules/react-bootstrap/NavDropdown";
 import '../css/navigationbar.css'
 import { GrLogout } from "react-icons/gr";
+import {FaUser} from "react-icons/fa";
 import {getDecodedJwtFromLocalStorage}  from "../../mock/operations/mock/functions/utils";//Add decode func
 import ComponentsHandler from './ComponentsHandler';
 /***
@@ -29,12 +30,12 @@ export default class EmployeeNavigationBar extends React.Component{
             }
         }
         return (
-            <Navbar bg="light" expand="lg">
-                    <Navbar.Brand>AGME</Navbar.Brand>
+            <Navbar className="userNavbar">
+                    <Navbar.Brand className="brand">AGME</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                        <NavDropdown.Item>{decodedJwtPayload.sub}</NavDropdown.Item>
+                        <NavDropdown.Item className="userName"><FaUser/>{decodedJwtPayload.sub}</NavDropdown.Item>
                             <NavDropdown title="Services" id="basic-nav-dropdown">
                                 <NavDropdown.Item name="appointsManagement" onClick={this.handleSelectNavBar}>Manage my appointments</NavDropdown.Item>
                                 <NavDropdown.Item name="employeeDashboard" onClick={this.handleSelectNavBar}>My Dashboard</NavDropdown.Item>

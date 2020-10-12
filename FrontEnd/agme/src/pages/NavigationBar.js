@@ -6,7 +6,7 @@ import AdminNavigationBar from './administrators/AdminNavigationBar'
 import VisitorNavigationBar from './visitors/VisitorNavigationBar'
 import CompanyNavigationBar from './company/CompanyNavigationBar';
 import EmployeeNavigationBar from './employee/EmployeeNavigationBar';
-
+import './css/navigationbar.css';
 /***
  * This class should handle the Navigation bar so that the appropriate menu's are displayed
  * ****/

@@ -28,6 +28,7 @@ const fetchFromApi = async(endpoint,uri,options)=>{
         }
     }
     const response = await fetch(endpoint+uri,options);
+    console.log(response)
     return testResponse(response)
 }
 
