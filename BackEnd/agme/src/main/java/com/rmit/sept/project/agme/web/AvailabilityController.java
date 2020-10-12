@@ -41,15 +41,12 @@ public class AvailabilityController
         List<Object> maps = new ArrayList<>();
 
         for (Company next: service.getCompany()) {
-            if (next.isActive() != false) {
-                for (Employee employee : next.getEmployees()) {
-                    HashMap<String, Object> map = new HashMap<>();
-
-                    map.put("name", employee.getName());
-                    map.put("username", employee.getUsername());
-                    map.put("availability", availabilityService.getAvailabilityForService(employee.getUsername(), availabilityRequest.getDate(), Integer.parseInt(availabilityRequest.getDuration())));
-                    maps.add(map);
-                }
+            for (Employee employee : next.getEmployees()) {
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("name", employee.getName());
+                map.put("username", employee.getUsername());
+                map.put("availability", availabilityService.getAvailabilityForService(employee.getUsername(), availabilityRequest.getDate(), Integer.parseInt(availabilityRequest.getDuration())));
+                maps.add(map);
             }
         }
         return new ResponseEntity<>(maps, HttpStatus.OK);
