@@ -3,6 +3,9 @@ import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import './upcomingevent.css';
 import Spinner from 'react-bootstrap/Spinner';
+import Prodiver from '../../model/Provider';
+import filterFactory, { textFilter, Comparator } from 'react-bootstrap-table2-filter';
+import BootstrapTable from 'react-bootstrap-table-next';
 const {apiCall} = require('../../mock/operations/mock/functions/operations');
 export default class ViewProviders extends React.Component{
     constructor(props){
@@ -50,6 +53,40 @@ export default class ViewProviders extends React.Component{
         if(this.state.failed){
             return <div>Ooops. Something went wrong, we could not retrieve the available providers</div>
         }else{
+
+            const columns = [{
+                dataField: 'id',
+                text: 'id'
+              }, {
+                dataField: 'name',
+                text: 'Company',
+                filter: textFilter({
+                  comparator: Comparator.LIKE
+                })
+              },  {
+                dataField: 'phone',
+                text: 'Phone',
+                filter: textFilter({
+                  comparator: Comparator.LIKE
+                })
+              },{
+                dataField: 'address',
+                text: 'Address',
+                filter: textFilter({
+                    comparator: Comparator.LIKE
+                  })
+              }, {
+                dataField: 'employees',
+                text: 'Employees',
+                filter: textFilter({
+                    comparator: Comparator.LIKE
+                  })
+              }
+            ];
+            const rows = this.state.providers.map(provider=>{
+                return new Prodiver(provider).formattedProvider()
+            });
+
             const cards = this.state.providers.map((provider,key)=>{
               var warning = "";
               if (provider.employees.length === 0) {
@@ -90,13 +127,12 @@ export default class ViewProviders extends React.Component{
                     </Accordion.Collapse>
                 </Card>
             })
-
             return (
                 <div>
                     <h3>Providers Using Our System</h3>
-                    <Accordion defaultActiveKey="0">
-                        {cards}
-                    </Accordion>
+                    <div className="upcoming_appointments_table" >
+                            <BootstrapTable keyField='id' data={ rows } columns={ columns } filter={ filterFactory() } />
+                    </div>
                 </div>
             )
         }
