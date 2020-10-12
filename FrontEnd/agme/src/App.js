@@ -24,11 +24,12 @@ export default class App extends React.Component{
     constructor(){
         super();
         const authDetails = getDecodedJwtFromLocalStorage();
+        const expired = (authDetails.exp     - new Date().getTime()/1000)  < 0;
         if(authDetails){
 
             this.state = {
-                authenticated: true,
-                token:localStorage.getItem('credentials'),
+                authenticated: !expired,
+                token:((!expired)&&localStorage.getItem('credentials')) || null,
                 content: "",
                 type: authDetails.role
             }
@@ -112,13 +113,15 @@ export default class App extends React.Component{
     handleAuthentication(){
         //save to local storage to persist
         const credentials = localStorage.getItem('credentials');
-        if(!credentials){return;}
+        const expired = (utils.decodeJwt(JSON.parse(credentials).exp) - new Date().getTime()/1000)  < 0
+
+        if((!credentials)||expired){return;}
 
         const authDetails = utils.decodeJwt(JSON.parse(credentials).jwt);
         const role = authDetails.role
         this._isMounted&&this.setState({
             token:authDetails.jwt,
-            authenticated:true,
+            authenticated: true,
             role: authDetails.role, 
             content:<LandingPage 
                 authenticated={true} 

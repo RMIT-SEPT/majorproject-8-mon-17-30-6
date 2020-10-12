@@ -3,22 +3,12 @@ import Navbar from "../../../node_modules/react-bootstrap/Navbar";
 import Nav from "../../../node_modules/react-bootstrap/Nav";
 import NavDropdown from "../../../node_modules/react-bootstrap/NavDropdown";
 import '../css/navigationbar.css'
-import { GrLogout } from "react-icons/gr";
-import {getDecodedJwtFromLocalStorage}  from "../../mock/operations/mock/functions/utils";//Add decode func
-
 /***
  * This class should handle the Navigation bar so that the appropriate menu's are displayed
  * ****/
 export default class VisitorNavigationBar extends React.Component{
 
     render(){
-        const decodedJwtPayload = getDecodedJwtFromLocalStorage();
-
-        const logoutButton = ()=>{
-            if(decodedJwtPayload&&(decodedJwtPayload.exp>decodedJwtPayload.iat)){
-                return <GrLogout className="logout" onClick={this.props.handleLogout}/>
-            }
-        }
         return (
             <Navbar className="userNavbar">
                     <Navbar.Brand className="brand">AGME</Navbar.Brand>
@@ -38,7 +28,6 @@ export default class VisitorNavigationBar extends React.Component{
                         </Nav>
                         
                     </Navbar.Collapse>
-                    {logoutButton()}      
                 </Navbar>
         )
     }
