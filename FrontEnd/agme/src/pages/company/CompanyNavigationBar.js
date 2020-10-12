@@ -35,7 +35,7 @@ export default class CompanyNavigationBar extends React.Component{
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                        <NavDropdown.Item className="userName" name="viewBookings" onClick={this.handleSelectNavBar}><FaUser/>{decodedJwtPayload.sub}</NavDropdown.Item>
+                        <NavDropdown.Item className="userName" ><FaUser /><span name="viewBookings" onClick={this.handleSelectNavBar}>{decodedJwtPayload.sub}</span></NavDropdown.Item>
                             <NavDropdown title="Services" id="basic-nav-dropdown">
                                 <NavDropdown.Item name="providers" onClick={this.props.handleSelectNavBar}>Providers</NavDropdown.Item>
                                 <NavDropdown.Divider />

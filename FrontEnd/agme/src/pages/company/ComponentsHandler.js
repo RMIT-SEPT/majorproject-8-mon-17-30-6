@@ -17,6 +17,6 @@ export default class ComponentsHandler extends React.Component{
             viewEmployees: <ViewEmployees/>,
             viewBookings: <CompanyAppointmentList/>
         }
-        return mapper[this.props.component]
+        return mapper[this.props.component]|| ""
     }
 }
