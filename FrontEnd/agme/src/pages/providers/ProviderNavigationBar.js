@@ -3,7 +3,8 @@ import Navbar from "../../../node_modules/react-bootstrap/Navbar";
 import Nav from "../../../node_modules/react-bootstrap/Nav";
 import NavDropdown from "../../../node_modules/react-bootstrap/NavDropdown";
 import '../css/navigationbar.css'
-import { GrLogout } from "react-icons/gr";
+import { IoIosLogOut } from "react-icons/io";
+import { IconContext } from "react-icons";
 import {getDecodedJwtFromLocalStorage}  from "../../mock/operations/mock/functions/utils";//Add decode func
 
 /***
@@ -16,11 +17,15 @@ export default class ProviderNavigationBar extends React.Component{
 
         const logoutButton = ()=>{
             if(decodedJwtPayload&&(decodedJwtPayload.exp>decodedJwtPayload.iat)){
-                return <GrLogout className="logout" onClick={this.props.handleLogout}/>
+                return <IconContext.Provider value={{ color: 'white', size: '40px' }}>
+                  <div>
+                    <IoIosLogOut className="logout" onClick={this.props.handleLogout}/>
+                  </div>
+                </IconContext.Provider>
             }
         }
         return (
-            <Navbar bg="light" expand="lg">
+            <Navbar className="userNavbar">
                     <Navbar.Brand href="#home">AGME</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
@@ -35,9 +40,9 @@ export default class ProviderNavigationBar extends React.Component{
                                 <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
-                        
+
                     </Navbar.Collapse>
-                    {logoutButton()}      
+                    {logoutButton()}
                 </Navbar>
         )
     }

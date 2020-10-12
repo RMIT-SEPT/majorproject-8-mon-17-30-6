@@ -1,0 +1,19 @@
+.App{
+    background: url('../../resources/marginalpinheiros.jpg') no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height:100vh;
+}
+
+.body{
+    background:white;
+    opacity:0.9;
+}
+
+.upcoming_events_outter{
+    background:white;
+    opacity:0.9;
+    padding: 3vh;
+}

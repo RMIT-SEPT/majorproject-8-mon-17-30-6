@@ -3,8 +3,11 @@ import React from 'react';
 import Booking from '../../model/Booking';
 import EmplpoyeeAvailability from './EmployeeAvailability';
 import Spinner from 'react-bootstrap/Spinner';
+import Button from 'react-bootstrap/Button';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
+import { FcAlarmClock, FcDownload } from "react-icons/fc";
+import {AiFillSchedule} from "react-icons/ai";
 const {apiCall} = require('../../mock/operations/mock/functions/operations')
 
 export default class UserNewAppointment extends React.Component{
@@ -89,12 +92,13 @@ export default class UserNewAppointment extends React.Component{
         booking.setField(key,value)
         this._isMounted&&this.setState({booking:booking, availabilities: null}, function (){
             if((key==='date')||(key==='duration')){
+                this.setState({isUpdatingAvailability:true})
                 this.state.booking.getAvailability().then(response=>{
                     if(response){
                         if(response.statusCode===200){
                             const booking = new Booking(JSON.parse(JSON.stringify(this.state.booking)));
                             booking.availabilities = response.body
-                            this._isMounted&&this.setState({booking:booking, isCallingServer:false, availabilities: response.body})
+                            this._isMounted&&this.setState({isUpdatingAvailability:false,booking:booking, isCallingServer:false, availabilities: response.body})
                         }
                     }
                 })
@@ -165,10 +169,10 @@ export default class UserNewAppointment extends React.Component{
         this.state.booking.handleBookingRequest()
         .then(response=>{
             if(response.statusCode===200){
-                this._isMounted&&this.setState({isCallingServer:false});
+                this._isMounted&&this.setState({isCallingServer:false,isUpdatingAvailability:false});
                 alert("booking successful");
             }else{
-                this._isMounted&&this.setState({isCallingServer:false, failed:true,error:response})
+                this._isMounted&&this.setState({isCallingServer:false, failed:true,error:response, isUpdatingAvailability:false})
             }
         })
     }
@@ -225,16 +229,25 @@ export default class UserNewAppointment extends React.Component{
             })
 
             return (
-                <React.Fragment>
-                  <div className="btnWrapper">
-                    <button onClick={this.changeClass} className=" btn-danger btn showUpcomming">You have {upcBookings} bookings in the next 48 hours</button>
-                  </div>
-                  <div className={this.state.classname}>
-                      <Accordion defaultActiveKey="0">
-                          {cards}
-                      </Accordion>
-                  </div>
-                </React.Fragment>
+                <div>
+                    <div className="title">
+                    <p>
+                      <FcAlarmClock className="alarm"/> Upcoming Apointments (Next 48h)
+                      </p>
+
+                    </div>
+                        <div className="body">
+                        <p>
+                          You have {upcBookings} appointments coming soon.
+                        </p>
+                            <Button onClick={this.changeClass} variant={this.state.classname==='noClass' ? "danger" : "success"} className="showUpcomming">{this.state.classname==='noClass' ? "Hide" : "View"}</Button>
+                        <div className={this.state.classname}>
+                            <Accordion defaultActiveKey="0">
+                                {cards}
+                            </Accordion>
+                        </div>
+                        </div>
+                </div>
               )
             }
         }
@@ -253,11 +266,18 @@ export default class UserNewAppointment extends React.Component{
         if(this.state.getServicesStatus){
             if(this.state.getServicesStatus===200){
                 return (
-                    <React.Fragment>
-                      {this.showUpcoming()}
+                    <div className="newAppointmentOutter">
+                        <React.Fragment>
+                        <div className={"new-booking"}>
+                         {this.showUpcoming()}
+                        </div>
+                      
                       <div className={"new-booking"}>
-                          <h3 className="title">New Booking</h3>
-                          <div className="form-container">
+                          <div className="title">
+                              <AiFillSchedule className="alarm"/>
+                              <h3>New Booking</h3>
+                          </div>
+                          <div className="body">
                               <br/>
                               <React.Fragment>
                                   <label>Service</label>
@@ -267,13 +287,14 @@ export default class UserNewAppointment extends React.Component{
                               {this.showDuration()}
                               <br/>
                               {this.showDates()}
-                              <EmplpoyeeAvailability updateBooking={this.updateBooking} booking={this.state.booking} availabilities={this.state.availabilities}/>
+                              <EmplpoyeeAvailability isUpdatingAvailability={this.state.isUpdatingAvailability} updateBooking={this.updateBooking} booking={this.state.booking} availabilities={this.state.availabilities}/>
                               <br/>
                               {this.state.booking.isComplete() &&<button className="btn btn-success" onClick={this.handleBookingRequestForUser}>Submit</button>}
                               <br/>
                           </div>
                       </div>
                     </React.Fragment>
+                    </div>
                 )
             }else{
                 //getServices called but API failed?
@@ -290,8 +311,11 @@ export default class UserNewAppointment extends React.Component{
             //hasnt even completed that call yet
             return (
                 <div className={"new-booking"}>
-                <h3 className="title">Retrieving services</h3>
-                <div className="form-container">
+                <div className="title">
+                <FcDownload className="alarm"/>
+                    <h3>Retrieving services</h3>
+                </div>
+                <div className="body">
                 <Spinner animation="border" role="status">
                     <span className="sr-only">Loading...</span>
                 </Spinner>

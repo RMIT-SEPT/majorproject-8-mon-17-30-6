@@ -20,12 +20,12 @@ export default class VisitorNavigationBar extends React.Component{
             }
         }
         return (
-            <Navbar bg="light" expand="lg">
-                    <Navbar.Brand href="#home">AGME</Navbar.Brand>
+            <Navbar className="userNavbar">
+                    <Navbar.Brand className="brand">AGME</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
-                            <Nav.Link href="#home">Home</Nav.Link>
+                            <Nav.Link className="userNavbar">Home</Nav.Link>
                             <Nav.Link href="#link">Link</Nav.Link>
                             <NavDropdown title="Services" id="basic-nav-dropdown">
                                 <NavDropdown.Item name="providers" onClick={this.props.handleSelectNavBar}>Providers</NavDropdown.Item>

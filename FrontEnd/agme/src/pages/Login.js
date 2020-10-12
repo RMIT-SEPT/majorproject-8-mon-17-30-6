@@ -82,7 +82,8 @@ export default class Login extends React.Component{
 
     render(){
         return (
-            <div className={"login"}>
+            <div className="login_outter">
+                <div className={"login"}>
                 <h3 className="title">You are not authenticated</h3>
                 <div className="form-container">
                 <br/><br/>
@@ -97,11 +98,12 @@ export default class Login extends React.Component{
                 <option value="EMPLOYEE">Employee</option>
                 <option value="ADMIN">Admin</option>
 
-            </select>
-            <br/>
-                {this.showError()}
-                {this.showAuthenticateButton()}
-                <p name="signup" className="signup_info" onClick={this.props.handleContentChangeRequest}>Or click here to Sign up</p>
+                </select>
+                <br/>
+                    {this.showError()}
+                    {this.showAuthenticateButton()}
+                    <p name="signup" className="signup_info" onClick={this.props.handleContentChangeRequest}>Or click here to Sign up</p>
+                </div>
             </div>
             </div>
         )

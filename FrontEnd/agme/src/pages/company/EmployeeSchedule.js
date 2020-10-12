@@ -31,7 +31,7 @@ export class EmployeeSchedule extends React.Component{
                 bookingsDictionary[date].times.add(time)
             });
             const times = bookingsDictionary[this.state.date.slice(0,8)] ? (bookingsDictionary[this.state.date.slice(0,8)].times) : new Set();
-            const availabilityComponent = this.state.date ? <EmployeeAvailability date={this.state.date.slice(0,8)} times={times} bookings={bookings} deleteBooking={this.props.deleteBooking}/> : "";
+            const availabilityComponent = this.state.date ? <EmployeeAvailability isUpdatingAvailability={this.state.isUpdatingAvailability} date={this.state.date.slice(0,8)} times={times} bookings={bookings} deleteBooking={this.props.deleteBooking}/> : "";
             return (
                 <div>
                     <div>
