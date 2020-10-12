@@ -1,6 +1,4 @@
 import React from 'react';
-import Accordion from 'react-bootstrap/Accordion';
-import Card from 'react-bootstrap/Card';
 import './upcomingevent.css';
 import Spinner from 'react-bootstrap/Spinner';
 import { BsTrash } from "react-icons/bs"; 
@@ -253,7 +251,5 @@ export default class UpcomingAppointments extends React.Component{
                 )
             }
         }
-
-
     }
 }
