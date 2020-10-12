@@ -3,7 +3,8 @@ import Navbar from "../../../node_modules/react-bootstrap/Navbar";
 import Nav from "../../../node_modules/react-bootstrap/Nav";
 import NavDropdown from "../../../node_modules/react-bootstrap/NavDropdown";
 import '../css/navigationbar.css'
-import { GrLogout } from "react-icons/gr";
+import { IoIosLogOut } from "react-icons/io";
+import { IconContext } from "react-icons";
 import {FaUser} from "react-icons/fa";
 import {getDecodedJwtFromLocalStorage}  from "../../mock/operations/mock/functions/utils";//Add decode func
 import ComponentsHandler from './ComponentsHandler';
@@ -26,9 +27,11 @@ export default class UserNavigationBar extends React.Component{
         const expired = (decodedJwtPayload.exp - new Date().getTime()/1000)  < 0
         const logoutButton = ()=>{
             if(!expired){
-                return <div className="logoutButton">
-                    <GrLogout className="white" onClick={this.props.handleLogout}/>
-                </div>
+                return <IconContext.Provider value={{ color: 'white', size: '40px' }}>
+                  <div>
+                    <IoIosLogOut className="logout" onClick={this.props.handleLogout}/>
+                  </div>
+                </IconContext.Provider>
             }
         }
         return (
