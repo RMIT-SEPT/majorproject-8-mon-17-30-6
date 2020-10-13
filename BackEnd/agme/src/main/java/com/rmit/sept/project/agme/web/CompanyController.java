@@ -41,7 +41,7 @@ public class CompanyController
     @Autowired
     private EmployeeService employeeService;
 
-//    Creates a new service for a company
+    //    Creates a new service for a company
     @PostMapping("/new-service")
     public ResponseEntity<?> newService(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody ServiceType serviceType){
         String username = "";
@@ -64,8 +64,8 @@ public class CompanyController
 
     }
 
-//  Gets all bookings for logged in company
-        @GetMapping("/bookings")
+    //  Gets all bookings for logged in company
+    @GetMapping("/bookings")
     public ResponseEntity<?> getBookings(@RequestHeader("Authorisation") String authorisationHeader){
         String username = "";
 //        Gets username from the jwt token
@@ -77,9 +77,9 @@ public class CompanyController
         List<Booking> bookingsForCompany = new ArrayList<>();
 //        Loops through bookings and retrieve the one needed for the company
         for (Booking next:bookings){
-            if (next.getCompany().getUsername().equals(username)){
-                //next.getCompany().setEmployees(null);
-                //next.getServiceType().setCompany(null);
+            if (next.getCompany().getUsername().equals(username) && next.getServiceType() != null){
+                next.getCompany().setEmployees(null);
+                next.getServiceType().setCompany(null);
                 bookingsForCompany.add(next);
             }
         }
@@ -87,7 +87,7 @@ public class CompanyController
     }
 
     @GetMapping("/allservices")
-    //returns all services
+        //returns all services
     ResponseEntity<?> getAllServices(@RequestHeader("Authorisation") String authorisationHeader) {
         String username = "";
         String role = "";

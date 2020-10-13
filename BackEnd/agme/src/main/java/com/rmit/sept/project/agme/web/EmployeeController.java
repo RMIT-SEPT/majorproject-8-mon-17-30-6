@@ -47,8 +47,10 @@ public class EmployeeController
         for (Booking next : bookings) {
             if (next.getEmployee().getUsername().equals(username)) {
 //                Removes unnecesary info for response
-                //next.getCompany().setEmployees(null);
-                //next.getServiceType().setCompany(null);
+                next.getCompany().setEmployees(null);
+                if (next.getServiceType() != null) {
+                    next.getServiceType().setCompany(null);
+                }
                 bookingsForCompany.add(next);
             }
         }
