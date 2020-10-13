@@ -77,7 +77,7 @@ public class CompanyController
         List<Booking> bookingsForCompany = new ArrayList<>();
 //        Loops through bookings and retrieve the one needed for the company
         for (Booking next:bookings){
-            if (next.getCompany().getUsername().equals(username)){
+            if (next.getCompany().getUsername().equals(username) && next.getServiceType() != null){
                 next.getCompany().setEmployees(null);
                 next.getServiceType().setCompany(null);
                 bookingsForCompany.add(next);
