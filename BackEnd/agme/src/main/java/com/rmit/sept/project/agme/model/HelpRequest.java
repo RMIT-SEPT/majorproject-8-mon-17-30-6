@@ -5,8 +5,9 @@ import java.util.Date;
 // Request for availability
 public class HelpRequest
 {
-    private Date date;
     private String user;
+    private String name;
+    private String email;
     private String serviceName;
     private String message;
 
@@ -21,6 +22,20 @@ public class HelpRequest
     public void setServiceName(String user){
         this.user = user;
     }
-
+    public String getUser(){
+        return this.user;
+    };
+    public String getName(){
+        return this.name;
+    }
+    public String getEmail(){
+        return this.email;
+    }
+    public String getServiceName(){
+        return this.serviceName;
+    }
+    public String getMessage(){
+        return this.message;
+    }
 
 }
