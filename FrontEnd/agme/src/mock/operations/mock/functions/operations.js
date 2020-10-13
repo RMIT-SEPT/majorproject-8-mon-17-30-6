@@ -51,7 +51,10 @@ const getJwt = ()=>{
 }
 const getDecodedJwtFromLocalStorage = () =>{
     // Get JWT Header, Payload and Signature
-    const stringifiedJwtPayload = localStorage.getItem('credentials').split('.')[1];
+    const stringifiedJwtPayload = localStorage.getItem('credentials')&&localStorage.getItem('credentials').split('.')[1];
+    if(!stringifiedJwtPayload){
+        return null;
+    }
     //decode payload
     let data = stringifiedJwtPayload;
     let buff = new Buffer(data, 'base64');
@@ -118,15 +121,41 @@ const companyCalls = async() =>{
     })
 }
 
+const employeeCalls = async() =>{
+    apiCall('employee', 'getBookings','','GET').then(response=>{
+        if(response.statusCode===200){
+            localStorage.setItem("employee_bookings", JSON.stringify(response.body));
+        }
+    });
+
+    //get dummy user now, so the employee can use it to block time slots...
+    const payload = {
+        "username": "dummy",
+        "password": "12345678",
+        "role": "USER"
+    }
+    apiCall('common', 'login', payload, 'post').then(response=>{
+        if(response.statusCode===200){
+            localStorage.setItem('employee_dummy_user_credentials',JSON.stringify(response.body))
+        }
+    });
+}
+
 const getResources = async() =>{
     const authDetails = getDecodedJwtFromLocalStorage();
+    if(!authDetails){
+        return;
+    }
     const role = authDetails.role;
     switch(role){
         case 'COMPANY':
             companyCalls();
             break;
-            default:
-                break;
+        case 'EMPLOYEE':
+            employeeCalls();
+            break;
+        default:
+            break;
     }
 }
 

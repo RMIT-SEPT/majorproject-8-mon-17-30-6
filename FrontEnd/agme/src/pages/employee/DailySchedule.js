@@ -50,7 +50,7 @@ export default class DailySchedule extends React.Component{
         if(this.state.isUpdatingAvailability){
             return <div>
                 <Spinner animation="border" role="status"/>
-                <p>Please wait while we block timethe time slot {this.props.employeeAvailabilityManager.date} from {this.props.employeeAvailabilityManager.time}:00 to  {this.props.employeeAvailabilityManager.time+1}:00</p>
+                Please wait while we block the time slot {this.props.employeeAvailabilityManager.date} from {this.props.employeeAvailabilityManager.time}:00 to  {Number(this.props.employeeAvailabilityManager.time)+1}:00
             </div>
         }
         if(this.state.selectedAppointment){
@@ -196,7 +196,7 @@ export default class DailySchedule extends React.Component{
                                 </Modal.Header>
             
                                 <Modal.Body>
-                                    <p>{this.modalBody()}</p>
+                                    {this.modalBody()}
                                 </Modal.Body>
             
                                 <Modal.Footer>

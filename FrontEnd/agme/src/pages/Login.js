@@ -35,6 +35,8 @@ export default class Login extends React.Component{
     }
 
     handleAuthenticateRequest(){
+        localStorage.clear(); //to make sure localStorage is clean whenever we login again
+
         //mock for now
         this.setState({isCallingServer:true});
         const payload = {
