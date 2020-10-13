@@ -1,4 +1,6 @@
 import React from 'react';
+import BootstrapTable from 'react-bootstrap-table-next';
+import filterFactory, { textFilter, Comparator } from 'react-bootstrap-table2-filter';
 import './services.css';
 import Spinner from 'react-bootstrap/Spinner';
 
@@ -40,18 +42,25 @@ export default class AgmeServices extends React.Component{
             <p>Please wait while we retrieve the services.</p>
         </div>
         }else{
-        let servicesComponents = (this.state.services)
-            &&(this.state.services.length>0)
-            &&this.state.services.map((service,i)=>{
-            return <div key={i} className={"card"}>
-                <div className={"_"+i}>
-                    <div className="header"><p>{service.name}</p></div>
-                    <div className="container">
-                    <p>{service.description}</p>
-                    </div>
-                </div>
-            </div>
-        });
+            const rows = this.state.services.map(service=>{return {name:service.name,description:service.description}})
+            const columns = [{
+                dataField: 'name',
+                text: 'Service',
+                filter: textFilter({
+                  comparator: Comparator.LIKE
+                })
+              }, {
+                dataField: 'description',
+                text: 'Description',
+                filter: textFilter({
+                  comparator: Comparator.LIKE
+                })
+              }
+            ];
+        let servicesComponents =(
+            <div className="upcoming_appointments_table" >
+                <BootstrapTable keyField='id' data={ rows } columns={ columns } filter={ filterFactory() } />
+            </div>)
         if(!(servicesComponents&&(servicesComponents.length))){
             servicesComponents = "No services available";
         }

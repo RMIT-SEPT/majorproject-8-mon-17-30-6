@@ -1,9 +1,8 @@
 import React from 'react';
-import BootstrapTable from 'react-bootstrap-table-next';
-import filterFactory, { textFilter, Comparator } from 'react-bootstrap-table2-filter';
 import {getDecodedJwtFromLocalStorage}  from "../../mock/operations/mock/functions/utils";//Add decode func
 import './services.css'
 import Spinner from 'react-bootstrap/Spinner';
+import AgmeServices from './AgmeServices';
 
 const {apiCall} = require('../../mock/operations/mock/functions/operations');
 //To view list of services
@@ -41,7 +40,7 @@ export class CompanyServices extends React.Component{
             return <div className="calling">
             <div className="spinnerOutter">
             <Spinner animation="border" role="status">
-                <span className="sr-only">Loading...</span>
+                <span className="sr-only">Loading services...</span>
             </Spinner>
             </div>
             <br/>
@@ -52,27 +51,7 @@ export class CompanyServices extends React.Component{
             if((!this.state.services)||(this.state.services.length===0)){
                 servicesComponents = "No services available";
             }else{
-            const columns = [{
-                dataField: 'name',
-                text: 'Service',
-                filter: textFilter({
-                  comparator: Comparator.LIKE
-                })
-              }, {
-                dataField: 'description',
-                text: 'Description',
-                filter: textFilter({
-                  comparator: Comparator.LIKE
-                })
-              }
-            ];
-            const rows = this.state.services.map(service=>{return {name:service.name,description:service.description}})
-            console.log(this.state)
-            servicesComponents = (
-                <div className="upcoming_appointments_table" >
-                    <BootstrapTable keyField='id' data={ rows } columns={ columns } filter={ filterFactory() } />
-                </div>
-            );
+                servicesComponents = <AgmeServices services={this.state.services}/>;
             }
         return (
             <div>
