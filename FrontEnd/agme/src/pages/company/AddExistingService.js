@@ -9,9 +9,9 @@ export class AddExistingService extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            allServices: localStorage.getItem("agme_all_services")&&JSON.parse(localStorage.getItem("agme_all_services"))||[],
-            companyServices:localStorage.getItem("company_services")&&JSON.parse(localStorage.getItem("company_services"))||[],
-            available:localStorage.getItem("company_available_services")&&JSON.parse(localStorage.getItem("company_available_services"))||[],
+            allServices: localStorage.getItem("agme_all_services") ? JSON.parse(localStorage.getItem("agme_all_services")) : [],
+            companyServices:localStorage.getItem("company_services") ? JSON.parse(localStorage.getItem("company_services")) : [],
+            available:localStorage.getItem("company_available_services") ? JSON.parse(localStorage.getItem("company_available_services")) : [],
             serviceName: "",
             isCallingServer: false,
             failed: false,

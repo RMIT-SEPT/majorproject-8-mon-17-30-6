@@ -8,9 +8,9 @@ export class ViewEmployees extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            employees: localStorage.getItem('company_employees')&&JSON.parse(localStorage.getItem('company_employees')) || [],
+            employees: localStorage.getItem('company_employees') ? JSON.parse(localStorage.getItem('company_employees')) : [],
             selectedEmployee: null,
-            bookings:localStorage.getItem('company_bookings')&&JSON.parse(localStorage.getItem('company_bookings')) || []
+            bookings:localStorage.getItem('company_bookings') ? JSON.parse(localStorage.getItem('company_bookings')) :  []
         }
         this._isMounted = false;
         this.callDeleteBooking = this.callDeleteBooking.bind(this);

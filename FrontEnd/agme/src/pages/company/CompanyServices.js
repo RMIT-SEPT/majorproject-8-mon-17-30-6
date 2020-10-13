@@ -4,10 +4,6 @@ import AgmeServices from './AgmeServices';
 
 //To view list of services
 export class CompanyServices extends React.Component{
-    constructor(props){
-        super(props)
-    }
-
     render(){
         return (
             <div>

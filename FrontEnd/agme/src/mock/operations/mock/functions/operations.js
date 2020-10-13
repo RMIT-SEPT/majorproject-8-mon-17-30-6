@@ -121,7 +121,13 @@ const companyCalls = async() =>{
 const getResources = async() =>{
     const authDetails = getDecodedJwtFromLocalStorage();
     const role = authDetails.role;
-    companyCalls()
+    switch(role){
+        case 'COMPANY':
+            companyCalls();
+            break;
+            default:
+                break;
+    }
 }
 
 module.exports = {
