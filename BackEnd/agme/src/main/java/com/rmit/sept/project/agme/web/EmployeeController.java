@@ -45,7 +45,7 @@ public class EmployeeController
         List<Booking> bookings = bookingService.getAllBookings();
         List<Booking> bookingsForCompany = new ArrayList<>();
         for (Booking next : bookings) {
-            if (next.getEmployee().getUsername().equals(username)) {
+            if (next.getEmployee().getUsername().equals(username) && next.getServiceType() != null) {
 //                Removes unnecesary info for response
                 next.getCompany().setEmployees(null);
                 next.getServiceType().setCompany(null);

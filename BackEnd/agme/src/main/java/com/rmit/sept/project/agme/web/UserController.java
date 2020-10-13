@@ -52,7 +52,7 @@ public class UserController {
         List<Booking> bookingsForUser = new ArrayList<>();
 //        Loops through bookings and retrieve the one needed for the user
         for (Booking next:bookings){
-            if (next.getUser().getUsername().equals(username)){
+            if (next.getUser().getUsername().equals(username) && next.getServiceType() != null){
                 next.getCompany().setEmployees(null);
                 next.getServiceType().setCompany(null);
                 bookingsForUser.add(next);
@@ -80,7 +80,7 @@ public class UserController {
         long updateDateMilliSec;
         long diffDays;
         for (Booking next:bookings){
-            if (next.getUser().getUsername().equals(username)){
+            if (next.getUser().getUsername().equals(username) && next.getServiceType() != null){
                 next.getCompany().setEmployees(null);
                 next.getServiceType().setCompany(null);
                 updateDateMilliSec = next.getStartDateTime().getTime();

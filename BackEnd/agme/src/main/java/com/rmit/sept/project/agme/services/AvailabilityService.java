@@ -19,15 +19,11 @@ public class AvailabilityService {
         List<Booking> bookings = bookingService.getAllBookings();
         List<Integer> availablility = new ArrayList<Integer>();
 //        All employees have a default availability
-        availablility.add(9);
-        availablility.add(10);
-        availablility.add(11);
-        availablility.add(12);
-        availablility.add(13);
-        availablility.add(14);
-        availablility.add(15);
-        availablility.add(16);
-        availablility.add(17);
+        int startingTime = 9;
+        int hoursWorked = 9;
+        for (int i = startingTime; i < startingTime + hoursWorked; i++) {
+        	availablility.add(i);
+        }
         int time;
 //        Loop through each booking and remove the booked times from the availability list
         for (Booking next:bookings){
@@ -54,15 +50,11 @@ public class AvailabilityService {
         List<Booking> bookings = bookingService.getAllBookings();
         List<Integer> availablility = new ArrayList<Integer>();
 //        All employees have a default availability
-        availablility.add(9);
-        availablility.add(10);
-        availablility.add(11);
-        availablility.add(12);
-        availablility.add(13);
-        availablility.add(14);
-        availablility.add(15);
-        availablility.add(16);
-        availablility.add(17);
+        int startingTime = 9;
+        int hoursWorked = 9;
+        for (int i = startingTime; i < startingTime + hoursWorked; i++) {
+        	availablility.add(i);
+        }
         int time;
         boolean there = false;
 //        Loop through each booking and remove the booked times from the availability list
