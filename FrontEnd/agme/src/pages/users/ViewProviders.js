@@ -24,13 +24,20 @@ export default class ViewProviders extends React.Component{
     }
     componentDidMount(){
         this._isMounted = true;
-        apiCall('user', 'companies',null,'get').then(r=>{
-            if(r.statusCode===200){
-                this._isMounted&&this.setState({providers:r.body, failed: false, called: true})
-            }else{
-                this._isMounted&&this.setState({failed: true, called: true})
-            }
-        });
+        //only call api if necessary
+        const companies = localStorage.getItem('user_companies') ? JSON.parse(localStorage.getItem('user_companies')) : [];
+        if(companies&&companies.length){
+            this.setState({providers:companies, failed: false, called: true})
+        }else{
+            apiCall('user', 'companies',null,'get').then(r=>{
+                if(r.statusCode===200){
+                    this._isMounted&&this.setState({providers:r.body, failed: false, called: true});
+                }else{
+                    this._isMounted&&this.setState({failed: true, called: true})
+                }
+            });
+        }
+
     }
 
 

@@ -64,13 +64,19 @@ export default class UpcomingAppointments extends React.Component{
 
     componentDidMount(){
         this._isMounted = true;
-        apiCall('user', 'getBookings',null,'get').then(r=>{
-            if(r.statusCode===200){
-                this._isMounted&&this.setState({appointments:r.body, failed: false, called: true})
-            }else{
-                this._isMounted&&this.setState({failed: true, called: true})
-            }
-        });
+        const bookings = localStorage.getItem('user_bookings') ? JSON.parse(localStorage.getItem('user_bookings')) : [];
+        if(bookings&&bookings.length){
+            this.setState({appointments:JSON.parse(localStorage.getItem('user_bookings')), failed: false, called: true})
+        }else{
+            apiCall('user', 'getBookings',null,'get').then(r=>{
+                if(r.statusCode===200){
+                    this._isMounted&&this.setState({appointments:r.body, failed: false, called: true})
+                }else{
+                    this._isMounted&&this.setState({failed: true, called: true})
+                }
+            });
+        }
+
     }
 
     modal(){

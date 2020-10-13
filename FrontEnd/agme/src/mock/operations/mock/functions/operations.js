@@ -141,12 +141,38 @@ const employeeCalls = async() =>{
     });
 }
 
+const userCalls = async ()=>{
+    apiCall('user', 'getBookings','','GET').then(response=>{
+        if(response.statusCode===200){
+            localStorage.setItem("user_bookings", JSON.stringify(response.body));
+        }
+    });
+    apiCall('user', 'upcomingBookings','','GET').then(response=>{
+        if(response.statusCode===200){
+            localStorage.setItem("user_upcoming-bookings", JSON.stringify(response.body));
+        }
+    });
+    apiCall('user', 'getAllServices','','GET').then(response=>{
+        if(response.statusCode===200){
+            localStorage.setItem("user_services", JSON.stringify(response.body));
+            //duplicated here, but allows reusing some components
+            localStorage.setItem("agme_all_services", JSON.stringify(response.body));
+        }
+    });
+    apiCall('user', 'companies','','GET').then(response=>{
+        if(response.statusCode===200){
+            localStorage.setItem("user_companies", JSON.stringify(response.body));
+        }
+    });
+}
+
 const getResources = async() =>{
     const authDetails = getDecodedJwtFromLocalStorage();
     if(!authDetails){
         return;
     }
     const role = authDetails.role;
+    console.log(role)
     switch(role){
         case 'COMPANY':
             companyCalls();
@@ -154,6 +180,9 @@ const getResources = async() =>{
         case 'EMPLOYEE':
             employeeCalls();
             break;
+        case 'USER':
+            userCalls();
+            break;            
         default:
             break;
     }

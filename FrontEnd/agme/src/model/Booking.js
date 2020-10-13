@@ -67,7 +67,8 @@ export default class Booking extends Entity{
         if(!this.date){
             return ""
         }
-        const hour = new Date(this.date).getHours()
+        //there is an issue if hour does not have 2 digits
+        const hour = new Date(this.date).getHours() < 10 ? "0"+new Date(this.date).getHours().toString() : new Date(this.date).getHours();
         const finalDateTime = this.getDDYYMMYY() + 'T' + hour + ':00:00'
         return finalDateTime;
     }
