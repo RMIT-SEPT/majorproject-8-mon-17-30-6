@@ -19,7 +19,7 @@ export default class UserServices extends React.Component{
 
     componentDidMount(){
         this._isMounted = true;
-        apiCall('company', 'getAllServices',null,'get').then(response=>{
+        apiCall('user', 'getAllServices',null,'get').then(response=>{
             if(response.statusCode === 200){
                 this._idMounted &&this.setState({
                     services: response.body
