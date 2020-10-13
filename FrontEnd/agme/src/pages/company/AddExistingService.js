@@ -9,7 +9,9 @@ export class AddExistingService extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            services:[],
+            allServices: localStorage.getItem("agme_all_services")&&JSON.parse(localStorage.getItem("agme_all_services"))||[],
+            companyServices:localStorage.getItem("company_services")&&JSON.parse(localStorage.getItem("company_services"))||[],
+            available:localStorage.getItem("company_available_services")&&JSON.parse(localStorage.getItem("company_available_services"))||[],
             serviceName: "",
             isCallingServer: false,
             failed: false,
@@ -29,12 +31,21 @@ export class AddExistingService extends React.Component{
             this.state.entity.setField("description",this.state.description);
             apiCall('company', 'newService' , this.state.entity ,'post').then(r=>{
                 if(r.statusCode === 200){
-                    console.log(r);
                     if (r.statusCode === 200){
                         alert("New service has been added");
                     }
-    
-                    
+                    //update localStorage
+                    let allServices = this.state.allServices;
+                    let companyServices = this.state.companyServices;
+                    allServices.push(r.body);
+                    companyServices.push(r.body);
+                    localStorage.setItem("agme_all_services",JSON.stringify(allServices))
+                    localStorage.setItem("company_services",JSON.stringify(companyServices));
+                    this._isMounted&&this.setState({
+                        allServices:allServices,
+                        companyServices:companyServices
+                    })
+  
                 }
             })
         }
@@ -47,30 +58,33 @@ export class AddExistingService extends React.Component{
     }
     componentDidMount(){
         this._isMounted = true;
-        apiCall('company','getAllServices', null, 'GET').then(response=>{
-            const username = getDecodedJwtFromLocalStorage().sub;
-            if(response.statusCode === 200){
-                let all = new Set();
-                let company = new Set();
-                const companyServices = response.body.filter(service=>{
-                    all.add(service.name);
-                    const hasService = service.company.filter(company=>{return company.username===username}).length>0;
-                    if(hasService){
-                        company.add(service.name)
-                    }
-                    return hasService;
-                });
-                const available = response.body.filter(c=>{
-                    return !company.has(c.name)
-                })
-
-                this._isMounted&&this.setState({
-                    allServices: response.body,
-                    companyServices: companyServices,
-                    available: available
-                });
-            }
-        })
+        //just in case localStorage is empty
+        if(!this.state.allServices || (this.state.allServices.length===0)){
+            apiCall('company','getAllServices', null, 'GET').then(response=>{
+                const username = getDecodedJwtFromLocalStorage().sub;
+                if(response.statusCode === 200){
+                    let all = new Set();
+                    let company = new Set();
+                    const companyServices = response.body.filter(service=>{
+                        all.add(service.name);
+                        const hasService = service.company.filter(company=>{return company.username===username}).length>0;
+                        if(hasService){
+                            company.add(service.name)
+                        }
+                        return hasService;
+                    });
+                    const available = response.body.filter(c=>{
+                        return !company.has(c.name)
+                    })
+    
+                    this._isMounted&&this.setState({
+                        allServices: response.body,
+                        companyServices: companyServices,
+                        available: available
+                    });
+                }
+            })
+        }    
     }
 
     handleInputChange(e){
@@ -113,9 +127,7 @@ export class AddExistingService extends React.Component{
             );
         }
         return (
-            <div>
-        
-                <div className="newService">
+            <div className="newService">
                 <h1>Add a new service</h1>
                 <br/><br/>
                 <input type="text" name={"name"} value={this.state.name} placeholder="name" className="form-control" onChange={this.handleInputChange}/>
@@ -123,7 +135,6 @@ export class AddExistingService extends React.Component{
                 <input type="text" name={"description"} value={this.state.description} className="form-control" placeholder="description" onChange={this.handleInputChange}/>
                 <br/>
                 <button onClick={(e) => {this.addNewSubmit()}}>add new</button>
-                </div>
             </div>
         )
     }

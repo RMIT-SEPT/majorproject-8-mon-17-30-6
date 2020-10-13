@@ -20,7 +20,11 @@ export class CompanyAppointmentList extends React.Component{
     }
     componentDidMount() {
       this._isMounted = true;
-      apiCall('company', 'getBookings', null, 'get').then(response=>{
+      let appointments = localStorage.getItem('company_bookings')&&JSON.parse(localStorage.getItem('company_bookings'));
+      if(appointments && appointments.length){
+        this._isMounted&&this.setState({"haveDataFromServer":true, appointments:appointments})
+      }else{
+        apiCall('company', 'getBookings', null, 'get').then(response=>{
           let appointments = response.body;
           for (var i = 0; i < appointments.length; i++) {
             var time = appointments[i].startDateTime.replace(' ','T');
@@ -28,9 +32,8 @@ export class CompanyAppointmentList extends React.Component{
             appointments[i].startDateTime = time2;
           }
           this._isMounted&&this.setState({"haveDataFromServer":true, appointments:appointments})
-          this.render();
       });
-
+      }
     }
 
     render(){
