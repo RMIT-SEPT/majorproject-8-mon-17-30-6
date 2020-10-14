@@ -1,9 +1,9 @@
-.time_available span svg.available{
+svg.available{
     color:green;
     font-size:2vw;
 }
 
-.time_unavailable span svg.unavailable{
+svg.unavailable{
     font-size:2vw;
 }
 

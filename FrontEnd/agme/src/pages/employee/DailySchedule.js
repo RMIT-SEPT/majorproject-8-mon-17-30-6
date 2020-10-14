@@ -3,7 +3,8 @@ import Button from "react-bootstrap/Button";
 import { BsToggleOn, BsToggleOff } from "react-icons/bs";
 import Modal from 'react-bootstrap/Modal';
 import Spinner from 'react-bootstrap/Spinner'
-
+import filterFactory, { textFilter, Comparator } from 'react-bootstrap-table2-filter';
+import BootstrapTable from 'react-bootstrap-table-next';
 import './dailyschedule.css'
 export default class DailySchedule extends React.Component{
 
@@ -122,68 +123,60 @@ export default class DailySchedule extends React.Component{
     }
     render(){
         if(this.props.employeeAvailabilityManager&&this.props.employeeAvailabilityManager.times){
-            const hoursComponent = Object.keys(this.props.employeeAvailabilityManager.times).map((key,i)=>{
-                const isAvailable = (this.props.employeeAvailabilityManager.times[key] ===null)
+
+
+            const columns = [{
+                dataField: 'time',
+                text: 'Time slot'
+              }, {
+                dataField: 'status',
+                text: 'Availability'
+              },{
+                dataField: 'details',
+                text: 'Details'
+              }
+            ];
+
+            let rows = [];
+            for(let i = 8 ; i < 18; i++){
+                const isAvailable = this.props.employeeAvailabilityManager.times[i] ===null;
+                let status;
+                let details = "Available"
                 if(isAvailable){
-                    return (
-                        <div className="time_available" key={i}>
-                        <span className="label">{key<10? "0"+key:key}:00 - {(Number(key)+1)%24<10? "0"+(Number(key)+1)%24 : (Number(key)+1)%24}:00</span>
-                        <span className="toggle">
-                            <BsToggleOn className="available" onClick={e=>{
-                                e.preventDefault();
-                                this.props.employeeAvailabilityManager.setTime(key)
-                                this.setState({
-                                    showModal:true,
-                                    selectedAppointment:this.props.employeeAvailabilityManager.times[key]
-                                })
-                            }}/>
-                            </span>
-                    </div>
-                    )
+                    status = <BsToggleOn className="available" onClick={e=>{
+                        e.preventDefault();
+                        this.props.employeeAvailabilityManager.setTime(i)
+                        this.setState({
+                            showModal:true,
+                            selectedAppointment:this.props.employeeAvailabilityManager.times[i]
+                            })
+                        }}
+                    />
                 }else{
-                    const name = this.props.employeeAvailabilityManager.times[key]&&this.props.employeeAvailabilityManager.times[key].user.name;
-                    const username = this.props.employeeAvailabilityManager.times[key]&&this.props.employeeAvailabilityManager.times[key].user.username;
-                    //blocked for yourselg
-                    if(username==='dummy'){
-                        return (
-                            <div className="time_unavailable" key={i}>
-                            <span className="label">{key<10? "0"+key:key}:00 - {(Number(key)+1)%24<10? "0"+(Number(key)+1)%24 : (Number(key)+1)%24}:00</span>
-                            <span className="toggle">
-                                <BsToggleOff className="unavailable" onClick={e=>{
-                                e.preventDefault();
-                                this.props.employeeAvailabilityManager.setTime(key)
-                                this.setState({
-                                    showModal:true,
-                                    selectedAppointment:this.props.employeeAvailabilityManager.times[key]
-                                })
-                            }}/>
-                                </span>
-                            <span className="slot_details">
-                                You have made this time slot unvailable
-                            </span>
-                        </div>
-                        )
-                    }else if(username){
-                        return (
-                            <div className="time_unavailable" key={i}>
-                            <span className="label">{key<10? "0"+key:key}:00 - {(Number(key)+1)%24<10? "0"+(Number(key)+1)%24 : (Number(key)+1)%24}:00</span>
-                            <span className="toggle">
-                                <BsToggleOff className="unavailable" onClick={e=>{
-                                e.preventDefault();
-                                this.props.employeeAvailabilityManager.setTime(key)
-                                this.setState({showModal:true,selectedAppointment:this.props.employeeAvailabilityManager.times[key]})
-                            }}/>
-                                </span>
-                            <span className="slot_details">
-                                This is a booking for {name}
-                            </span>
-                        </div>
-                        )
+                    const name = this.props.employeeAvailabilityManager.times[i]&&this.props.employeeAvailabilityManager.times[i].user.name;
+                    const isDummy = (this.props.employeeAvailabilityManager.times[i]&&this.props.employeeAvailabilityManager.times[i].user.username) === "dummy";
+                    if(isDummy){
+                        details = "You blocked this time slot"
                     }else{
-                        return "";
+                        details = "You are providing service to "+name;
                     }
+                    status = <BsToggleOff className="unvailable" onClick={e=>{
+                        e.preventDefault();
+                        this.props.employeeAvailabilityManager.setTime(i)
+                        this.setState({
+                            showModal:true,
+                            selectedAppointment:this.props.employeeAvailabilityManager.times[i]
+                            })
+                        }}
+                    />
                 }
-            });
+                rows.push({
+                    time: i,
+                    status: status,
+                    details: details
+                })
+            }
+
             return (
                 <div className="employee_schedule">
                     <div>
@@ -204,7 +197,10 @@ export default class DailySchedule extends React.Component{
                                 </Modal.Footer>
                             </Modal.Dialog>
                         </Modal>
-                    {hoursComponent}
+                    
+                    <div className="upcoming_appointments_table" >
+                        <BootstrapTable keyField='id' data={ rows } columns={ columns }/>
+                    </div>
                 </div>
             );
         }else{
