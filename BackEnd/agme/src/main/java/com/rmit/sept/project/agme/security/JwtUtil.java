@@ -28,8 +28,12 @@ public class JwtUtil {
     @Autowired
     AdminService adminService;
 //    Get username from a token
-    public String extractUsername(String token){
-        return extractClaim(token, Claims::getSubject);
+    public String extractUsername(String authorisationHeader){
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
+            String jwtToken = authorisationHeader.substring(7);
+            return extractClaim(jwtToken, Claims::getSubject);
+        }
+        return null;
     }
 
 //    Gets exirpation date from a token

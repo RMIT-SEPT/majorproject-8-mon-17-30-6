@@ -44,11 +44,9 @@ public class CompanyController
 //    Creates a new service for a company
     @PostMapping("/new-service")
     public ResponseEntity<?> newService(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody ServiceType serviceType){
-        String username = "";
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) {
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
-        }
+
+        String username = jwtUtil.extractUsername(authorisationHeader);
+
 //        If service exists add teh company as one that offers it, if not then create the service and add the company
         Company company = companyService.loadUserByUsername(username);
         ServiceType service = serviceTypeService.loadServiceByName(serviceType.getName());
@@ -67,12 +65,8 @@ public class CompanyController
 //  Gets all bookings for logged in company
         @GetMapping("/bookings")
     public ResponseEntity<?> getBookings(@RequestHeader("Authorisation") String authorisationHeader){
-        String username = "";
-//        Gets username from the jwt token
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
-        }
+        String username = jwtUtil.extractUsername(authorisationHeader);
+
         List<Booking> bookings = bookingService.getAllBookings();
         List<Booking> bookingsForCompany = new ArrayList<>();
 //        Loops through bookings and retrieve the one needed for the company
@@ -89,12 +83,7 @@ public class CompanyController
     @GetMapping("/allservices")
     //returns all services
     ResponseEntity<?> getAllServices(@RequestHeader("Authorisation") String authorisationHeader) {
-        String username = "";
-        String role = "";
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
-        }
+
         if (serviceTypeService.getAllServices().size() == 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
@@ -105,12 +94,8 @@ public class CompanyController
 
     @GetMapping("/employees")
     ResponseEntity<?> getEmployees(@RequestHeader("Authorisation") String authorisationHeader) {
-        String username = "";
-        String role = "";
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
-        }
+        String username = jwtUtil.extractUsername(authorisationHeader);
+
         if (employeeService.getAllEmployees().size() == 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
