@@ -31,8 +31,11 @@ public class AvailabilityController
 
     @PostMapping("/availability")
     public ResponseEntity<?> getAvailableDaysPerService(@RequestBody AvailabilityRequest availabilityRequest){
-        List<Object> availability = serviceTypeService.getServiceAvailability(availabilityRequest);
-        return new ResponseEntity<>(availability, HttpStatus.OK);
-
+        try{
+            List<Object> availability = serviceTypeService.getServiceAvailability(availabilityRequest);
+            return new ResponseEntity<>(availability, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>("Invalid Request", HttpStatus.BAD_REQUEST);
+        }
     }
 }
