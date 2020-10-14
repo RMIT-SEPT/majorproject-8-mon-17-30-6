@@ -25,13 +25,15 @@ export class CompanyAppointmentList extends React.Component{
         this._isMounted&&this.setState({"haveDataFromServer":true, appointments:appointments})
       }else{
         apiCall('company', 'getBookings', null, 'get').then(response=>{
-          let appointments = response.body;
-          for (var i = 0; i < appointments.length; i++) {
-            var time = appointments[i].startDateTime.replace(' ','T');
-            var time2 = "20" + time.substr(6,2) + "-" + time.substr(3,2) + "-" + time.substr(0,2) + time.substr(8,9);
-            appointments[i].startDateTime = time2;
+          if(response.status===200){
+            let appointments = response.body;
+            for (var i = 0; i < appointments.length; i++) {
+              var time = appointments[i].startDateTime.replace(' ','T');
+              var time2 = "20" + time.substr(6,2) + "-" + time.substr(3,2) + "-" + time.substr(0,2) + time.substr(8,9);
+              appointments[i].startDateTime = time2;
+            }
+            this._isMounted&&this.setState({"haveDataFromServer":true, appointments:appointments})
           }
-          this._isMounted&&this.setState({"haveDataFromServer":true, appointments:appointments})
       });
       }
     }
