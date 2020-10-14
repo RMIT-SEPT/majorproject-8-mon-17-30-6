@@ -3,7 +3,6 @@ import Button from "react-bootstrap/Button";
 import { BsToggleOn, BsToggleOff } from "react-icons/bs";
 import Modal from 'react-bootstrap/Modal';
 import Spinner from 'react-bootstrap/Spinner'
-import filterFactory, { textFilter, Comparator } from 'react-bootstrap-table2-filter';
 import BootstrapTable from 'react-bootstrap-table-next';
 import './dailyschedule.css'
 export default class DailySchedule extends React.Component{
