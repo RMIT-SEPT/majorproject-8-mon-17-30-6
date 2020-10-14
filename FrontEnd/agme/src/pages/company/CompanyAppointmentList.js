@@ -25,7 +25,7 @@ export class CompanyAppointmentList extends React.Component{
         this._isMounted&&this.setState({"haveDataFromServer":true, appointments:appointments})
       }else{
         apiCall('company', 'getBookings', null, 'get').then(response=>{
-          if(response.status===200){
+          if(response.statusCode===200){
             let appointments = response.body;
             for (var i = 0; i < appointments.length; i++) {
               var time = appointments[i].startDateTime.replace(' ','T');
