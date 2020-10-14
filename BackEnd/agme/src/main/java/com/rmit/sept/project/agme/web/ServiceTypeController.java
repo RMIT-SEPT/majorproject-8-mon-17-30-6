@@ -22,11 +22,10 @@ public class ServiceTypeController {
 
     @GetMapping("/services")
     ResponseEntity<?> getServices() {
-        if (serviceTypeService.getAllServices().size() == 0) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-        } else {
+        try{
             return new ResponseEntity<>(serviceTypeService.getAllServices(), HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
