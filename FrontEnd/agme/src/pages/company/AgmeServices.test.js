@@ -41,7 +41,6 @@ describe("Services", () => {
       const columns = row.find('td');
       expect(columns.at(1).text()).toEqual(services[i].description); 
     })   
-    
   });
 
 });
