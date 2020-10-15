@@ -2,10 +2,12 @@ package com.rmit.sept.project.agme.services;
 
 import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.model.Company;
+import com.rmit.sept.project.agme.model.Employee;
 import com.rmit.sept.project.agme.repositories.BookingRepository;
 import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.services.*;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -77,29 +80,70 @@ public class BookingServiceTest {
 
     @Test
     public void getBookingsByCompany_willReturnTrue_whenAddedByCompany() {
-
         Booking temp1 = new Booking();
         Company comp1 = new Company();
         temp1.setCompany(comp1);
-
         Booking temp2 = new Booking();
         temp2.setCompany(comp1);
-
         Booking temp3 = new Booking();
         Company comp2 = new Company();
         temp3.setCompany(comp2);
-
         bookingService.addBooking(temp1);
         bookingService.addBooking(temp2);
         bookingService.addBooking(temp3);
-
         List<Booking> list = new ArrayList<>();
         list.add(temp1);
         list.add(temp2);
-
         given(bookingService.getAllBookings()).willReturn(list);
+        Assert.assertEquals(list, bookingService.getAllBookings());
+    }
 
+    @Test
+    public void deleteBooking_shouldReturnFalse_ifBookingDoesntExist(){
+        Long id = new Long(1);
+        Assert.assertEquals(false, bookingService.deleteById(id));
+    }
+
+    @Test
+    public void getBookingsForEmployee_shouldEqualero_ifEmployeeDoesntExist(){
+        List<Booking> list= new ArrayList<>();
+
+        Assert.assertEquals(list,bookingService.getBookingsByEmployee(employeeService.loadUserByUsername("alex")));
+    }
+    @Test
+    public void confirmCount_shouldBeZero() {
+        BookingService emptyTester = new BookingService(bookingRepository);
+        Long countOfBooks = emptyTester.count();
+        Long expected = (long) 0;
+        assertEquals(expected, countOfBooks);
+    }
+
+    @Test
+    public void confirmCount_shouldBeTwo() {
+        BookingService twoBookingTester = new BookingService(bookingRepository);
+
+        Booking booking1 = new Booking();
+        booking1.setId((long) 1);
+        booking1.setDuration(20);
+        Booking booking2 = new Booking();
+        booking2.setId((long) 2);
+        booking2.setDuration(10);
+        twoBookingTester.addBooking(booking1);
+        twoBookingTester.addBooking(booking2);
+
+        Long countOfBooks = twoBookingTester.count();
+        Long expected = (long) 0;
+        assertEquals(expected, countOfBooks);
+    }
+
+    @Test
+    public void getBookingsForEmployee_shouldEqualNull_ifEmployeeDoesExistButHasNoBookings(){
+        Employee emp = new Employee();
+        emp.setUsername("alex");
+        employeeService.saveOrUpdate(emp);
+        List<Booking> list= new ArrayList<>();
+        Assert.assertEquals(list,bookingService.getBookingsByEmployee(employeeService.loadUserByUsername("alex")));
     }
 
 
-}
+    }

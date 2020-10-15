@@ -114,7 +114,11 @@ public class BookingService {
 		return list;
 	}
 
-	public void deleteById(Long bookingId) {
+	public boolean deleteById(Long bookingId) {
+		if (count() == 0){
+			return false;
+		}
 		bookingRepository.deleteById(bookingId);
+		return true;
 	}
 }

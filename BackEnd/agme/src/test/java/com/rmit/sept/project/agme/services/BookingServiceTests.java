@@ -71,30 +71,6 @@ public class BookingServiceTests {
 //    	assertNotNull(confirmBooking);
 //    }
     
-    @Test
-    public void confirmCount_shouldBeZero() {
-    	BookingService emptyTester = new BookingService(bookingRepository);
-    	Long countOfBooks = emptyTester.count();
-    	Long expected = (long) 0;
-    	assertEquals(expected, countOfBooks);
-    }
-    
-    @Test
-    public void confirmCount_shouldBeTwo() {
-    	BookingService twoBookingTester = new BookingService(bookingRepository);
-    	
-    	Booking booking1 = new Booking();
-        booking1.setId((long) 1);
-        booking1.setDuration(20);
-        Booking booking2 = new Booking();
-        booking2.setId((long) 2);
-        booking2.setDuration(10);
-        twoBookingTester.addBooking(booking1);
-        twoBookingTester.addBooking(booking2);
-        
-    	Long countOfBooks = twoBookingTester.count();
-    	Long expected = (long) 0;
-    	assertEquals(expected, countOfBooks);
-    }
+
     
 }
