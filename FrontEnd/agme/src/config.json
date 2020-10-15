@@ -4,7 +4,8 @@
     "uri": {
       "common": {
         "signup": "signup",
-        "login": "login"
+        "login": "login",
+        "help": "help"
       },
       "signup": "signup",
       "login": "login",

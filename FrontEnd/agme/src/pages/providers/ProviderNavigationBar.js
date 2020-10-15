@@ -39,6 +39,7 @@ export default class ProviderNavigationBar extends React.Component{
                                 <NavDropdown.Divider />
                                 <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
                             </NavDropdown>
+                            <Nav.Link name="help" onClick={this.props.handleSelectNavBar}>Help/Report</Nav.Link>
                         </Nav>
 
                     </Navbar.Collapse>
