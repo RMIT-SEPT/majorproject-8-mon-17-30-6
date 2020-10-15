@@ -16,8 +16,8 @@ jest.mock('../../mock/operations/mock/functions/operations',()=>{
                 statusCode: 200,
                 body:     {
                     "id": 1,
-                    "serviceName": "Plumbing",
-                    "description": "Just another electrical service"
+                    "name": "Plumbing",
+                    "description": "Just another plumbing service"
                 }
             }
         }
@@ -36,7 +36,7 @@ describe("Services", () => {
     it("1 - It should display available services within Agme that can be added to the company", () => {  
         const container = mount(<AddExistingService/>) 
         const select = container.find('select');
-        expect(select.childAt(0).html()).toEqual("<option value=\"\" disabled=\"\">Choose a service</option>");
+        expect(select.childAt(0).html()).toEqual("<option value=\"DEFAULT\" disabled=\"\" selected=\"\">Choose a service</option>");
         expect(select.childAt(1).html()).toEqual("<option value=\"Plumbing\">Plumbing</option>");
         expect(select.childAt(2).html()).toEqual("<option value=\"Electrical\">Electrical</option>");
         expect(select.childAt(3).html()).toEqual("<option value=\"App Building\">App Building</option>");
@@ -61,13 +61,19 @@ describe("Services", () => {
         container = mount(<AddExistingService/>) ;
         select = container.find('select');
         select.simulate('change',{target: { value : 'Plumbing'}});
+        container.setState({name: "Plumbing",serviceName: "Plumbing", isCallingServer:false})
         container.instance().addNewSubmit();
+
+    });
+    
+    it("2 - It should localStorage with new data", () => {  
+        const hasNewService =JSON.parse(localStorage.getItem('company_services')).filter(s=>{return s.name==="Plumbing"}).length>0
+        expect(hasNewService).toEqual(true);
     });
 
-    
-    it("2 - It should update local storage when adding a new service", () => {      
-        expect(select.childAt(2).html()).toEqual("<option value=\"App Building\">App Building</option>");
-
+    it("3 - It should component state with new data", () => {  
+        const hasNewService =container.state().companyServices.filter(s=>{return s.name==="Plumbing"}).length>0
+        expect(hasNewService).toEqual(true);
     });
 
 });

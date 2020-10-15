@@ -2,7 +2,8 @@ import React from 'react';
 import Button from "react-bootstrap/Button";
 import './services.css'
 import Entity from '../../model/Entity';
-import '../css/provider.css'
+import '../css/provider.css';
+import Spinner from 'react-bootstrap/Spinner';
 const {apiCall, getDecodedJwtFromLocalStorage} = require('../../mock/operations/mock/functions/operations');
 //To view list of services
 export default class AddExistingService extends React.Component{
@@ -24,26 +25,20 @@ export default class AddExistingService extends React.Component{
         this.handleInputChange = this.handleInputChange.bind(this);
         this.addNewSubmit = this.addNewSubmit.bind(this);
     }
-    addNewSubmit(){
-            if (!this.state.isCallingServer){
-                this.setState({isCallingServer:true})
+    addNewSubmit(e){
+        e&&e.preventDefault();
+        if (!this.state.isCallingServer){
+            this.setState({isCallingServer:true})
             this.state.entity.setField("name",this.state.name);
             this.state.entity.setField("description",this.state.description);
             apiCall('company', 'newService' , this.state.entity ,'post').then(r=>{
                 if(r.statusCode === 200){
-                    if (r.statusCode === 200){
-                        alert("New service has been added");
-                    }
-                    console.log(r)
                     //update localStorage
                     let allServices = this.state.allServices;
                     let companyServices = this.state.companyServices;
-                    let availableServices = this.state.available.filter(s=>{return s.name!==r.body.serviceName});
-                    console.log(availableServices)
-
+                    let availableServices = this.state.available.filter(s=>{return s.name!==r.body.name});
                     allServices.push(r.body);
                     companyServices.push(r.body);
-
                     localStorage.setItem("agme_all_services",JSON.stringify(allServices))
                     localStorage.setItem("company_services",JSON.stringify(companyServices));
                     localStorage.setItem("company_available_services",JSON.stringify(availableServices));
@@ -51,14 +46,17 @@ export default class AddExistingService extends React.Component{
                     this._isMounted&&this.setState({
                         allServices:allServices,
                         companyServices:companyServices,
-                        available:availableServices
+                        available:availableServices,
+                        isCallingServer: false
                     })
-  
+                }else{
+                    this._isMounted&&this.setState({
+                        isCallingServer: false
+                    })
                 }
+
             })
         }
-        
-     
     }
 
     componentWillUnmount(){
@@ -101,35 +99,87 @@ export default class AddExistingService extends React.Component{
         const value = e.target.value;
         this.setState({[name]:value});
     }
+
+    showInputFields(){
+        const isExisting = this.state.available.filter(service=>{return service.name===this.state.name}).length>0;
+        if(isExisting){
+            return <div>
+                <Button
+                    onClick={e=>{
+                        e.preventDefault();
+                        this.setState({
+                            name:null,
+                            description: null
+                        });
+                    }}
+                >
+                    Type new
+                    </Button>
+            </div>
+        }else{
+            return (
+                <div>
+                    <input type="text" name={"name"} value={this.state.name} placeholder="name" className="form-control" onChange={this.handleInputChange}/>
+                    <br/>
+                    <input type="text" name={"description"} value={this.state.description} className="form-control" placeholder="description" onChange={this.handleInputChange}/>
+                    <br/>
+                </div>
+            );
+        }
+    }
+
     render(){
+        if(this.state.isCallingServer){
+            return (
+                <div className="newService">
+                    <div className="calling">
+                    <div className="spinnerOutter">
+                    <Spinner animation="border" role="status">
+                        <span className="sr-only"/>
+                    </Spinner>
+                    </div>
+                    <br/>
+                    <p>Please wait while we add {this.state.name}  to your company.</p>
+                    </div>
+                </div>
+
+            
+            );
+        }
+
         if(this.state.available&&(this.state.available.length>0)){
             const options = this.state.available.map((option,i)=>{
             return <option key={i} value={option.name}>{option.name}</option>
             });
             let button;
-            if(this.state.serviceName){
-                button = <Button variant="success">Add</Button>
+            let message = ""
+            const isDuplicate = this.state.companyServices.filter(s=>{return s.name===this.state.name}).length>0;
+            if(this.state.name){
+                //check if not duplicate
+                const isDuplicate = this.state.companyServices.filter(s=>{return s.name===this.state.name}).length>0;
+                if(!isDuplicate){
+                    button = <Button onClick={this.addNewSubmit} variant="success">Add</Button>
+                    message = ""
+                }else{
+                    message = "Cannot add service "+this.state.name+". You already provide it"
+                }
             }else{
                 button = <Button variant="secondary">Add</Button>
             }
             return (
                 <React.Fragment>
-                <div>
-                    <h5>Select an existing service to add</h5>
-                    <select name="serviceName" onChange={this.handleInputChange}>
-                        <option value="" disabled defaultValue>Choose a service</option>
-                        {options}
-                    </select>
-                    {button}
-                </div>
                 <div className="newService">
                 <h1>Add a new service</h1>
                 <br/><br/>
-                <input type="text" name={"name"} value={this.state.name} placeholder="name" className="form-control" onChange={this.handleInputChange}/>
-                <br/>
-                <input type="text" name={"description"} value={this.state.description} className="form-control" placeholder="description" onChange={this.handleInputChange}/>
-                <br/>
-                <button onClick={(e) => {this.addNewSubmit()}}>add new</button>
+                <p>Select an existing service or add a new one</p>
+                    <select name="name" onChange={this.handleInputChange} defaultValue="DEFAULT">
+                            <option value="DEFAULT" disabled>Choose a service</option>
+                            {options}
+                    </select>
+                    {this.showInputFields()}
+                    <br/>
+                    <div className={"duplicate "+isDuplicate}>{message}</div>
+                    {button}
                 </div>
                 </React.Fragment>
             );
@@ -142,7 +192,7 @@ export default class AddExistingService extends React.Component{
                 <br/>
                 <input type="text" name={"description"} value={this.state.description} className="form-control" placeholder="description" onChange={this.handleInputChange}/>
                 <br/>
-                <button onClick={(e) => {this.addNewSubmit()}}>add new</button>
+                <button onClick={this.addNewSubmit}>add new</button>
             </div>
         )
     }
