@@ -39,7 +39,7 @@ export default class AddExistingService extends React.Component{
                     //update localStorage
                     let allServices = this.state.allServices;
                     let companyServices = this.state.companyServices;
-                    let availableServices = this.state.available.filter(s=>{return s.name!==r.body.serviceName});
+                    let availableServices = this.state.available.filter(s=>{return s.name!==r.body.name});
                     console.log(availableServices)
 
                     allServices.push(r.body);
