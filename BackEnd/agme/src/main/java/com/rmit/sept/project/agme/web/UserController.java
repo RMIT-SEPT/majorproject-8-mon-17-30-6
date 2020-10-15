@@ -52,31 +52,12 @@ public class UserController {
     }
     @GetMapping("/upcoming-bookings")
     public ResponseEntity<?> getUpcomingBookings(@RequestHeader("Authorisation") String authorisationHeader){
-        String username = jwtUtil.extractUsername(authorisationHeader);
-
-        List<Booking> bookings = bookingService.getAllBookings();
-        List<Booking> bookingsForUser = new ArrayList<>();
-//        Loops through bookings and retrieve the one needed for the user
-        Date today = new Date();
-        long currentDateMilliSec = today.getTime();
-        long updateDateMilliSec;
-        long diffDays;
-        for (Booking next:bookings){
-            if (next.getUser().getUsername().equals(username) && next.getServiceType() != null){
-                next.getCompany().setEmployees(null);
-                next.getServiceType().setCompany(null);
-                updateDateMilliSec = next.getStartDateTime().getTime();
-                diffDays = (updateDateMilliSec-currentDateMilliSec) / (24 * 60 * 60 * 1000);
-                if (diffDays > -1 && diffDays <= 2) {
-                    bookingsForUser.add(next);
-                }
-            }
+        try{
+            String username = jwtUtil.extractUsername(authorisationHeader);
+            return new ResponseEntity<>(bookingService.getUserUpcomingBookings(username), HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
         }
-        if (bookingsForUser.size() == 0){
-            return new ResponseEntity<>(bookingsForUser, HttpStatus.BAD_REQUEST);
-
-        }
-        return new ResponseEntity<>(bookingsForUser, HttpStatus.OK);
     }
 
     @GetMapping("/allservices")

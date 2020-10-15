@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,26 @@ public class BookingService {
 			}
 		}
 		return bookingsForUser;
+	}
+
+	//Retrieve an user upcoming bookings
+	public List<Booking> getUserUpcomingBookings(String username){
+		List<Booking> bookings = getAllBookings(username);
+		List<Booking> upcomingBookings = new ArrayList<>();
+		Date today = new Date();
+		long currentDateMilliSec = today.getTime();
+		long updateDateMilliSec;
+		long diffDays;
+		for (Booking next:bookings){
+			next.getCompany().setEmployees(null);
+			next.getServiceType().setCompany(null);
+			updateDateMilliSec = next.getStartDateTime().getTime();
+			diffDays = (updateDateMilliSec-currentDateMilliSec) / (24 * 60 * 60 * 1000);
+			if (diffDays > -1 && diffDays <= 2) {
+				upcomingBookings.add(next);
+			}
+		}
+		return upcomingBookings;
 	}
 
 	public Booking addBooking(Booking booking) {
