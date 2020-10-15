@@ -17,7 +17,7 @@ export default class Help extends React.Component{
             serviceName: "",
             message: ""
         };
-        this.handleAuthenticateRequest = this.handleAuthenticateRequest.bind(this);
+        this.handleReportRequest = this.handleReportRequest.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
         this._isMounted = false;
     }
