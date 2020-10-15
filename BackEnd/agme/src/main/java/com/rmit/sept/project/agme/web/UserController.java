@@ -63,12 +63,10 @@ public class UserController {
     @GetMapping("/allservices")
         //returns all services
     ResponseEntity<?> getAllServices(@RequestHeader("Authorisation") String authorisationHeader) {
-
-        if (serviceTypeService.getAllServices().size() == 0) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-        } else {
+        try{
             return new ResponseEntity<>(serviceTypeService.getAllServices(),HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
     @GetMapping("/companies")
