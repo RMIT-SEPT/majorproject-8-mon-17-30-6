@@ -1,7 +1,6 @@
 package com.rmit.sept.project.agme.web;
 
 import com.rmit.sept.project.agme.model.*;
-import com.rmit.sept.project.agme.services.AdminService;
 import com.rmit.sept.project.agme.services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,17 +17,24 @@ import java.util.List;
 public class AdminController
 {
     @Autowired
-    AdminService adminService;
-    @Autowired
     CompanyService companyService;
     @PostMapping("/close-company")
     public ResponseEntity<?> closeCompanies(@RequestBody AuthenticationRequest company){
-        adminService.setInactive(company.getUsername());
+        Company c = companyService.loadUserByUsername(company.getUsername());
+        c.setActive(false);
+        companyService.saveOrUpdate(c);
         return new ResponseEntity<>(HttpStatus.OK);
     }
     @GetMapping("/close-company")
     public ResponseEntity<?> getCompanies(){
-        return new ResponseEntity<>(adminService.getActiveCompanies(), HttpStatus.OK);
+        List<Company> companies = companyService.getAll();
+        List<Company> companies2 = new ArrayList<>();
+        for (Company next:companies){
+            if (next.isActive() == true){
+                companies2.add(next);
+            }
+        }
+        return new ResponseEntity<>(companies2, HttpStatus.OK);
     }
 
 }

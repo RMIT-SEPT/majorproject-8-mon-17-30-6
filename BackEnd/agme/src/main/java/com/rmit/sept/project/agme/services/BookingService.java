@@ -1,8 +1,9 @@
 package com.rmit.sept.project.agme.services;
 
-import com.rmit.sept.project.agme.model.*;
+import com.rmit.sept.project.agme.model.Company;
+import com.rmit.sept.project.agme.model.Employee;
 import com.rmit.sept.project.agme.repositories.BookingRepository;
-import com.rmit.sept.project.agme.security.JwtUtil;
+import com.rmit.sept.project.agme.model.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,22 +18,7 @@ import java.util.Optional;
 public class BookingService {
 
 	private BookingRepository bookingRepository;
-	@Autowired
-	private UserService userService;
 
-	@Autowired
-	private EmployeeService employeeService ;
-	@Autowired
-	private CompanyService companyService;
-
-	@Autowired
-	private JwtUtil jwtUtil;
-
-	@Autowired
-	private ServiceTypeService serviceTypeService;
-
-	@Autowired
-	private BookingService bookingService;
 	@Autowired
 	public BookingService(BookingRepository bookingRepository) {
 		this.bookingRepository = bookingRepository;
@@ -131,18 +117,4 @@ public class BookingService {
 	public void deleteById(Long bookingId) {
 		bookingRepository.deleteById(bookingId);
 	}
-
-	public Booking createABooking(String authorisationHeader, BookingRequest booking){
-		String username = jwtUtil.extractUsername(authorisationHeader);
-
-//        Instantiates a user, service, employee and company for the bookings.
-		User user = (User)userService.loadUserByUsername(username);
-		Employee employee = employeeService.loadUserByUsername(booking.getEmployeeUsername());
-		Company company = companyService.loadUserByUsername(employee.getCompanyUsername());
-		ServiceType serviceType = serviceTypeService.loadServiceByName(booking.getServiceType());
-//      Creates a new booking
-		Booking newBooking = new Booking(booking.getDate(), booking.getDuration(), employee, company, user, serviceType);
-		return bookingService.addBooking(newBooking);
-	}
-
 }

@@ -45,14 +45,39 @@ public class CompanyController
     @PostMapping("/new-service")
     public ResponseEntity<?> newService(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody ServiceType serviceType){
 
-        return new ResponseEntity<>(companyService.addANewService(authorisationHeader, serviceType), HttpStatus.OK);
+        String username = jwtUtil.extractUsername(authorisationHeader);
+
+//        If service exists add teh company as one that offers it, if not then create the service and add the company
+        Company company = companyService.loadUserByUsername(username);
+        ServiceType service = serviceTypeService.loadServiceByName(serviceType.getName());
+        serviceType.addCompany(company);
+        if (service == null){
+            serviceTypeService.saveOrUpdateServiceType(serviceType);
+        }else{
+            service.addCompany(company);
+            serviceTypeService.saveOrUpdateServiceType(service);
+        }
+
+        return new ResponseEntity<>(serviceType, HttpStatus.OK);
+
     }
 
     //  Gets all bookings for logged in company
     @GetMapping("/bookings")
     public ResponseEntity<?> getBookings(@RequestHeader("Authorisation") String authorisationHeader){
+        String username = jwtUtil.extractUsername(authorisationHeader);
 
-        return new ResponseEntity<>(companyService.getBookingsForLoggedInCompany(authorisationHeader), HttpStatus.OK);
+        List<Booking> bookings = bookingService.getAllBookings();
+        List<Booking> bookingsForCompany = new ArrayList<>();
+//        Loops through bookings and retrieve the one needed for the company
+        for (Booking next:bookings){
+            if (next.getCompany().getUsername().equals(username) && next.getServiceType() != null){
+                next.getCompany().setEmployees(null);
+                next.getServiceType().setCompany(null);
+                bookingsForCompany.add(next);
+            }
+        }
+        return new ResponseEntity<>(bookingsForCompany, HttpStatus.OK);
     }
 
     @GetMapping("/allservices")
@@ -70,13 +95,19 @@ public class CompanyController
     @GetMapping("/employees")
     ResponseEntity<?> getEmployees(@RequestHeader("Authorisation") String authorisationHeader) {
         String username = jwtUtil.extractUsername(authorisationHeader);
-        List<Employee> compEmp = companyService.getCompaniesEmployees(username);
-        if (compEmp== null){
 
+        if (employeeService.getAllEmployees().size() == 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }else{
-            return new ResponseEntity<>(compEmp,HttpStatus.OK);
 
+        } else {
+            List<Employee> employees = employeeService.getAllEmployees();
+            List<Employee> employeesForCompany = new ArrayList<>();
+            for (Employee next : employees) {
+                if (next.getCompanyUsername().equals(username)) {
+                    employeesForCompany.add(next);
+                }
+            }
+            return new ResponseEntity<>(employeesForCompany,HttpStatus.OK);
         }
     }
 
