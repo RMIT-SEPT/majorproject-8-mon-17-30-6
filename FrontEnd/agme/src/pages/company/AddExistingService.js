@@ -5,7 +5,7 @@ import Entity from '../../model/Entity';
 import '../css/provider.css'
 const {apiCall, getDecodedJwtFromLocalStorage} = require('../../mock/operations/mock/functions/operations');
 //To view list of services
-export class AddExistingService extends React.Component{
+export default class AddExistingService extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -24,9 +24,10 @@ export class AddExistingService extends React.Component{
         this.handleInputChange = this.handleInputChange.bind(this);
         this.addNewSubmit = this.addNewSubmit.bind(this);
     }
-    addNewSubmit(){
-            if (!this.state.isCallingServer){
-                this.setState({isCallingServer:true})
+    addNewSubmit(e){
+        e.preventDefault();
+        if (!this.state.isCallingServer){
+            this.setState({isCallingServer:true})
             this.state.entity.setField("name",this.state.name);
             this.state.entity.setField("description",this.state.description);
             apiCall('company', 'newService' , this.state.entity ,'post').then(r=>{
@@ -34,19 +35,32 @@ export class AddExistingService extends React.Component{
                     if (r.statusCode === 200){
                         alert("New service has been added");
                     }
+                    console.log(r)
                     //update localStorage
                     let allServices = this.state.allServices;
                     let companyServices = this.state.companyServices;
+                    let availableServices = this.state.available.filter(s=>{return s.name!==r.body.serviceName});
+                    console.log(availableServices)
+
                     allServices.push(r.body);
                     companyServices.push(r.body);
+
                     localStorage.setItem("agme_all_services",JSON.stringify(allServices))
                     localStorage.setItem("company_services",JSON.stringify(companyServices));
+                    localStorage.setItem("company_available_services",JSON.stringify(availableServices));
+
                     this._isMounted&&this.setState({
                         allServices:allServices,
-                        companyServices:companyServices
+                        companyServices:companyServices,
+                        available:availableServices,
+                        isCallingServer: false
                     })
-  
+                }else{
+                    this._isMounted&&this.setState({
+                        isCallingServer: false
+                    })
                 }
+
             })
         }
         
@@ -93,35 +107,59 @@ export class AddExistingService extends React.Component{
         const value = e.target.value;
         this.setState({[name]:value});
     }
+
+    showInputFields(){
+        const isExisting = this.state.available.filter(service=>{return service.name===this.state.name}).length>0;
+        if(isExisting){
+            return <div>
+                <Button
+                    onClick={e=>{
+                        e.preventDefault();
+                        this.setState({
+                            name:null,
+                            description: null
+                        });
+                    }}
+                >
+                    Type new
+                    </Button>
+            </div>
+        }else{
+            return (
+                <div>
+                    <input type="text" name={"name"} value={this.state.name} placeholder="name" className="form-control" onChange={this.handleInputChange}/>
+                    <br/>
+                    <input type="text" name={"description"} value={this.state.description} className="form-control" placeholder="description" onChange={this.handleInputChange}/>
+                    <br/>
+                </div>
+            );
+        }
+    }
+
     render(){
         if(this.state.available&&(this.state.available.length>0)){
             const options = this.state.available.map((option,i)=>{
             return <option key={i} value={option.name}>{option.name}</option>
             });
             let button;
-            if(this.state.serviceName){
-                button = <Button variant="success">Add</Button>
+            if(this.state.name){
+                button = <Button onClick={this.addNewSubmit} variant="success">Add</Button>
             }else{
                 button = <Button variant="secondary">Add</Button>
             }
             return (
                 <React.Fragment>
-                <div>
-                    <h5>Select an existing service to add</h5>
-                    <select name="serviceName" onChange={this.handleInputChange}>
-                        <option value="" disabled defaultValue>Choose a service</option>
-                        {options}
-                    </select>
-                    {button}
-                </div>
                 <div className="newService">
                 <h1>Add a new service</h1>
                 <br/><br/>
-                <input type="text" name={"name"} value={this.state.name} placeholder="name" className="form-control" onChange={this.handleInputChange}/>
-                <br/>
-                <input type="text" name={"description"} value={this.state.description} className="form-control" placeholder="description" onChange={this.handleInputChange}/>
-                <br/>
-                <button onClick={(e) => {this.addNewSubmit()}}>add new</button>
+                <p>Select an existing service or add a new one</p>
+                    <select name="name" onChange={this.handleInputChange} defaultValue="DEFAULT">
+                            <option value="DEFAULT" disabled>Choose a service</option>
+                            {options}
+                    </select>
+                    {this.showInputFields()}
+                    <br/>
+                    {button}
                 </div>
                 </React.Fragment>
             );
@@ -134,7 +172,7 @@ export class AddExistingService extends React.Component{
                 <br/>
                 <input type="text" name={"description"} value={this.state.description} className="form-control" placeholder="description" onChange={this.handleInputChange}/>
                 <br/>
-                <button onClick={(e) => {this.addNewSubmit()}}>add new</button>
+                <button onClick={this.addNewSubmit}>add new</button>
             </div>
         )
     }
