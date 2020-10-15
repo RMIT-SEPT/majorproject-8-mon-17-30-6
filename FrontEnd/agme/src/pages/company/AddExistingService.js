@@ -4,7 +4,7 @@ import './services.css'
 import Entity from '../../model/Entity';
 import '../css/provider.css';
 import Spinner from 'react-bootstrap/Spinner';
-const {apiCall, getDecodedJwtFromLocalStorage} = require('../../mock/operations/mock/functions/operations');
+const {apiCall, getDecodedJwtFromLocalStorage} = require('../../functions/operations');
 //To view list of services
 export default class AddExistingService extends React.Component{
     constructor(props){

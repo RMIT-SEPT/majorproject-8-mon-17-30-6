@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import Booking from '../../model/Booking';
 import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter, Comparator } from 'react-bootstrap-table2-filter';
-const {apiCall} = require('../../mock/operations/mock/functions/operations');
+const {apiCall} = require('../../functions/operations');
 export default class UpcomingAppointments extends React.Component{
     
     constructor(props){

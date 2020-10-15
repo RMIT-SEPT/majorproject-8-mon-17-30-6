@@ -1,7 +1,7 @@
 /***
  * This class deals with the complexity of managing an employee's availability
  * ***/
-const {apiCall, fetchFromApi,getDecodedJwtFromLocalStorage} = require('../mock/operations/mock/functions/operations');
+const {apiCall, fetchFromApi,getDecodedJwtFromLocalStorage} = require('../functions/operations');
 const config = require('../config.json');
 export default class EmployeeAvailabilityManager{
     constructor(state,callback){

@@ -3,7 +3,7 @@ import '../css/admin.css';
 import Spinner from 'react-bootstrap/Spinner';
 import '../../model/Entity'
 import Entity from '../../model/Entity';
-const {apiCall} = require('../../mock/operations/mock/functions/operations')
+const {apiCall} = require('../../functions/operations')
 
 export default class Administrator extends React.Component{
     constructor(props){
