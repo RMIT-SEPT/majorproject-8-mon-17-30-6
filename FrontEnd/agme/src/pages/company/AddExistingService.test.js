@@ -9,7 +9,7 @@ const agme_all_services = require('../../mock/data/agme_all_services.json');
 const company_services = require('../../mock/data/company_services.json')
 const company_available_services = require('../../mock/data/company_available_services.json')
 configure({ adapter });
-jest.mock('../../mock/operations/mock/functions/operations',()=>{
+jest.mock('../../functions/operations',()=>{
     return {
         apiCall: async ()=>{
             return {
