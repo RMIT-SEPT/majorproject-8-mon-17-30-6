@@ -30,7 +30,7 @@ export default class Signup extends React.Component{
         this._isMounted = false;
     }
 
-    componentWillMount(){
+    componentDidMount(){
         this._isMounted = true;
     }
     

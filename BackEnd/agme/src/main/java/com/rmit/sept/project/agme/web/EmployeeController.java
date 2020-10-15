@@ -49,7 +49,7 @@ public class EmployeeController
 //                Removes unnecesary info for response
                 next.getCompany().setEmployees(null);
                 if (next.getServiceType() != null) {
-                	next.getServiceType().setCompany(null);
+                    next.getServiceType().setCompany(null);
                 }
                 bookingsForCompany.add(next);
             }

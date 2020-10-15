@@ -14,7 +14,8 @@ export default class NavigationBar extends React.Component{
 
     render(){
         const decodedJwtPayload = getDecodedJwtFromLocalStorage();
-        if(decodedJwtPayload&&(decodedJwtPayload.exp>decodedJwtPayload.iat)){
+        const expired = decodedJwtPayload&&((decodedJwtPayload.exp - new Date().getTime()/1000)  < 0);
+        if(decodedJwtPayload&&(!expired)){
             if(decodedJwtPayload.role.toUpperCase().includes('PROVIDER')){
                 return (
                     <ProviderNavigationBar 

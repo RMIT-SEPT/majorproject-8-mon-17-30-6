@@ -12,7 +12,6 @@ export default class EmmployeeAvailability extends React.Component{
         }
     }
     render(){
-        console.log(this.props)
         if(this.props.isUpdatingAvailability){
             return <div>
                 <div className="spinnerOutter">

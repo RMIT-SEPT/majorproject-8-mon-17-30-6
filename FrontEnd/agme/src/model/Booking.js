@@ -21,8 +21,6 @@ export default class Booking extends Entity{
     }
 
     setTime(time){
-        console.log('setting time')
-        console.log(time)
         this.date = new Date(this.date)
         this.date.setHours(time)
         this.date = this.date.toISOString();
@@ -51,9 +49,6 @@ export default class Booking extends Entity{
             const month = (date.getMonth()+1) < 10 ? "0"+(date.getMonth()+1) : (date.getMonth()+1);
             const year = date.getFullYear();
             const fullDate = year + "-" + month + "-" + day;
-            console.log(year);
-            console.log(month);
-            console.log(fullDate);
             return fullDate;
         }
     }
@@ -72,11 +67,9 @@ export default class Booking extends Entity{
         if(!this.date){
             return ""
         }
-        const hour = new Date(this.date).getHours()
-        console.log(hour);
+        //there is an issue if hour does not have 2 digits
+        const hour = new Date(this.date).getHours() < 10 ? "0"+new Date(this.date).getHours().toString() : new Date(this.date).getHours();
         const finalDateTime = this.getDDYYMMYY() + 'T' + hour + ':00:00'
-        console.log(finalDateTime);
-
         return finalDateTime;
     }
 
@@ -89,10 +82,20 @@ export default class Booking extends Entity{
         }
         return apiCall('user', 'newBooking', payload, 'post')
     }
+
+    getBookingInfo(){
+        return {
+            id: this.id,
+            startDateTime: new Date(this.startDateTime).toLocaleDateString()+" "+new Date(this.startDateTime).toLocaleTimeString(),
+            duration: this.duration,
+            service: this.serviceType.name,
+            companyName:this.company.name,
+            contactNumber: this.company.phone,
+            workerName: this.employee.name
+        }
+    }
     async getAvailability(){
         if((!this.serviceType)||(!this.date)||(!this.duration)){
-            console.log("ddddd", this.date);
-
             return null;
         }
         const payload = {

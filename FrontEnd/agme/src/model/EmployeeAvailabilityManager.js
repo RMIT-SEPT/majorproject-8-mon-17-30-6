@@ -99,6 +99,10 @@ export default class EmployeeAvailabilityManager{
                 if(response.statusCode===200){
                     this.times[this.time] = response.body;
                     callback(false,response.statusCode);
+                    //updateLocalStorage
+                    let employeeBookings = localStorage.getItem("employee_bookings") ? JSON.parse(localStorage.getItem("employee_bookings")) : [];
+                    employeeBookings.push(response.body);
+                    localStorage.setItem('employee_bookings', JSON.stringify(employeeBookings))
                 }else{
                     throw new Error("did not work")
                 }
@@ -116,23 +120,42 @@ export default class EmployeeAvailabilityManager{
             "password": "12345678",
             "role": "USER"
         }
-        apiCall('common', 'login', payload, 'post').then(response=>{
-            if(response.statusCode===200){
+
+
+        //no need to call api again if already set in localStorage
+        if(localStorage.getItem("employee_dummy_user_credentials")){
+            if(JSON.parse(localStorage.getItem("employee_dummy_user_credentials"))){
                 this.failed = false;
-            }else{
-                this.failed = true;
+                this.credentials = JSON.parse(localStorage.getItem("employee_dummy_user_credentials"));
+                this.callback(this, 200);
             }
-            this.credentials = response.body;
-            //inform component this is ready
-            this.callback(this, response.statusCode);
-        });
+        }else{
+            apiCall('common', 'login', payload, 'post').then(response=>{
+                if(response.statusCode===200){
+                    
+                    localStorage.setItem('employee_dummy_user_credentials',JSON.stringify(response.body))
+                }else{
+                    this.failed = true;
+                }
+                this.credentials = response.body;
+                //inform component this is ready
+                this.callback(this, response.statusCode);
+            });
+        }
+
         //not guaranteed which call will finish first
-        apiCall('employee', 'getBookings', null, 'get').then(response=>{
-            if(response.statusCode===200){
-                this.appointments = response.body
-            }
-            this.callback(this, false, response.statusCode);
-        })
+        if(localStorage.getItem("employee_bookings")){
+            this.appointments = JSON.parse(localStorage.getItem("employee_bookings"));
+            this.callback(this, false, 200);
+        }else{
+            apiCall('employee', 'getBookings', null, 'get').then(response=>{
+                if(response.statusCode===200){
+                    this.appointments = response.body
+                }
+                this.callback(this, false, response.statusCode);
+            })
+        }
+
     }
 
     isDummyAppointment(){
@@ -163,7 +186,16 @@ export default class EmployeeAvailabilityManager{
                         if((this.times[key])&&(this.times[key].id===bookingId)){
                             this.times[key]= null;
                         }
-                    })
+                    });
+
+                    //update localStorage
+                    const employeeBookings = JSON.parse(localStorage.getItem("employee_bookings"));
+                    if(employeeBookings&&employeeBookings.length){
+                        const filteredBookings = employeeBookings.filter(b=>{
+                            return b.id!==bookingId
+                        });
+                        localStorage.setItem("employee_bookings",JSON.stringify(filteredBookings))
+                    }
                     callback(false,response.statusCode);
                 }else{
                     throw new Error("did not work")
