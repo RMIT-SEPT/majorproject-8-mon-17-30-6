@@ -5,6 +5,8 @@ import com.rmit.sept.project.agme.model.Employee;
 import com.rmit.sept.project.agme.repositories.BookingRepository;
 import com.rmit.sept.project.agme.model.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,6 +35,20 @@ public class BookingService {
 		it.forEach(bookings::add);
 
 		return bookings;
+	}
+
+	//Retrieve bookings for a particular user
+	public List<Booking> getAllBookings(String username){
+		List<Booking> bookings = getAllBookings();
+		List<Booking> bookingsForUser = new ArrayList<>();
+		for (Booking next:bookings){
+			if (next.getUser().getUsername().equals(username) && next.getServiceType() != null){
+				next.getCompany().setEmployees(null);
+				next.getServiceType().setCompany(null);
+				bookingsForUser.add(next);
+			}
+		}
+		return bookingsForUser;
 	}
 
 	public Booking addBooking(Booking booking) {
