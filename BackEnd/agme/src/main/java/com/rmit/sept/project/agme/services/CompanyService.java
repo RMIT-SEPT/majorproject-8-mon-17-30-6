@@ -2,10 +2,13 @@ package com.rmit.sept.project.agme.services;
 
 import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.model.Company;
+import com.rmit.sept.project.agme.model.Employee;
 import com.rmit.sept.project.agme.model.ServiceType;
 import com.rmit.sept.project.agme.repositories.CompanyRepository;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -109,5 +112,22 @@ public class CompanyService implements UserInterface {
             }
         }
         return bookingsForCompany;
+    }
+
+    public List<Employee> getCompaniesEmployees(String username){
+
+        if (employeeService.getAllEmployees().size() == 0) {
+            return null;
+
+        } else {
+            List<Employee> employees = employeeService.getAllEmployees();
+            List<Employee> employeesForCompany = new ArrayList<>();
+            for (Employee next : employees) {
+                if (next.getCompanyUsername().equals(username)) {
+                    employeesForCompany.add(next);
+                }
+            }
+            return employeesForCompany;
+        }
     }
 }

@@ -70,19 +70,13 @@ public class CompanyController
     @GetMapping("/employees")
     ResponseEntity<?> getEmployees(@RequestHeader("Authorisation") String authorisationHeader) {
         String username = jwtUtil.extractUsername(authorisationHeader);
+        List<Employee> compEmp = companyService.getCompaniesEmployees(username);
+        if (compEmp== null){
 
-        if (employeeService.getAllEmployees().size() == 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }else{
+            return new ResponseEntity<>(compEmp,HttpStatus.OK);
 
-        } else {
-            List<Employee> employees = employeeService.getAllEmployees();
-            List<Employee> employeesForCompany = new ArrayList<>();
-            for (Employee next : employees) {
-                if (next.getCompanyUsername().equals(username)) {
-                    employeesForCompany.add(next);
-                }
-            }
-            return new ResponseEntity<>(employeesForCompany,HttpStatus.OK);
         }
     }
 
