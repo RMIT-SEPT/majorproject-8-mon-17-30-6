@@ -51,7 +51,7 @@ describe("Services", () => {
 
 });
 
-describe("Services", () => {
+describe("AddService", () => {
     let container;
     let select;
     beforeEach(()=>{
