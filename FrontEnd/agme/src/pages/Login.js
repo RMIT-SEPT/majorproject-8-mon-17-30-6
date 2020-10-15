@@ -68,7 +68,7 @@ export default class Login extends React.Component{
           </Spinner> Authenticating...</Button>
         }
         if(this.state.password&&this.state.username&&this.state.role&&(!this.state.isCallingServer)){
-            return <Button className="form-control btn btn-success" onClick={this.handleAuthenticateRequest}>Authenticate</Button>
+            return <Button variant="success" className="authenticate_button" onClick={this.handleAuthenticateRequest}>Authenticate</Button>
         }
     }
 

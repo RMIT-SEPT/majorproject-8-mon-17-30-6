@@ -13,7 +13,6 @@ export default class AgmeServices extends React.Component{
             services : this.props.filterByUsername ? localStorage.getItem("company_services")&&JSON.parse(localStorage.getItem("company_services")) : localStorage.getItem("agme_all_services")&&JSON.parse(localStorage.getItem("agme_all_services")),
             done: false
         }
-        console.log(this.state)
         this._isMounted = false;
     }
 
