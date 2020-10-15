@@ -21,20 +21,18 @@ public class HelpController {
     @Autowired
     EmailServiceImpl emailService;
 
-    @PostMapping("/help")
     public ResponseEntity<?> reportIssue(@RequestHeader("Authorisation") String authorisationHeader,@RequestBody HelpRequest report) {
 
         try {
-            String username;
+            ;
 //        Extract user from token
-            if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
-                String jwt = authorisationHeader.substring(7);
-                username = jwtUtil.extractUsername(jwt);
-            }else{
-                username = "Unauthenticated user";
-            }
+            String username = jwtUtil.extractUsername(authorisationHeader);
 
-            report.setUser(username);
+            if(username!=null){
+                report.setUser(username);
+            }else{
+                report.setUser("Unauthorized User");
+            }
 
             //Admin group email
             String sysAdminEmail = "Admin.mailbox@agme.com";
