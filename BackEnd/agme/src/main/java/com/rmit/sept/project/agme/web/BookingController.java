@@ -40,17 +40,7 @@ public class    BookingController {
     @PostMapping("/new-booking")
     public ResponseEntity<?> newBooking(@RequestBody BookingRequest booking, @RequestHeader("Authorisation") String authorisationHeader) {
 
-        String username = jwtUtil.extractUsername(authorisationHeader);
-
-//        Instantiates a user, service, employee and company for the bookings.
-        User user = (User)userService.loadUserByUsername(username);
-        Employee employee = employeeService.loadUserByUsername(booking.getEmployeeUsername());
-        Company company = companyService.loadUserByUsername(employee.getCompanyUsername());
-        ServiceType serviceType = serviceTypeService.loadServiceByName(booking.getServiceType());
-//      Creates a new booking
-        Booking newBooking = new Booking(booking.getDate(), booking.getDuration(), employee, company, user, serviceType);
-//        Returns the booking
-        return new ResponseEntity<>(bookingService.addBooking(newBooking), HttpStatus.OK);
+        return new ResponseEntity<>(bookingService.createABooking(authorisationHeader, booking), HttpStatus.OK);
     }
 
 

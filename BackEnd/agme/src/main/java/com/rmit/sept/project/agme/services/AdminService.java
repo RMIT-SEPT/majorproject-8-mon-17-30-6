@@ -1,10 +1,13 @@
 package com.rmit.sept.project.agme.services;
 
 import com.rmit.sept.project.agme.model.Admin;
+import com.rmit.sept.project.agme.model.Company;
 import com.rmit.sept.project.agme.model.User;
 import com.rmit.sept.project.agme.repositories.AdminRepository;
 import com.rmit.sept.project.agme.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,6 +20,8 @@ import java.util.List;
 @Service
 public class AdminService implements UserInterface
 {
+    @Autowired
+    CompanyService companyService;
     @Override
     public void saveOrUpdate(UserDetails user)
     {
@@ -81,4 +86,22 @@ public class AdminService implements UserInterface
         }
         return false;
     }
+    public List<Company> getActiveCompanies(){
+        List<Company> companies = companyService.getAll();
+        List<Company> companies2 = new ArrayList<>();
+        for (Company next:companies){
+            if (next.isActive() == true){
+                companies2.add(next);
+            }
+        }
+        return companies2;
+    }
+    public void setInactive(String username){
+        Company c = companyService.loadUserByUsername(username);
+        c.setActive(false);
+        companyService.saveOrUpdate(c);
+
+    }
+
 }
+
