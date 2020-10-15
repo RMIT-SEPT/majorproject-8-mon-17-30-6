@@ -45,9 +45,7 @@ public class AvailabilityService {
         }
         return availablility;
 //        Return list of available times
-    }
-
-    public List<Integer> getAvailabilityForService(String employee, Date date, int duration){
+    }    public List<Integer> getAvailabilityForService(String employee, Date date, int duration){
 // Retrieve all bookings
         List<Booking> bookings = bookingService.getAllBookings();
         List<Integer> availablility = new ArrayList<Integer>();

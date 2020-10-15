@@ -16,8 +16,7 @@ import java.util.Optional;
 public class EmployeeService implements UserInterface {
 
     private final EmployeeRepository employeeRepository;
-    @Autowired
-    BookingService bookingService;
+
     @Autowired
     public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
@@ -90,24 +89,6 @@ public class EmployeeService implements UserInterface {
     public Employee getEmployeeById(Long id) {
         Optional<Employee> temp = employeeRepository.findById(id);
         return temp.orElse(null);
-    }
-
-    public List<Booking> getUpcommingBookings(String username){
-
-//        Returns bookings for the user if they belong to the user
-        List<Booking> bookings = bookingService.getAllBookings();
-        List<Booking> bookingsForCompany = new ArrayList<>();
-        for (Booking next : bookings) {
-            if (next.getEmployee().getUsername().equals(username)) {
-//                Removes unnecesary info for response
-                next.getCompany().setEmployees(null);
-                if (next.getServiceType() != null) {
-                    next.getServiceType().setCompany(null);
-                }
-                bookingsForCompany.add(next);
-            }
-        }
-        return bookingsForCompany;
     }
 
 }
