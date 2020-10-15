@@ -5,7 +5,7 @@ import Entity from '../../model/Entity';
 import '../css/provider.css'
 const {apiCall, getDecodedJwtFromLocalStorage} = require('../../mock/operations/mock/functions/operations');
 //To view list of services
-export class AddExistingService extends React.Component{
+export default class AddExistingService extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -34,16 +34,24 @@ export class AddExistingService extends React.Component{
                     if (r.statusCode === 200){
                         alert("New service has been added");
                     }
+                    console.log(r)
                     //update localStorage
                     let allServices = this.state.allServices;
                     let companyServices = this.state.companyServices;
+                    let availableServices = this.state.available.filter(s=>{return s.name!==r.body.serviceName});
+                    console.log(availableServices)
+
                     allServices.push(r.body);
                     companyServices.push(r.body);
+
                     localStorage.setItem("agme_all_services",JSON.stringify(allServices))
                     localStorage.setItem("company_services",JSON.stringify(companyServices));
+                    localStorage.setItem("company_available_services",JSON.stringify(availableServices));
+
                     this._isMounted&&this.setState({
                         allServices:allServices,
-                        companyServices:companyServices
+                        companyServices:companyServices,
+                        available:availableServices
                     })
   
                 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import AgmeServices from './AgmeServices';
 import {CompanyServices} from './CompanyServices';
-import {AddExistingService} from './AddExistingService';
+import AddExistingService from './AddExistingService';
 import {ViewEmployees} from './ViewEmployees';
 import {CompanyAppointmentList} from './CompanyAppointmentList';
 

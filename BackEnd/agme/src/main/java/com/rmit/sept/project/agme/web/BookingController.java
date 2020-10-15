@@ -39,12 +39,9 @@ public class    BookingController {
 //    Creates a new booking for a user based on the jwt token
     @PostMapping("/new-booking")
     public ResponseEntity<?> newBooking(@RequestBody BookingRequest booking, @RequestHeader("Authorisation") String authorisationHeader) {
-//        Gets username from the jwt token
-        String username = "";
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
-        }
+
+        String username = jwtUtil.extractUsername(authorisationHeader);
+
 //        Instantiates a user, service, employee and company for the bookings.
         User user = (User)userService.loadUserByUsername(username);
         Employee employee = employeeService.loadUserByUsername(booking.getEmployeeUsername());
