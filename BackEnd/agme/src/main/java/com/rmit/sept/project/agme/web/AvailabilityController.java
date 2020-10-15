@@ -25,34 +25,17 @@ public class AvailabilityController
     @Autowired
     private AvailabilityService availabilityService;
 
-//    @("/availability")
-//    public ResponseEntity<?> getAvailableDays(@RequestBody AvailabilityRequest availabilityRequest){
-//        List<Integer> availablility = availabilityService.getAvailabilityForService(availabilityRequest.getEmployeeUsername(), availabilityRequest.getDate());
-////        Return list of available times
-//        return new ResponseEntity<>(availablility, HttpStatus.OK);
-//    }
-
     @Autowired
     ServiceTypeService serviceTypeService;
 //    Returns the required data for the above post method
+
     @PostMapping("/availability")
     public ResponseEntity<?> getAvailableDaysPerService(@RequestBody AvailabilityRequest availabilityRequest){
-        ServiceType service = serviceTypeService.loadServiceByName(availabilityRequest.getServiceName());
-        List<Object> maps = new ArrayList<>();
-
-        for (Company next: service.getCompany()) {
-            if (next.isActive() != false) {
-                for (Employee employee : next.getEmployees()) {
-                    HashMap<String, Object> map = new HashMap<>();
-
-                    map.put("name", employee.getName());
-                    map.put("username", employee.getUsername());
-                    map.put("availability", availabilityService.getAvailabilityForService(employee.getUsername(), availabilityRequest.getDate(), Integer.parseInt(availabilityRequest.getDuration())));
-                    maps.add(map);
-                }
-            }
+        try{
+            List<Object> availability = serviceTypeService.getServiceAvailability(availabilityRequest);
+            return new ResponseEntity<>(availability, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>("Invalid Request", HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity<>(maps, HttpStatus.OK);
-
     }
 }

@@ -1,0 +1,708 @@
+[
+    {
+        "id": 1,
+        "name": "Gym",
+        "description": "A gym is a club, building, or large room, usually containing special equipment, where people go to do physical exercise and get fit.",
+        "company": [
+            {
+                "username": "123456company",
+                "name": "Apple",
+                "password": "$2a$10$ko203.qHnmoJjcDrzzwLHuQfkP2zZfy2klREJj0i33XUKG0xTF54u",
+                "confirmPassword": null,
+                "address": "123 sample street",
+                "phone": "0400000000",
+                "email": "sample@sample.com",
+                "lastLogin": "21-09-20 08:59:06",
+                "createdAt": "21-09-20 08:59:06",
+                "updatedAt": "21-09-20 08:59:06",
+                "role": "COMPANY",
+                "id": 1,
+                "companyName": "Apple",
+                "employees": [
+                    {
+                        "username": "123456employee",
+                        "name": "John",
+                        "password": "$2a$10$bARCAIDsuOboGIi9RJD4keuzBUW159Sz.J1Xf0QaVNTxUdtuIBBHK",
+                        "confirmPassword": null,
+                        "address": "123 Sample Stree",
+                        "phone": "123456",
+                        "email": null,
+                        "lastLogin": "22-09-20 00:04:33",
+                        "createdAt": "22-09-20 00:04:33",
+                        "updatedAt": "22-09-20 00:04:33",
+                        "role": "EMPLOYEE",
+                        "id": 1,
+                        "company": null,
+                        "companyUsername": "123456company",
+                        "accountNonExpired": false,
+                        "accountNonLocked": false,
+                        "credentialsNonExpired": false,
+                        "enabled": false,
+                        "authorities": [
+                            {
+                                "authority": "EMPLOYEE"
+                            }
+                        ]
+                    },
+                    {
+                        "username": "joeyjbj",
+                        "name": "Erin",
+                        "password": "$2a$10$G9OqHIokl4i2LzgcSgGv7.HaB1Me//9Joq5II8pV4aFXcSZAp5TD.",
+                        "confirmPassword": null,
+                        "address": "123 Sample Stree",
+                        "phone": "jnj",
+                        "email": null,
+                        "lastLogin": "04-10-20 04:00:55",
+                        "createdAt": "04-10-20 04:00:55",
+                        "updatedAt": "04-10-20 04:00:55",
+                        "role": "EMPLOYEE",
+                        "id": 4,
+                        "company": null,
+                        "companyUsername": "123456company",
+                        "accountNonExpired": false,
+                        "accountNonLocked": false,
+                        "credentialsNonExpired": false,
+                        "enabled": false,
+                        "authorities": [
+                            {
+                                "authority": "EMPLOYEE"
+                            }
+                        ]
+                    }
+                ],
+                "accountNonExpired": false,
+                "accountNonLocked": false,
+                "credentialsNonExpired": false,
+                "enabled": false,
+                "active": true,
+                "authorities": [
+                    {
+                        "authority": "COMPANY"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Electrical",
+        "description": "A gym is a club, building, or large room, usually containing special equipment, where people go to do physical exercise and get fit.",
+        "company": [
+            {
+                "username": "123456company",
+                "name": "Apple",
+                "password": "$2a$10$ko203.qHnmoJjcDrzzwLHuQfkP2zZfy2klREJj0i33XUKG0xTF54u",
+                "confirmPassword": null,
+                "address": "123 sample street",
+                "phone": "0400000000",
+                "email": "sample@sample.com",
+                "lastLogin": "21-09-20 08:59:06",
+                "createdAt": "21-09-20 08:59:06",
+                "updatedAt": "21-09-20 08:59:06",
+                "role": "COMPANY",
+                "id": 1,
+                "companyName": "Apple",
+                "employees": [
+                    {
+                        "username": "123456employee",
+                        "name": "John",
+                        "password": "$2a$10$bARCAIDsuOboGIi9RJD4keuzBUW159Sz.J1Xf0QaVNTxUdtuIBBHK",
+                        "confirmPassword": null,
+                        "address": "123 Sample Stree",
+                        "phone": "123456",
+                        "email": null,
+                        "lastLogin": "22-09-20 00:04:33",
+                        "createdAt": "22-09-20 00:04:33",
+                        "updatedAt": "22-09-20 00:04:33",
+                        "role": "EMPLOYEE",
+                        "id": 1,
+                        "company": null,
+                        "companyUsername": "123456company",
+                        "accountNonExpired": false,
+                        "accountNonLocked": false,
+                        "credentialsNonExpired": false,
+                        "enabled": false,
+                        "authorities": [
+                            {
+                                "authority": "EMPLOYEE"
+                            }
+                        ]
+                    },
+                    {
+                        "username": "joeyjbj",
+                        "name": "Erin",
+                        "password": "$2a$10$G9OqHIokl4i2LzgcSgGv7.HaB1Me//9Joq5II8pV4aFXcSZAp5TD.",
+                        "confirmPassword": null,
+                        "address": "123 Sample Stree",
+                        "phone": "jnj",
+                        "email": null,
+                        "lastLogin": "04-10-20 04:00:55",
+                        "createdAt": "04-10-20 04:00:55",
+                        "updatedAt": "04-10-20 04:00:55",
+                        "role": "EMPLOYEE",
+                        "id": 4,
+                        "company": null,
+                        "companyUsername": "123456company",
+                        "accountNonExpired": false,
+                        "accountNonLocked": false,
+                        "credentialsNonExpired": false,
+                        "enabled": false,
+                        "authorities": [
+                            {
+                                "authority": "EMPLOYEE"
+                            }
+                        ]
+                    }
+                ],
+                "accountNonExpired": false,
+                "accountNonLocked": false,
+                "credentialsNonExpired": false,
+                "enabled": false,
+                "active": true,
+                "authorities": [
+                    {
+                        "authority": "COMPANY"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Carpet Install",
+        "description": "A bean that you can eat! whole hour.",
+        "company": [
+            {
+                "username": "therealcompany",
+                "name": "Samsung",
+                "password": "$2a$10$63g/xnXPGHUOiz0wFPRHJ.Zwip0cFAk3Js19aKMOyswmtPcx28b26",
+                "confirmPassword": null,
+                "address": "123 sample street",
+                "phone": "0400000000",
+                "email": "sample@sample.com",
+                "lastLogin": "22-09-20 00:20:12",
+                "createdAt": "22-09-20 00:20:12",
+                "updatedAt": "22-09-20 00:20:12",
+                "role": "COMPANY",
+                "id": 2,
+                "companyName": "Samsung",
+                "employees": [
+                    {
+                        "username": "therealemployee",
+                        "name": "Marco",
+                        "password": "$2a$10$qV7zzzqYdKH017eKFJICpuslwq35J0VDrMhZKqUTOAySrEI30s9.y",
+                        "confirmPassword": null,
+                        "address": "123 Sample Stree",
+                        "phone": "123123",
+                        "email": null,
+                        "lastLogin": "22-09-20 00:20:43",
+                        "createdAt": "22-09-20 00:20:43",
+                        "updatedAt": "22-09-20 00:20:43",
+                        "role": "EMPLOYEE",
+                        "id": 2,
+                        "company": null,
+                        "companyUsername": "therealcompany",
+                        "accountNonExpired": false,
+                        "accountNonLocked": false,
+                        "credentialsNonExpired": false,
+                        "enabled": false,
+                        "authorities": [
+                            {
+                                "authority": "EMPLOYEE"
+                            }
+                        ]
+                    }
+                ],
+                "accountNonExpired": false,
+                "accountNonLocked": false,
+                "credentialsNonExpired": false,
+                "enabled": false,
+                "active": true,
+                "authorities": [
+                    {
+                        "authority": "COMPANY"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Computer Set Up",
+        "description": "A greg that you can eat! whole hour.",
+        "company": [
+            {
+                "username": "therealcompany",
+                "name": "Samsung",
+                "password": "$2a$10$63g/xnXPGHUOiz0wFPRHJ.Zwip0cFAk3Js19aKMOyswmtPcx28b26",
+                "confirmPassword": null,
+                "address": "123 sample street",
+                "phone": "0400000000",
+                "email": "sample@sample.com",
+                "lastLogin": "22-09-20 00:20:12",
+                "createdAt": "22-09-20 00:20:12",
+                "updatedAt": "22-09-20 00:20:12",
+                "role": "COMPANY",
+                "id": 2,
+                "companyName": "Samsung",
+                "employees": [
+                    {
+                        "username": "therealemployee",
+                        "name": "Marco",
+                        "password": "$2a$10$qV7zzzqYdKH017eKFJICpuslwq35J0VDrMhZKqUTOAySrEI30s9.y",
+                        "confirmPassword": null,
+                        "address": "123 Sample Stree",
+                        "phone": "123123",
+                        "email": null,
+                        "lastLogin": "22-09-20 00:20:43",
+                        "createdAt": "22-09-20 00:20:43",
+                        "updatedAt": "22-09-20 00:20:43",
+                        "role": "EMPLOYEE",
+                        "id": 2,
+                        "company": null,
+                        "companyUsername": "therealcompany",
+                        "accountNonExpired": false,
+                        "accountNonLocked": false,
+                        "credentialsNonExpired": false,
+                        "enabled": false,
+                        "authorities": [
+                            {
+                                "authority": "EMPLOYEE"
+                            }
+                        ]
+                    }
+                ],
+                "accountNonExpired": false,
+                "accountNonLocked": false,
+                "credentialsNonExpired": false,
+                "enabled": false,
+                "active": true,
+                "authorities": [
+                    {
+                        "authority": "COMPANY"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 5,
+        "name": "App Building",
+        "description": "A gym is a club, building, or large room, usually containing special equipment, where people go to do physical exercise and get fit.",
+        "company": [
+            {
+                "username": "somecompany",
+                "name": "Optus",
+                "password": "$2a$10$/9HeQKz3HVrMTC/nS0JsQOfzeCgoXjGZMpDRuqba.OJ5Cvrp1prt.",
+                "confirmPassword": null,
+                "address": "123 sample street",
+                "phone": "0400000000",
+                "email": "sample@sample.com",
+                "lastLogin": "22-09-20 03:46:00",
+                "createdAt": "22-09-20 03:46:00",
+                "updatedAt": "22-09-20 03:46:00",
+                "role": "COMPANY",
+                "id": 7,
+                "companyName": "Optus",
+                "employees": [
+                    {
+                        "username": "leo",
+                        "name": "Michelle",
+                        "password": "$2a$10$cJSV.ehc0jHncmJV7fnm2uaL.QrQJ6siYheDWsIiJClxX3Q29vDRy",
+                        "confirmPassword": null,
+                        "address": "123 Sample Stree",
+                        "phone": "-",
+                        "email": null,
+                        "lastLogin": "22-09-20 03:47:40",
+                        "createdAt": "22-09-20 03:47:40",
+                        "updatedAt": "22-09-20 03:47:40",
+                        "role": "EMPLOYEE",
+                        "id": 3,
+                        "company": null,
+                        "companyUsername": "somecompany",
+                        "accountNonExpired": false,
+                        "accountNonLocked": false,
+                        "credentialsNonExpired": false,
+                        "enabled": false,
+                        "authorities": [
+                            {
+                                "authority": "EMPLOYEE"
+                            }
+                        ]
+                    }
+                ],
+                "accountNonExpired": false,
+                "accountNonLocked": false,
+                "credentialsNonExpired": false,
+                "enabled": false,
+                "active": true,
+                "authorities": [
+                    {
+                        "authority": "COMPANY"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 6,
+        "name": "Soccer",
+        "description": "test",
+        "company": [
+            {
+                "username": "firlediids",
+                "name": "Telstra",
+                "password": "$2a$10$Dizbm8OgENKxWzy1lUCLrOPy/a.nsiHHP6sQYjXjW.LY2lsF7eGH6",
+                "confirmPassword": null,
+                "address": "123 sample street",
+                "phone": "0400000000",
+                "email": "sample@sample.com",
+                "lastLogin": "11-10-20 01:21:59",
+                "createdAt": "11-10-20 01:21:59",
+                "updatedAt": "11-10-20 01:21:59",
+                "role": "COMPANY",
+                "id": 8,
+                "companyName": "Telstra",
+                "employees": [],
+                "accountNonExpired": false,
+                "accountNonLocked": false,
+                "credentialsNonExpired": false,
+                "enabled": false,
+                "active": true,
+                "authorities": [
+                    {
+                        "authority": "COMPANY"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 7,
+        "name": "Table Design",
+        "description": "Repair phones",
+        "company": [
+            {
+                "username": "somecompany",
+                "name": "Optus",
+                "password": "$2a$10$/9HeQKz3HVrMTC/nS0JsQOfzeCgoXjGZMpDRuqba.OJ5Cvrp1prt.",
+                "confirmPassword": null,
+                "address": "123 sample street",
+                "phone": "0400000000",
+                "email": "sample@sample.com",
+                "lastLogin": "22-09-20 03:46:00",
+                "createdAt": "22-09-20 03:46:00",
+                "updatedAt": "22-09-20 03:46:00",
+                "role": "COMPANY",
+                "id": 7,
+                "companyName": "Optus",
+                "employees": [
+                    {
+                        "username": "leo",
+                        "name": "Michelle",
+                        "password": "$2a$10$cJSV.ehc0jHncmJV7fnm2uaL.QrQJ6siYheDWsIiJClxX3Q29vDRy",
+                        "confirmPassword": null,
+                        "address": "123 Sample Stree",
+                        "phone": "-",
+                        "email": null,
+                        "lastLogin": "22-09-20 03:47:40",
+                        "createdAt": "22-09-20 03:47:40",
+                        "updatedAt": "22-09-20 03:47:40",
+                        "role": "EMPLOYEE",
+                        "id": 3,
+                        "company": null,
+                        "companyUsername": "somecompany",
+                        "accountNonExpired": false,
+                        "accountNonLocked": false,
+                        "credentialsNonExpired": false,
+                        "enabled": false,
+                        "authorities": [
+                            {
+                                "authority": "EMPLOYEE"
+                            }
+                        ]
+                    }
+                ],
+                "accountNonExpired": false,
+                "accountNonLocked": false,
+                "credentialsNonExpired": false,
+                "enabled": false,
+                "active": true,
+                "authorities": [
+                    {
+                        "authority": "COMPANY"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 8,
+        "name": "Insect removal",
+        "description": "newService",
+        "company": [
+            {
+                "username": "rolerolerole",
+                "name": "Casio",
+                "password": "$2a$10$dje/YZwFmEhjxxG8Jxt2TexhayV.IYb2e21StVCweSY08NV61A71G",
+                "confirmPassword": null,
+                "address": "123 sample street",
+                "phone": "0400000000",
+                "email": "sample@sample.com",
+                "lastLogin": "11-10-20 02:30:15",
+                "createdAt": "11-10-20 02:30:15",
+                "updatedAt": "11-10-20 02:30:15",
+                "role": "COMPANY",
+                "id": 12,
+                "companyName": "Telstra",
+                "employees": [],
+                "accountNonExpired": false,
+                "accountNonLocked": false,
+                "credentialsNonExpired": false,
+                "enabled": false,
+                "active": true,
+                "authorities": [
+                    {
+                        "authority": "COMPANY"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 9,
+        "name": "CO2 Replacement",
+        "description": "Replace your CO2 gas bottle. You set up a time and we come and swap your bottle.",
+        "company": [
+            {
+                "username": "somecompany",
+                "name": "Optus",
+                "password": "$2a$10$/9HeQKz3HVrMTC/nS0JsQOfzeCgoXjGZMpDRuqba.OJ5Cvrp1prt.",
+                "confirmPassword": null,
+                "address": "123 sample street",
+                "phone": "0400000000",
+                "email": "sample@sample.com",
+                "lastLogin": "22-09-20 03:46:00",
+                "createdAt": "22-09-20 03:46:00",
+                "updatedAt": "22-09-20 03:46:00",
+                "role": "COMPANY",
+                "id": 7,
+                "companyName": "Optus",
+                "employees": [
+                    {
+                        "username": "leo",
+                        "name": "Michelle",
+                        "password": "$2a$10$cJSV.ehc0jHncmJV7fnm2uaL.QrQJ6siYheDWsIiJClxX3Q29vDRy",
+                        "confirmPassword": null,
+                        "address": "123 Sample Stree",
+                        "phone": "-",
+                        "email": null,
+                        "lastLogin": "22-09-20 03:47:40",
+                        "createdAt": "22-09-20 03:47:40",
+                        "updatedAt": "22-09-20 03:47:40",
+                        "role": "EMPLOYEE",
+                        "id": 3,
+                        "company": null,
+                        "companyUsername": "somecompany",
+                        "accountNonExpired": false,
+                        "accountNonLocked": false,
+                        "credentialsNonExpired": false,
+                        "enabled": false,
+                        "authorities": [
+                            {
+                                "authority": "EMPLOYEE"
+                            }
+                        ]
+                    }
+                ],
+                "accountNonExpired": false,
+                "accountNonLocked": false,
+                "credentialsNonExpired": false,
+                "enabled": false,
+                "active": true,
+                "authorities": [
+                    {
+                        "authority": "COMPANY"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 10,
+        "name": "Coles Delivery",
+        "description": "Some pianno lessons",
+        "company": [
+            {
+                "username": "somecompany",
+                "name": "Optus",
+                "password": "$2a$10$/9HeQKz3HVrMTC/nS0JsQOfzeCgoXjGZMpDRuqba.OJ5Cvrp1prt.",
+                "confirmPassword": null,
+                "address": "123 sample street",
+                "phone": "0400000000",
+                "email": "sample@sample.com",
+                "lastLogin": "22-09-20 03:46:00",
+                "createdAt": "22-09-20 03:46:00",
+                "updatedAt": "22-09-20 03:46:00",
+                "role": "COMPANY",
+                "id": 7,
+                "companyName": "Optus",
+                "employees": [
+                    {
+                        "username": "leo",
+                        "name": "Michelle",
+                        "password": "$2a$10$cJSV.ehc0jHncmJV7fnm2uaL.QrQJ6siYheDWsIiJClxX3Q29vDRy",
+                        "confirmPassword": null,
+                        "address": "123 Sample Stree",
+                        "phone": "-",
+                        "email": null,
+                        "lastLogin": "22-09-20 03:47:40",
+                        "createdAt": "22-09-20 03:47:40",
+                        "updatedAt": "22-09-20 03:47:40",
+                        "role": "EMPLOYEE",
+                        "id": 3,
+                        "company": null,
+                        "companyUsername": "somecompany",
+                        "accountNonExpired": false,
+                        "accountNonLocked": false,
+                        "credentialsNonExpired": false,
+                        "enabled": false,
+                        "authorities": [
+                            {
+                                "authority": "EMPLOYEE"
+                            }
+                        ]
+                    }
+                ],
+                "accountNonExpired": false,
+                "accountNonLocked": false,
+                "credentialsNonExpired": false,
+                "enabled": false,
+                "active": true,
+                "authorities": [
+                    {
+                        "authority": "COMPANY"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 11,
+        "name": "Student",
+        "description": "Something",
+        "company": [
+            {
+                "username": "therealcompany",
+                "name": "Samsung",
+                "password": "$2a$10$63g/xnXPGHUOiz0wFPRHJ.Zwip0cFAk3Js19aKMOyswmtPcx28b26",
+                "confirmPassword": null,
+                "address": "123 sample street",
+                "phone": "0400000000",
+                "email": "sample@sample.com",
+                "lastLogin": "22-09-20 00:20:12",
+                "createdAt": "22-09-20 00:20:12",
+                "updatedAt": "22-09-20 00:20:12",
+                "role": "COMPANY",
+                "id": 2,
+                "companyName": "Samsung",
+                "employees": [
+                    {
+                        "username": "therealemployee",
+                        "name": "Marco",
+                        "password": "$2a$10$qV7zzzqYdKH017eKFJICpuslwq35J0VDrMhZKqUTOAySrEI30s9.y",
+                        "confirmPassword": null,
+                        "address": "123 Sample Stree",
+                        "phone": "123123",
+                        "email": null,
+                        "lastLogin": "22-09-20 00:20:43",
+                        "createdAt": "22-09-20 00:20:43",
+                        "updatedAt": "22-09-20 00:20:43",
+                        "role": "EMPLOYEE",
+                        "id": 2,
+                        "company": null,
+                        "companyUsername": "therealcompany",
+                        "accountNonExpired": false,
+                        "accountNonLocked": false,
+                        "credentialsNonExpired": false,
+                        "enabled": false,
+                        "authorities": [
+                            {
+                                "authority": "EMPLOYEE"
+                            }
+                        ]
+                    }
+                ],
+                "accountNonExpired": false,
+                "accountNonLocked": false,
+                "credentialsNonExpired": false,
+                "enabled": false,
+                "active": true,
+                "authorities": [
+                    {
+                        "authority": "COMPANY"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "id": 12,
+        "name": "Internet",
+        "description": "Internet installation",
+        "company": [
+            {
+                "username": "therealcompany",
+                "name": "Samsung",
+                "password": "$2a$10$63g/xnXPGHUOiz0wFPRHJ.Zwip0cFAk3Js19aKMOyswmtPcx28b26",
+                "confirmPassword": null,
+                "address": "123 sample street",
+                "phone": "0400000000",
+                "email": "sample@sample.com",
+                "lastLogin": "22-09-20 00:20:12",
+                "createdAt": "22-09-20 00:20:12",
+                "updatedAt": "22-09-20 00:20:12",
+                "role": "COMPANY",
+                "id": 2,
+                "companyName": "Samsung",
+                "employees": [
+                    {
+                        "username": "therealemployee",
+                        "name": "Marco",
+                        "password": "$2a$10$qV7zzzqYdKH017eKFJICpuslwq35J0VDrMhZKqUTOAySrEI30s9.y",
+                        "confirmPassword": null,
+                        "address": "123 Sample Stree",
+                        "phone": "123123",
+                        "email": null,
+                        "lastLogin": "22-09-20 00:20:43",
+                        "createdAt": "22-09-20 00:20:43",
+                        "updatedAt": "22-09-20 00:20:43",
+                        "role": "EMPLOYEE",
+                        "id": 2,
+                        "company": null,
+                        "companyUsername": "therealcompany",
+                        "accountNonExpired": false,
+                        "accountNonLocked": false,
+                        "credentialsNonExpired": false,
+                        "enabled": false,
+                        "authorities": [
+                            {
+                                "authority": "EMPLOYEE"
+                            }
+                        ]
+                    }
+                ],
+                "accountNonExpired": false,
+                "accountNonLocked": false,
+                "credentialsNonExpired": false,
+                "enabled": false,
+                "active": true,
+                "authorities": [
+                    {
+                        "authority": "COMPANY"
+                    }
+                ]
+            }
+        ]
+    }
+]

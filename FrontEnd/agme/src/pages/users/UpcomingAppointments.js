@@ -1,12 +1,12 @@
 import React from 'react';
-import Accordion from 'react-bootstrap/Accordion';
-import Card from 'react-bootstrap/Card';
 import './upcomingevent.css';
 import Spinner from 'react-bootstrap/Spinner';
 import { BsTrash } from "react-icons/bs"; 
 import Button from "react-bootstrap/Button";
 import Modal from 'react-bootstrap/Modal';
 import Booking from '../../model/Booking';
+import BootstrapTable from 'react-bootstrap-table-next';
+import filterFactory, { textFilter, Comparator } from 'react-bootstrap-table2-filter';
 const {apiCall} = require('../../mock/operations/mock/functions/operations');
 export default class UpcomingAppointments extends React.Component{
     
@@ -64,13 +64,19 @@ export default class UpcomingAppointments extends React.Component{
 
     componentDidMount(){
         this._isMounted = true;
-        apiCall('user', 'getBookings',null,'get').then(r=>{
-            if(r.statusCode===200){
-                this._isMounted&&this.setState({appointments:r.body, failed: false, called: true})
-            }else{
-                this._isMounted&&this.setState({failed: true, called: true})
-            }
-        });
+        const bookings = localStorage.getItem('user_bookings') ? JSON.parse(localStorage.getItem('user_bookings')) : [];
+        if(bookings&&bookings.length){
+            this.setState({appointments:JSON.parse(localStorage.getItem('user_bookings')), failed: false, called: true})
+        }else{
+            apiCall('user', 'getBookings',null,'get').then(r=>{
+                if(r.statusCode===200){
+                    this._isMounted&&this.setState({appointments:r.body, failed: false, called: true})
+                }else{
+                    this._isMounted&&this.setState({failed: true, called: true})
+                }
+            });
+        }
+
     }
 
     modal(){
@@ -184,50 +190,72 @@ export default class UpcomingAppointments extends React.Component{
             if(this.state.failed){
                 return <div>Ooops. Something went wrong, we could not retrieve your bookings</div>
             }else{
-                const cards = this.state.appointments.map((appointment,key)=>{
-                    const booking = new Booking(appointment);
-                    return <Card key={key}>
-                        <Card.Header>
-                            {booking.getDateString()}
-                        </Card.Header>
-                        <Accordion.Collapse eventKey="0">
-                            <Card.Body>
-                                <div className="upcoming_event_company">
-                                    <p>
-                                        Company: {appointment.company.name}
-                                    </p>
-                                    <p>
-                                    Contact Number: {appointment.company.phone}
-                                </p>
-                                    <p>
-                                        Worker Name: {appointment.employee.name}
-                                    </p>
-                                    <p>Service: {appointment.serviceType.name}</p>
-                                    <p>Duration: {appointment.duration} hours</p>
-                                    {(!booking.isOldBooking())&&<Button variant="danger" onClick={e=>{
-                                        e.preventDefault();
-                                        this.setState({booking:booking,showModal:true})
-                                    }}>
-                                        <BsTrash/> Delete Booking id {appointment.id}
-                                    </Button>}
-                                </div>
-                                </Card.Body>
-                        </Accordion.Collapse>
-                    </Card>
+                const data = this.state.appointments.map(appointment=>{
+                    const booking = new Booking(appointment)
+                    const action = booking.isOldBooking() ? "" :<Button variant="danger" onClick={e=>{
+                        e.preventDefault();
+                        this.setState({booking:booking,showModal:true})
+                    }}>
+                        <BsTrash/> </Button>
+                    return {
+                        id: appointment.id,
+                        startDateTime: appointment.startDateTime,
+                        duration: appointment.duration,
+                        service: appointment.serviceType.name,
+                        companyName:appointment.company.name,
+                        contactNumber: appointment.company.phone,
+                        workerName: appointment.employee.name,
+                        action: action
+
+                    }
                 })
-        
+                //table build
+                const columns = [{
+                    dataField: 'id',
+                    text: 'Booking id'
+                  }, {
+                    dataField: 'startDateTime',
+                    text: 'Date / Time',
+                    filter: textFilter({
+                      comparator: Comparator.LIKE
+                    })
+                  },  {
+                    dataField: 'duration',
+                    text: 'Duration (h)',
+                    filter: textFilter({
+                      comparator: Comparator.LIKE
+                    })
+                  },{
+                    dataField: 'service',
+                    text: 'Service',
+                    filter: textFilter()
+                  }, {
+                    dataField: 'companyName',
+                    text: 'Company',
+                    filter: textFilter()
+                  }, {
+                    dataField: 'contactNumber',
+                    text: 'Telephone',
+                    filter: textFilter()
+                  }, {
+                    dataField: 'workerName',
+                    text: 'Provider name',
+                    filter: textFilter()
+                  }, {
+                    dataField: 'action',
+                    text: 'Action',
+                  }
+                ];
+                  
                 return (
                     <div>
                         {this.modal()}
-                        <h3>Your upcoming events</h3>
-                        <Accordion defaultActiveKey="0">
-                            {cards}
-                        </Accordion>
+                        <div className="upcoming_appointments_table" >
+                            <BootstrapTable keyField='id' data={ data } columns={ columns } filter={ filterFactory() } />
+                        </div>
                     </div>
                 )
             }
         }
-
-
     }
 }

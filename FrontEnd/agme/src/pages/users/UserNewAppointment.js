@@ -4,10 +4,10 @@ import Booking from '../../model/Booking';
 import EmplpoyeeAvailability from './EmployeeAvailability';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
-import Accordion from 'react-bootstrap/Accordion';
-import Card from 'react-bootstrap/Card';
+import filterFactory, { textFilter, Comparator } from 'react-bootstrap-table2-filter';
 import { FcAlarmClock, FcDownload } from "react-icons/fc";
 import {AiFillSchedule} from "react-icons/ai";
+import BootstrapTable from 'react-bootstrap-table-next';
 const {apiCall} = require('../../mock/operations/mock/functions/operations')
 
 export default class UserNewAppointment extends React.Component{
@@ -42,17 +42,25 @@ export default class UserNewAppointment extends React.Component{
     }
     componentDidMount(){
         this._isMounted = true;
-        apiCall('user', 'upcomingBookings',null,'get').then(r=>{
-            if(r.statusCode===200){
-                if(this._isMounted){
-                    this.setState({appointments:r.body, failed: false, newCall: true}, function() {})
+        //only make api call if necessary
+        this.getAllServices();
+        const upcomingBookings = localStorage.getItem('user_upcoming-bookings') ? JSON.parse(localStorage.getItem('user_upcoming-bookings')) : [];
+        if(upcomingBookings&&upcomingBookings.length){
+            this.setState({appointments:upcomingBookings, failed: false, newCall: true})
+        }else{
+            apiCall('user', 'upcomingBookings',null,'get').then(r=>{
+                if(r.statusCode===200){
+                    if(this._isMounted){
+                        this.setState({appointments:r.body, failed: false, newCall: true})
+                    }
+                }else{
+                    if(this._isMounted){
+                        this.setState({failed: true, newCall: true})
+                    } 
                 }
-            }else{
-                if(this._isMounted){
-                    this.setState({failed: true, newCall: true})
-                } 
-            }
-        });
+            });
+        }
+        
     }
     updateBooking(e){
         e&&e.preventDefault();
@@ -64,23 +72,37 @@ export default class UserNewAppointment extends React.Component{
         //only call api if it hasnt been called yet
         //only call it is there is no state.httpStatusCode
         if(!this.state.getServicesStatus){
-            apiCall('user', 'getAllServices', null,'get').then(response=>{
-                let options = this.state.options;
-                if(response.statusCode===200){
-                    this._isMounted&&this.setState({isCallingServer:false});
-                    var servicetypes = [];
-                    var i = 1;
-                    servicetypes.push(<option key={0} value={"DEFAULT"} disabled>Choose a Service</option>);
-                    response.body.forEach((serviceType) =>
-                    servicetypes.push(<option key={serviceType.name} value={serviceType.name}>{serviceType.name}</option>),i++);
-                    options = servicetypes;
-                }
-                this._isMounted&&this.setState({
-                    getServicesStatus: response.statusCode,
+            const allServices = localStorage.getItem('user_services') ? JSON.parse(localStorage.getItem('user_services')) : [];
+
+            if(allServices&&allServices.length){
+                let options = [<option key={0} value={"DEFAULT"} disabled>Choose a Service</option>];
+                allServices.forEach((service,i)=>{
+                    options.push(<option key={i+1} value={service.name}>{service.name}</option>);
+                })
+                this.setState({
+                    getServicesStatus: 200,
                     options:options
                 })
-                }
-            )
+            }else{
+                apiCall('user', 'getAllServices', null,'get').then(response=>{
+                    let options = this.state.options;
+                    if(response.statusCode===200){
+                        this._isMounted&&this.setState({isCallingServer:false});
+                        var servicetypes = [];
+                        var i = 1;
+                        servicetypes.push(<option key={0} value={"DEFAULT"} disabled>Choose a Service</option>);
+                        response.body.forEach((serviceType) =>
+                        servicetypes.push(<option key={serviceType.name} value={serviceType.name}>{serviceType.name}</option>),i++);
+                        options = servicetypes;
+                    }
+                    this._isMounted&&this.setState({
+                        getServicesStatus: response.statusCode,
+                        options:options
+                    })
+                    }
+                )
+            }
+            
         }
     }
 
@@ -171,6 +193,12 @@ export default class UserNewAppointment extends React.Component{
         .then(response=>{
             if(response.statusCode===200){
                 this._isMounted&&this.setState({isCallingServer:false,isUpdatingAvailability:false});
+                //update localstorage
+                let bookings = localStorage.getItem('user_bookings') ? JSON.parse(localStorage.getItem('user_bookings')) : []
+                if(bookings&&bookings.length){
+                    bookings.push(response.body)
+                }
+                localStorage.setItem('user_bookings',JSON.stringify(bookings))
                 alert("booking successful");
             }else{
                 this._isMounted&&this.setState({isCallingServer:false, failed:true,error:response, isUpdatingAvailability:false})
@@ -196,38 +224,44 @@ export default class UserNewAppointment extends React.Component{
                 return "";
             }else{
             let upcBookings = this.state.appointments.length;
-            const cards = this.state.appointments.map((appointment,key)=>{
-                const booking = new Booking(appointment);
-                return <Card key={key}>
-                          <Card.Header>
-                              {booking.getDateString()} Test
-                          </Card.Header>
-                          <Accordion.Collapse eventKey="0">
-                              <Card.Body>
-                                  <div className="upcoming_event_company">
-                                      <p>
-                                          Company: {appointment.company.name}
-                                      </p>
-                                      <p>
-                                          Name: {appointment.employee.name}
-                                      </p>
-                                      <p>
-                                          Contact Number: {appointment.company.phone}
-                                      </p>
-                                      <p>
-                                          Address: {appointment.company.address}
-                                      </p>
-                                      <p>
-                                          Service: {appointment.serviceType.name}
-                                      </p>
-                                      <p>
-                                          Duration: {appointment.duration} hours
-                                      </p>
-                                  </div>
-                              </Card.Body>
-                          </Accordion.Collapse>
-                      </Card>
+
+            const data = this.state.appointments.map(appointment=>{
+                return new Booking(appointment).getBookingInfo();
             })
+            //table build
+            const columns = [{
+                dataField: 'id',
+                text: 'Booking id'
+              }, {
+                dataField: 'startDateTime',
+                text: 'Date / Time',
+                filter: textFilter({
+                  comparator: Comparator.LIKE
+                })
+              },  {
+                dataField: 'duration',
+                text: 'Duration (h)',
+                filter: textFilter({
+                  comparator: Comparator.LIKE
+                })
+              },{
+                dataField: 'service',
+                text: 'Service',
+                filter: textFilter()
+              }, {
+                dataField: 'companyName',
+                text: 'Company',
+                filter: textFilter()
+              }, {
+                dataField: 'contactNumber',
+                text: 'Telephone',
+                filter: textFilter()
+              }, {
+                dataField: 'workerName',
+                text: 'Provider name',
+                filter: textFilter()
+              }
+            ];
 
             return (
                 <div>
@@ -243,9 +277,9 @@ export default class UserNewAppointment extends React.Component{
                         </p>
                             <Button onClick={this.changeClass} variant={this.state.classname==='noClass' ? "danger" : "success"} className="showUpcomming">{this.state.classname==='noClass' ? "Hide" : "View"}</Button>
                         <div className={this.state.classname}>
-                            <Accordion defaultActiveKey="0">
-                                {cards}
-                            </Accordion>
+                        <div className="upcoming_appointments_table" >
+                            <BootstrapTable keyField='id' data={ data } columns={ columns } filter={ filterFactory() } />
+                        </div>
                         </div>
                         </div>
                 </div>
@@ -263,7 +297,6 @@ export default class UserNewAppointment extends React.Component{
 
     }
     render(){
-        this.getAllServices();
         if(this.state.getServicesStatus){
             if(this.state.getServicesStatus===200){
                 return (

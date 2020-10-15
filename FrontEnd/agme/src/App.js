@@ -5,10 +5,11 @@ import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {getDecodedJwtFromLocalStorage}  from "./mock/operations/mock/functions/utils";//Add decode func
+import { getResources}  from "./mock/operations/mock/functions/operations";//Add decode func
+
 import ViewProviders from './pages/users/ViewProviders';
 import NavigationBar from './pages/NavigationBar';
 import CustomisedError from "./miscelaneous/CustomisedError";
-const utils = require('./mock/operations/mock/functions/utils')
 /**
  * Basic Flow
  * 
@@ -24,11 +25,12 @@ export default class App extends React.Component{
     constructor(){
         super();
         const authDetails = getDecodedJwtFromLocalStorage();
+        const expired = authDetails&&((authDetails.exp - new Date().getTime()/1000)  < 0);
         if(authDetails){
 
             this.state = {
-                authenticated: true,
-                token:localStorage.getItem('credentials'),
+                authenticated: !expired,
+                token:((!expired)&&localStorage.getItem('credentials')) || null,
                 content: "",
                 type: authDetails.role
             }
@@ -110,15 +112,18 @@ export default class App extends React.Component{
     }
 
     handleAuthentication(){
+        getResources();
         //save to local storage to persist
-        const credentials = localStorage.getItem('credentials');
-        if(!credentials){return;}
+        const credentials = JSON.parse(localStorage.getItem('credentials'));
+        const authDetails = getDecodedJwtFromLocalStorage();
+        const expired = authDetails&&((authDetails.exp - new Date().getTime()/1000)  < 0);
 
-        const authDetails = utils.decodeJwt(JSON.parse(credentials).jwt);
+        if((!credentials)||expired){return;}
+
         const role = authDetails.role
         this._isMounted&&this.setState({
             token:authDetails.jwt,
-            authenticated:true,
+            authenticated: true,
             role: authDetails.role, 
             content:<LandingPage 
                 authenticated={true} 
@@ -134,7 +139,7 @@ export default class App extends React.Component{
     handleLogout(e){
         e.preventDefault();
         //clear localStorage
-        localStorage.removeItem("credentials");
+        localStorage.clear();
         this.setState({
             token:null,
             authenticated:false,
