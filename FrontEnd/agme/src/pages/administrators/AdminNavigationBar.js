@@ -5,6 +5,8 @@ import NavDropdown from "../../../node_modules/react-bootstrap/NavDropdown";
 import '../css/navigationbar.css'
 import { IoIosLogOut } from "react-icons/io";
 import { IconContext } from "react-icons";
+import '../css/admin.css'
+import '../css/navigationbar.css'
 import {getDecodedJwtFromLocalStorage}  from "../../mock/operations/mock/functions/utils";//Add decode func
 
 /***
@@ -25,8 +27,8 @@ export default class AdminNavigationBar extends React.Component{
             }
         }
         return (
-            <Navbar bg="light" expand="lg">
-                    <Navbar.Brand href="#home">AGME</Navbar.Brand>
+            <Navbar className="userNavbar">
+                    <Navbar.Brand className="brand">AGME</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">

@@ -8,5 +8,7 @@
     text-align: center;
     margin: auto;
     margin-top:10vh;
+    background-color: white;
+    opacity: 0.9;
 }
 .disbled:disabled{color: grey}
