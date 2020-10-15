@@ -33,10 +33,6 @@ export default class AddExistingService extends React.Component{
             this.state.entity.setField("description",this.state.description);
             apiCall('company', 'newService' , this.state.entity ,'post').then(r=>{
                 if(r.statusCode === 200){
-                    if (r.statusCode === 200){
-                        alert("New service has been added");
-                    }
-                    console.log(r)
                     //update localStorage
                     let allServices = this.state.allServices;
                     let companyServices = this.state.companyServices;
@@ -138,11 +134,19 @@ export default class AddExistingService extends React.Component{
     render(){
         if(this.state.isCallingServer){
             return (
-                <div className="spinnerOutter">
-                <Spinner animation="border" role="status">
-                    <span className="sr-only">Please wait while we add {this.state.name}  to your company.</span>
-                </Spinner>
+                <div className="newService">
+                    <div className="calling">
+                    <div className="spinnerOutter">
+                    <Spinner animation="border" role="status">
+                        <span className="sr-only"/>
+                    </Spinner>
+                    </div>
+                    <br/>
+                    <p>Please wait while we add {this.state.name}  to your company.</p>
+                    </div>
                 </div>
+
+            
             );
         }
 
