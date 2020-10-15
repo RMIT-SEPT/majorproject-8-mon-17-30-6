@@ -155,8 +155,17 @@ export default class AddExistingService extends React.Component{
             return <option key={i} value={option.name}>{option.name}</option>
             });
             let button;
+            let message = ""
+            const isDuplicate = this.state.companyServices.filter(s=>{return s.name===this.state.name}).length>0;
             if(this.state.name){
-                button = <Button onClick={this.addNewSubmit} variant="success">Add</Button>
+                //check if not duplicate
+                const isDuplicate = this.state.companyServices.filter(s=>{return s.name===this.state.name}).length>0;
+                if(!isDuplicate){
+                    button = <Button onClick={this.addNewSubmit} variant="success">Add</Button>
+                    message = ""
+                }else{
+                    message = "Cannot add service "+this.state.name+". You already provide it"
+                }
             }else{
                 button = <Button variant="secondary">Add</Button>
             }
@@ -172,6 +181,7 @@ export default class AddExistingService extends React.Component{
                     </select>
                     {this.showInputFields()}
                     <br/>
+                    <div className={"duplicate "+isDuplicate}>{message}</div>
                     {button}
                 </div>
                 </React.Fragment>
