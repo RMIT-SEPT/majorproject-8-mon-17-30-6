@@ -20,7 +20,7 @@ public class HelpController {
     private JwtUtil jwtUtil;
     @Autowired
     EmailServiceImpl emailService;
-
+    @PostMapping
     public ResponseEntity<?> reportIssue(@RequestHeader("Authorisation") String authorisationHeader,@RequestBody HelpRequest report) {
 
         try {
