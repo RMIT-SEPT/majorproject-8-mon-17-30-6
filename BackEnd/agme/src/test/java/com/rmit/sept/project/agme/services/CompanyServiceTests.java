@@ -141,4 +141,5 @@ public class CompanyServiceTests {
         companyService.saveOrUpdate(user);
         given(companyService.authenticateUser(null, null)).willReturn(false);
     }
+
 }

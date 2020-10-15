@@ -73,7 +73,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void getEmployeesTest() {
+    public void getEmployeesTest_shouldReturnListOfemployees_WhenRequested() {
 
         List<Employee> employeeList = new ArrayList<>();
 
@@ -90,7 +90,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void loadUserByUsernameTest() {
+    public void loadUserByUsernameTest_shouldReturnEmployee_whenCalled() {
 
         Employee employee = new Employee();
         String username = "test";

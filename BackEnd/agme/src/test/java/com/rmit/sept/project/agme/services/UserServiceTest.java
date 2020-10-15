@@ -231,7 +231,13 @@ public class UserServiceTest {
     public void createABooking_ShouldReturnNull_When_CompanyDoesNotExist(){
 
         Assert.assertEquals(bookingService.addBooking(new Booking(new Date(), 3, null, new Company(), null, new ServiceType()))
-                ,null);}
+                ,null);
+    }
+    public void createABooking_ShouldReturnNull_When_ServiceDoesNotExist(){
+
+        Assert.assertEquals(bookingService.addBooking(new Booking(new Date(), 3, new Employee(), new Company(), new User(), null))
+                ,null);
+    }
 
 
     }
