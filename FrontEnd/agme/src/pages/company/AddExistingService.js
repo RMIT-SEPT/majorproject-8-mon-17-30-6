@@ -2,7 +2,8 @@ import React from 'react';
 import Button from "react-bootstrap/Button";
 import './services.css'
 import Entity from '../../model/Entity';
-import '../css/provider.css'
+import '../css/provider.css';
+import Spinner from 'react-bootstrap/Spinner';
 const {apiCall, getDecodedJwtFromLocalStorage} = require('../../mock/operations/mock/functions/operations');
 //To view list of services
 export default class AddExistingService extends React.Component{
@@ -63,8 +64,6 @@ export default class AddExistingService extends React.Component{
 
             })
         }
-        
-     
     }
 
     componentWillUnmount(){
@@ -137,6 +136,16 @@ export default class AddExistingService extends React.Component{
     }
 
     render(){
+        if(this.state.isCallingServer){
+            return (
+                <div className="spinnerOutter">
+                <Spinner animation="border" role="status">
+                    <span className="sr-only">Please wait while we add {this.state.name}  to your company.</span>
+                </Spinner>
+                </div>
+            );
+        }
+
         if(this.state.available&&(this.state.available.length>0)){
             const options = this.state.available.map((option,i)=>{
             return <option key={i} value={option.name}>{option.name}</option>
