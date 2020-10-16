@@ -13,7 +13,8 @@
         "getBookings": "company/bookings",
         "deleteBooking": "company/bookings",
         "getAllServices": "company/allservices",
-        "newService": "company/new-service"
+        "newService": "company/new-service",
+        "assignEmployee": "company/bookings/employee"
       },
       "user":{
         "getBookings": "user/bookings",
@@ -31,8 +32,7 @@
         "getBookings": "employee/bookings"
       },
       "admin":{
-        "closeCompany": "admin/close-company",
-        "assignEmployee": "company/bookings/employee"
+        "closeCompany": "admin/close-company"
       }
     }
   }
