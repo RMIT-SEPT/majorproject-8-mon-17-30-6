@@ -3,6 +3,7 @@ import './pages/css/App.css';
 import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import Help from "./pages/Help";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {getDecodedJwtFromLocalStorage}  from "./functions/utils";//Add decode func
 import { getResources}  from "./functions/operations";//Add decode func
@@ -84,6 +85,9 @@ export default class App extends React.Component{
                     break;
                 case "login":
                     component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup} handleAuthentication={this.handleAuthentication}/>
+                    break;
+                case "help":
+                    component = <Help handleContentChangeRequest={this.handleContentChangeRequest} />
                     break;
                 default:
                     console.log("no content available?");

@@ -41,7 +41,7 @@ public class HelpController {
             return new ResponseEntity<>("Report Submitted Successfully",HttpStatus.OK);
         }
         catch (Exception e) {
-            return new ResponseEntity<>("Could not Submit Report", HttpStatus.valueOf(404));
+            return new ResponseEntity<>("Could not Submit Report", HttpStatus.valueOf(400));
         }
     }
 }

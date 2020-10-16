@@ -46,7 +46,10 @@ export default class EmployeeNavigationBar extends React.Component{
                                 <NavDropdown.Item name="employeeDashboard" onClick={this.handleSelectNavBar}>My Dashboard</NavDropdown.Item>
 
                             </NavDropdown>
+                            <Nav.Link name="help" onClick={this.props.handleSelectNavBar}>Help/Report</Nav.Link>
+
                         </Nav>
+
                     </Navbar.Collapse>
                     {logoutButton()}
                 </Navbar>

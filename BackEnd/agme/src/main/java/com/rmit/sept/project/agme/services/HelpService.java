@@ -20,7 +20,8 @@ public class HelpService {
         formattedMessage += "\nAuthenticated User : " + report.getUser();
         formattedMessage += "\nName : " + report.getName();
         formattedMessage += "\nEmail : " + report.getEmail();
-        formattedMessage += "\nService : " + report.getServiceName();
+        if(report.getServiceName()!=null)
+            formattedMessage += "\nService : " + report.getServiceName();
         formattedMessage += "\n\nMessage Details as Follows\n\n" + report.getMessage();
 
         return formattedMessage;

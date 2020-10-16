@@ -16,9 +16,10 @@ export default class VisitorNavigationBar extends React.Component{
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
                             <Nav.Link className="userNavbar">Home</Nav.Link>
-                            <Nav.Link name="login" onClick={this.props.handleSelectNavBar}>Login</Nav.Link>               
+                            <Nav.Link name="login" onClick={this.props.handleSelectNavBar}>Login</Nav.Link>
+                            <Nav.Link name="help" onClick={this.props.handleSelectNavBar}>Help/Report</Nav.Link>
                         </Nav>
-                        
+
                     </Navbar.Collapse>
                 </Navbar>
         )
