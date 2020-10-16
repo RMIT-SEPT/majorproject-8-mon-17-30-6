@@ -17,12 +17,7 @@ import java.util.List;
 @Service
 public class AdminService implements UserInterface
 {
-    @Override
-    public void saveOrUpdate(UserDetails user)
-    {
-        return;
 
-    }
 
     @Override
     public List<?> getAll()
@@ -55,7 +50,7 @@ public class AdminService implements UserInterface
 
     }
 
-    public Admin saveOrUpdateUser(Admin user) {
+    public Admin saveOrUpdateAdmin(Admin user) {
 
         return adminRepository.save(user);
     }

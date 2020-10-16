@@ -40,12 +40,12 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/user").hasAnyAuthority("USER");
 //        removes restriction on access to sign and login
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/login", "/signup", "/h2-console", "/healthcheck")
+                .authorizeRequests().antMatchers("/login", "/signup", "/h2-console", "/healthcheck", "/help")
                 .permitAll().anyRequest().authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        Ensures correct user ttype is accessing the api
+//        Ensures correct user type is accessing the api
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 

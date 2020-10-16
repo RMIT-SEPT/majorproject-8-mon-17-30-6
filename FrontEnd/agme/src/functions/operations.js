@@ -1,4 +1,4 @@
-const config = require('../../../../config.json')
+const config = require('../config.json')
 /***
  * Generic function to call apis
  * ***/
@@ -75,6 +75,7 @@ const apiCall = async(userType, service, payload, type)=>{
             "Content-Type": "application/JSON",
             Accept: "application/JSON",
             'Access-Control-Allow-Origin': '*',
+            Authorisation: ""
         }
     }
    
@@ -82,7 +83,6 @@ const apiCall = async(userType, service, payload, type)=>{
     payload&&(options.body =JSON.stringify(payload));
     getJwt() && (options.headers.Authorisation = getJwt());
     const response = await fetchFromApi(url,uri,options);
-
     return response;  
 }
 

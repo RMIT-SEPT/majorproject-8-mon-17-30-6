@@ -7,7 +7,6 @@ import java.util.List;
 public interface UserInterface {
     //injecting user repository access
 
-    void saveOrUpdate(UserDetails user);
 
     //    Retrieve list of users
     List<?> getAll();

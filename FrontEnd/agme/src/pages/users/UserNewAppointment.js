@@ -8,7 +8,7 @@ import filterFactory, { textFilter, Comparator } from 'react-bootstrap-table2-fi
 import { FcAlarmClock, FcDownload } from "react-icons/fc";
 import {AiFillSchedule} from "react-icons/ai";
 import BootstrapTable from 'react-bootstrap-table-next';
-const {apiCall} = require('../../mock/operations/mock/functions/operations')
+const {apiCall} = require('../../functions/operations')
 
 export default class UserNewAppointment extends React.Component{
     constructor(props){

@@ -3,7 +3,7 @@ import filterFactory, { textFilter, Comparator } from 'react-bootstrap-table2-fi
 import BootstrapTable from 'react-bootstrap-table-next';
 import Booking from '../../model/Booking';
 import Spinner from 'react-bootstrap/Spinner';
-const {apiCall} = require('../../mock/operations/mock/functions/operations');
+const {apiCall} = require('../../functions/operations');
 
 export class CompanyAppointmentList extends React.Component{
 

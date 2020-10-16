@@ -1,5 +1,5 @@
 import React from 'react';
-import {getDecodedJwtFromLocalStorage}  from "../mock/operations/mock/functions/utils";//Add decode func
+import {getDecodedJwtFromLocalStorage}  from "../functions/utils";//Add decode func
 import ProviderNavigationBar from './providers/ProviderNavigationBar';
 import UserNavigationBar from './users/UserNavigationBar';
 import AdminNavigationBar from './administrators/AdminNavigationBar'

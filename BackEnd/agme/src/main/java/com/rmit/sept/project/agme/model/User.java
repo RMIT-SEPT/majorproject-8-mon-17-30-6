@@ -21,6 +21,7 @@ public class User extends AbstractUser implements UserDetails {
     public User() {
 
     }
+
     public User(String username, String name,String password, String confirmPassword,
                     String address, String phone, Role role,String email) {
         setEmail(email);

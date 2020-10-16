@@ -6,7 +6,7 @@ import '../css/navigationbar.css'
 import { IoIosLogOut } from "react-icons/io";
 import { IconContext } from "react-icons";
 import {FaUser} from "react-icons/fa";
-import {getDecodedJwtFromLocalStorage}  from "../../mock/operations/mock/functions/utils";//Add decode func
+import {getDecodedJwtFromLocalStorage}  from "../../functions/utils";//Add decode func
 import ComponentsHandler from './ComponentsHandler';
 /***
  * This class should handle the Navigation bar so that the appropriate menu's are displayed
@@ -50,8 +50,9 @@ export default class UserNavigationBar extends React.Component{
                                 <NavDropdown.Item name="userNewAppointment" onClick={this.handleSelectNavBar}>New appointment</NavDropdown.Item>
                                 <NavDropdown.Item name="upcomingAppointments" onClick={this.handleSelectNavBar}>Manage my appointments (view/delete)</NavDropdown.Item>
                             </NavDropdown>
-                        </Nav>
 
+                        </Nav>
+                        <Nav.Link name="help" onClick={this.props.handleSelectNavBar}>Help/Report</Nav.Link>
                     </Navbar.Collapse>
                     {logoutButton()}
                 </Navbar>

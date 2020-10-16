@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import './css/login.css';
 import Spinner from 'react-bootstrap/Spinner'
 
-const {apiCall} = require('../mock/operations/mock/functions/operations')
+const {apiCall} = require('../functions/operations')
 
 /***
  * Basic flow: This component should simply handle authentication.

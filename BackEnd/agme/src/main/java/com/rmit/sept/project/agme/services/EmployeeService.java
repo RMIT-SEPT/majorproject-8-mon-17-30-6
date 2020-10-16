@@ -37,9 +37,8 @@ public class EmployeeService implements UserInterface {
         return employeeRepository.count();
     }
 
-    @Override
-    public void saveOrUpdate(UserDetails user) {
-        employeeRepository.save((Employee) user);
+    public Employee saveOrUpdate(Employee user) {
+        return employeeRepository.save((Employee) user);
     }
 
     @Override

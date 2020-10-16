@@ -32,7 +32,7 @@ describe("Services", () => {
     
   });
 
-  it("2 - It should display correct description for all services", () => {  
+  it("3 - It should display correct description for all services", () => {  
     localStorage.setItem('agme_all_services', JSON.stringify(services))  
     const container = mount(<AgmeServices/>) 
     const tbody = container.find('tbody');
