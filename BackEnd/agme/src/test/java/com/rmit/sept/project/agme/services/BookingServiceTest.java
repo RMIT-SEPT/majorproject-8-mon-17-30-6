@@ -55,7 +55,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    public void getBookings_willrReturnTrue_whengetBookingsIsCalled() {
+    public void getBookings_willReturnTrue_whenGetBookingsIsCalled() {
 
         List<Booking> bookingList = new ArrayList<>();
 
@@ -100,6 +100,5 @@ public class BookingServiceTest {
         given(bookingService.getAllBookings()).willReturn(list);
 
     }
-
 
 }

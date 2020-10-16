@@ -1,5 +1,6 @@
 package com.rmit.sept.project.agme.service;
 
+import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.model.User;
 import com.rmit.sept.project.agme.services.UserService;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import javax.validation.ConstraintViolationException;
 import javax.xml.bind.ValidationException;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.rmit.sept.project.agme.model.Role.ADMIN;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
@@ -44,7 +47,7 @@ public class UserServiceTest {
 
 //    Service tests
     @Test
-    public void loadUser_shouldReturnTrue_WithfindbyId() throws Exception {
+    public void loadUser_shouldReturnTrue_WithFindbyId() throws Exception {
         User user = new User();
         user.setName("test user");
         user.setUsername("alex");
@@ -126,7 +129,7 @@ public class UserServiceTest {
         Assert.assertTrue(userService.authenticateUser(user.getUsername(),"password"));
     }
     @Test
-    public void authenticateUser_shouldReturnFalse_whenDetailsDontMatch() throws Exception {
+    public void authenticateUser_shouldReturnFalse_whenDetailsDoNotMatch() throws Exception {
         User user = new User();
         user.setName("test user");
         user.setUsername("alex");
@@ -159,10 +162,7 @@ public class UserServiceTest {
         User user2 = userRepository.save(user);
         exceptionRule.expect(NullPointerException.class);
         userService.authenticateUser(null,null);
-
     }
-
-
 
 
 }

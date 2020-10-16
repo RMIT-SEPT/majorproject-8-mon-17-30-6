@@ -7,6 +7,7 @@ import com.rmit.sept.project.agme.services.*;
 import net.minidev.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -49,6 +50,8 @@ public class LoginSignupControllerTest {
     @Autowired
     UserService userService;
 
+    @MockBean
+    EmailServiceImpl emailService;
 
     @MockBean
     CompanyService companyService;
@@ -58,6 +61,9 @@ public class LoginSignupControllerTest {
 
     @MockBean
     BookingService bookingService;
+
+    @MockBean
+    AdminService adminService;
 
     @Test
     public void shouldReturnHTTPStatus400_whenCreatingUserWithIncompleteFields() throws Exception {
@@ -91,7 +97,7 @@ public class LoginSignupControllerTest {
     }
 
     @Test
-    public void shouldReturnHTTPStatusOk_whenCreatingUserWithcompleteFields() throws Exception {
+    public void shouldReturnHTTPStatusOk_whenCreatingUserWithCompleteFields() throws Exception {
         HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user");
@@ -122,7 +128,7 @@ public class LoginSignupControllerTest {
                 .andExpect(status().isBadRequest());
     }
     @Test
-    public void shouldReturnHTTPStatusok_whenCreatingCompanyWithcompleteFields() throws Exception {
+    public void shouldReturnHTTPStatusOk_whenCreatingCompanyWithCompleteFields() throws Exception {
         HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user");
@@ -139,7 +145,7 @@ public class LoginSignupControllerTest {
                 .andExpect(status().isOk());
     }
     @Test
-    public void shouldReturnHTTPStatus400_whenCreatingCompanyWithcompleteFieldsButPWDoesNotMatch() throws Exception {
+    public void shouldReturnHTTPStatus400_whenCreatingCompanyWithCompleteFieldsButPWDoesNotMatch() throws Exception {
         HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user");
@@ -154,7 +160,7 @@ public class LoginSignupControllerTest {
                 .andExpect(status().isBadRequest());
     }
     @Test
-    public void shouldReturnHTTPStatus400_whenCreatingEmployeeWithcompleteFieldsButPWDoesNotMatch() throws Exception {
+    public void shouldReturnHTTPStatus400_whenCreatingEmployeeWithCompleteFieldsButPWDoesNotMatch() throws Exception {
         HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user");
@@ -169,7 +175,7 @@ public class LoginSignupControllerTest {
                 .andExpect(status().isBadRequest());
     }
     @Test
-    public void shouldReturnHTTPStatus404_whenCreatingEmployeeWithcompleteFieldsButCompanyDoesNotExist() throws Exception {
+    public void shouldReturnHTTPStatus400_whenCreatingEmployeeWithCompleteFieldsButCompanyDoesNotExist() throws Exception {
         HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user1");

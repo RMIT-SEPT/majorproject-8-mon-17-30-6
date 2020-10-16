@@ -6,7 +6,9 @@ import com.rmit.sept.project.agme.web.BookingController;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.junit.Assert.*;
 
+import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,17 +39,33 @@ public class LoginSignupServiceTest {
     @MockBean
     LoginSignupService loginSignupService;
 
+    @MockBean
+    EmployeeService employeeService;
+
+    @MockBean
+    CompanyService companyService;
+
+    @MockBean
+    ServiceTypeService serviceTypeService;
+
+    @MockBean
+    AdminService adminService;
 
     @Test
-    public void userDetails_requestUserNotInSystem_shouldReturnFalse() {
+    public void userDetails_requestUserNotInSystem_shouldReturnNull() {
         LoginSignupService loginSignupService = new LoginSignupService();
-        
+
+        loginSignupService.userService = userService;
+        loginSignupService.companyService = companyService;
+        loginSignupService.employeeService = employeeService;
+        loginSignupService.adminService = adminService;
+
         UserDetails expectedResult = null;
         
         //this is an empty service, should not return
         UserDetails actualDetails = loginSignupService.loadUserByUsername("Bob");
-        
-        assertEquals(expectedResult, actualDetails);
+
+        assertNull(actualDetails);
     }
 
 }
