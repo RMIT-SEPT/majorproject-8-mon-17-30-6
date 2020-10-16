@@ -6,7 +6,7 @@ import '../css/navigationbar.css'
 import { IoIosLogOut } from "react-icons/io";
 import { IconContext } from "react-icons";
 import { FaUser } from "react-icons/fa";
-import {getDecodedJwtFromLocalStorage}  from "../../mock/operations/mock/functions/utils";//Add decode func
+import {getDecodedJwtFromLocalStorage}  from "../../functions/utils";//Add decode func
 import ComponentsHandler from './ComponentsHandler';
 /***
  * This class should handle the Navigation bar so that the appropriate menu's are displayed

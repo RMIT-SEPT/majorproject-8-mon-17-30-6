@@ -5,7 +5,7 @@ import NavDropdown from "../../../node_modules/react-bootstrap/NavDropdown";
 import '../css/navigationbar.css'
 import { IoIosLogOut } from "react-icons/io";
 import { IconContext } from "react-icons";
-import {getDecodedJwtFromLocalStorage}  from "../../mock/operations/mock/functions/utils";//Add decode func
+import {getDecodedJwtFromLocalStorage}  from "../../functions/utils";//Add decode func
 
 /***
  * This class should handle the Navigation bar so that the appropriate menu's are displayed

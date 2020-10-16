@@ -27,7 +27,7 @@ describe("<Help/>", () => {
           message: "Foo Bar Baz"
       });
       component.instance().handleReportRequest()
-      jest.mock('../mock/operations/mock/functions/operations',()=>{
+      jest.mock('../functions/operations',()=>{
           return {
               apiCall: async ()=>{
                   return {
@@ -49,7 +49,7 @@ describe("<Help/>", () => {
         });
 
         component.instance().handleReportRequest()
-        jest.mock('../mock/operations/mock/functions/operations',()=>{
+        jest.mock('../functions/operations',()=>{
             return {
                 apiCall: async ()=>{
                     return {
@@ -71,7 +71,7 @@ describe("<Help/>", () => {
         });
 
         component.instance().handleReportRequest()
-        jest.mock('../mock/operations/mock/functions/operations',()=>{
+        jest.mock('../functions/operations',()=>{
             return {
                 apiCall: async ()=>{
                     return {
@@ -93,7 +93,7 @@ describe("<Help/>", () => {
         });
 
         component.instance().handleReportRequest()
-        jest.mock('../mock/operations/mock/functions/operations',()=>{
+        jest.mock('../functions/operations',()=>{
             return {
                 apiCall: async ()=>{
                     return {

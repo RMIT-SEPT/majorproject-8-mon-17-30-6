@@ -2,7 +2,7 @@ import React from 'react';
 import Employee from '../../model/Employee';
 import { EmployeeSchedule } from './EmployeeSchedule';
 import './viewEmployees.css'
-const {apiCall} = require('../../mock/operations/mock/functions/operations');
+const {apiCall} = require('../../functions/operations');
 
 export class ViewEmployees extends React.Component{
     constructor(props){

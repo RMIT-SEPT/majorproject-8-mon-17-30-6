@@ -1,6 +1,6 @@
 import React from 'react';
 import AgmeServices from '../company/AgmeServices'
-const {apiCall} = require('../../mock/operations/mock/functions/operations');
+const {apiCall} = require('../../functions/operations');
 /***
  * Component for user to view available services. It might look dupplicate from the
  * AgmeServices component, but this is to be used when user is authenticated as 

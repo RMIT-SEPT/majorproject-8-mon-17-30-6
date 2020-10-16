@@ -7,7 +7,7 @@ import Login from './Login'
 const adapter = new Adapter();
 configure({ adapter });
 const component = shallow(<Login/>)
-jest.mock('../mock/operations/mock/functions/operations',()=>{
+jest.mock('../functions/operations',()=>{
     return {
         apiCall: async ()=>{
             return {

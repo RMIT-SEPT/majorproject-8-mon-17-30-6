@@ -2,8 +2,9 @@ import React from 'react';
 import Button from "react-bootstrap/Button";
 import './css/login.css';
 import Spinner from 'react-bootstrap/Spinner'
+import { Form } from 'react-bootstrap';
 
-const {apiCall} = require('../mock/operations/mock/functions/operations')
+const {apiCall} = require('../functions/operations')
 
 export default class Help extends React.Component{
     constructor(props){
@@ -15,7 +16,8 @@ export default class Help extends React.Component{
             name: "",
             email: "",
             serviceName: "",
-            message: ""
+            message: "",
+            sent:false
         };
         this.handleReportRequest = this.handleReportRequest.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
@@ -54,7 +56,7 @@ export default class Help extends React.Component{
         apiCall('common','help',payload, 'post').then(response=>{
             if(response){
                 if(response.statusCode===200){
-                    this._isMounted&&this.setState({isCallingServer:false});
+                    this._isMounted&&this.setState({isCallingServer:false, sent:true});
                 }else{
                     this._isMounted&&this.setState({isCallingServer:false, failed:true,error:response.body})
                 }
@@ -80,29 +82,44 @@ export default class Help extends React.Component{
     }
 
     render(){
-        return (
-            <div className="login_outter">
-                <div className={"login"}>
-                <h3 className="title">Report an Issue</h3>
-                <div className="form-container">
-                <br></br>
-                <div>This form is used to report any issues related to site functionality</div>
-                <br></br>
-                <div>Queries relating to providers and booking information should be directed to the specific provider</div>
-                <br></br>
-                <input type="text" name={"name"} value={this.state.name} placeholder="Name" className="form-control" onChange={this.handleInputChange}/>
-                <br></br>
-                <input type="text" name={"email"} value={this.state.email} className="form-control" placeholder="Email" onChange={this.handleInputChange}/>
-                <br></br>
-                <input type="text" name={"serviceName"} value={this.state.serviceName} className="form-control" placeholder="Service (If applicable)" onChange={this.handleInputChange}/>
-                <br></br>
-                <textarea rows="4" cols="50" name={"message"} value={this.state.message} className="form-control" placeholder="Message" onChange={this.handleInputChange}/>
 
-                {this.showError()}
-                {this.showSubmitButton()}
+        if(this.state.sent){
+            return (
+                <div className="login_outter">
+                    <div className={"login"}>
+                    <h3 className="title">Report an Issue</h3>
+                    <div className="form-container">
+                        <p>Your report was sent. Thank you.</p>
+                    </div>
                 </div>
-            </div>
-            </div>
-        )
+                </div>
+            )
+        }else{
+            return (
+                <div className="login_outter">
+                    <div className={"login"}>
+                    <h3 className="title">Report an Issue</h3>
+                    <div className="form-container">
+                        <br></br>
+                        <div>This form is used to report any issues related to site functionality</div>
+                        <br></br>
+                        <div>Queries relating to providers and booking information should be directed to the specific provider</div>
+                        <br></br>
+                        <input type="text" name={"name"} value={this.state.name} placeholder="Name" className="form-control" onChange={this.handleInputChange}/>
+                        <br></br>
+                        <input type="text" name={"email"} value={this.state.email} className="form-control" placeholder="Email" onChange={this.handleInputChange}/>
+                        <br></br>
+                        <input type="text" name={"serviceName"} value={this.state.serviceName} className="form-control" placeholder="Service (If applicable)" onChange={this.handleInputChange}/>
+                        <br></br>
+                        <textarea rows="4" cols="50" name={"message"} value={this.state.message} className="form-control" placeholder="Message" onChange={this.handleInputChange}/>
+    
+                        {this.showError()}
+                        {this.showSubmitButton()}
+                    </div>
+                </div>
+                </div>
+            )
+        }
+
     }
 }

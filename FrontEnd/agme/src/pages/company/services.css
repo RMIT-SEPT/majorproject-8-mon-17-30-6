@@ -27,3 +27,7 @@ div.card:hover{
   div.card:hover div.header{
    background-color:rgb(60, 134, 136);
   }
+
+  .duplicate.true{
+    color:red;
+  }

@@ -4,7 +4,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import Prodiver from '../../model/Provider';
 import filterFactory, { textFilter, Comparator } from 'react-bootstrap-table2-filter';
 import BootstrapTable from 'react-bootstrap-table-next';
-const {apiCall} = require('../../mock/operations/mock/functions/operations');
+const {apiCall} = require('../../functions/operations');
 export default class ViewProviders extends React.Component{
     constructor(props){
         super(props)
