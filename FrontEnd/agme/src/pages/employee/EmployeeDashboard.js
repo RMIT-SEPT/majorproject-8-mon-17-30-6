@@ -3,7 +3,7 @@ export default class EmployeeDashboard extends React.Component{
     render(){
         return (
             <div>
-                Employee dashboard
+                You are authenticated.
             </div>
         )
     }

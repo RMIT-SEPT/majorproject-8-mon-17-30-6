@@ -15,6 +15,6 @@ export default class ComponentsHandler extends React.Component{
             userServices: <UserServices/>,
             viewProviders: <ViewProviders/>
         }
-        return mapper[this.props.component]
+        return mapper[this.props.component]||""
     }
 }

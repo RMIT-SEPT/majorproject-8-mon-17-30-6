@@ -1,7 +1,7 @@
 import React from 'react';
 import Entity from '../../model/Entity';
 import '../css/provider.css'
-const {apiCall} = require('../../mock/operations/mock/functions/operations');
+const {apiCall} = require('../../functions/operations');
 
 export default class Provider extends React.Component{
     constructor(props){

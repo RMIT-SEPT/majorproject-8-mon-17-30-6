@@ -11,6 +11,6 @@ export default class ComponentsHandler extends React.Component{
             appointsManagement: <AppointsManagement/>,
             employeeDashboard: <EmployeeDashboard/>
         }
-        return mapper[this.props.component]
+        return mapper[this.props.component]||""
     }
 }

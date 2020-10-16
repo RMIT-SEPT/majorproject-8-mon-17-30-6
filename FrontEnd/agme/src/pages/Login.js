@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import './css/login.css';
 import Spinner from 'react-bootstrap/Spinner'
 
-const {apiCall} = require('../mock/operations/mock/functions/operations')
+const {apiCall} = require('../functions/operations')
 
 /***
  * Basic flow: This component should simply handle authentication.
@@ -35,6 +35,8 @@ export default class Login extends React.Component{
     }
 
     handleAuthenticateRequest(){
+        localStorage.clear(); //to make sure localStorage is clean whenever we login again
+
         //mock for now
         this.setState({isCallingServer:true});
         const payload = {
@@ -43,14 +45,19 @@ export default class Login extends React.Component{
             role: this.state.role
         }
         apiCall('common','login',payload, 'post').then(response=>{
-            if(response.statusCode===200){
-                localStorage.setItem('credentials', JSON.stringify(response.body));
-                this._isMounted&&this.setState({isCallingServer:false});
-                this.props.handleAuthentication(); //propagate response with token
+            if(response){
+                if(response.statusCode===200){
+                    localStorage.setItem('credentials', JSON.stringify(response.body));
+                    this._isMounted&&this.setState({isCallingServer:false});
+                    this.props.handleAuthentication(); //propagate response with token
+                }else{
+                    localStorage.removeItem('credentials')
+                    this._isMounted&&this.setState({isCallingServer:false, failed:true,error:response.body})
+                }
             }else{
-                localStorage.removeItem('credentials')
-                this._isMounted&&this.setState({isCallingServer:false, failed:true,error:response})
+                this._isMounted&&this.setState({isCallingServer:false, failed:true,error:"No response from the server. Either the server your internet connection is down."})
             }
+
         })
         
     }
@@ -61,7 +68,7 @@ export default class Login extends React.Component{
           </Spinner> Authenticating...</Button>
         }
         if(this.state.password&&this.state.username&&this.state.role&&(!this.state.isCallingServer)){
-            return <Button className="form-control btn btn-success" onClick={this.handleAuthenticateRequest}>Authenticate</Button>
+            return <Button variant="success" className="authenticate_button" onClick={this.handleAuthenticateRequest}>Authenticate</Button>
         }
     }
 
@@ -74,7 +81,7 @@ export default class Login extends React.Component{
 
     showError(){
         if(this.state.error){
-            return <p className="errorInfo">Invalid Credentials supplied!</p>
+        return <p className="errorInfo">{this.state.error||"Invalid Credentials supplied!"}</p>
         }else{
             return <p></p>
         }
@@ -82,7 +89,8 @@ export default class Login extends React.Component{
 
     render(){
         return (
-            <div className={"login"}>
+            <div className="login_outter">
+                <div className={"login"}>
                 <h3 className="title">You are not authenticated</h3>
                 <div className="form-container">
                 <br/><br/>
@@ -97,11 +105,12 @@ export default class Login extends React.Component{
                 <option value="EMPLOYEE">Employee</option>
                 <option value="ADMIN">Admin</option>
 
-            </select>
-            <br/>
-                {this.showError()}
-                {this.showAuthenticateButton()}
-                <p name="signup" className="signup_info" onClick={this.props.handleContentChangeRequest}>Or click here to Sign up</p>
+                </select>
+                <br/>
+                    {this.showError()}
+                    {this.showAuthenticateButton()}
+                    <p name="signup" className="signup_info" onClick={this.props.handleContentChangeRequest}>Or click here to Sign up</p>
+                </div>
             </div>
             </div>
         )

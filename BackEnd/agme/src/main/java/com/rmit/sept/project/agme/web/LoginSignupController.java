@@ -123,7 +123,7 @@ public class LoginSignupController {
                 }else if (user.getRole() == Role.ADMIN){
                     Admin user1 = new Admin(user.getUsername(), user.getName(), user.getPassword()
                             ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(), user.getEmail());
-                    adminService.saveOrUpdateUser(user1);
+                    adminService.saveOrUpdateAdmin(user1);
 
                 }else if (user.getRole() == EMPLOYEE){
                     Employee user1 = new Employee(user.getUsername(), user.getName(), user.getPassword()

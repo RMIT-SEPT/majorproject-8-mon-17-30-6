@@ -10,4 +10,48 @@ svg.logout:hover{
   
 nav{
     position: fixed;
+    
+  }
+
+nav.userNavbar.navbar.navbar-expand.navbar-light{
+    background:rgb(15, 57, 164);
+    margin:0 0 2vh 0;
+  }
+
+  div.dropdown.nav-item a.dropdown-toggle.nav-link{
+    color:white;
+  }
+  div.mr-auto.navbar-nav a.userName{
+    background:rgb(15, 57, 164);
+    color:white;
+    margin: 0 0 0 0;
+
+  }
+  div.mr-auto.navbar-nav a.userName svg{
+    margin: 0 1vw 0 0;
+
+  }
+  .userName:hover{
+    background:rgb(15, 57, 164);
+    color:white;
+  }
+  div.mr-auto.navbar-nav a.dropdown-item:hover{
+    background:rgb(15, 57, 164);
+    color:white;
+
+  }
+
+  .brand.navbar-brand{
+    color:white;
+  }
+
+.logoutButton svg.logout{
+    fill:white;
+  }
+
+div.mr-auto.navbar-nav .nav-link.active, div.mr-auto.navbar-nav .nav-link{
+    color:white;
+  }
+  div.dropdown.nav-item{
+
   }

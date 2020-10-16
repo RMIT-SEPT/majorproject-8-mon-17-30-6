@@ -4,7 +4,7 @@ import './css/signup.css';
 import User from '../model/User';
 import FormFields from '../miscelaneous/FormFields';
 import SelectOptions from '../miscelaneous/SelectOptions'
-const functions = require('../mock/operations/mock/functions/operations.js');
+const functions = require('../functions/operations.js');
 const errorMessages = require('../model/errorMessages.json').signup;
 
 export default class Signup extends React.Component{
@@ -30,7 +30,7 @@ export default class Signup extends React.Component{
         this._isMounted = false;
     }
 
-    componentWillMount(){
+    componentDidMount(){
         this._isMounted = true;
     }
     

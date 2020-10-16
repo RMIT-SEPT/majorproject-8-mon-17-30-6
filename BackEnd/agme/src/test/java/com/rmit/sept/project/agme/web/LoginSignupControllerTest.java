@@ -26,14 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(LoginSignupController.class)
 public class LoginSignupControllerTest {
-    @TestConfiguration
-    static class UserServiceTestConfiguration {
 
-        @Bean
-        public UserService userService() {
-            return new UserService();
-        }
-    }
     @Autowired
     MockMvc mvc;
 
@@ -46,7 +39,7 @@ public class LoginSignupControllerTest {
     @MockBean
     LoginSignupService loginSignupService;
 
-    @Autowired
+    @MockBean
     UserService userService;
 
 
@@ -59,6 +52,8 @@ public class LoginSignupControllerTest {
     @MockBean
     BookingService bookingService;
 
+    @MockBean
+    AdminService adminService;
     @Test
     public void shouldReturnHTTPStatus400_whenCreatingUserWithIncompleteFields() throws Exception {
         HashMap<String, Object> ob = new HashMap<>();
@@ -98,6 +93,8 @@ public class LoginSignupControllerTest {
         ob.put("address", "user");
         ob.put("password", "password");
         ob.put("phone", "password");
+        ob.put("email", "password");
+
         ob.put("confirmPassword", "password");
         ob.put("role", Role.USER);
 
@@ -129,6 +126,8 @@ public class LoginSignupControllerTest {
         ob.put("address", "user");
         ob.put("password", "password");
         ob.put("phone", "password");
+        ob.put("email", "password");
+
         ob.put("confirmPassword", "password");
         ob.put("companyName", "password");
         ob.put("role", Role.COMPANY);

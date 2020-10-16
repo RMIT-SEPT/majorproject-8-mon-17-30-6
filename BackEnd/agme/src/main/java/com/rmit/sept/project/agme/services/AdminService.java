@@ -1,12 +1,9 @@
 package com.rmit.sept.project.agme.services;
 
 import com.rmit.sept.project.agme.model.Admin;
-import com.rmit.sept.project.agme.model.User;
 import com.rmit.sept.project.agme.repositories.AdminRepository;
-import com.rmit.sept.project.agme.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -17,12 +14,7 @@ import java.util.List;
 @Service
 public class AdminService implements UserInterface
 {
-    @Override
-    public void saveOrUpdate(UserDetails user)
-    {
-        return;
 
-    }
 
     @Override
     public List<?> getAll()
@@ -55,7 +47,7 @@ public class AdminService implements UserInterface
 
     }
 
-    public Admin saveOrUpdateUser(Admin user) {
+    public Admin saveOrUpdateAdmin(Admin user) {
 
         return adminRepository.save(user);
     }

@@ -36,11 +36,8 @@ public class EmployeeController
     @GetMapping("/bookings")
     public ResponseEntity<?> getBookings(@RequestHeader("Authorisation") String authorisationHeader)
     {
-        String username = "";
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")) {
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
-        }
+        String username = jwtUtil.extractUsername(authorisationHeader);
+
 //        Returns bookings for the user if they belong to the user
         List<Booking> bookings = bookingService.getAllBookings();
         List<Booking> bookingsForCompany = new ArrayList<>();
@@ -48,7 +45,9 @@ public class EmployeeController
             if (next.getEmployee().getUsername().equals(username)) {
 //                Removes unnecesary info for response
                 next.getCompany().setEmployees(null);
-                next.getServiceType().setCompany(null);
+                if (next.getServiceType() != null) {
+                    next.getServiceType().setCompany(null);
+                }
                 bookingsForCompany.add(next);
             }
         }

@@ -3,9 +3,12 @@ import React from 'react';
 import Booking from '../../model/Booking';
 import EmplpoyeeAvailability from './EmployeeAvailability';
 import Spinner from 'react-bootstrap/Spinner';
-import Accordion from 'react-bootstrap/Accordion';
-import Card from 'react-bootstrap/Card';
-const {apiCall} = require('../../mock/operations/mock/functions/operations')
+import Button from 'react-bootstrap/Button';
+import filterFactory, { textFilter, Comparator } from 'react-bootstrap-table2-filter';
+import { FcAlarmClock, FcDownload } from "react-icons/fc";
+import {AiFillSchedule} from "react-icons/ai";
+import BootstrapTable from 'react-bootstrap-table-next';
+const {apiCall} = require('../../functions/operations')
 
 export default class UserNewAppointment extends React.Component{
     constructor(props){
@@ -39,17 +42,25 @@ export default class UserNewAppointment extends React.Component{
     }
     componentDidMount(){
         this._isMounted = true;
-        apiCall('user', 'upcomingBookings',null,'get').then(r=>{
-            if(r.statusCode===200){
-                if(this._isMounted){
-                    this.setState({appointments:r.body, failed: false, newCall: true}, function() {})
+        //only make api call if necessary
+        this.getAllServices();
+        const upcomingBookings = localStorage.getItem('user_upcoming-bookings') ? JSON.parse(localStorage.getItem('user_upcoming-bookings')) : [];
+        if(upcomingBookings&&upcomingBookings.length){
+            this.setState({appointments:upcomingBookings, failed: false, newCall: true})
+        }else{
+            apiCall('user', 'upcomingBookings',null,'get').then(r=>{
+                if(r.statusCode===200){
+                    if(this._isMounted){
+                        this.setState({appointments:r.body, failed: false, newCall: true})
+                    }
+                }else{
+                    if(this._isMounted){
+                        this.setState({failed: true, newCall: true})
+                    } 
                 }
-            }else{
-                if(this._isMounted){
-                    this.setState({failed: true, newCall: true})
-                } 
-            }
-        });
+            });
+        }
+        
     }
     updateBooking(e){
         e&&e.preventDefault();
@@ -61,23 +72,37 @@ export default class UserNewAppointment extends React.Component{
         //only call api if it hasnt been called yet
         //only call it is there is no state.httpStatusCode
         if(!this.state.getServicesStatus){
-            apiCall('user', 'getAllServices', null,'get').then(response=>{
-                let options = this.state.options;
-                if(response.statusCode===200){
-                    this._isMounted&&this.setState({isCallingServer:false});
-                    var servicetypes = [];
-                    var i = 1;
-                    servicetypes.push(<option key={0} value={"DEFAULT"} disabled>Choose a Service</option>);
-                    response.body.forEach((serviceType) =>
-                    servicetypes.push(<option key={serviceType.name} value={serviceType.name}>{serviceType.name}</option>),i++);
-                    options = servicetypes;
-                }
-                this._isMounted&&this.setState({
-                    getServicesStatus: response.statusCode,
+            const allServices = localStorage.getItem('user_services') ? JSON.parse(localStorage.getItem('user_services')) : [];
+
+            if(allServices&&allServices.length){
+                let options = [<option key={0} value={"DEFAULT"} disabled>Choose a Service</option>];
+                allServices.forEach((service,i)=>{
+                    options.push(<option key={i+1} value={service.name}>{service.name}</option>);
+                })
+                this.setState({
+                    getServicesStatus: 200,
                     options:options
                 })
-                }
-            )
+            }else{
+                apiCall('user', 'getAllServices', null,'get').then(response=>{
+                    let options = this.state.options;
+                    if(response.statusCode===200){
+                        this._isMounted&&this.setState({isCallingServer:false});
+                        var servicetypes = [];
+                        var i = 1;
+                        servicetypes.push(<option key={0} value={"DEFAULT"} disabled>Choose a Service</option>);
+                        response.body.forEach((serviceType) =>
+                        servicetypes.push(<option key={serviceType.name} value={serviceType.name}>{serviceType.name}</option>),i++);
+                        options = servicetypes;
+                    }
+                    this._isMounted&&this.setState({
+                        getServicesStatus: response.statusCode,
+                        options:options
+                    })
+                    }
+                )
+            }
+            
         }
     }
 
@@ -89,12 +114,13 @@ export default class UserNewAppointment extends React.Component{
         booking.setField(key,value)
         this._isMounted&&this.setState({booking:booking, availabilities: null}, function (){
             if((key==='date')||(key==='duration')){
+                this.setState({isUpdatingAvailability:true})
                 this.state.booking.getAvailability().then(response=>{
                     if(response){
                         if(response.statusCode===200){
                             const booking = new Booking(JSON.parse(JSON.stringify(this.state.booking)));
                             booking.availabilities = response.body
-                            this._isMounted&&this.setState({booking:booking, isCallingServer:false, availabilities: response.body})
+                            this._isMounted&&this.setState({isUpdatingAvailability:false,booking:booking, isCallingServer:false, availabilities: response.body})
                         }
                     }
                 })
@@ -138,6 +164,7 @@ export default class UserNewAppointment extends React.Component{
     showDates(){
         if(this.state.booking.duration){
             let initial = new Date();
+            initial.setDate(initial.getDate() + 2);
             const dates = []
             for(let i = 0 ; i < 30; i++){
                 dates.push(
@@ -153,7 +180,7 @@ export default class UserNewAppointment extends React.Component{
                     <select defaultValue="DEFAULT" className="form-control" name={"date"} onChange={this.handleBookingChange}>
                         <option key={0} value={"DEFAULT"} disabled>Choose a date</option>
                         {dates}
-                    </select>
+                    </select><br></br>
                 </React.Fragment>
             )
         }
@@ -165,10 +192,16 @@ export default class UserNewAppointment extends React.Component{
         this.state.booking.handleBookingRequest()
         .then(response=>{
             if(response.statusCode===200){
-                this._isMounted&&this.setState({isCallingServer:false});
+                this._isMounted&&this.setState({isCallingServer:false,isUpdatingAvailability:false});
+                //update localstorage
+                let bookings = localStorage.getItem('user_bookings') ? JSON.parse(localStorage.getItem('user_bookings')) : []
+                if(bookings&&bookings.length){
+                    bookings.push(response.body)
+                }
+                localStorage.setItem('user_bookings',JSON.stringify(bookings))
                 alert("booking successful");
             }else{
-                this._isMounted&&this.setState({isCallingServer:false, failed:true,error:response})
+                this._isMounted&&this.setState({isCallingServer:false, failed:true,error:response, isUpdatingAvailability:false})
             }
         })
     }
@@ -191,50 +224,65 @@ export default class UserNewAppointment extends React.Component{
                 return "";
             }else{
             let upcBookings = this.state.appointments.length;
-            const cards = this.state.appointments.map((appointment,key)=>{
-                const booking = new Booking(appointment);
-                return <Card key={key}>
-                          <Card.Header>
-                              {booking.getDateString()} Test
-                          </Card.Header>
-                          <Accordion.Collapse eventKey="0">
-                              <Card.Body>
-                                  <div className="upcoming_event_company">
-                                      <p>
-                                          Company: {appointment.company.name}
-                                      </p>
-                                      <p>
-                                          Name: {appointment.employee.name}
-                                      </p>
-                                      <p>
-                                          Contact Number: {appointment.company.phone}
-                                      </p>
-                                      <p>
-                                          Address: {appointment.company.address}
-                                      </p>
-                                      <p>
-                                          Service: {appointment.serviceType.name}
-                                      </p>
-                                      <p>
-                                          Duration: {appointment.duration} hours
-                                      </p>
-                                  </div>
-                              </Card.Body>
-                          </Accordion.Collapse>
-                      </Card>
+
+            const data = this.state.appointments.map(appointment=>{
+                return new Booking(appointment).getBookingInfo();
             })
+            //table build
+            const columns = [{
+                dataField: 'id',
+                text: 'Booking id'
+              }, {
+                dataField: 'startDateTime',
+                text: 'Date / Time',
+                filter: textFilter({
+                  comparator: Comparator.LIKE
+                })
+              },  {
+                dataField: 'duration',
+                text: 'Duration (h)',
+                filter: textFilter({
+                  comparator: Comparator.LIKE
+                })
+              },{
+                dataField: 'service',
+                text: 'Service',
+                filter: textFilter()
+              }, {
+                dataField: 'companyName',
+                text: 'Company',
+                filter: textFilter()
+              }, {
+                dataField: 'contactNumber',
+                text: 'Telephone',
+                filter: textFilter()
+              }, {
+                dataField: 'workerName',
+                text: 'Provider name',
+                filter: textFilter()
+              }
+            ];
 
             return (
-                <React.Fragment>
-                  <div className="btnWrapper">
-                    <button onClick={this.changeClass} className=" btn-danger btn showUpcomming">You have {upcBookings} bookings in the next 48 hours</button>
-                  </div>
-                  <div className={this.state.classname}>
-                      <Accordion defaultActiveKey="0">
-                          {cards}
-                      </Accordion>
-                  </div>
-                </React.Fragment>
+                <div>
+                    <div className="title">
+                    <p>
+                      <FcAlarmClock className="alarm"/> Upcoming Apointments (Next 48h)
+                      </p>
+
+                    </div>
+                        <div className="body">
+                        <p>
+                          You have {upcBookings} appointments coming soon.
+                        </p>
+                            <Button onClick={this.changeClass} variant={this.state.classname==='noClass' ? "danger" : "success"} className="showUpcomming">{this.state.classname==='noClass' ? "Hide" : "View"}</Button>
+                        <div className={this.state.classname}>
+                        <div className="upcoming_appointments_table" >
+                            <BootstrapTable keyField='id' data={ data } columns={ columns } filter={ filterFactory() } />
+                        </div>
+                        </div>
+                        </div>
+                </div>
               )
             }
         }
@@ -249,15 +297,21 @@ export default class UserNewAppointment extends React.Component{
 
     }
     render(){
-        this.getAllServices();
         if(this.state.getServicesStatus){
             if(this.state.getServicesStatus===200){
                 return (
-                    <React.Fragment>
-                      {this.showUpcoming()}
+                    <div className="newAppointmentOutter">
+                        <React.Fragment>
+                        <div className={"new-booking"}>
+                         {this.showUpcoming()}
+                        </div>
+                      
                       <div className={"new-booking"}>
-                          <h3 className="title">New Booking</h3>
-                          <div className="form-container">
+                          <div className="title">
+                              <AiFillSchedule className="alarm"/>
+                              <h3>New Booking</h3>
+                          </div>
+                          <div className="body">
                               <br/>
                               <React.Fragment>
                                   <label>Service</label>
@@ -267,13 +321,14 @@ export default class UserNewAppointment extends React.Component{
                               {this.showDuration()}
                               <br/>
                               {this.showDates()}
-                              <EmplpoyeeAvailability updateBooking={this.updateBooking} booking={this.state.booking} availabilities={this.state.availabilities}/>
+                              <EmplpoyeeAvailability isUpdatingAvailability={this.state.isUpdatingAvailability} updateBooking={this.updateBooking} booking={this.state.booking} availabilities={this.state.availabilities}/>
                               <br/>
                               {this.state.booking.isComplete() &&<button className="btn btn-success" onClick={this.handleBookingRequestForUser}>Submit</button>}
                               <br/>
                           </div>
                       </div>
                     </React.Fragment>
+                    </div>
                 )
             }else{
                 //getServices called but API failed?
@@ -290,8 +345,11 @@ export default class UserNewAppointment extends React.Component{
             //hasnt even completed that call yet
             return (
                 <div className={"new-booking"}>
-                <h3 className="title">Retrieving services</h3>
-                <div className="form-container">
+                <div className="title">
+                <FcDownload className="alarm"/>
+                    <h3>Retrieving services</h3>
+                </div>
+                <div className="body">
                 <Spinner animation="border" role="status">
                     <span className="sr-only">Loading...</span>
                 </Spinner>

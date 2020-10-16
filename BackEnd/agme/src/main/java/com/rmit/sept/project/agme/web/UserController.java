@@ -42,75 +42,31 @@ public class UserController {
     //  Gets all bookings for logged in user
     @GetMapping("/bookings")
     public ResponseEntity<?> getBookings(@RequestHeader("Authorisation") String authorisationHeader){
-        String username = "";
-//        Gets username from the jwt token
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
+        try{
+            String username = jwtUtil.extractUsername(authorisationHeader);
+            List<Booking> bookings = bookingService.getAllBookings(username);
+            return new ResponseEntity<>(bookings, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
         }
-        List<Booking> bookings = bookingService.getAllBookings();
-        List<Booking> bookingsForUser = new ArrayList<>();
-//        Loops through bookings and retrieve the one needed for the user
-        for (Booking next:bookings){
-            if (next.getUser().getUsername().equals(username)){
-                next.getCompany().setEmployees(null);
-                next.getServiceType().setCompany(null);
-                bookingsForUser.add(next);
-            }
-        }
-        if (bookingsForUser.size() == 0){
-            return new ResponseEntity<>(bookingsForUser, HttpStatus.BAD_REQUEST);
-
-        }
-        return new ResponseEntity<>(bookingsForUser, HttpStatus.OK);
     }
     @GetMapping("/upcoming-bookings")
     public ResponseEntity<?> getUpcomingBookings(@RequestHeader("Authorisation") String authorisationHeader){
-        String username = "";
-//        Gets username from the jwt token
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
+        try{
+            String username = jwtUtil.extractUsername(authorisationHeader);
+            return new ResponseEntity<>(bookingService.getUserUpcomingBookings(username), HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
         }
-        List<Booking> bookings = bookingService.getAllBookings();
-        List<Booking> bookingsForUser = new ArrayList<>();
-//        Loops through bookings and retrieve the one needed for the user
-        Date today = new Date();
-        long currentDateMilliSec = today.getTime();
-        long updateDateMilliSec;
-        long diffDays;
-        for (Booking next:bookings){
-            if (next.getUser().getUsername().equals(username)){
-                next.getCompany().setEmployees(null);
-                next.getServiceType().setCompany(null);
-                updateDateMilliSec = next.getStartDateTime().getTime();
-                diffDays = (updateDateMilliSec-currentDateMilliSec) / (24 * 60 * 60 * 1000);
-                if (diffDays > -1 && diffDays <= 2) {
-                    bookingsForUser.add(next);
-                }
-            }
-        }
-        if (bookingsForUser.size() == 0){
-            return new ResponseEntity<>(bookingsForUser, HttpStatus.BAD_REQUEST);
-
-        }
-        return new ResponseEntity<>(bookingsForUser, HttpStatus.OK);
     }
 
     @GetMapping("/allservices")
         //returns all services
     ResponseEntity<?> getAllServices(@RequestHeader("Authorisation") String authorisationHeader) {
-        String username = "";
-        String role = "";
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
-        }
-        if (serviceTypeService.getAllServices().size() == 0) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-
-        } else {
+        try{
             return new ResponseEntity<>(serviceTypeService.getAllServices(),HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
     @GetMapping("/companies")
@@ -128,12 +84,6 @@ public class UserController {
     //insecure but works
     @DeleteMapping("/bookings")
     public ResponseEntity<?> deleteBooking(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId){
-        String username = "";
-//        Gets username from the jwt topken
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
-        }
         try{
             bookingService.deleteById(bookingId);
             return new ResponseEntity<>("resource deleted successfully", HttpStatus.valueOf(200));

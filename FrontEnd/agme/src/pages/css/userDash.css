@@ -1,13 +1,16 @@
 .new-booking{
-    border: 1px solid grey;
     width:30vw;
-    height:40vh;
+    height:60vh;
     display: table;
-    border-radius:1vw;
-    padding:10vh;
+    border-radius:2vw 2vw 1vw 1vw;
     text-align: center;
     margin: auto;
     margin-top:10px;
+    float:left;
+    margin:0 1vw 0 1vw;
+  }
+  .new-booking p{
+    margin: 0
   }
   .upcomingApt{
     width: 100%;
@@ -17,16 +20,11 @@
     display: none;
   }
   .noClass{
-    width: 100%;
-    display: table;
+
     text-align: center;
-    margin-top:15px;  
   }
   .showUpcomming{
-    width: 350px;
-    height: 70px;
-    margin-left:auto;
-    margin-right: auto;
+
 
   }
   .btnWrapper{
@@ -39,4 +37,26 @@
   .accordion{
     width: 100%;
     display: table;
+  }
+
+  .alarm{
+    font-size: 9vh;
+    margin: 0 1vw 0 0;
+  }
+
+  .newAppointmentOutter{
+    float:left;
+  }
+
+  .title{
+    border: 1px solid grey;
+    background:grey;
+    border-radius:1vw 1vw 0 0 ;
+    color: black;
+  }
+
+  .new-booking .body{
+    border: 1px solid grey;
+    border-radius: 0 0 1vw 1vw;
+    padding: 2vh;
   }

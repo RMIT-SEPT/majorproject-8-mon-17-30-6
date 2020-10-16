@@ -26,6 +26,7 @@ public class ServiceTypeController {
         this.serviceTypeService = serviceTypeService;
     }
 
+<<<<<<< HEAD
 //    Return available services for a user
 //    @PostMapping("/services")
 //    public ResponseEntity<ServiceType> createServiceType(@RequestBody ServiceType serviceType){
@@ -51,6 +52,14 @@ public class ServiceTypeController {
                 }
             }
             return new ResponseEntity<>(servicesWithWorkers, HttpStatus.OK);
+=======
+    @GetMapping("/services")
+    ResponseEntity<?> getServices() {
+        try{
+            return new ResponseEntity<>(serviceTypeService.getAllServices(), HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+>>>>>>> development
         }
     }
 
