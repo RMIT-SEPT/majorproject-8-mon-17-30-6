@@ -31,25 +31,11 @@ public class AvailabilityController
 
     @PostMapping("/availability")
     public ResponseEntity<?> getAvailableDaysPerService(@RequestBody AvailabilityRequest availabilityRequest){
-<<<<<<< HEAD
-        ServiceType service = serviceTypeService.loadServiceByName(availabilityRequest.getServiceName());
-        List<Object> maps = new ArrayList<>();
-
-        for (Company next: service.getCompany()) {
-            for (Employee employee : next.getEmployees()) {
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("name", employee.getName());
-                map.put("username", employee.getUsername());
-                map.put("availability", availabilityService.getAvailabilityForService(employee.getUsername(), availabilityRequest.getDate(), Integer.parseInt(availabilityRequest.getDuration())));
-                maps.add(map);
-            }
-=======
         try{
             List<Object> availability = serviceTypeService.getServiceAvailability(availabilityRequest);
             return new ResponseEntity<>(availability, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>("Invalid Request", HttpStatus.BAD_REQUEST);
->>>>>>> development
         }
     }
 }
