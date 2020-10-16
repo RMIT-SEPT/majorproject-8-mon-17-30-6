@@ -31,7 +31,8 @@
         "getBookings": "employee/bookings"
       },
       "admin":{
-        "closeCompany": "admin/close-company"
+        "closeCompany": "admin/close-company",
+        "assignEmployee": "company/bookings/employee"
       }
     }
   }
