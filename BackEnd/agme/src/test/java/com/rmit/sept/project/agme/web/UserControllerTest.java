@@ -8,6 +8,7 @@ import com.rmit.sept.project.agme.services.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -19,18 +20,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@AutoConfigureMockMvc(addFilters = false)
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
-    @TestConfiguration
-    static class UserServiceTestConfiguration {
 
-        @Bean
-        public UserService userService() {
-            return new UserService();
-        }
-    }
 
 //    Mockn beans and required beans
     @Autowired
@@ -43,9 +36,12 @@ public class UserControllerTest {
     JwtUtil jwtUtil;
 
     @MockBean
+    ServiceTypeService serviceTypeService;
+
+    @MockBean
     LoginSignupService loginSignupService;
 
-    @Autowired
+    @MockBean
     UserService userService;
 
     @MockBean
@@ -57,17 +53,20 @@ public class UserControllerTest {
     @MockBean
     BookingService bookingService;
 
+    @MockBean
+    BookingController bookingController;
+
     @Test
     public void getBookings_shouldReturnHTTPStatus400_NoBookingIsFound() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/user/bookings"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isForbidden());
     }
     @Test
     public void getBookings_shouldReturnHTTPStatus400_userExistsButNotLoggedIn() throws Exception {
         Booking booking = new Booking();
         bookingService.addBooking(booking);
         mvc.perform(MockMvcRequestBuilders.get("/user/bookings"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isForbidden());
     }
     @Test
     public void getBookings_shouldReturnHTTPStatus403_userDoesNotExist() throws Exception {
@@ -76,7 +75,7 @@ public class UserControllerTest {
         userService.saveOrUpdateUser(user);
         bookingService.addBooking(booking);
         mvc.perform(MockMvcRequestBuilders.get("/user/bookings"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isForbidden());
     }
 
 }

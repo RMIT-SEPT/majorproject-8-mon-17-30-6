@@ -15,9 +15,8 @@ import java.util.concurrent.CompletionException;
 public class CompanyService implements UserInterface {
     @Autowired
     CompanyRepository companyRepository;
-    @Override
-    public void saveOrUpdate(UserDetails user) {
-        companyRepository.save((Company) user);
+    public Company saveOrUpdate(Company user) {
+        return companyRepository.save(user);
     }
 
     public Company addCompany(Company company) { return companyRepository.save(company); }
