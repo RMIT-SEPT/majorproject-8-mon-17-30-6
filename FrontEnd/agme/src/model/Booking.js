@@ -1,5 +1,5 @@
 import Entity from './Entity';
-const {apiCall} = require('../mock/operations/mock/functions/operations');
+const {apiCall} = require('../functions/operations');
 
 export default class Booking extends Entity{
     constructor(data){

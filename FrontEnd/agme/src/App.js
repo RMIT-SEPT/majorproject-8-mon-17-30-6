@@ -4,8 +4,8 @@ import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {getDecodedJwtFromLocalStorage}  from "./mock/operations/mock/functions/utils";//Add decode func
-import { getResources}  from "./mock/operations/mock/functions/operations";//Add decode func
+import {getDecodedJwtFromLocalStorage}  from "./functions/utils";//Add decode func
+import { getResources}  from "./functions/operations";//Add decode func
 
 import ViewProviders from './pages/users/ViewProviders';
 import NavigationBar from './pages/NavigationBar';

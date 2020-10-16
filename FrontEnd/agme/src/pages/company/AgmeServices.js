@@ -3,8 +3,8 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import filterFactory, { textFilter, Comparator } from 'react-bootstrap-table2-filter';
 import './services.css';
 import Spinner from 'react-bootstrap/Spinner';
-import {getDecodedJwtFromLocalStorage}  from "../../mock/operations/mock/functions/utils";//Add decode func
-const {apiCall} = require('../../mock/operations/mock/functions/operations');
+import {getDecodedJwtFromLocalStorage}  from "../../functions/utils";//Add decode func
+const {apiCall} = require('../../functions/operations');
 //To view list of services
 export default class AgmeServices extends React.Component{
     constructor(props){
