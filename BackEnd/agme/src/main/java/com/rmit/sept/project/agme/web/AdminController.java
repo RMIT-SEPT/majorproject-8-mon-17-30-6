@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -30,7 +29,7 @@ public class AdminController
         List<Company> companies = companyService.getAll();
         List<Company> companies2 = new ArrayList<>();
         for (Company next:companies){
-            if (next.isActive() == true){
+            if (next.isActive()){
                 companies2.add(next);
             }
         }

@@ -35,7 +35,7 @@ public class EmployeeService implements UserInterface {
     }
 
     public Employee saveOrUpdate(Employee user) {
-        return employeeRepository.save((Employee) user);
+        return employeeRepository.save(user);
     }
 
     @Override
@@ -53,9 +53,9 @@ public class EmployeeService implements UserInterface {
         Employee returnVal = null;
         s = s.toLowerCase();
 
-//        Interate through users to check if the usr matches the username
+//        Iterate through users to check if the usr matches the username
         for (Employee next : users) {
-            if (s.equals(next.getUsername())) {
+            if (s.equals(next.getUsername().toLowerCase())) {
                 returnVal = next;
             }
         }
@@ -65,17 +65,13 @@ public class EmployeeService implements UserInterface {
     @Override
     public boolean authenticateUser(String username, String passwordHash) {
         List<Employee> users = getAll();
-//        Interate through users to check if the usr matches the username
+//        Iterate through users to check if the usr matches the username
         for (Employee next : users) {
             if (username.equals(next.getUsername())) {
 //                If User is found, encode password with users salt
 //                check if the passwords match, if so return true, else false
 //                if (passwordEncoder.matches(passwordHash, next.getPassword())){
-                if (BCrypt.checkpw(passwordHash, next.getPassword())) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return BCrypt.checkpw(passwordHash, next.getPassword());
             }
         }
         return false;

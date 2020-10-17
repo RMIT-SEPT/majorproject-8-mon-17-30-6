@@ -30,7 +30,7 @@ public class    BookingController {
     private ServiceTypeService serviceTypeService;
 
     @Autowired
-    private BookingService bookingService;
+    private final BookingService bookingService;
     public BookingController(BookingService bookingService){
 
         this.bookingService = bookingService;

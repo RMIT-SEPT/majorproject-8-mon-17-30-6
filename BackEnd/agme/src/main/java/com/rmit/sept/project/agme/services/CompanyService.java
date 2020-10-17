@@ -32,9 +32,9 @@ public class CompanyService implements UserInterface {
         Company returnVal = null;
         s = s.toLowerCase();
 
-//        Interate through users to check if the usr matches the username
+//        Iterate through users to check if the usr matches the username
         for (Company next : users) {
-            if (s.equals(next.getUsername())) {
+            if (s.equals(next.getUsername().toLowerCase())) {
                 returnVal = next;
             }
         }
@@ -44,7 +44,7 @@ public class CompanyService implements UserInterface {
     @Override
     public boolean authenticateUser(String username, String passwordHash) {
         List<Company> users = getAll();
-//        Interate through users to check if the usr matches the username
+//        Iterate through users to check if the usr matches the username
         for (Company next : users) {
             if (username.equals(next.getUsername())) {
 //                If User is found, encode password with users salt

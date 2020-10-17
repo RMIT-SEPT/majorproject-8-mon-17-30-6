@@ -1,7 +1,5 @@
 package com.rmit.sept.project.agme.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.util.Date;
 
 // Request for availability

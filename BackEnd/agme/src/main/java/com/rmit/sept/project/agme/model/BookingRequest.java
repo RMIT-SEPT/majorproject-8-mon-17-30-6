@@ -1,7 +1,5 @@
 package com.rmit.sept.project.agme.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
