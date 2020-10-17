@@ -1,13 +1,10 @@
 package com.rmit.sept.project.agme.services;
 
 import com.rmit.sept.project.agme.model.Company;
-import com.rmit.sept.project.agme.model.User;
 import com.rmit.sept.project.agme.repositories.CompanyRepository;
 import com.rmit.sept.project.agme.security.JwtUtil;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

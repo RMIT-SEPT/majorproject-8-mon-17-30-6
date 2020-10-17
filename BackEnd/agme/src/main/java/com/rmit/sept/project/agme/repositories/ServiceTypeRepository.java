@@ -4,7 +4,6 @@ import com.rmit.sept.project.agme.model.ServiceType;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
 @Repository
 public interface ServiceTypeRepository extends CrudRepository<ServiceType, Long> {
     @Override

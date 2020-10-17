@@ -1,12 +1,9 @@
 package com.rmit.sept.project.agme.services;
 
-import com.rmit.sept.project.agme.model.Admin;
+import com.rmit.sept.project.agme.model.Employee;
 import com.rmit.sept.project.agme.repositories.EmployeeRepository;
 import com.rmit.sept.project.agme.repositories.UserRepository;
-import com.rmit.sept.project.agme.model.Employee;
 import com.rmit.sept.project.agme.security.JwtUtil;
-import com.rmit.sept.project.agme.services.*;
-
 import com.rmit.sept.project.agme.web.BookingController;
 import com.rmit.sept.project.agme.web.EmployeeController;
 import org.junit.Assert;
@@ -17,14 +14,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.rmit.sept.project.agme.model.Role.ADMIN;
 import static com.rmit.sept.project.agme.model.Role.EMPLOYEE;
 import static org.mockito.BDDMockito.given;
 
@@ -127,9 +122,9 @@ public class EmployeeServiceTest {
         employee.setName("name");
         employee.setRole(EMPLOYEE);
         employee.setPassword("password");
-        Long id = new Long(1);
+        Long id = 1L;
         Employee employee2 = employeeService.saveOrUpdate(employee);
-        Employee employeeFound = (Employee)employeeService.loadUserByUsername(employee.getUsername());
+        Employee employeeFound = employeeService.loadUserByUsername(employee.getUsername());
         Assert.assertEquals(employee2, employeeFound);
     }
     @Rule
@@ -143,7 +138,7 @@ public class EmployeeServiceTest {
         employee.setConfirmPassword("password");
         employee.setRole(EMPLOYEE);
         employee.setPassword("password");
-        Long id = new Long(1);
+        Long id = 1L;
         Employee employee2 = employeeService.saveOrUpdate(employee);
         Assert.assertEquals(null, employee2);
     }
@@ -155,7 +150,7 @@ public class EmployeeServiceTest {
         employee.setConfirmPassword("pasdsword");
         employee.setRole(EMPLOYEE);
         employee.setPassword("password");
-        Long id = new Long(1);
+        Long id = 1L;
         Employee employee2 = employeeService.saveOrUpdate(employee);
         Assert.assertEquals(null, employee2);
     }
@@ -171,7 +166,7 @@ public class EmployeeServiceTest {
         employee.setEmail("email");
         employee.setRole(EMPLOYEE);
         employee.setPassword("password");
-        Long id = new Long(1);
+        Long id = 1L;
         employeeService.saveOrUpdate(employee);
         List<Employee> employees = new ArrayList<Employee>();
         employees.add(employee);
@@ -191,7 +186,7 @@ public class EmployeeServiceTest {
         employee.setRole(EMPLOYEE);
         employee.setPassword("password");
         employee.hashPassword();
-        Long id = new Long(1);
+        Long id = 1L;
         employeeRepository.save(employee);
         boolean result = employeeService.authenticateUser(null,null);
     }
@@ -207,7 +202,7 @@ public class EmployeeServiceTest {
         employee.setRole(EMPLOYEE);
         employee.setPassword("password");
         employee.hashPassword();
-        Long id = new Long(1);
+        Long id = 1L;
         employeeRepository.save(employee);
         boolean result = employeeService.authenticateUser(null,null);
     }
@@ -223,7 +218,7 @@ public class EmployeeServiceTest {
         employee.setRole(EMPLOYEE);
         employee.setPassword("password");
         employee.hashPassword();
-        Long id = new Long(1);
+        Long id = 1L;
         employeeRepository.save(employee);
         boolean result = employeeService.authenticateUser(null,null);
         Assert.assertEquals(false, result);

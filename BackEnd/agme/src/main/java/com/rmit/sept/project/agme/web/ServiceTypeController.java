@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(origins = "*")
 public class ServiceTypeController {
     @Autowired
-    private ServiceTypeService serviceTypeService;
+    private final ServiceTypeService serviceTypeService;
 
     public ServiceTypeController(ServiceTypeService serviceTypeService) {
         this.serviceTypeService = serviceTypeService;

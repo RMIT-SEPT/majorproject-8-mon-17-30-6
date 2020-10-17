@@ -20,14 +20,14 @@ public class UserController {
 //
 //    inject User service
     @Autowired
-    private BookingService bookingService;
+    private final BookingService bookingService;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
     @Autowired
     private CompanyService companyService;
     @Autowired
-    private ServiceTypeService serviceTypeService;
+    private final ServiceTypeService serviceTypeService;
 
     public UserController(BookingService bookingService, ServiceTypeService serviceTypeService, JwtUtil jwtUtil) {
         this.serviceTypeService = serviceTypeService;

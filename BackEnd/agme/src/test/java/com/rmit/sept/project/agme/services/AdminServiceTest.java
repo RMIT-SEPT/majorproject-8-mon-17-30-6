@@ -1,18 +1,14 @@
 package com.rmit.sept.project.agme.services;
 
 import com.rmit.sept.project.agme.model.Admin;
-import com.rmit.sept.project.agme.model.User;
 import com.rmit.sept.project.agme.repositories.AdminRepository;
 import com.rmit.sept.project.agme.repositories.BookingRepository;
-import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -62,7 +58,7 @@ public class AdminServiceTest
         admin.setName("name");
         admin.setRole(ADMIN);
         admin.setPassword("password");
-        Long id = new Long(1);
+        Long id = 1L;
         Admin admin2 = adminService.saveOrUpdateAdmin(admin);
         Admin adminFound = (Admin)adminService.loadUserByUsername(admin.getUsername());
         Assert.assertEquals(admin2, adminFound);
@@ -78,7 +74,7 @@ public class AdminServiceTest
         admin.setConfirmPassword("password");
         admin.setRole(ADMIN);
         admin.setPassword("password");
-        Long id = new Long(1);
+        Long id = 1L;
          Admin admin2 = adminService.saveOrUpdateAdmin(admin);
         Assert.assertEquals(null, admin2);
     }
@@ -90,7 +86,7 @@ public class AdminServiceTest
         admin.setConfirmPassword("pasdsword");
         admin.setRole(ADMIN);
         admin.setPassword("password");
-        Long id = new Long(1);
+        Long id = 1L;
         Admin admin2 = adminService.saveOrUpdateAdmin(admin);
         Assert.assertEquals(null, admin2);
     }
@@ -106,7 +102,7 @@ public class AdminServiceTest
         admin.setEmail("email");
         admin.setRole(ADMIN);
         admin.setPassword("password");
-        Long id = new Long(1);
+        Long id = 1L;
          adminService.saveOrUpdateAdmin(admin);
         List<Admin> admins = new ArrayList<Admin>();
         admins.add(admin);
@@ -126,7 +122,7 @@ public class AdminServiceTest
         admin.setRole(ADMIN);
         admin.setPassword("password");
         admin.hashPassword();
-        Long id = new Long(1);
+        Long id = 1L;
         adminRepository.save(admin);
         boolean result = adminService.authenticateUser(null,null);
     }
@@ -142,7 +138,7 @@ public class AdminServiceTest
         admin.setRole(ADMIN);
         admin.setPassword("password");
         admin.hashPassword();
-        Long id = new Long(1);
+        Long id = 1L;
       adminRepository.save(admin);
         boolean result = adminService.authenticateUser(null,null);
     }
@@ -158,7 +154,7 @@ public class AdminServiceTest
         admin.setRole(ADMIN);
         admin.setPassword("password");
         admin.hashPassword();
-        Long id = new Long(1);
+        Long id = 1L;
        adminRepository.save(admin);
         boolean result = adminService.authenticateUser(null,null);
         Assert.assertEquals(false, result);
