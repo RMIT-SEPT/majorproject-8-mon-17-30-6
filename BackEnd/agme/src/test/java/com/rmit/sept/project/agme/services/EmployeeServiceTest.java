@@ -140,7 +140,7 @@ public class EmployeeServiceTest {
         employee.setPassword("password");
         Long id = 1L;
         Employee employee2 = employeeService.saveOrUpdate(employee);
-        Assert.assertEquals(null, employee2);
+        Assert.assertNull(employee2);
     }
     @Test
     public void createNewemployee_shouldThrowException_whenPasswordsDoNotMatch() throws Exception {
@@ -152,7 +152,7 @@ public class EmployeeServiceTest {
         employee.setPassword("password");
         Long id = 1L;
         Employee employee2 = employeeService.saveOrUpdate(employee);
-        Assert.assertEquals(null, employee2);
+        Assert.assertNull(employee2);
     }
     @Test
     public void getAll_shouldReturnAList_whenCalled() throws Exception {
@@ -168,7 +168,7 @@ public class EmployeeServiceTest {
         employee.setPassword("password");
         Long id = 1L;
         employeeService.saveOrUpdate(employee);
-        List<Employee> employees = new ArrayList<Employee>();
+        List<Employee> employees = new ArrayList<>();
         employees.add(employee);
         List<Employee> employeesFound = employeeService.getAll();
         employeesFound.add(employee);
@@ -221,7 +221,7 @@ public class EmployeeServiceTest {
         Long id = 1L;
         employeeRepository.save(employee);
         boolean result = employeeService.authenticateUser(null,null);
-        Assert.assertEquals(false, result);
+        Assert.assertFalse(result);
 
     }
 }
