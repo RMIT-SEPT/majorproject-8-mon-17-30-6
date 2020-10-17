@@ -31,6 +31,7 @@ public class Employee extends AbstractUser implements UserDetails {
         setAddress(address);
         setPhone(phone);
         setRole(role);
+        setEmail(email);
         this.companyUsername = companyUsername;
         this.company = company;
     }
