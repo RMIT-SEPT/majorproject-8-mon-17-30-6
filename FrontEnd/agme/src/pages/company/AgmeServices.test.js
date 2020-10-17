@@ -5,48 +5,42 @@ import React from "react";
 import { mount, shallow } from "enzyme";
 import AgmeServices from "./AgmeServices";
 const adapter = new Adapter();
-const services = require('./mock/services.json')
+const services = require('../../mock/data/services.json')
 configure({ adapter });
-const component = shallow(<AgmeServices services={services}/>)
-/***
-* Example: Providing services.json as data, then component should render
-* 
-* <div>
-*    <div className="card">
-*        <div className="_0">
-*            <div className="header">
-*                <p>GYM</p>
-*            </div>
-*            <div className="container">
-*                <p>
-*                    A gym is a club, building, or large room, usually containing special equipment, where people go to do physical exercise and get fit.
-*                </p>
-*            </div>
-*        </div>
-*    </div>
-*    ... repeat for all services...
-* </div>
-* ***/
+const component = mount(<AgmeServices/>)
+
 
 describe("Services", () => {
 
-  it("1 - It should display description for all services", () => {     
+  it("1 - It should display correct number of services services", () => {  
+    localStorage.setItem('agme_all_services', JSON.stringify(services))  
+    const container = mount(<AgmeServices/>) 
+    const tbody = container.find('tbody');
+    expect(tbody.find('tr')).toHaveLength(12);
+  });
+
+
+  it("2 - It should display correct name for all services", () => {  
+    localStorage.setItem('agme_all_services', JSON.stringify(services))  
+    const container = mount(<AgmeServices/>) 
+    const tbody = container.find('tbody');
+    const rows = tbody.find('tr')
+    rows.forEach((row,i)=>{
+      const columns = row.find('td');
+      expect(columns.at(0).text()).toEqual(services[i].name); 
+    })   
     
-    expect(component.find('div').find('h5').text()).toEqual("These are all services registered in AGME") 
   });
 
-
-  it("2 - It should display description for all services", () => {     
-    services.forEach((service,i)=>{
-        expect(component.find('.card').find('._'+i).find('.container').find('p').text()).toEqual(service.description)
-    })  
-  });
-
-  it("3 - It should display name for all services", () => {  
-    const component = shallow(<AgmeServices services={services}/>)
-    services.forEach((service,i)=>{
-        expect(component.find('.card').find('._'+i).find('.header').find('p').text()).toEqual(service.name)
-    }) 
+  it("3 - It should display correct description for all services", () => {  
+    localStorage.setItem('agme_all_services', JSON.stringify(services))  
+    const container = mount(<AgmeServices/>) 
+    const tbody = container.find('tbody');
+    const rows = tbody.find('tr')
+    rows.forEach((row,i)=>{
+      const columns = row.find('td');
+      expect(columns.at(1).text()).toEqual(services[i].description); 
+    })   
   });
 
 });

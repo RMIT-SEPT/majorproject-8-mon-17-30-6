@@ -1,0 +1,14 @@
+.newService{
+    border: 1px solid grey;
+    width:30vw;
+    height:40vh;
+    display: table;
+    border-radius:1vw;
+    padding:10vh;
+    text-align: center;
+    margin: auto;
+    margin-top:10vh;
+    background: white;
+    opacity:0.9;
+}
+

@@ -3,22 +3,21 @@ package com.rmit.sept.project.agme.services;
 import com.rmit.sept.project.agme.model.Company;
 import com.rmit.sept.project.agme.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class CompanyService implements UserInterface {
     @Autowired
     CompanyRepository companyRepository;
-    @Override
-    public void saveOrUpdate(UserDetails user) {
-        companyRepository.save((Company) user);
+    public Company saveOrUpdate(Company user) {
+        return companyRepository.save(user);
     }
 
-    @Override
+    public Company addCompany(Company company) { return companyRepository.save(company); }
+
     public List<Company> getAll() {
         List<Company> company = new ArrayList<>();
         Iterable<Company> aa = companyRepository.findAll();

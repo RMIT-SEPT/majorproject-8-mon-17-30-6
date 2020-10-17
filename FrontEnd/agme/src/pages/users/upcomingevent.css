@@ -11,3 +11,20 @@
 .accordion .card .collapse.show{
     width: 30vw;
 }
+
+.spinnerOutter{
+
+}
+
+.calling{
+    margin:5vh;
+}
+.employeeName{
+    padding:0px;
+    margin:0px;
+    margin-left:18px;
+}
+.employeeTitle{
+    padding:0px;
+    margin:0px
+}

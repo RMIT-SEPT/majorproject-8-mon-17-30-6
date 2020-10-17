@@ -3,12 +3,11 @@ package com.rmit.sept.project.agme.services;
 import com.rmit.sept.project.agme.repositories.EmployeeRepository;
 import com.rmit.sept.project.agme.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeService implements UserInterface {
@@ -35,9 +34,8 @@ public class EmployeeService implements UserInterface {
         return employeeRepository.count();
     }
 
-    @Override
-    public void saveOrUpdate(UserDetails user) {
-        employeeRepository.save((Employee) user);
+    public Employee saveOrUpdate(Employee user) {
+        return employeeRepository.save((Employee) user);
     }
 
     @Override
@@ -81,6 +79,12 @@ public class EmployeeService implements UserInterface {
             }
         }
         return false;
+    }
+
+    // Assumes unique Id for each Employee
+    public Employee getEmployeeById(Long id) {
+        Optional<Employee> temp = employeeRepository.findById(id);
+        return temp.orElse(null);
     }
 
 }

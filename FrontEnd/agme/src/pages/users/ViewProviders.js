@@ -1,55 +1,107 @@
 import React from 'react';
-import ProviderCard from './ProviderCard';
-import Form from "../../../node_modules/react-bootstrap/Form";
-import FormControl from "../../../node_modules/react-bootstrap/FormControl";
-import Button from "../../../node_modules/react-bootstrap/Button";
-//array of providers - need to replace by an api call that returns an array
-const mockData = [
-    {
-        "name": "Some provider name",
-        "services": "The services offered by this provider includes a range of useful services that you may need and this description says it all."
-    },
-    {
-        "name": "Another provider name",
-        "services": "The services offered by this provider includes a range of useful services that you may need and this description says it all."
-    },
-    {
-        "name": "Alternative provider name",
-        "services": "The services offered by this provider includes a range of useful services that you may need and this description says it all."
-    }
-]
+import './upcomingevent.css';
+import Spinner from 'react-bootstrap/Spinner';
+import Prodiver from '../../model/Provider';
+import filterFactory, { textFilter, Comparator } from 'react-bootstrap-table2-filter';
+import BootstrapTable from 'react-bootstrap-table-next';
+const {apiCall} = require('../../functions/operations');
 export default class ViewProviders extends React.Component{
-
     constructor(props){
         super(props)
-        const cards = mockData.map(provider=>{
-            return <ProviderCard data={provider}/>
-        })
         this.state = {
-            query: "",
-            cards: cards
+            called: false,
+            showModal: false,
+        }
+        this._isMounted = false;
+        this.closeModal = this.closeModal.bind(this);
+    }
+    closeModal(e){
+        e.preventDefault();
+        this.setState({showModal: false});
+    }
+    componentWillUnmount(){
+        this._isMounted = false;
+    }
+    componentDidMount(){
+        this._isMounted = true;
+        //only call api if necessary
+        const companies = localStorage.getItem('user_companies') ? JSON.parse(localStorage.getItem('user_companies')) : [];
+        if(companies&&companies.length){
+            this.setState({providers:companies, failed: false, called: true})
+        }else{
+            apiCall('user', 'companies',null,'get').then(r=>{
+                if(r.statusCode===200){
+                    this._isMounted&&this.setState({providers:r.body, failed: false, called: true});
+                }else{
+                    this._isMounted&&this.setState({failed: true, called: true})
+                }
+            });
         }
 
-        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
-    handleInputChange(e){
-        e.preventDefault();
-        const cards = mockData.filter(row=>{return row.name.includes(e.target.value)}).map(provider=>{
-            return <ProviderCard data={provider}/>
-        });
-        this.setState({cards:cards})
-    }
+
+
     render(){
-
-        return (
-            <div>
-                <Form inline>
-                            <FormControl type="text" placeholder="Search provider" className="mr-sm-2" onChange={this.handleInputChange}/>
-                            <Button variant="outline-success">Search</Button>
-                        </Form>
-                {this.state.cards}
+        if(!this.state.called){
+        return <div className="calling">
+            <div className="spinnerOutter">
+            <Spinner animation="border" role="status">
+                <span className="sr-only">Loading...</span>
+            </Spinner>
             </div>
-        )
+            <br/>
+            <p>Please wait while we retrieve the available providers.</p>
+
+        </div>
+    }else{
+        if(this.state.failed){
+            return <div>Ooops. Something went wrong, we could not retrieve the available providers</div>
+        }else{
+
+            const columns = [{
+                dataField: 'id',
+                text: 'id'
+              }, {
+                dataField: 'name',
+                text: 'Company',
+                filter: textFilter({
+                  comparator: Comparator.LIKE
+                })
+              },  {
+                dataField: 'phone',
+                text: 'Phone',
+                filter: textFilter({
+                  comparator: Comparator.LIKE
+                })
+              },{
+                dataField: 'address',
+                text: 'Address',
+                filter: textFilter({
+                    comparator: Comparator.LIKE
+                  })
+              }, {
+                dataField: 'employees',
+                text: 'Employees',
+                filter: textFilter({
+                    comparator: Comparator.LIKE
+                  })
+              }
+            ];
+            const rows = this.state.providers.map(provider=>{
+                return new Prodiver(provider).formattedProvider()
+            });
+            return (
+                <div>
+                    <h3>Providers Using Our System</h3>
+                    <div className="upcoming_appointments_table" >
+                            <BootstrapTable keyField='id' data={ rows } columns={ columns } filter={ filterFactory() } />
+                    </div>
+                </div>
+            )
+        }
     }
+
+
+}
 }

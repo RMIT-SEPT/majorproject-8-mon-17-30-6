@@ -3,13 +3,18 @@ package com.rmit.sept.project.agme.web;
 import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.services.BookingService;
+import com.rmit.sept.project.agme.services.CompanyService;
 import com.rmit.sept.project.agme.services.ServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Console;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -23,7 +28,8 @@ public class UserController {
 
     @Autowired
     private JwtUtil jwtUtil;
-
+    @Autowired
+    private CompanyService companyService;
     @Autowired
     private ServiceTypeService serviceTypeService;
 
@@ -36,43 +42,70 @@ public class UserController {
     //  Gets all bookings for logged in user
     @GetMapping("/bookings")
     public ResponseEntity<?> getBookings(@RequestHeader("Authorisation") String authorisationHeader){
-        String username = "";
-//        Gets username from the jwt token
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
+        try{
+            String username = jwtUtil.extractUsername(authorisationHeader);
+            List<Booking> bookings = bookingService.getAllBookings(username);
+            return new ResponseEntity<>(bookings, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
         }
-        List<Booking> bookings = bookingService.getAllBookings();
-        List<Booking> bookingsForUser = new ArrayList<>();
-//        Loops through bookings and retrieve the one needed for the user
-        for (Booking next:bookings){
-            if (next.getUser().getUsername().equals(username)){
-                next.getCompany().setEmployees(null);
-                next.getServiceType().setCompany(null);
-                bookingsForUser.add(next);
-            }
+    }
+    @GetMapping("/upcoming-bookings")
+    public ResponseEntity<?> getUpcomingBookings(@RequestHeader("Authorisation") String authorisationHeader){
+        try{
+            String username = jwtUtil.extractUsername(authorisationHeader);
+            return new ResponseEntity<>(bookingService.getUserUpcomingBookings(username), HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
         }
-        if (bookingsForUser.size() == 0){
-            return new ResponseEntity<>(bookingsForUser, HttpStatus.BAD_REQUEST);
-
-        }
-        return new ResponseEntity<>(bookingsForUser, HttpStatus.OK);
     }
 
     @GetMapping("/allservices")
         //returns all services
     ResponseEntity<?> getAllServices(@RequestHeader("Authorisation") String authorisationHeader) {
-        String username = "";
-        String role = "";
-        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
-            String jwt = authorisationHeader.substring(7);
-            username = jwtUtil.extractUsername(jwt);
+        try{
+            return new ResponseEntity<>(serviceTypeService.getAllServices(),HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        if (serviceTypeService.getAllServices().size() == 0) {
+    }
+    @GetMapping("/companies")
+        //returns all services
+    ResponseEntity<?> getAllCompanies() {
+        companyService.getAll();
+        if (companyService.getAll().size() == 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         } else {
-            return new ResponseEntity<>(serviceTypeService.getAllServices(),HttpStatus.OK);
+            return new ResponseEntity<>(companyService.getAll(),HttpStatus.OK);
+        }
+    }
+
+    //insecure but works
+    @DeleteMapping("/bookings")
+    public ResponseEntity<?> deleteBooking(@RequestHeader("Authorisation") String authorisationHeader, @RequestBody Long bookingId){
+        try{
+            bookingService.deleteById(bookingId);
+            return new ResponseEntity<>("resource deleted successfully", HttpStatus.valueOf(200));
+        }catch(Exception e){
+            return new ResponseEntity<>("resource not found", HttpStatus.valueOf(404));
+        }
+
+    }
+
+    @PutMapping("/bookings")
+    public ResponseEntity<?> rescheduleBooking(@RequestBody Long bookingId, Date newTime) {
+        try {
+            Booking tempBooking = bookingService.getBookingById(bookingId);
+            if (tempBooking.getStartDateTime() == null)
+            {
+                return new ResponseEntity<>("no existing time", HttpStatus.valueOf(204));
+            }
+            tempBooking.setStartDateTime(newTime);
+            return new ResponseEntity<>("booking successfully moved", HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>("resource not found", HttpStatus.valueOf(404));
         }
     }
 }

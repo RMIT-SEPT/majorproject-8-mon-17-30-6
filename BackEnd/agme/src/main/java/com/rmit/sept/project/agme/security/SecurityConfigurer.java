@@ -34,18 +34,18 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
         http.headers().frameOptions().sameOrigin();
 //        Ensures correct authority for each api
+        http.authorizeRequests().antMatchers("/admin").hasAuthority("ADMIN");
         http.authorizeRequests().antMatchers("/company").hasAnyAuthority("COMPANY");
         http.authorizeRequests().antMatchers("/employee").hasAnyAuthority("EMPLOYEE");
         http.authorizeRequests().antMatchers("/user").hasAnyAuthority("USER");
-        http.authorizeRequests().antMatchers("/admin").hasAnyAuthority("ADMIN");
 //        removes restriction on access to sign and login
         http.csrf().disable()
-                .authorizeRequests().antMatchers("/login", "/signup", "/h2-console", "/healthcheck")
+                .authorizeRequests().antMatchers("/login", "/signup", "/h2-console", "/healthcheck", "/help")
                 .permitAll().anyRequest().authenticated()
                 .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        Ensures correct user ttype is accessing the api
+//        Ensures correct user type is accessing the api
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 

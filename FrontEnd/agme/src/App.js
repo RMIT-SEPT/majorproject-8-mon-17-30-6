@@ -3,12 +3,14 @@ import './pages/css/App.css';
 import LandingPage from "./pages/LandingPage";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
+import Help from "./pages/Help";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {getDecodedJwtFromLocalStorage}  from "./mock/operations/mock/functions/utils";//Add decode func
+import {getDecodedJwtFromLocalStorage}  from "./functions/utils";//Add decode func
+import { getResources}  from "./functions/operations";//Add decode func
+
 import ViewProviders from './pages/users/ViewProviders';
 import NavigationBar from './pages/NavigationBar';
 import CustomisedError from "./miscelaneous/CustomisedError";
-const utils = require('./mock/operations/mock/functions/utils')
 /**
  * Basic Flow
  * 
@@ -24,16 +26,16 @@ export default class App extends React.Component{
     constructor(){
         super();
         const authDetails = getDecodedJwtFromLocalStorage();
+        const expired = authDetails&&((authDetails.exp - new Date().getTime()/1000)  < 0);
         if(authDetails){
 
             this.state = {
-                authenticated: true,
-                token:localStorage.getItem('credentials'),
+                authenticated: !expired,
+                token:((!expired)&&localStorage.getItem('credentials')) || null,
                 content: "",
                 type: authDetails.role
             }
         }
-
 
         this.handleAuthentication = this.handleAuthentication.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
@@ -42,19 +44,24 @@ export default class App extends React.Component{
 
 
     }
+    componentWillUnmount(){
+        this._isMounted = false;
+    }
 
     componentDidMount(){
-        this.setState({
-            content:<LandingPage 
-                authenticated={this.state&&this.state.authenticated} 
-                handleAuthentication={this.handleAuthentication} 
-                handleContentChangeRequest={this.handleContentChangeRequest}
-                handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}
-                type={this.state&&this.state.type}
-                expiry={this.state&&this.state.expiry}
-                />
-            })
-
+        this._isMounted = true;
+        if(this._isMounted){
+            this.setState({
+                content:<LandingPage 
+                    authenticated={this.state&&this.state.authenticated} 
+                    handleAuthentication={this.handleAuthentication} 
+                    handleContentChangeRequest={this.handleContentChangeRequest}
+                    handleContentChangeRequestSignup={this.handleContentChangeRequestSignup}
+                    type={this.state&&this.state.type}
+                    expiry={this.state&&this.state.expiry}
+                    />
+                })
+        }
     }
 
     //To handle component change
@@ -79,11 +86,14 @@ export default class App extends React.Component{
                 case "login":
                     component = <Login handleContentChangeRequest={this.handleContentChangeRequest} handleContentChangeRequestSignup={this.handleContentChangeRequestSignup} handleAuthentication={this.handleAuthentication}/>
                     break;
+                case "help":
+                    component = <Help handleContentChangeRequest={this.handleContentChangeRequest} />
+                    break;
                 default:
                     console.log("no content available?");
             }  
         }
-        this.setState({content:component})
+        this._isMounted&&this.setState({content:component})
     }
     handleContentChangeRequestSignup(componentName){
  
@@ -102,19 +112,22 @@ export default class App extends React.Component{
             default:
                 console.log("no content available?");
         }  
-        this.setState({content:component})
+        this._isMounted&&this.setState({content:component})
     }
 
     handleAuthentication(){
+        getResources();
         //save to local storage to persist
-        const credentials = localStorage.getItem('credentials');
-        if(!credentials){return;}
+        const credentials = JSON.parse(localStorage.getItem('credentials'));
+        const authDetails = getDecodedJwtFromLocalStorage();
+        const expired = authDetails&&((authDetails.exp - new Date().getTime()/1000)  < 0);
 
-        const authDetails = utils.decodeJwt(JSON.parse(credentials).jwt);
+        if((!credentials)||expired){return;}
+
         const role = authDetails.role
-        this.setState({
+        this._isMounted&&this.setState({
             token:authDetails.jwt,
-            authenticated:true,
+            authenticated: true,
             role: authDetails.role, 
             content:<LandingPage 
                 authenticated={true} 
@@ -130,7 +143,7 @@ export default class App extends React.Component{
     handleLogout(e){
         e.preventDefault();
         //clear localStorage
-        localStorage.removeItem("credentials");
+        localStorage.clear();
         this.setState({
             token:null,
             authenticated:false,

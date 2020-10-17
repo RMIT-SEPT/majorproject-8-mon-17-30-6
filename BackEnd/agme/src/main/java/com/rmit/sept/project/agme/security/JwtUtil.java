@@ -1,6 +1,7 @@
 package com.rmit.sept.project.agme.security;
 
 import com.rmit.sept.project.agme.model.User;
+import com.rmit.sept.project.agme.services.AdminService;
 import com.rmit.sept.project.agme.services.CompanyService;
 import com.rmit.sept.project.agme.services.EmployeeService;
 import com.rmit.sept.project.agme.services.UserService;
@@ -24,9 +25,15 @@ public class JwtUtil {
     @Autowired
     EmployeeService employeeService;
 
+    @Autowired
+    AdminService adminService;
 //    Get username from a token
-    public String extractUsername(String token){
-        return extractClaim(token, Claims::getSubject);
+    public String extractUsername(String authorisationHeader){
+        if (authorisationHeader != null && authorisationHeader.startsWith("Bearer ")){
+            String jwtToken = authorisationHeader.substring(7);
+            return extractClaim(jwtToken, Claims::getSubject);
+        }
+        return null;
     }
 
 //    Gets exirpation date from a token
@@ -70,6 +77,8 @@ public class JwtUtil {
             claims.put("role", "COMPANY");
         }else  if (employeeService.loadUserByUsername(user.getUsername()) != null){
             claims.put("role", "EMPLOYEE");
+        }else  if (adminService.loadUserByUsername(user.getUsername()) != null){
+            claims.put("role", "ADMIN");
         }
         return createToken(claims, user.getUsername());
     }

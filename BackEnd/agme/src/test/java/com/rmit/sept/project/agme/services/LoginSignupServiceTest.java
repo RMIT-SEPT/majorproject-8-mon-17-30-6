@@ -7,6 +7,7 @@ import com.rmit.sept.project.agme.web.BookingController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,7 +28,16 @@ public class LoginSignupServiceTest {
 
     @MockBean
     JwtUtil jwt;
-    
+
+    @MockBean
+    EmployeeService employeeService;
+
+    @MockBean
+    CompanyService companyService;
+
+    @MockBean
+    ServiceTypeService serviceTypeService;
+
     @MockBean
     UserService userService;
     
@@ -40,8 +50,7 @@ public class LoginSignupServiceTest {
 
     @Test
     public void userDetails_requestUserNotInSystem_shouldReturnFalse() {
-        LoginSignupService loginSignupService = new LoginSignupService();
-        
+
         UserDetails expectedResult = null;
         
         //this is an empty service, should not return

@@ -1,0 +1,32 @@
+svg.available{
+    color:green;
+    font-size:2vw;
+}
+
+svg.unavailable{
+    font-size:2vw;
+}
+
+.time_available .label,.time_unavailable .label{
+    font-size:2vw;
+    width:2vw;
+}
+
+.time_available .toggle,.time_unavailable .toggle{
+    font-size:2vw;
+    cursor:pointer;
+}
+
+.slot_details{
+    margin: 0 0 0 1vw;
+}
+
+.footer_buttons{
+    margin:0 0 0 1vw;
+}
+
+.employee_schedule{
+    background:white;
+    opacity:0.9;
+    padding:1vh;
+}

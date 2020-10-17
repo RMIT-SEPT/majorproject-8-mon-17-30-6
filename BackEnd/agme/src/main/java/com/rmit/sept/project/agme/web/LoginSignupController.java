@@ -2,10 +2,7 @@ package com.rmit.sept.project.agme.web;
 
 import com.rmit.sept.project.agme.model.*;
 import com.rmit.sept.project.agme.security.JwtUtil;
-import com.rmit.sept.project.agme.services.CompanyService;
-import com.rmit.sept.project.agme.services.EmployeeService;
-import com.rmit.sept.project.agme.services.LoginSignupService;
-import com.rmit.sept.project.agme.services.UserService;
+import com.rmit.sept.project.agme.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,7 +35,8 @@ public class LoginSignupController {
     @Autowired
     private EmployeeService employeeService;
 
-
+    @Autowired
+    AdminService adminService;
     @GetMapping("/signup")
     public ResponseEntity<?> getCompanies() {
         List<Company> companies = new ArrayList<>();
@@ -115,17 +113,22 @@ public class LoginSignupController {
 //                Creates a user depending on the type
                 if (user.getRole() == Role.COMPANY){
                     Company user1 = new Company(user.getUsername(), user.getName(), user.getPassword()
-                            ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(), user.getCompanyName());
+                            ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(), user.getCompanyName(), user.getEmail());
                     companyService.saveOrUpdate(user1);
                 }else if (user.getRole() == Role.USER){
                     User user1 = new User(user.getUsername(), user.getName(), user.getPassword()
-                            ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole());
+                            ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(), user.getEmail());
                     userService.saveOrUpdateUser(user1);
+
+                }else if (user.getRole() == Role.ADMIN){
+                    Admin user1 = new Admin(user.getUsername(), user.getName(), user.getPassword()
+                            ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(), user.getEmail());
+                    adminService.saveOrUpdateAdmin(user1);
 
                 }else if (user.getRole() == EMPLOYEE){
                     Employee user1 = new Employee(user.getUsername(), user.getName(), user.getPassword()
                             ,user.getConfirmPassword(), user.getAddress(), user.getPhone(), user.getRole(),
-                            companyService.loadUserByUsername(user.getCompanyUsername()), user.getCompanyUsername());
+                            companyService.loadUserByUsername(user.getCompanyUsername()), user.getCompanyUsername(), user.getEmail());
                     employeeService.addEmployee(user1);
                     Company comp = companyService.loadUserByUsername(user.getCompanyUsername());
                     if (comp != null) {
@@ -155,25 +158,6 @@ public class LoginSignupController {
             return new ResponseEntity<>("Username is taken", HttpStatus.BAD_REQUEST);
         }
     }
-
-
-//    retrieve form params
-//    @PostMapping(value = "/login")
-//    public ResponseEntity<?> authenticateUser(@RequestBody User user) {
-////        ensures
-//        if (user.getUsername() != null && user.getPassword() != null) {
-//            if (userService.authenticateUser(user.getUsername(), user.getPassword())) {
-//                User user1 = userService.getAuthenticatedUser(user.getUsername());
-//                return new ResponseEntity<User>(user1, HttpStatus.OK);
-//            } else {
-//                return new ResponseEntity<Boolean>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
-//            }
-//
-//        }
-//        return new ResponseEntity<Boolean>(Boolean.FALSE, HttpStatus.BAD_REQUEST);
-//
-//    }
-
 
 
     @Autowired
@@ -210,6 +194,18 @@ public class LoginSignupController {
                 if (userService.authenticateUser(authenticationRequest.getUsername(), authenticationRequest.getPassword())) {
 //                if details match, retrieve the user
                     final UserDetails user = userService.loadUserByUsername(
+                            authenticationRequest.getUsername());
+//                generate token
+                    final String jwt = jwtUtil.generateToken(user);
+//                respond wih token
+                    userService.sendReminderEmails();
+                    return ResponseEntity.ok(new AuthenticationResponse(jwt));
+                }else{
+                    return ResponseEntity.badRequest().body("Invalid username and password");
+                }
+            }else if (authenticationRequest.getRole() == ADMIN) {
+                if (adminService.authenticateUser(authenticationRequest.getUsername(), authenticationRequest.getPassword())) {
+                    final UserDetails user = adminService.loadUserByUsername(
                             authenticationRequest.getUsername());
 //                generate token
                     final String jwt = jwtUtil.generateToken(user);

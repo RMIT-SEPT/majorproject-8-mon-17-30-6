@@ -1,5 +1,6 @@
 import React from 'react';
-const {getAllServicesProvider} = require('../../mock/operations');
+import AgmeServices from '../company/AgmeServices'
+const {apiCall} = require('../../functions/operations');
 /***
  * Component for user to view available services. It might look dupplicate from the
  * AgmeServices component, but this is to be used when user is authenticated as 
@@ -10,36 +11,38 @@ export default class UserServices extends React.Component{
     constructor(props){
         super(props)
         this.state = {services: []}
-        getAllServicesProvider().then(response=>{
-            if(response.statusCode === 200){
-                this.setState({
-                    services: response.body
-                })
-            }
-        })
+        this._isMounted = false;
     }
 
+    componentWillUnmount(){
+        this._idMounted = false;
+    }
+
+    componentDidMount(){
+        this._isMounted = true;
+        //check for localStorage before making this call
+        const services = localStorage.getItem('user_services') ? JSON.parse(localStorage.getItem('user_services')) : [];
+        if(services&&services.length){
+            this.setState({
+                services: services
+            })
+        }else{
+            apiCall('user', 'getAllServices',null,'get').then(response=>{
+                if(response.statusCode === 200){
+                    this._idMounted &&this.setState({
+                        services: response.body
+                    })
+                }
+            })
+        }
+
+    }
 
     render(){
-        let servicesComponents = (this.state.services)
-            &&(this.state.services.length>0)
-            &&this.state.services.map((service,i)=>{
-            return <div key={i} className={"card"}>
-                <div className={"_"+i}>
-                    <div className="header"><p>{service.name}</p></div>
-                    <div className="container">
-                    <p>{service.description}</p>
-                    </div>
-                </div>
-            </div>
-        });
-        if(!(servicesComponents&&(servicesComponents.length))){
-            servicesComponents = "No services available";
-        }
         return (
             <div>
                 <h5>These are all services registed in AGME</h5>
-                {servicesComponents}
+                <AgmeServices/>
             </div>
         )
     }

@@ -2,12 +2,37 @@
   "api":{
     "url":"http://localhost:8080/",
     "uri": {
+      "common": {
+        "signup": "signup",
+        "login": "login",
+        "help": "help"
+      },
       "signup": "signup",
       "login": "login",
       "company":{
         "getEmployees": "company/employees",
         "getBookings": "company/bookings",
-        "deleteBooking": "company/bookings"
+        "deleteBooking": "company/bookings",
+        "getAllServices": "company/allservices",
+        "newService": "company/new-service"
+      },
+      "user":{
+        "getBookings": "user/bookings",
+        "getAllServices": "user/services",
+        "getCompanies": "signup",
+        "getAvailability":"user/availability",
+        "companies":"user/companies",
+        "deleteBooking": "user/bookings",
+        "newBooking": "user/new-booking",
+        "upcomingBookings": "user/upcoming-bookings"
+
+        
+      },
+      "employee":{
+        "getBookings": "employee/bookings"
+      },
+      "admin":{
+        "closeCompany": "admin/close-company"
       }
     }
   }

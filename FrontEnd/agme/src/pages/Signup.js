@@ -4,8 +4,7 @@ import './css/signup.css';
 import User from '../model/User';
 import FormFields from '../miscelaneous/FormFields';
 import SelectOptions from '../miscelaneous/SelectOptions'
-
-const functions = require('../apiOperations');
+const functions = require('../functions/operations.js');
 const errorMessages = require('../model/errorMessages.json').signup;
 
 export default class Signup extends React.Component{
@@ -23,20 +22,29 @@ export default class Signup extends React.Component{
         
         this.handleSignupRequest = this.handleSignupRequest.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.showError = this.showError.bind(this)
+        this.showError = this.showError.bind(this);
+        this._isMounted = false;
+    }
+
+    componentWillUnmount(){
+        this._isMounted = false;
+    }
+
+    componentDidMount(){
+        this._isMounted = true;
     }
     
     handleSignupRequest(){
         //mock for now
         this.setState({isCallingServer:true});
 
-        functions.signupNewUser(this.state.entity).then(response=>{
+        functions.apiCall('common', 'signup',this.state.entity, 'post').then(response=>{
             if(response.statusCode===200){
                 this.setState({isCallingServer:false});
                 alert("Signup succesful. Please login");
                 this.props.handleContentChangeRequest('login');
                 }else{
-                    this.setState({
+                    this._isMounted&&this.setState({
                         isCallingServer:false,
                         errors: new Set(JSON.parse(response.body).errorDetails.missingFields)
                     });
@@ -85,16 +93,17 @@ export default class Signup extends React.Component{
  
     showCompanyInput(){
         if (!this.state.called && (this.state.entity.role==='EMPLOYEE')){
-
-        functions.getCompaniesFromAPI().then(response=>{
-            var arr = [];
-            var i = 0;
-            arr.push(<option key={i} value=""  disabled defaultValue>Choose a Company</option>);
-            for(var key in response.body){
-                arr.push(<option key={i+1} value={key}>{response.body[key]}</option>);
-                i++;
-              }
-              this.setState({options:arr,isCallingServer:false, called:true});
+        functions.apiCall('user', 'getCompanies',null, 'get').then(response=>{
+            if(response.statusCode===200){
+                var arr = [];
+                var i = 0;
+                arr.push(<option key={i} value=""  disabled defaultValue>Choose a Company</option>);
+                for(var key in response.body){
+                    arr.push(<option key={i+1} value={key}>{response.body[key]}</option>);
+                    i++;
+                  }
+                  this._isMounted&& this.setState({options:arr,isCallingServer:false, called:true});
+            }
         }
         )
     }
@@ -117,7 +126,8 @@ export default class Signup extends React.Component{
                         className="form-control"
                         name="role"
                         entity={this.state.entity}
-                        placeholder="role"
+
+                        placeholder="Role"
                         onChange={this.handleInputChange}
                         options={[{value:"USER",label: "User"},{value:"COMPANY",label: "Company"},{value:"EMPLOYEE",label: "Employee"}]}
                         defaultValue={{value: "", label: "Choose a role"}}
@@ -125,6 +135,7 @@ export default class Signup extends React.Component{
                     <FormFields showError={this.showError} fields={['username', 'name']} entity={this.state.entity} onChange={this.handleInputChange}/>
                     {this.showFieldsBasedOnRole()}
                     {this.showCompanyInput()}
+                    <FormFields showError={this.showError} fields={['email']} entity={this.state.entity} onChange={this.handleInputChange}/>
                     <FormFields showError={this.showError} fields={['phone', 'address']} entity={this.state.entity} onChange={this.handleInputChange}/>
                     <FormFields showError={this.showError} fields={['password', 'confirmPassword']} type='password' entity={this.state.entity} onChange={this.handleInputChange}/>
                     {this.showSignupButtonButton()}

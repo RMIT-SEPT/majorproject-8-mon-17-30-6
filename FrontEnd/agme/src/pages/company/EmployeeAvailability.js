@@ -15,10 +15,6 @@ export class EmployeeAvailability extends React.Component{
         try{
             return this.props.bookings.filter(booking=>{
                 const bookingTime = booking.startDateTime.split(" ")[1].split(":00:")[0]
-                console.log(bookingTime)
-                console.log(booking.startDateTime)
-                console.log(this.props.date)
-                console.log(time)
                 return (booking.startDateTime.includes(this.props.date))&&(Number(bookingTime)===Number(time))
             })[0]
         }catch(e){
@@ -27,7 +23,6 @@ export class EmployeeAvailability extends React.Component{
     }
 
     render(){
-        console.log(this.props)
         const times = [8,9,10,11,12,13,14,15,16,17];
         let availableTimes = new Set(times);
         Array.from(this.props.times).forEach(time=>{availableTimes.delete(time)})
@@ -38,7 +33,6 @@ export class EmployeeAvailability extends React.Component{
                 {this.findBookingByTime(time).id}
                 <Button value={(this.findBookingByTime(time).id)} className="button_info" variant="secondary" onClick={this.props.deleteBooking}><BsTrash/></Button>
             </span>); 
-            console.log(booking)
             let button = null;
             let action = null;
             if(availableTimes.has(time)){
