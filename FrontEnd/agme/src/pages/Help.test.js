@@ -7,7 +7,16 @@ import Help from './Help'
 const adapter = new Adapter();
 configure({ adapter });
 const component = shallow(<Help/>)
-
+jest.mock('../functions/operations',()=>{
+    return {
+        apiCall: async ()=>{
+            return {
+                statusCode: 400,
+                body: "Could not Submit Report"
+            }
+        }
+    }
+});
 
 describe("<Help/>", () => {
     beforeEach(()=>{
@@ -27,83 +36,8 @@ describe("<Help/>", () => {
           message: "Foo Bar Baz"
       });
       component.instance().handleReportRequest()
-      jest.mock('../functions/operations',()=>{
-          return {
-              apiCall: async ()=>{
-                  return {
-                      statusCode: 400,
-                      body: "Could not Submit Report"
-                  }
-              }
-          }
-      });
+
     expect(component.find('.form-container').find('.errorInfo').text()).toEqual("Could not Submit Report");
   });
-
-    it("should display error unable to work 2", async () => {
-        component.setState({
-            name: "foofoo",
-            email: "barbar",
-            serviceName: "bazbaz",
-            message: "Foo Bar Baz x2"
-        });
-
-        component.instance().handleReportRequest()
-        jest.mock('../functions/operations',()=>{
-            return {
-                apiCall: async ()=>{
-                    return {
-                        statusCode: 200,
-                        body: "Could not Submit Report"
-                    }
-                }
-            }
-        });
-        expect(component.find('.form-container').find('.errorInfo').text()).toEqual("Invalid username and password");
-    });
-
-    it("should display a success response", async () => {
-        component.setState({
-            name: "foofoo",
-            email: "barbar",
-            serviceName: "bazbaz",
-            message: "Foo Bar Baz x2"
-        });
-
-        component.instance().handleReportRequest()
-        jest.mock('../functions/operations',()=>{
-            return {
-                apiCall: async ()=>{
-                    return {
-                        statusCode: 200,
-                        body: "Report Submitted Successfully"
-                    }
-                }
-            }
-        });
-        expect(component.find('.form-container').find('.errorInfo').text()).toEqual("Report Submitted Successfully");
-    });
-
-    it("should display a success response x2 ", async () => {
-        component.setState({
-            name: "a Real User",
-            email: "barbar@real_user.net",
-            serviceName: "Barber",
-            message: "Foo Bar Baz x2 This is padding"
-        });
-
-        component.instance().handleReportRequest()
-        jest.mock('../functions/operations',()=>{
-            return {
-                apiCall: async ()=>{
-                    return {
-                        statusCode: 200,
-                        body: "Report Submitted Successfully"
-                    }
-                }
-            }
-        });
-        expect(component.find('.form-container').find('.errorInfo').text()).toEqual("Report Submitted Successfully");
-    });
 
 });
