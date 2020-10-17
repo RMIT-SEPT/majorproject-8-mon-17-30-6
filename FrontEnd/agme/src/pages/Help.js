@@ -2,8 +2,6 @@ import React from 'react';
 import Button from "react-bootstrap/Button";
 import './css/login.css';
 import Spinner from 'react-bootstrap/Spinner'
-import { Form } from 'react-bootstrap';
-
 const {apiCall} = require('../functions/operations')
 
 export default class Help extends React.Component{

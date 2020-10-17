@@ -91,7 +91,7 @@ export default class UserNewAppointment extends React.Component{
                         var servicetypes = [];
                         var i = 1;
                         servicetypes.push(<option key={0} value={"DEFAULT"} disabled>Choose a Service</option>);
-                        response.body.forEach((serviceType) =>
+                        response.body&&response.body.forEach((serviceType) =>
                         servicetypes.push(<option key={serviceType.name} value={serviceType.name}>{serviceType.name}</option>),i++);
                         options = servicetypes;
                     }

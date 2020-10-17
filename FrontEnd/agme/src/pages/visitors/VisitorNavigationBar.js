@@ -1,7 +1,6 @@
 import React from 'react';
 import Navbar from "../../../node_modules/react-bootstrap/Navbar";
 import Nav from "../../../node_modules/react-bootstrap/Nav";
-import NavDropdown from "../../../node_modules/react-bootstrap/NavDropdown";
 import '../css/navigationbar.css'
 /***
  * This class should handle the Navigation bar so that the appropriate menu's are displayed
