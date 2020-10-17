@@ -24,7 +24,6 @@ public class HelpController {
     public ResponseEntity<?> reportIssue(@RequestHeader("Authorisation") String authorisationHeader,@RequestBody HelpRequest report) {
 
         try {
-
 //        Extract user from token
             String username = jwtUtil.extractUsername(authorisationHeader);
 

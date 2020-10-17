@@ -75,7 +75,7 @@ public class AdminServiceTest
         admin.setRole(ADMIN);
         admin.setPassword("password");
         Long id = 1L;
-         Admin admin2 = adminService.saveOrUpdateAdmin(admin);
+        Admin admin2 = adminService.saveOrUpdateAdmin(admin);
         Assert.assertEquals(null, admin2);
     }
     @Test
@@ -155,7 +155,7 @@ public class AdminServiceTest
         admin.setPassword("password");
         admin.hashPassword();
         Long id = 1L;
-       adminRepository.save(admin);
+        adminRepository.save(admin);
         boolean result = adminService.authenticateUser(null,null);
         Assert.assertEquals(false, result);
 
