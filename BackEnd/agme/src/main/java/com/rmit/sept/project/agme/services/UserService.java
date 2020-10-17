@@ -65,7 +65,7 @@ public class UserService implements UserDetailsService {
 
 //        Iterate through users to check if the usr matches the username
         for (User next : users) {
-            if (s.equals(next.getUsername())) {
+            if (s.equals(next.getUsername().toLowerCase())) {
                 returnVal = next;
             }
         }

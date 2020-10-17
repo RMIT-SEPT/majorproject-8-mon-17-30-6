@@ -34,7 +34,7 @@ public class CompanyService implements UserInterface {
 
 //        Iterate through users to check if the usr matches the username
         for (Company next : users) {
-            if (s.equals(next.getUsername())) {
+            if (s.equals(next.getUsername().toLowerCase())) {
                 returnVal = next;
             }
         }
