@@ -36,7 +36,7 @@ public class JwtUtil {
         return null;
     }
 
-//    Gets exirpation date from a token
+//    Gets expiration date from a token
     public Date extractExpiration(String token){
         return extractClaim(token, Claims::getExpiration);
     }
@@ -70,7 +70,7 @@ public class JwtUtil {
 //    Generates token
     public String generateToken(UserDetails user){
         Map<String, Object> claims = new HashMap<>();
-//        Token generaated based on user type
+//        Token generated based on user type
         if (userService.loadUserByUsername(user.getUsername()) != null){
             claims.put("role", "USER");
         }else  if (companyService.loadUserByUsername(user.getUsername()) != null){

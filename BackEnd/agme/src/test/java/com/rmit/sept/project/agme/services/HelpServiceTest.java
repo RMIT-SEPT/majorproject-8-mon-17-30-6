@@ -49,7 +49,7 @@ public class HelpServiceTest {
                 "\nService : TyreRepair" +
                 "\n\nMessage Details as Follows\n\n" +
                 "I tried to book in for a service but I couldnt book despite the timeslot being available";
-        
+
         HelpRequest report = new HelpRequest();
         report.setUser(null);
         report.setName("John Citizen");
