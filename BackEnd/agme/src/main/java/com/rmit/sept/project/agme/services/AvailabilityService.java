@@ -14,7 +14,7 @@ public class AvailabilityService {
     public List<Integer> getAvailabilityForService(String employee, Date date){
 // Retrieve all bookings
         List<Booking> bookings = bookingService.getAllBookings();
-        List<Integer> availability = new ArrayList<Integer>();
+        List<Integer> availability = new ArrayList<>();
 //        All employees have a default availability
         int startingTime = 9;
         int hoursWorked = 9;
@@ -25,7 +25,7 @@ public class AvailabilityService {
 //        Loop through each booking and remove the booked times from the availability list
         for (Booking next:bookings){
             if (next.getStartDateTime().getDay() == date.getDay() && next.getEmployee().getUsername().equals(employee)){
-                time = next.getStartDateTime().getHours();
+                time = next.getStartDateTime().getHours(); // getDay() and getHours() are deprecated
                 int x = 0;
                 for (Integer curr: availability){
                     if (curr == time){

@@ -76,7 +76,7 @@ public class AdminServiceTest
         admin.setPassword("password");
         Long id = 1L;
         Admin admin2 = adminService.saveOrUpdateAdmin(admin);
-        Assert.assertEquals(null, admin2);
+        Assert.assertNull(admin2);
     }
     @Test
     public void createNewadmin_shouldThrowException_whenPasswordsDoNotMatch() throws Exception {
@@ -88,7 +88,7 @@ public class AdminServiceTest
         admin.setPassword("password");
         Long id = 1L;
         Admin admin2 = adminService.saveOrUpdateAdmin(admin);
-        Assert.assertEquals(null, admin2);
+        Assert.assertNull(admin2);
     }
     @Test
     public void getAll_shouldReturnAList_whenCalled() throws Exception {
@@ -104,7 +104,7 @@ public class AdminServiceTest
         admin.setPassword("password");
         Long id = 1L;
          adminService.saveOrUpdateAdmin(admin);
-        List<Admin> admins = new ArrayList<Admin>();
+        List<Admin> admins = new ArrayList<>();
         admins.add(admin);
         List<Admin> adminsFound = adminService.getAllUsers();
         adminsFound.add(admin);
@@ -157,7 +157,7 @@ public class AdminServiceTest
         Long id = 1L;
         adminRepository.save(admin);
         boolean result = adminService.authenticateUser(null,null);
-        Assert.assertEquals(false, result);
+        Assert.assertFalse(result);
 
     }
 }
