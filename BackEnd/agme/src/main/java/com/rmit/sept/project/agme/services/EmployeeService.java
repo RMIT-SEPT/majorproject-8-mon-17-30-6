@@ -55,7 +55,7 @@ public class EmployeeService implements UserInterface {
 
 //        Iterate through users to check if the usr matches the username
         for (Employee next : users) {
-            if (s.equals(next.getUsername())) {
+            if (s.equals(next.getUsername().toLowerCase())) {
                 returnVal = next;
             }
         }
