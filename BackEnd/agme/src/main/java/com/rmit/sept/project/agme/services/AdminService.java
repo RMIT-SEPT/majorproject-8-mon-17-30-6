@@ -30,7 +30,7 @@ public class AdminService implements UserInterface
         Admin returnVal = null;
         s = s.toLowerCase();
 
-//        Interate through users to check if the usr matches the username
+//        Iterate through users to check if the usr matches the username
         for (Admin next : users) {
             if (s.equals(next.getUsername().toLowerCase())) {
                 returnVal = next;
@@ -62,7 +62,7 @@ public class AdminService implements UserInterface
     public boolean authenticateUser(String username, String passwordHash) {
 //        Retrieve users
         List<Admin> users = getAllUsers();
-//        Interate through users to check if the usr matches the username
+//        Iterate through users to check if the usr matches the username
         for (Admin next : users) {
             if (username.equals(next.getUsername())) {
 //                If User is found, encode password with users salt
