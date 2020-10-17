@@ -3,29 +3,16 @@ package com.rmit.sept.project.agme.services;
 import com.rmit.sept.project.agme.model.*;
 import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.security.JwtUtil;
-import com.rmit.sept.project.agme.services.BookingService;
-import com.rmit.sept.project.agme.services.LoginSignupService;
-import com.rmit.sept.project.agme.services.UserService;
-import com.rmit.sept.project.agme.web.BookingController;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import javax.validation.ConstraintViolationException;
-import javax.xml.bind.ValidationException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +20,6 @@ import java.util.List;
 
 import static com.rmit.sept.project.agme.model.Role.ADMIN;
 import static com.rmit.sept.project.agme.model.Role.USER;
-import static org.mockito.BDDMockito.given;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserService.class)
@@ -71,7 +57,7 @@ public class UserServiceTest {
         user.setName("name");
         user.setRole(ADMIN);
         user.setPassword("password");
-        Long id = new Long(1);
+        Long id = 1L;
         user.setId(id);
         User user2 = userService.saveOrUpdateUser(user);
         User userFound = (User)userService.loadUserByUsername(user.getUsername());
@@ -88,7 +74,7 @@ public class UserServiceTest {
         user.setConfirmPassword("password");
         user.setRole(ADMIN);
         user.setPassword("password");
-        Long id = new Long(1);
+        Long id = 1L;
         user.setId(id);
         User user2 = userService.saveOrUpdateUser(user);
         Assert.assertEquals(null, user2);
@@ -101,7 +87,7 @@ public class UserServiceTest {
         user.setConfirmPassword("pasdsword");
         user.setRole(ADMIN);
         user.setPassword("password");
-        Long id = new Long(1);
+        Long id = 1L;
         user.setId(id);
         User user2 = userService.saveOrUpdateUser(user);
         Assert.assertEquals(null, user2);
@@ -118,7 +104,7 @@ public class UserServiceTest {
         user.setEmail("email");
         user.setRole(USER);
         user.setPassword("password");
-        Long id = new Long(1);
+        Long id = 1L;
         user.setId(id);
         User user2 = userService.saveOrUpdateUser(user);
         List<User> users = new ArrayList<User>();
@@ -140,7 +126,7 @@ public class UserServiceTest {
         user.setRole(ADMIN);
         user.setPassword("password");
         user.hashPassword();
-        Long id = new Long(1);
+        Long id = 1L;
         user.setId(id);
         User user2 = userRepository.save(user);
         Assert.assertFalse(userService.authenticateUser(user.getUsername(),"password"));
@@ -157,7 +143,7 @@ public class UserServiceTest {
         user.setRole(ADMIN);
         user.setPassword("password");
         user.hashPassword();
-        Long id = new Long(1);
+        Long id = 1L;
         user.setId(id);
         User user2 = userRepository.save(user);
         Assert.assertFalse(userService.authenticateUser(user.getUsername(),"npassword"));
@@ -174,7 +160,7 @@ public class UserServiceTest {
         user.setRole(ADMIN);
         user.setPassword("password");
         user.hashPassword();
-        Long id = new Long(1);
+        Long id = 1L;
         user.setId(id);
         User user2 = userRepository.save(user);
         boolean result = userService.authenticateUser(null,null);

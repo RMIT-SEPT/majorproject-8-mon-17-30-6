@@ -1,12 +1,9 @@
 package com.rmit.sept.project.agme.filters;
 
-import com.rmit.sept.project.agme.model.User;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.services.LoginSignupService;
-import com.rmit.sept.project.agme.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.context.annotation.Import;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

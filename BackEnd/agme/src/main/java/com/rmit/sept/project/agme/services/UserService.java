@@ -43,7 +43,7 @@ public class UserService implements UserDetailsService {
     public boolean authenticateUser(String username, String passwordHash) {
 //        Retrieve users
         List<User> users = getAllUsers();
-//        Interate through users to check if the usr matches the username
+//        Iterate through users to check if the usr matches the username
         for (User next : users) {
             if (username.equals(next.getUsername())) {
 //                If User is found, encode password with users salt
@@ -63,7 +63,7 @@ public class UserService implements UserDetailsService {
         User returnVal = null;
         s = s.toLowerCase();
 
-//        Interate through users to check if the usr matches the username
+//        Iterate through users to check if the usr matches the username
         for (User next : users) {
             if (s.equals(next.getUsername())) {
                 returnVal = next;
