@@ -77,7 +77,7 @@ public class UserServiceTest {
         Long id = 1L;
         user.setId(id);
         User user2 = userService.saveOrUpdateUser(user);
-        Assert.assertNull(user2);
+        Assert.assertEquals(null, user2);
     }
     @Test
     public void createNewUser_shouldThrowException_whenPasswordsDoNotMatch() throws Exception {
@@ -90,7 +90,7 @@ public class UserServiceTest {
         Long id = 1L;
         user.setId(id);
         User user2 = userService.saveOrUpdateUser(user);
-        Assert.assertNull(user2);
+        Assert.assertEquals(null, user2);
     }
     @Test
     public void getAll_shouldReturnAList_whenCalled() throws Exception {
@@ -107,7 +107,7 @@ public class UserServiceTest {
         Long id = 1L;
         user.setId(id);
         User user2 = userService.saveOrUpdateUser(user);
-        List<User> users = new ArrayList<>();
+        List<User> users = new ArrayList<User>();
         users.add(user);
         List<User> usersFound = userService.getAllUsers();
         usersFound.add(user);
@@ -164,7 +164,7 @@ public class UserServiceTest {
         user.setId(id);
         User user2 = userRepository.save(user);
         boolean result = userService.authenticateUser(null,null);
-        Assert.assertFalse(result);
+        Assert.assertEquals(false, result);
 
     }
     public void createABooking_ShouldReturnFalse_When_EmployeeIsUnabailable(){
@@ -181,7 +181,8 @@ public class UserServiceTest {
 
             bookingService.addBooking(new Booking(new Date(), 3, employee, new Company(), new User(), new ServiceType()));
 
-        Assert.assertNull(bookingService.addBooking(new Booking(new Date(), 3, employee, new Company(), new User(), new ServiceType())));
+        Assert.assertEquals(bookingService.addBooking(new Booking(new Date(), 3, employee, new Company(), new User(), new ServiceType()))
+                ,null);
         }
     public void createABooking_ShouldReturnTrue_When_EmployeeIsUnabailable(){
 
@@ -193,29 +194,35 @@ public class UserServiceTest {
         Long otherId = 60L;
         otherEmployee.setId(otherId);
         employeeService.addEmployee(employee);
-        Assert.assertNull(bookingService.addBooking(new Booking(new Date(), 3, employee, new Company(), new User(), new ServiceType())));
+        Assert.assertEquals(bookingService.addBooking(new Booking(new Date(), 3, employee, new Company(), new User(), new ServiceType()))
+        ,null);
     }
     public void createABooking_ShouldReturnNull_When_UserDoesNotExist(){
 
         Employee employee = new Employee();
         employeeService.addEmployee(employee);
-        Assert.assertNull(bookingService.addBooking(new Booking(new Date(), 3, employee, new Company(), null, new ServiceType())));
+        Assert.assertEquals(bookingService.addBooking(new Booking(new Date(), 3, employee, new Company(), null, new ServiceType()))
+                ,null);
     }
     public void createABooking_ShouldReturnNull_When_EmployeeDoesNotExist(){
 
-        Assert.assertNull(bookingService.addBooking(new Booking(new Date(), 3, null, new Company(), new User(), new ServiceType())));
+        Assert.assertEquals(bookingService.addBooking(new Booking(new Date(), 3, null, new Company(), new User(), new ServiceType()))
+                ,null);
     }
     public void createABooking_ShouldReturnNull_When_EmployeeAndUserDoNotExist(){
 
-        Assert.assertNull(bookingService.addBooking(new Booking(new Date(), 3, null, new Company(), null, new ServiceType())));
+        Assert.assertEquals(bookingService.addBooking(new Booking(new Date(), 3, null, new Company(), null, new ServiceType()))
+                ,null);
     }
     public void createABooking_ShouldReturnNull_When_CompanyDoesNotExist(){
 
-        Assert.assertNull(bookingService.addBooking(new Booking(new Date(), 3, null, new Company(), null, new ServiceType())));
+        Assert.assertEquals(bookingService.addBooking(new Booking(new Date(), 3, null, new Company(), null, new ServiceType()))
+                ,null);
     }
     public void createABooking_ShouldReturnNull_When_ServiceDoesNotExist(){
 
-        Assert.assertNull(bookingService.addBooking(new Booking(new Date(), 3, new Employee(), new Company(), new User(), null)));
+        Assert.assertEquals(bookingService.addBooking(new Booking(new Date(), 3, new Employee(), new Company(), new User(), null))
+                ,null);
     }
 
 

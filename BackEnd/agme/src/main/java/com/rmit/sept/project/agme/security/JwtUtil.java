@@ -52,10 +52,14 @@ public class JwtUtil {
     private Claims extractAllClaims(String token){
         try {
             return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
-        } catch (Exception e) {
+        } catch (ExpiredJwtException e) {
+            return null;
+        }catch (SignatureException e) {
+            return null;
+        } catch(Exception e) {
             return null;
         }
-    }
+        }
 
 //        Checks if token is valid(expired or not)
     private Boolean isTokenExpired(String token){
@@ -86,8 +90,7 @@ public class JwtUtil {
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
-    // Ensures token is valid
-    // Function never used
+// Ensures token is valid
     public Boolean validateToken(String token, UserDetails user){
         final String username = extractUsername(token);
         return (username.equals(user.getUsername()) && !isTokenExpired(token));

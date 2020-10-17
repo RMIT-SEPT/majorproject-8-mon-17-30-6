@@ -18,7 +18,7 @@ public class Employee extends AbstractUser implements UserDetails {
 
     private String companyUsername;
     @OneToMany
-    private final List<Booking> list = new ArrayList<>();
+    private final List<Booking> list = new ArrayList<Booking>();
 
     public Employee() {}
 //  Constructor to create an employee
