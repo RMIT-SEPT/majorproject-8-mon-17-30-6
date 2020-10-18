@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -83,12 +84,22 @@ public class CompanyController
     @GetMapping("/allservices")
         //returns all services
     ResponseEntity<?> getAllServices(@RequestHeader("Authorisation") String authorisationHeader) {
-
-        if (serviceTypeService.getAllServices().size() == 0) {
+        List<ServiceType> services = serviceTypeService.getAllServices();
+        List<Object> map = new ArrayList<>();
+        for (ServiceType next:services){
+            HashMap<String, String> response = new HashMap<>();
+            response.put("name", next.getName());
+            response.put("description", next.getDescription());
+            map.add(response);
+        }
+        if (services.size() == 0){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        } else {
-            return new ResponseEntity<>(serviceTypeService.getAllServices(),HttpStatus.OK);
+        }
+        try{
+            return new ResponseEntity<>(map, HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
