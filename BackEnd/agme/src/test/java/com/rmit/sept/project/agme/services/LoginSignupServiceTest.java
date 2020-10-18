@@ -14,7 +14,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+<<<<<<< HEAD
 import static org.junit.jupiter.api.Assertions.assertEquals;
+=======
+
+import static org.junit.jupiter.api.Assertions.assertNull;
+>>>>>>> fix-help-service-tests
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(BookingController.class)
@@ -55,11 +60,16 @@ public class LoginSignupServiceTest {
 
     public void userDetails_requestUserNotInSystem_shouldReturnFalse() {
 
-        UserDetails expectedResult = null;
+        //UserDetails expectedResult = null;
         
         //this is an empty service, should not return
         UserDetails actualDetails = loginSignupService.loadUserByUsername("Bob");
+<<<<<<< HEAD
 
+=======
+        
+        //assertEquals(expectedResult, actualDetails);
+>>>>>>> fix-help-service-tests
         assertNull(actualDetails);
     }
 

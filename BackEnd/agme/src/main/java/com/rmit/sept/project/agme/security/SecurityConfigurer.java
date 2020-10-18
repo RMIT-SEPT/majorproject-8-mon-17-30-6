@@ -49,6 +49,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
+    // Why do we need this?
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

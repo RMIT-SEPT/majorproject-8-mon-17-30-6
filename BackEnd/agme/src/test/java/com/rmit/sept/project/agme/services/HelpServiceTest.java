@@ -5,15 +5,10 @@ import com.rmit.sept.project.agme.repositories.BookingRepository;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 
@@ -94,7 +89,6 @@ public class HelpServiceTest {
                         "\n\nMessage Details as Follows\n\n" +
                         "I keep getting a 500 error when I try to see my bookings";
 
-
         HelpRequest report = new HelpRequest();
         report.setUser("123123");
         report.setName("Beanie Hatmaker");
@@ -118,7 +112,7 @@ public class HelpServiceTest {
                         "\nService : Ay Tony Pizza" +
                         "\n\nMessage Details as Follows\n\n" +
                         "I can't sort services by Tony Pesto";
-
+        
         HelpRequest report = new HelpRequest();
         report.setUser("423543");
         report.setName("Joey Fatone");

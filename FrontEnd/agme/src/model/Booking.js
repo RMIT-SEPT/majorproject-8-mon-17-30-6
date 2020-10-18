@@ -86,7 +86,7 @@ export default class Booking extends Entity{
     getBookingInfo(){
         return {
             id: this.id,
-            startDateTime: new Date(this.startDateTime).toLocaleDateString()+" "+new Date(this.startDateTime).toLocaleTimeString(),
+            startDateTime: this.startDateTime.toString(),
             duration: this.duration,
             service: this.serviceType.name,
             companyName:this.company.name,

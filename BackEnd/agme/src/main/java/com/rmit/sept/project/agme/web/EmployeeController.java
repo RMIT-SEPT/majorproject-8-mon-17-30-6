@@ -1,7 +1,6 @@
 package com.rmit.sept.project.agme.web;
 
 import com.rmit.sept.project.agme.model.Booking;
-import com.rmit.sept.project.agme.model.Employee;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.services.BookingService;
 import com.rmit.sept.project.agme.services.EmployeeService;
@@ -43,7 +42,7 @@ public class EmployeeController
         List<Booking> bookingsForCompany = new ArrayList<>();
         for (Booking next : bookings) {
             if (next.getEmployee().getUsername().equals(username)) {
-//                Removes unnecesary info for response
+//                Removes unnecessary info for response
                 next.getCompany().setEmployees(null);
                 if (next.getServiceType() != null) {
                     next.getServiceType().setCompany(null);

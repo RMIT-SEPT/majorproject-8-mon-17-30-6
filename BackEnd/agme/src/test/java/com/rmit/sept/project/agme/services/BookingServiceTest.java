@@ -6,7 +6,6 @@ import com.rmit.sept.project.agme.model.Employee;
 import com.rmit.sept.project.agme.repositories.BookingRepository;
 import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.security.JwtUtil;
-import com.rmit.sept.project.agme.services.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +17,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
@@ -100,7 +98,7 @@ public class BookingServiceTest {
 
     @Test
     public void deleteBooking_shouldReturnFalse_ifBookingDoesntExist(){
-        Long id = new Long(1);
+        Long id = 1L;
         Assert.assertEquals(false, bookingService.deleteById(id));
     }
 

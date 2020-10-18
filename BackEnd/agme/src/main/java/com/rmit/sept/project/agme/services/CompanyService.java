@@ -3,13 +3,10 @@ package com.rmit.sept.project.agme.services;
 import com.rmit.sept.project.agme.model.Company;
 import com.rmit.sept.project.agme.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CompletionException;
 
 @Service
 public class CompanyService implements UserInterface {
@@ -35,9 +32,9 @@ public class CompanyService implements UserInterface {
         Company returnVal = null;
         s = s.toLowerCase();
 
-//        Interate through users to check if the usr matches the username
+//        Iterate through users to check if the usr matches the username
         for (Company next : users) {
-            if (s.equals(next.getUsername())) {
+            if (s.equals(next.getUsername().toLowerCase())) {
                 returnVal = next;
             }
         }
@@ -47,7 +44,7 @@ public class CompanyService implements UserInterface {
     @Override
     public boolean authenticateUser(String username, String passwordHash) {
         List<Company> users = getAll();
-//        Interate through users to check if the usr matches the username
+//        Iterate through users to check if the usr matches the username
         for (Company next : users) {
             if (username.equals(next.getUsername())) {
 //                If User is found, encode password with users salt
