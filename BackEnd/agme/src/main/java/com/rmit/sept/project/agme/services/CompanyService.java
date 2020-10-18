@@ -1,6 +1,7 @@
 package com.rmit.sept.project.agme.services;
 
 import com.rmit.sept.project.agme.model.Company;
+import com.rmit.sept.project.agme.model.Employee;
 import com.rmit.sept.project.agme.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -22,6 +23,11 @@ public class CompanyService implements UserInterface {
         List<Company> company = new ArrayList<>();
         Iterable<Company> aa = companyRepository.findAll();
         aa.forEach(company::add);
+        for (Company next:company){
+            for (Employee emp:next.getEmployees()){
+                emp.setCompany(null);
+            }
+        }
         return company;
     }
 

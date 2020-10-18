@@ -1,6 +1,8 @@
 package com.rmit.sept.project.agme.web;
 
 import com.rmit.sept.project.agme.model.Booking;
+import com.rmit.sept.project.agme.model.Company;
+import com.rmit.sept.project.agme.model.Employee;
 import com.rmit.sept.project.agme.model.ServiceType;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.services.BookingService;
@@ -81,12 +83,13 @@ public class UserController {
     @GetMapping("/companies")
         //returns all services
     ResponseEntity<?> getAllCompanies() {
-        companyService.getAll();
+        List<Company> companies = companyService.getAll();
+
         if (companyService.getAll().size() == 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         } else {
-            return new ResponseEntity<>(companyService.getAll(),HttpStatus.OK);
+            return new ResponseEntity<>(companies,HttpStatus.OK);
         }
     }
 
