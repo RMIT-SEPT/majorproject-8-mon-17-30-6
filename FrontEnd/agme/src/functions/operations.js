@@ -190,7 +190,7 @@ const getResources = async() =>{
     }
 }
 
-module.exports = {
+export {
     getDecodedJwtFromLocalStorage,
     fetchFromApi,
     apiCall,
