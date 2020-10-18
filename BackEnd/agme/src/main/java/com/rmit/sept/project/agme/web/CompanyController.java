@@ -84,19 +84,20 @@ public class CompanyController
         //returns all services
     ResponseEntity<?> getAllServices(@RequestHeader("Authorisation") String authorisationHeader) {
         List<ServiceType> services = serviceTypeService.getAllServices();
+        
         List<Object> map = new ArrayList<>();
         for (ServiceType next:services){
-            HashMap<String, String> response = new HashMap<>();
-            response.put("name", next.getName());
-            response.put("description", next.getDescription());
-            map.add(response);
+            for (Company c: next.getCompany()){
+                c.setEmployees(null);
+            }
+
         }
         if (services.size() == 0){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         }
         try{
-            return new ResponseEntity<>(map, HttpStatus.OK);
+            return new ResponseEntity<>(services, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
