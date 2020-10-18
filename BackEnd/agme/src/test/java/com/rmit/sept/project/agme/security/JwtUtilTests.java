@@ -1,28 +1,31 @@
 package com.rmit.sept.project.agme.security;
 
-import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.model.User;
-import com.rmit.sept.project.agme.repositories.BookingRepository;
-import com.rmit.sept.project.agme.services.BookingService;
-import com.rmit.sept.project.agme.services.LoginSignupService;
-import com.rmit.sept.project.agme.services.UserService;
+import com.rmit.sept.project.agme.repositories.UserRepository;
+import com.rmit.sept.project.agme.services.*;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.rmit.sept.project.agme.model.Role.ADMIN;
 import static org.junit.jupiter.api.Assertions.*;
 
+
+@RunWith(SpringRunner.class)
+@WebMvcTest(JwtUtil.class)
 public class JwtUtilTests {
-    @Autowired
-    JwtUtil jwt;
+
 
     @MockBean
-    BookingRepository bookingRepository;
+    UserRepository userRepository;
+
+    @MockBean
+    UserDetails userDetails;
 
     @MockBean
     UserService userService;
@@ -33,8 +36,17 @@ public class JwtUtilTests {
     @MockBean
     LoginSignupService loginSignupService;
 
+    @MockBean
+    EmployeeService employeeService;
 
+    @MockBean
+    CompanyService companyService;
 
+    @MockBean
+    AdminService adminService;
+
+    @Autowired
+    JwtUtil jwt;
 
     @Test
     public void generateToken_shouldReturnToken() {
@@ -48,11 +60,12 @@ public class JwtUtilTests {
         user.setName("name");
         user.setRole(ADMIN);
         user.setPassword("password");
-        Long id = new Long(1);
+        Long id = 1L;
         user.setId(id);
+        User user2 = userService.saveOrUpdateUser(user);
 
-        String token = jwt.generateToken(user);
-        assertNotEquals("",token);
+        String token = jwt.generateToken((UserDetails)user);
+        assertNotEquals(null,token);
     }
 
     @Test
@@ -67,13 +80,16 @@ public class JwtUtilTests {
         user.setName("name");
         user.setRole(ADMIN);
         user.setPassword("password");
-        Long id = new Long(1);
+        Long id = 1L;
         user.setId(id);
+        User user2 = userService.saveOrUpdateUser(user);
 
-        String token = jwt.generateToken(user);
-
-        jwt.extractUsername(token);
-        assertEquals("alex",token);
+        System.out.println(user.getUsername());
+        String token = jwt.generateToken((UserDetails)user);
+        System.out.println(token);
+        String extracted = jwt.extractUsername("Bearer " + token);
+        System.out.println(extracted);
+        assertEquals("alex",extracted);
     }
 
 }

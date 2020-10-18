@@ -112,7 +112,7 @@ public class HelpServiceTest {
                         "\nService : Ay Tony Pizza" +
                         "\n\nMessage Details as Follows\n\n" +
                         "I can't sort services by Tony Pesto";
-        
+
         HelpRequest report = new HelpRequest();
         report.setUser("423543");
         report.setName("Joey Fatone");

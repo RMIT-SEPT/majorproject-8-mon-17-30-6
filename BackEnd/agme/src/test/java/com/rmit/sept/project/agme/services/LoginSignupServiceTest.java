@@ -1,11 +1,14 @@
 package com.rmit.sept.project.agme.services;
 
+import com.rmit.sept.project.agme.model.User;
 import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.web.BookingController;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static com.rmit.sept.project.agme.model.Role.ADMIN;
 import static org.junit.Assert.*;
 
 
@@ -14,16 +17,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-<<<<<<< HEAD
-import static org.junit.jupiter.api.Assertions.assertEquals;
-=======
-
 import static org.junit.jupiter.api.Assertions.assertNull;
->>>>>>> fix-help-service-tests
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(BookingController.class)
-
 public class LoginSignupServiceTest {
 
     @MockBean
@@ -58,19 +55,21 @@ public class LoginSignupServiceTest {
 
     @Test
 
-    public void userDetails_requestUserNotInSystem_shouldReturnFalse() {
-
-        //UserDetails expectedResult = null;
-        
-        //this is an empty service, should not return
-        UserDetails actualDetails = loginSignupService.loadUserByUsername("Bob");
-<<<<<<< HEAD
-
-=======
-        
-        //assertEquals(expectedResult, actualDetails);
->>>>>>> fix-help-service-tests
-        assertNull(actualDetails);
+    public void generateToken_shouldReturnToken() {
+        User user = new User();
+        user.setName("test user");
+        user.setUsername("alex");
+        user.setPhone("00");
+        user.setAddress("addy");
+        user.setConfirmPassword("password");
+        user.setName("name");
+        user.setRole(ADMIN);
+        user.setPassword("password");
+        Long id = 1L;
+        user.setId(id);
+        String token = jwt.generateToken(user);
+        System.out.println(token);
+        assertNotNull(token);
     }
 
 }

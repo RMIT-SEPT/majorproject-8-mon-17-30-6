@@ -48,7 +48,7 @@ public class AdminServiceTest
     @MockBean
     BookingRepository bookingRepository;
     @Test
-    public void loadadmin_shouldReturnTrue_WithfindbyId() throws Exception {
+    public void loadAdmin_shouldReturnTrue_WithFindById() throws Exception {
         Admin admin = new Admin();
         admin.setName("test admin");
         admin.setUsername("alasex");
@@ -67,7 +67,7 @@ public class AdminServiceTest
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void createNewadmin_shouldThrowException_WithIncompleteFields() throws Exception {
+    public void createNewAdmin_shouldThrowException_WithIncompleteFields() throws Exception {
         Admin admin = new Admin();
         admin.setName("test admin");
         admin.setUsername("alex");
@@ -79,7 +79,7 @@ public class AdminServiceTest
         Assert.assertNull(admin2);
     }
     @Test
-    public void createNewadmin_shouldThrowException_whenPasswordsDoNotMatch() throws Exception {
+    public void createNewAdmin_shouldThrowException_whenPasswordsDoNotMatch() throws Exception {
         Admin admin = new Admin();
         admin.setName("test admin");
         admin.setUsername("alex");
@@ -111,7 +111,7 @@ public class AdminServiceTest
         Assert.assertEquals(admins.size(), adminsFound.size());
     }
     @Test
-    public void authenticateaUser_shouldReturnTrue_whenDetailsMatch() throws Exception {
+    public void authenticateAUser_shouldReturnTrue_whenDetailsMatch() throws Exception {
         Admin admin = new Admin();
         admin.setName("test admin");
         admin.setUsername("alex");
@@ -127,7 +127,7 @@ public class AdminServiceTest
         boolean result = adminService.authenticateUser(null,null);
     }
     @Test
-    public void authenticateaUser_shouldReturnFalse_whenDetailsDontMatch() throws Exception {
+    public void authenticateAUser_shouldReturnFalse_whenDetailsDoNotMatch() throws Exception {
         Admin admin = new Admin();
         admin.setName("test admin");
         admin.setUsername("alex");
@@ -139,11 +139,11 @@ public class AdminServiceTest
         admin.setPassword("password");
         admin.hashPassword();
         Long id = 1L;
-      adminRepository.save(admin);
+        adminRepository.save(admin);
         boolean result = adminService.authenticateUser(null,null);
     }
     @Test
-    public void authenticateaUser_shouldThrowNullPointerException_whenNoadminnameAndPasswordAtGiven() throws Exception {
+    public void authenticateAUser_shouldThrowNullPointerException_whenNoAdminNameAndPasswordAtGiven() throws Exception {
         Admin admin = new Admin();
         admin.setName("test admin");
         admin.setUsername("alex");
