@@ -1,8 +1,11 @@
 package com.rmit.sept.project.agme.services;
 
 import com.rmit.sept.project.agme.model.HelpRequest;
+import com.rmit.sept.project.agme.repositories.BookingRepository;
+import com.rmit.sept.project.agme.security.JwtUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,6 +23,21 @@ import static org.mockito.BDDMockito.given;
 public class HelpServiceTest {
 
 
+    @MockBean
+    LoginSignupService loginSignupService;
+
+    @MockBean
+    JwtUtil jwtUtil;
+
+    @MockBean
+    UserService userService;
+
+    @MockBean
+    BookingRepository bookingRepository;
+
+    @MockBean
+    HelpService helpService;
+
     @Test
     public void submitAReportWithoutAuth() {
         String formattedMessage =
@@ -31,7 +49,7 @@ public class HelpServiceTest {
                 "\n\nMessage Details as Follows\n\n" +
                 "I tried to book in for a service but I couldnt book despite the timeslot being available";
 
-        HelpService helpService = new HelpService();
+
         HelpRequest report = new HelpRequest();
         report.setUser(null);
         report.setName("John Citizen");
@@ -54,7 +72,6 @@ public class HelpServiceTest {
                         "\n\nMessage Details as Follows\n\n" +
                         "I cannot log in to my user account, It says amazon db connectivity problems";
 
-        HelpService helpService = new HelpService();
         HelpRequest report = new HelpRequest();
         report.setUser(null);
         report.setName("Ringo Apple");
@@ -77,7 +94,6 @@ public class HelpServiceTest {
                         "\n\nMessage Details as Follows\n\n" +
                         "I keep getting a 500 error when I try to see my bookings";
 
-        HelpService helpService = new HelpService();
         HelpRequest report = new HelpRequest();
         report.setUser("123123");
         report.setName("Beanie Hatmaker");
@@ -101,8 +117,7 @@ public class HelpServiceTest {
                         "\nService : Ay Tony Pizza" +
                         "\n\nMessage Details as Follows\n\n" +
                         "I can't sort services by Tony Pesto";
-
-        HelpService helpService = new HelpService();
+        
         HelpRequest report = new HelpRequest();
         report.setUser("423543");
         report.setName("Joey Fatone");
