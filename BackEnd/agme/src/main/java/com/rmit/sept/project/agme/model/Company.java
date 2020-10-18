@@ -27,7 +27,7 @@ public class Company extends AbstractUser implements UserDetails {
 
     private boolean isActive = false;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     List<Employee> employees = new ArrayList<>();
 // Constructor for a company
     public Company(String username, String name,String password, String confirmPassword,

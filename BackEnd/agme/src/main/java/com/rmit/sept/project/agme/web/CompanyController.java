@@ -66,7 +66,6 @@ public class CompanyController
     @GetMapping("/bookings")
     public ResponseEntity<?> getBookings(@RequestHeader("Authorisation") String authorisationHeader){
         String username = jwtUtil.extractUsername(authorisationHeader);
-
         List<Booking> bookings = bookingService.getAllBookings();
         List<Booking> bookingsForCompany = new ArrayList<>();
 //        Loops through bookings and retrieve the one needed for the company
