@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(ServiceTypeController.class)
-public class ServiceTypeControllerTest {
+public class ServiceTypeControllerTests {
 
     @Autowired
     MockMvc mvc;
@@ -49,7 +49,7 @@ public class ServiceTypeControllerTest {
     BookingService bookingService;
 
     @MockBean
-    ServiceTypeControllerTest serviceTypeControllerTest;
+    ServiceTypeControllerTests serviceTypeControllerTest;
 
     @MockBean
     ServiceTypeService serviceTypeService;

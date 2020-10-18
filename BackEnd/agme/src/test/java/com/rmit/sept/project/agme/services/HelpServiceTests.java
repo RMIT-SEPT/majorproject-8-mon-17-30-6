@@ -16,7 +16,7 @@ import static org.mockito.BDDMockito.given;
 @WebMvcTest(BookingService.class)
 
 
-public class HelpServiceTest {
+public class HelpServiceTests {
 
 
     @MockBean
@@ -35,7 +35,7 @@ public class HelpServiceTest {
     HelpService helpService;
 
     @Test
-    public void submitAReportWithoutAuth() {
+    public void formatMessage_willMakeNoteInMessage_whenSubmitAReportWithoutAuth() {
         String formattedMessage =
                 "A user submitted report has been generated\n\n" +
                 "\nAuthenticated User : Unauthenticated user" +
@@ -56,7 +56,7 @@ public class HelpServiceTest {
     }
 
     @Test
-    public void submitAReport2WithoutAuth() {
+    public void formatMessage_willMakeNoteInMessage_whenSubmitAReportWithoutAuth2() {
 
         String formattedMessage =
                 "A user submitted report has been generated\n\n" +
@@ -78,7 +78,7 @@ public class HelpServiceTest {
     }
 
     @Test
-    public void submitAReportWithAuthUser() {
+    public void formatMessage_willMakeNoteInMessage_whenSubmitAReportWithAuth() {
 
         String formattedMessage =
                 "A user submitted report has been generated\n\n" +
@@ -102,7 +102,7 @@ public class HelpServiceTest {
     }
 
     @Test
-    public void submitAReportWithAuthUser2() {
+    public void formatMessage_willMakeNoteInMessage_whenSubmitAReportWithAuth2() {
 
         String formattedMessage =
                 "A user submitted report has been generated\n\n" +

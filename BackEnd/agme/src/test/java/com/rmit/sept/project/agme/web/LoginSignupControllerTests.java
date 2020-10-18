@@ -7,7 +7,6 @@ import com.rmit.sept.project.agme.services.*;
 import net.minidev.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -24,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(LoginSignupController.class)
-public class LoginSignupControllerTest {
+public class LoginSignupControllerTests {
 
     @Autowired
     MockMvc mvc;
@@ -42,7 +41,7 @@ public class LoginSignupControllerTest {
     UserService userService;
 
     @MockBean
-    EmailServiceImpl emailService;
+    EmailService emailService;
 
     @MockBean
     CompanyService companyService;

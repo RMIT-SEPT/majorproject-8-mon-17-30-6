@@ -28,7 +28,7 @@ import static com.rmit.sept.project.agme.model.Role.ADMIN;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(AvailabilityService.class)
-public class AvailabilityServiceTest
+public class AvailabilityServiceTests
 {
     @MockBean
     AdminRepository adminRepository;
@@ -70,13 +70,13 @@ public class AvailabilityServiceTest
         for (int i = 9; i < 18; i++) {
             fullList.add(i);
         }
-
+        System.out.println(fullList.toString());
         Assert.assertEquals(fullList,noNameAvailable);
     }
 
     @Test
-    public void getAvailabilityForService_shouldReturnTwoTakenSlots_whenDuration2BookingIsMade() {
-        Date date = new Date();
+    public void getAvailabilityForService_shouldReturnAllBut2Slots_whenDuration2BookingIsMade() {
+        Date date = new Date(2020,9,20, 10, 0);
 
         Employee employee = new Employee();
         employee.setName("test admin");
@@ -90,17 +90,16 @@ public class AvailabilityServiceTest
         Long id = 1L;
 
         Booking booking = new Booking();
-
         booking.setEmployee(employee);
         booking.setDuration(2);
         booking.setId(id);
         booking.setStartDateTime(date);
 
-        bookingService.addBooking(booking);
+        availabilityService.bookingService.addBooking(booking);
 
-        List<Integer> takenList = availabilityService.getAvailabilityForService("alex",date);
+        List<Integer> takenList = availabilityService.getAvailabilityForService("alex",date,2);
 
-        Assert.assertEquals(2,takenList.size());
+        Assert.assertEquals(7,takenList.size());
     }
 
 }

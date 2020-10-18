@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc(addFilters = false)
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(CompanyController.class)
-public class CompanyControllerTest {
+public class CompanyControllerTests {
     @Autowired
     MockMvc mvc;
 

@@ -25,7 +25,7 @@ import static com.rmit.sept.project.agme.model.Role.USER;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserService.class)
-public class UserServiceTest {
+public class UserServiceTests {
     @MockBean
     UserRepository userRepository;
 

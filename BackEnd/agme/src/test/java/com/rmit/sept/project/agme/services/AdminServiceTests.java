@@ -20,7 +20,7 @@ import static com.rmit.sept.project.agme.model.Role.ADMIN;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(AdminService.class)
-public class AdminServiceTest
+public class AdminServiceTests
 {
     @MockBean
     AdminRepository adminRepository;

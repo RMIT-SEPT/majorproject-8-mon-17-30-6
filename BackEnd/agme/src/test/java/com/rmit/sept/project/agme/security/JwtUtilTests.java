@@ -49,7 +49,7 @@ public class JwtUtilTests {
     JwtUtil jwt;
 
     @Test
-    public void generateToken_shouldReturnToken() {
+    public void generateToken_shouldReturnToken_whenValidDetailsAreUsed() {
 
         User user = new User();
         user.setName("test user");
@@ -69,7 +69,7 @@ public class JwtUtilTests {
     }
 
     @Test
-    public void generateToken_canExtractUsername() {
+    public void generateToken_canExtractUsername_whenValidUserInSystem() {
 
         User user = new User();
         user.setName("test user");
@@ -84,13 +84,11 @@ public class JwtUtilTests {
         user.setId(id);
         User user2 = userService.saveOrUpdateUser(user);
 
-        System.out.println(user.getUsername());
         String token = jwt.generateToken((UserDetails)user);
-        System.out.println(token);
         String extracted = jwt.extractUsername("Bearer " + token);
-        System.out.println(extracted);
         assertEquals("alex",extracted);
     }
+
 
 }
 

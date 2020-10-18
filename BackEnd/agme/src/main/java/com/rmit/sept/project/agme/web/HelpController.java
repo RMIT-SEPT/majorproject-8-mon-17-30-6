@@ -1,6 +1,6 @@
 package com.rmit.sept.project.agme.web;
 import com.rmit.sept.project.agme.model.HelpRequest;
-import com.rmit.sept.project.agme.services.EmailServiceImpl;
+import com.rmit.sept.project.agme.services.EmailService;
 import com.rmit.sept.project.agme.services.HelpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +19,7 @@ public class HelpController {
     @Autowired
     private JwtUtil jwtUtil;
     @Autowired
-    EmailServiceImpl emailService;
+    EmailService emailService;
     @PostMapping
     public ResponseEntity<?> reportIssue(@RequestHeader("Authorisation") String authorisationHeader,@RequestBody HelpRequest report) {
 
