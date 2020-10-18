@@ -71,7 +71,7 @@ public class LoginSignupControllerTests {
                 .andExpect(status().isBadRequest());
     }
     @Test
-    public void shouldReturnHTTPStatus400_whenCreatingUserWithcompleteFieldsButPWDoesNotMatch() throws Exception {
+    public void shouldReturnHTTPStatus400_whenCreatingUserWithCompleteFieldsButPWDoesNotMatch() throws Exception {
         HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user");

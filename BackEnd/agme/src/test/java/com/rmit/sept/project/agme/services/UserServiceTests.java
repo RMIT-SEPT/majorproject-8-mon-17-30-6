@@ -49,7 +49,7 @@ public class UserServiceTests {
 
 //    Service tests
     @Test
-    public void loadUser_shouldReturnTrue_WithFindbyId() throws Exception {
+    public void loadUser_shouldReturnTrue_WithFindById() throws Exception {
         User user = new User();
         user.setName("test user");
         user.setUsername("alex");
@@ -170,7 +170,7 @@ public class UserServiceTests {
         Assert.assertFalse(result);
 
     }
-    public void createABooking_ShouldReturnFalse_When_EmployeeIsUnabailable(){
+    public void createABooking_ShouldReturnFalse_When_EmployeeIsUnavailable(){
 
             Employee employee = new Employee();
             Long id = 50L;
@@ -186,7 +186,7 @@ public class UserServiceTests {
 
         Assert.assertNull(bookingService.addBooking(new Booking(new Date(), 3, employee, new Company(), new User(), new ServiceType())));
         }
-    public void createABooking_ShouldReturnTrue_When_EmployeeIsUnabailable(){
+    public void createABooking_ShouldReturnTrue_When_EmployeeIsAvailable(){
 
         Employee employee = new Employee();
         Long id = 50L;
