@@ -1,6 +1,5 @@
 package com.rmit.sept.project.agme.security;
 
-import com.rmit.sept.project.agme.model.User;
 import com.rmit.sept.project.agme.services.AdminService;
 import com.rmit.sept.project.agme.services.CompanyService;
 import com.rmit.sept.project.agme.services.EmployeeService;
@@ -36,7 +35,7 @@ public class JwtUtil {
         return null;
     }
 
-//    Gets exirpation date from a token
+//    Gets expiration date from a token
     public Date extractExpiration(String token){
         return extractClaim(token, Claims::getExpiration);
     }
@@ -53,14 +52,10 @@ public class JwtUtil {
     private Claims extractAllClaims(String token){
         try {
             return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
-        } catch (ExpiredJwtException e) {
-            return null;
-        }catch (SignatureException e) {
-            return null;
-        } catch(Exception e) {
+        } catch (Exception e) {
             return null;
         }
-        }
+    }
 
 //        Checks if token is valid(expired or not)
     private Boolean isTokenExpired(String token){
@@ -70,7 +65,7 @@ public class JwtUtil {
 //    Generates token
     public String generateToken(UserDetails user){
         Map<String, Object> claims = new HashMap<>();
-//        Token generaated based on user type
+//        Token generated based on user type
         if (userService.loadUserByUsername(user.getUsername()) != null){
             claims.put("role", "USER");
         }else  if (companyService.loadUserByUsername(user.getUsername()) != null){
@@ -91,7 +86,8 @@ public class JwtUtil {
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
     }
-// Ensures token is valid
+    // Ensures token is valid
+    // Function never used
     public Boolean validateToken(String token, UserDetails user){
         final String username = extractUsername(token);
         return (username.equals(user.getUsername()) && !isTokenExpired(token));
