@@ -1,6 +1,6 @@
 {
   "api":{
-    "url":"http://54.234.81.129:8080/",
+    "url":"http://localhost:8080/",
     "uri": {
       "common": {
         "signup": "signup",

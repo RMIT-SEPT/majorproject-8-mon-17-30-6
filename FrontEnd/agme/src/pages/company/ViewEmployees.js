@@ -19,14 +19,14 @@ export class ViewEmployees extends React.Component{
 
     componentDidMount(){
         this._isMounted=true;
-        if(!this.state.employees){
+        // if(!this.state.employees){
             apiCall('company', 'getEmployees', null, "get" ).then(response=>{
                 if(response.statusCode===200){
                     const employees = response.body.map(employee=>{return new Employee(employee)});
                     this._isMounted&&this.setState({employees:employees})
                 }
             });
-        }
+        // }
         if(!this.state.bookings){
             apiCall('company', 'getBookings', null, "get").then(response=>{
                 if(response.statusCode===200){
