@@ -38,7 +38,7 @@ public class CompanyServiceTests {
     BookingService bookingService;
 
     @Test
-    public void createCompanyTest() {
+    public void addCompany_shouldSucceed_ifCompanyIsAdded() {
         Company company = new Company();
         Company output = companyService.addCompany(company);
         given(company).willReturn(output);
@@ -67,7 +67,7 @@ public class CompanyServiceTests {
         given(companyService.getAll()).willReturn(list);
     }
     @Test
-    public void getAllCompanyTest_WillReturnNull_whenSsavingANullUser() {
+    public void getAllCompanyTest_WillReturnNull_whenSavingANullUser() {
 
 
         List<Company> list = new ArrayList<>();
@@ -75,7 +75,7 @@ public class CompanyServiceTests {
     }
 
     @Test
-    public void loadUserByUsernameTest() {
+    public void loadUserByUsername_shouldReturnCompany_ifCompanyExists() {
         Company user = new Company();
         String username = "test";
         user.setUsername(username);
@@ -85,7 +85,7 @@ public class CompanyServiceTests {
         given(companyService.loadUserByUsername(username)).willReturn(user);
     }
     @Test
-    public void AuthenticateUser_WillReturnTrue_WhenasswordAreGiven() {
+    public void AuthenticateUser_WillReturnTrue_WhenPasswordAreGiven() {
         Company user = new Company();
         String username = "test";
         user.setUsername(username);

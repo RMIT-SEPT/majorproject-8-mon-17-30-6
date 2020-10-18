@@ -100,20 +100,20 @@ public class BookingServiceTests {
     }
 
     @Test
-    public void deleteBooking_shouldReturnFalse_ifBookingDoesntExist(){
+    public void deleteBooking_shouldReturnFalse_ifBookingDoesNotExist(){
         Long id = 1L;
         Assert.assertEquals(false, bookingService.deleteById(id));
     }
 
 
     @Test
-    public void getBookingsForEmployee_shouldEqualero_ifEmployeeDoesntExist(){
+    public void getBookingsForEmployee_shouldEqualZero_ifEmployeeDoesNotExist(){
         List<Booking> list= new ArrayList<>();
 
         Assert.assertEquals(list,bookingService.getBookingsByEmployee(employeeService.loadUserByUsername("alex")));
     }
     @Test
-    public void confirmCount_shouldBeZero() {
+    public void dotCount_shouldBeZero_ifBookingServiceIsEmpty() {
         BookingService emptyTester = new BookingService(bookingRepository);
         Long countOfBooks = emptyTester.count();
         Long expected = (long) 0;
@@ -121,7 +121,7 @@ public class BookingServiceTests {
     }
 
     @Test
-    public void confirmCount_shouldBeTwo() {
+    public void dotCount_shouldBeTwo_ifBookingServiceHasTwo() {
         BookingService twoBookingTester = new BookingService(bookingRepository);
 
         Booking booking1 = new Booking();

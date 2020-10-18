@@ -61,7 +61,7 @@ public class EmployeeServiceTest {
     LoginSignupService loginSignupService;
 
     @Test
-    public void createEmployeeTest() {
+    public void createEmployeeTest_shouldReturnEmployee_WenEmployeeIsSaved() {
         Employee employee = new Employee();
 
         given(employeeService.addEmployee(employee)).willReturn(employee);
@@ -97,7 +97,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void getEmployeeByIdTest() {
+    public void getEmployeeById_shouldReturnCorrectEmployee_WhenRequested() {
 
         Employee employee = new Employee();
         Long id = 50L;
@@ -112,7 +112,7 @@ public class EmployeeServiceTest {
         given(employeeService.getEmployeeById(id)).willReturn(employee);
     }
     @Test
-    public void loademployee_shouldReturnTrue_WithfindbyId() throws Exception {
+    public void loadEmployee_shouldReturnTrue_WithFindById() throws Exception {
         Employee employee = new Employee();
         employee.setName("test employee");
         employee.setUsername("alasex");
@@ -131,7 +131,7 @@ public class EmployeeServiceTest {
     public ExpectedException exceptionRule = ExpectedException.none();
 
     @Test
-    public void createNewemployee_shouldThrowException_WithIncompleteFields() throws Exception {
+    public void createNewEmployee_shouldThrowException_WithIncompleteFields() throws Exception {
         Employee employee = new Employee();
         employee.setName("test employee");
         employee.setUsername("alex");
@@ -143,7 +143,7 @@ public class EmployeeServiceTest {
         Assert.assertNull(employee2);
     }
     @Test
-    public void createNewemployee_shouldThrowException_whenPasswordsDoNotMatch() throws Exception {
+    public void createNewEmployee_shouldThrowException_whenPasswordsDoNotMatch() throws Exception {
         Employee employee = new Employee();
         employee.setName("test employee");
         employee.setUsername("alex");
@@ -175,7 +175,7 @@ public class EmployeeServiceTest {
         Assert.assertEquals(employees.size(), employeesFound.size());
     }
     @Test
-    public void authenticateaUser_shouldReturnTrue_whenDetailsMatch() throws Exception {
+    public void authenticateAUser_shouldReturnTrue_whenDetailsMatch() throws Exception {
         Employee employee = new Employee();
         employee.setName("test employee");
         employee.setUsername("alex");
@@ -191,7 +191,7 @@ public class EmployeeServiceTest {
         boolean result = employeeService.authenticateUser(null,null);
     }
     @Test
-    public void authenticateaUser_shouldReturnFalse_whenDetailsDontMatch() throws Exception {
+    public void authenticateAUser_shouldReturnFalse_whenDetailsDoNotMatch() throws Exception {
         Employee employee = new Employee();
         employee.setName("test employee");
         employee.setUsername("alex");
@@ -207,7 +207,7 @@ public class EmployeeServiceTest {
         boolean result = employeeService.authenticateUser(null,null);
     }
     @Test
-    public void authenticateaUser_shouldThrowNullPointerException_whenNoemployeenameAndPasswordAtGiven() throws Exception {
+    public void authenticateAUser_shouldThrowNullPointerException_whenNoEmployeeNameAndPasswordAtGiven() throws Exception {
         Employee employee = new Employee();
         employee.setName("test employee");
         employee.setUsername("alex");
