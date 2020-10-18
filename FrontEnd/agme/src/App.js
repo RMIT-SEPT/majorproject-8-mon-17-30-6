@@ -6,11 +6,11 @@ import Login from "./pages/Login";
 import Help from "./pages/Help";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {getDecodedJwtFromLocalStorage}  from "./functions/utils";//Add decode func
-import { getResources}  from "./functions/operations";//Add decode func
-
 import ViewProviders from './pages/users/ViewProviders';
 import NavigationBar from './pages/NavigationBar';
 import CustomisedError from "./miscelaneous/CustomisedError";
+const { getResources}  = require( "./functions/operations");//Add decode func
+
 /**
  * Basic Flow
  * 
