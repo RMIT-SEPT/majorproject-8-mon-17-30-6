@@ -85,7 +85,6 @@ public class CompanyController
     ResponseEntity<?> getAllServices(@RequestHeader("Authorisation") String authorisationHeader) {
         List<ServiceType> services = serviceTypeService.getAllServices();
         
-        List<Object> map = new ArrayList<>();
         for (ServiceType next:services){
             for (Company c: next.getCompany()){
                 c.setEmployees(null);
