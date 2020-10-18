@@ -29,6 +29,7 @@ public class ServiceTypeService {
         List<ServiceType> services = new ArrayList<>();
         it.forEach(services::add);
 
+
         return services;
     }
 

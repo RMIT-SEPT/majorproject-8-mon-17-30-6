@@ -1,6 +1,9 @@
 package com.rmit.sept.project.agme.web;
 
 import com.rmit.sept.project.agme.model.Booking;
+import com.rmit.sept.project.agme.model.Company;
+import com.rmit.sept.project.agme.model.Employee;
+import com.rmit.sept.project.agme.model.ServiceType;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.services.BookingService;
 import com.rmit.sept.project.agme.services.CompanyService;
@@ -11,10 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Console;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -24,14 +26,14 @@ public class UserController {
 //
 //    inject User service
     @Autowired
-    private BookingService bookingService;
+    private final BookingService bookingService;
 
     @Autowired
-    private JwtUtil jwtUtil;
+    private final JwtUtil jwtUtil;
     @Autowired
     private CompanyService companyService;
     @Autowired
-    private ServiceTypeService serviceTypeService;
+    private final ServiceTypeService serviceTypeService;
 
     public UserController(BookingService bookingService, ServiceTypeService serviceTypeService, JwtUtil jwtUtil) {
         this.serviceTypeService = serviceTypeService;
@@ -63,8 +65,17 @@ public class UserController {
     @GetMapping("/allservices")
         //returns all services
     ResponseEntity<?> getAllServices(@RequestHeader("Authorisation") String authorisationHeader) {
+        List<ServiceType> services = serviceTypeService.getAllServices();
+        List<Object> map = new ArrayList<>();
+        for (ServiceType next:services){
+            HashMap<String, String> response = new HashMap<>();
+            response.put("name", next.getName());
+            response.put("description", next.getDescription());
+            map.add(response);
+        }
         try{
-            return new ResponseEntity<>(serviceTypeService.getAllServices(),HttpStatus.OK);
+
+            return new ResponseEntity<>(map, HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -72,12 +83,13 @@ public class UserController {
     @GetMapping("/companies")
         //returns all services
     ResponseEntity<?> getAllCompanies() {
-        companyService.getAll();
+        List<Company> companies = companyService.getAll();
+
         if (companyService.getAll().size() == 0) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         } else {
-            return new ResponseEntity<>(companyService.getAll(),HttpStatus.OK);
+            return new ResponseEntity<>(companies,HttpStatus.OK);
         }
     }
 

@@ -2,14 +2,12 @@ package com.rmit.sept.project.agme.web;
 
 import com.rmit.sept.project.agme.model.Booking;
 import com.rmit.sept.project.agme.model.Company;
-import com.rmit.sept.project.agme.model.User;
 import com.rmit.sept.project.agme.repositories.CompanyRepository;
 import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.security.JwtUtil;
 import com.rmit.sept.project.agme.services.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

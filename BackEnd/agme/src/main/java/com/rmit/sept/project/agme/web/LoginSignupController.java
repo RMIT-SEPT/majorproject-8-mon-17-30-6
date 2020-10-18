@@ -60,12 +60,12 @@ public class LoginSignupController {
         boolean containsErrors = false;
 //        Error messages depending on the user type
         if (user.getRole() == COMPANY){
-            if (user.getCompany_name() == null || user.getCompany_name() == ""){
+            if (user.getCompany_name() == null || user.getCompany_name() == ""){ // bad string comparison
                 errorsTypeAndValues.add("companyName");
                 containsErrors = true;
             }
         }else if (user.getRole() == EMPLOYEE){
-            if (user.getCompanyUsername() == null|| user.getCompanyUsername() == ""){
+            if (user.getCompanyUsername() == null|| user.getCompanyUsername() == ""){ // bad string comparison
                 errorsTypeAndValues.add("companyUsername");
                 containsErrors = true;
             }

@@ -1,7 +1,5 @@
 package com.rmit.sept.project.agme.model;
 
-import java.util.Date;
-
 // Request for availability
 public class HelpRequest
 {
@@ -32,7 +30,7 @@ public class HelpRequest
     }
     public String getUser(){
         return this.user;
-    };
+    }
     public String getName(){
         return this.name;
     }

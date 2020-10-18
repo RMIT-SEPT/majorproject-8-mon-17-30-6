@@ -1,6 +1,7 @@
 package com.rmit.sept.project.agme.services;
 
 import com.rmit.sept.project.agme.model.Company;
+import com.rmit.sept.project.agme.model.Employee;
 import com.rmit.sept.project.agme.repositories.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -22,6 +23,11 @@ public class CompanyService implements UserInterface {
         List<Company> company = new ArrayList<>();
         Iterable<Company> aa = companyRepository.findAll();
         aa.forEach(company::add);
+        for (Company next:company){
+            for (Employee emp:next.getEmployees()){
+                emp.setCompany(null);
+            }
+        }
         return company;
     }
 
@@ -32,9 +38,9 @@ public class CompanyService implements UserInterface {
         Company returnVal = null;
         s = s.toLowerCase();
 
-//        Interate through users to check if the usr matches the username
+//        Iterate through users to check if the usr matches the username
         for (Company next : users) {
-            if (s.equals(next.getUsername())) {
+            if (s.equals(next.getUsername().toLowerCase())) {
                 returnVal = next;
             }
         }
@@ -44,7 +50,7 @@ public class CompanyService implements UserInterface {
     @Override
     public boolean authenticateUser(String username, String passwordHash) {
         List<Company> users = getAll();
-//        Interate through users to check if the usr matches the username
+//        Iterate through users to check if the usr matches the username
         for (Company next : users) {
             if (username.equals(next.getUsername())) {
 //                If User is found, encode password with users salt

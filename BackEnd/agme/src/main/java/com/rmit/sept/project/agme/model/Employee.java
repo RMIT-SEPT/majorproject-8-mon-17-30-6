@@ -18,7 +18,7 @@ public class Employee extends AbstractUser implements UserDetails {
 
     private String companyUsername;
     @OneToMany
-    private List<Booking> list = new ArrayList<Booking>();
+    private final List<Booking> list = new ArrayList<>();
 
     public Employee() {}
 //  Constructor to create an employee
@@ -31,6 +31,7 @@ public class Employee extends AbstractUser implements UserDetails {
         setAddress(address);
         setPhone(phone);
         setRole(role);
+        setEmail(email);
         this.companyUsername = companyUsername;
         this.company = company;
     }
@@ -79,7 +80,7 @@ public class Employee extends AbstractUser implements UserDetails {
     }
 
 
-    public Company getCompany() { return null; }
+    public Company getCompany() { return this.company; }
 
     public void setCompany(Company company) {
         this.company = company; }
