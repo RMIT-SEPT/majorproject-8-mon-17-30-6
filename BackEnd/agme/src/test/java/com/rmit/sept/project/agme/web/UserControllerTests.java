@@ -18,7 +18,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(UserController.class)
-public class UserControllerTest {
+public class UserControllerTests {
 
 
 //    Mockn beans and required beans

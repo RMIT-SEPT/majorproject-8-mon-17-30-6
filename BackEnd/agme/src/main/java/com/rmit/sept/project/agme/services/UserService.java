@@ -72,7 +72,7 @@ public class UserService implements UserDetailsService {
         return returnVal;
     }
     @Autowired
-    EmailServiceImpl emailService;
+    EmailService emailService;
 
     public void sendReminderEmails()
     {

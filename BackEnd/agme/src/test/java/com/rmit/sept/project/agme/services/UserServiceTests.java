@@ -1,5 +1,6 @@
 package com.rmit.sept.project.agme.services;
 
+
 import com.rmit.sept.project.agme.model.*;
 import com.rmit.sept.project.agme.repositories.UserRepository;
 import com.rmit.sept.project.agme.security.JwtUtil;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,7 +25,7 @@ import static com.rmit.sept.project.agme.model.Role.USER;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(UserService.class)
-public class UserServiceTest {
+public class UserServiceTests {
     @MockBean
     UserRepository userRepository;
 
@@ -47,7 +49,7 @@ public class UserServiceTest {
 
 //    Service tests
     @Test
-    public void loadUser_shouldReturnTrue_WithfindbyId() throws Exception {
+    public void loadUser_shouldReturnTrue_WithFindbyId() throws Exception {
         User user = new User();
         user.setName("test user");
         user.setUsername("alex");
@@ -132,7 +134,7 @@ public class UserServiceTest {
         Assert.assertFalse(userService.authenticateUser(user.getUsername(),"password"));
     }
     @Test
-    public void authenticateUser_shouldReturnFalse_whenDetailsDontMatch() throws Exception {
+    public void authenticateUser_shouldReturnFalse_whenDetailsDoNotMatch() throws Exception {
         User user = new User();
         user.setName("test user");
         user.setUsername("alex");
@@ -163,6 +165,7 @@ public class UserServiceTest {
         Long id = 1L;
         user.setId(id);
         User user2 = userRepository.save(user);
+
         boolean result = userService.authenticateUser(null,null);
         Assert.assertFalse(result);
 
@@ -220,7 +223,4 @@ public class UserServiceTest {
 
 
     }
-
-
-
 

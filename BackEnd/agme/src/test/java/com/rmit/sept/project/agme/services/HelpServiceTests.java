@@ -1,9 +1,13 @@
 package com.rmit.sept.project.agme.services;
 
 import com.rmit.sept.project.agme.model.HelpRequest;
+import com.rmit.sept.project.agme.repositories.BookingRepository;
+import com.rmit.sept.project.agme.security.JwtUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import static org.mockito.BDDMockito.given;
@@ -12,11 +16,26 @@ import static org.mockito.BDDMockito.given;
 @WebMvcTest(BookingService.class)
 
 
-public class HelpServiceTest {
+public class HelpServiceTests {
 
+
+    @MockBean
+    LoginSignupService loginSignupService;
+
+    @MockBean
+    JwtUtil jwtUtil;
+
+    @MockBean
+    UserService userService;
+
+    @MockBean
+    BookingRepository bookingRepository;
+
+    @MockBean
+    HelpService helpService;
 
     @Test
-    public void submitAReportWithoutAuth() {
+    public void formatMessage_willMakeNoteInMessage_whenSubmitAReportWithoutAuth() {
         String formattedMessage =
                 "A user submitted report has been generated\n\n" +
                 "\nAuthenticated User : Unauthenticated user" +
@@ -26,7 +45,6 @@ public class HelpServiceTest {
                 "\n\nMessage Details as Follows\n\n" +
                 "I tried to book in for a service but I couldnt book despite the timeslot being available";
 
-        HelpService helpService = new HelpService();
         HelpRequest report = new HelpRequest();
         report.setUser(null);
         report.setName("John Citizen");
@@ -38,7 +56,7 @@ public class HelpServiceTest {
     }
 
     @Test
-    public void submitAReport2WithoutAuth() {
+    public void formatMessage_willMakeNoteInMessage_whenSubmitAReportWithoutAuth2() {
 
         String formattedMessage =
                 "A user submitted report has been generated\n\n" +
@@ -49,7 +67,6 @@ public class HelpServiceTest {
                         "\n\nMessage Details as Follows\n\n" +
                         "I cannot log in to my user account, It says amazon db connectivity problems";
 
-        HelpService helpService = new HelpService();
         HelpRequest report = new HelpRequest();
         report.setUser(null);
         report.setName("Ringo Apple");
@@ -61,7 +78,7 @@ public class HelpServiceTest {
     }
 
     @Test
-    public void submitAReportWithAuthUser() {
+    public void formatMessage_willMakeNoteInMessage_whenSubmitAReportWithAuth() {
 
         String formattedMessage =
                 "A user submitted report has been generated\n\n" +
@@ -72,7 +89,6 @@ public class HelpServiceTest {
                         "\n\nMessage Details as Follows\n\n" +
                         "I keep getting a 500 error when I try to see my bookings";
 
-        HelpService helpService = new HelpService();
         HelpRequest report = new HelpRequest();
         report.setUser("123123");
         report.setName("Beanie Hatmaker");
@@ -86,7 +102,7 @@ public class HelpServiceTest {
     }
 
     @Test
-    public void submitAReportWithAuthUser2() {
+    public void formatMessage_willMakeNoteInMessage_whenSubmitAReportWithAuth2() {
 
         String formattedMessage =
                 "A user submitted report has been generated\n\n" +
@@ -97,7 +113,6 @@ public class HelpServiceTest {
                         "\n\nMessage Details as Follows\n\n" +
                         "I can't sort services by Tony Pesto";
 
-        HelpService helpService = new HelpService();
         HelpRequest report = new HelpRequest();
         report.setUser("423543");
         report.setName("Joey Fatone");

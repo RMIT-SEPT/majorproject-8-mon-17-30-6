@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(LoginSignupController.class)
-public class LoginSignupControllerTest {
+public class LoginSignupControllerTests {
 
     @Autowired
     MockMvc mvc;
@@ -40,6 +40,8 @@ public class LoginSignupControllerTest {
     @MockBean
     UserService userService;
 
+    @MockBean
+    EmailService emailService;
 
     @MockBean
     CompanyService companyService;
@@ -52,6 +54,7 @@ public class LoginSignupControllerTest {
 
     @MockBean
     AdminService adminService;
+
     @Test
     public void shouldReturnHTTPStatus400_whenCreatingUserWithIncompleteFields() throws Exception {
         HashMap<String, Object> ob = new HashMap<>();
@@ -84,7 +87,7 @@ public class LoginSignupControllerTest {
     }
 
     @Test
-    public void shouldReturnHTTPStatusOk_whenCreatingUserWithcompleteFields() throws Exception {
+    public void shouldReturnHTTPStatusOk_whenCreatingUserWithCompleteFields() throws Exception {
         HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user");
@@ -117,7 +120,7 @@ public class LoginSignupControllerTest {
                 .andExpect(status().isBadRequest());
     }
     @Test
-    public void shouldReturnHTTPStatusok_whenCreatingCompanyWithcompleteFields() throws Exception {
+    public void shouldReturnHTTPStatusOk_whenCreatingCompanyWithCompleteFields() throws Exception {
         HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user");
@@ -136,7 +139,7 @@ public class LoginSignupControllerTest {
                 .andExpect(status().isOk());
     }
     @Test
-    public void shouldReturnHTTPStatus400_whenCreatingCompanyWithcompleteFieldsButPWDoesNotMatch() throws Exception {
+    public void shouldReturnHTTPStatus400_whenCreatingCompanyWithCompleteFieldsButPWDoesNotMatch() throws Exception {
         HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user");
@@ -151,7 +154,7 @@ public class LoginSignupControllerTest {
                 .andExpect(status().isBadRequest());
     }
     @Test
-    public void shouldReturnHTTPStatus400_whenCreatingEmployeeWithcompleteFieldsButPWDoesNotMatch() throws Exception {
+    public void shouldReturnHTTPStatus400_whenCreatingEmployeeWithCompleteFieldsButPWDoesNotMatch() throws Exception {
         HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user");
@@ -166,7 +169,7 @@ public class LoginSignupControllerTest {
                 .andExpect(status().isBadRequest());
     }
     @Test
-    public void shouldReturnHTTPStatus404_whenCreatingEmployeeWithcompleteFieldsButCompanyDoesNotExist() throws Exception {
+    public void shouldReturnHTTPStatus400_whenCreatingEmployeeWithCompleteFieldsButCompanyDoesNotExist() throws Exception {
         HashMap<String, Object> ob = new HashMap<>();
         ob.put("name", "mark");
         ob.put("username", "user1");

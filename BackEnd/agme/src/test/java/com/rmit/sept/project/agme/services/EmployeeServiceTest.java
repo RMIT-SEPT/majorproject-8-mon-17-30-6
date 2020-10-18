@@ -68,7 +68,7 @@ public class EmployeeServiceTest {
     }
 
     @Test
-    public void getEmployeesTest_shouldReturnListOfemployees_WhenRequested() {
+    public void getEmployeesTest_shouldReturnListOfEmployees_WhenRequested() {
 
         List<Employee> employeeList = new ArrayList<>();
 

@@ -22,7 +22,7 @@ import static org.mockito.BDDMockito.given;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebMvcTest(BookingService.class)
-public class BookingServiceTest {
+public class BookingServiceTests {
     @MockBean
     UserRepository userRepository;
 
@@ -47,6 +47,9 @@ public class BookingServiceTest {
     @MockBean
     BookingRepository bookingRepository;
 
+
+
+
     @Test
     public void newBooking_willReturnTrue_whenCriteriaIsMetForANewBooking() {
         Booking testBooking = new Booking();
@@ -56,7 +59,7 @@ public class BookingServiceTest {
     }
 
     @Test
-    public void getBookings_willrReturnTrue_whengetBookingsIsCalled() {
+    public void getBookings_willReturnTrue_whenGetBookingsIsCalled() {
 
         List<Booking> bookingList = new ArrayList<>();
 
@@ -101,6 +104,7 @@ public class BookingServiceTest {
         Long id = 1L;
         Assert.assertEquals(false, bookingService.deleteById(id));
     }
+
 
     @Test
     public void getBookingsForEmployee_shouldEqualero_ifEmployeeDoesntExist(){
